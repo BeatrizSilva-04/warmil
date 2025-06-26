@@ -1720,68 +1720,136 @@
         </div>
     </div>
 
+    <!-- Firebase Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+
     <script>
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyANAtpCAzuPyWaFpBrZTmToqTl9LIct7eI",
+            authDomain: "gcd-armil-website-e3849.firebaseapp.com",
+            projectId: "gcd-armil-website-e3849",
+            storageBucket: "gcd-armil-website-e3849.firebasestorage.app",
+            messagingSenderId: "49300061028",
+            appId: "1:49300061028:web:b6adea9e40b8716ea8d871",
+            measurementId: "G-7SZ1ZEPWRC"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
         // Global variables
-        let isAdminLoggedIn = localStorage.getItem('adminLoggedIn') === 'true';
+        let isAdminLoggedIn = localStorage.getItem("adminLoggedIn") === "true";
         let editingGameId = null;
         let resultGameId = null;
         let jogos = [];
 
-        const ADMIN_PASSWORD = "armil2024"; // ALTERE ESTA SENHA!
+        const ADMIN_PASSWORD = "armil2024";
 
         // Initialize app
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('🚀 Inicializando aplicação...');
-            loadJogosFromLocalStorage();
+        document.addEventListener("DOMContentLoaded", () => {
+            console.log("🚀 Inicializando aplicação com Firebase...");
             initializeApp();
+            loadJogosFromFirestore();
         });
 
-        // Initialize app
         function initializeApp() {
             updateAdminStatus();
             initializeNavigation();
             initializeAnimations();
-            console.log('✅ Aplicação inicializada');
+            console.log("✅ Aplicação inicializada");
         }
 
-        function loadJogosFromLocalStorage() {
-            // Fallback data
-            jogos = JSON.parse(localStorage.getItem("jogos")) || [
-                {
-                    id: "1",
-                    equipa: "Seniores",
-                    adversario: "FC Exemplo",
-                    data: "2024-01-15",
-                    hora: "15:00",
-                    local: "Campo Municipal de Armil",
-                    tipo: "Casa",
-                    golosCasa: 2,
-                    golosFora: 1,
-                    finalizado: true
-                },
-                {
-                    id: "2",
-                    equipa: "Juniores",
-                    adversario: "Sporting Jovem",
-                    data: "2024-01-17",
-                    hora: "14:30",
-                    local: "Campo do Adversário",
-                    tipo: "Fora",
-                    finalizado: false
-                },
-                {
-                    id: "3",
-                    equipa: "Futsal",
-                    adversario: "Futsal Unidos",
-                    data: "2024-01-19",
-                    hora: "20:00",
-                    local: "Pavilhão de Armil",
-                    tipo: "Casa",
-                    finalizado: false
-                }
-            ];
-            console.log('📁 Jogos carregados do localStorage:', jogos.length);
-            renderJogos();
+        // Firebase Firestore functions
+        async function loadJogosFromFirestore() {
+            const jogosGrid = document.getElementById("jogosGrid");
+            jogosGrid.innerHTML = `
+                <div class="loading">
+                    <i class="fas fa-spinner fa-spin" style="font-size: 2rem; margin-bottom: 1rem; display: block;"></i>
+                    <p>Carregando jogos...</p>
+                </div>
+            `;
+
+            try {
+                const snapshot = await db.collection("jogos").orderBy("data", "asc").get();
+                jogos = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+
+                console.log("📁 Jogos carregados do Firestore:", jogos.length);
+                renderJogos();
+
+                // Set up real-time listener for live updates
+                setupRealtimeListener();
+            } catch (error) {
+                console.error("Erro ao carregar jogos:", error);
+                jogosGrid.innerHTML = `
+                    <div class="loading">
+                        <i class="fas fa-exclamation-triangle" style="font-size: 2rem; margin-bottom: 1rem; display: block; color: var(--danger-color);"></i>
+                        <p>Erro ao carregar jogos</p>
+                        <small style="opacity: 0.7; margin-top: 1rem; display: block;">
+                            Verifique a sua ligação à internet
+                        </small>
+                    </div>
+                `;
+            }
+        }
+
+        function setupRealtimeListener() {
+            // Listen for real-time updates
+            db.collection("jogos")
+                .orderBy("data", "asc")
+                .onSnapshot(
+                    (snapshot) => {
+                        jogos = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+                        renderJogos();
+                        console.log("🔄 Jogos atualizados em tempo real");
+                    },
+                    (error) => {
+                        console.error("Erro no listener em tempo real:", error);
+                    }
+                );
+        }
+
+        async function addJogoToFirestore(jogoData) {
+            try {
+                const docRef = await db.collection("jogos").add({
+                    ...jogoData,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                });
+                console.log("Jogo adicionado com ID:", docRef.id);
+                return docRef.id;
+            } catch (error) {
+                console.error("Erro ao adicionar jogo:", error);
+                throw error;
+            }
+        }
+
+        async function updateJogoInFirestore(id, jogoData) {
+            try {
+                await db
+                    .collection("jogos")
+                    .doc(id)
+                    .update({
+                        ...jogoData,
+                        updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    });
+                console.log("Jogo atualizado:", id);
+            } catch (error) {
+                console.error("Erro ao atualizar jogo:", error);
+                throw error;
+            }
+        }
+
+        async function deleteJogoFromFirestore(id) {
+            try {
+                await db.collection("jogos").doc(id).delete();
+                console.log("Jogo removido:", id);
+            } catch (error) {
+                console.error("Erro ao remover jogo:", error);
+                throw error;
+            }
         }
 
         function renderJogos() {
@@ -1793,7 +1861,7 @@
                         <i class="fas fa-calendar-times" style="font-size: 3rem; margin-bottom: 1rem; display: block;"></i>
                         <p>Nenhum jogo agendado</p>
                         <small style="opacity: 0.7; margin-top: 1rem; display: block;">
-                            ${isAdminLoggedIn ? 'Clique em "Adicionar Jogo" para começar!' : 'Aguarde novos jogos serem adicionados.'}
+                            ${isAdminLoggedIn ? 'Clique em "Adicionar Jogo" para começar!' : "Aguarde novos jogos serem adicionados."}
                         </small>
                     </div>
                 `;
@@ -1806,9 +1874,9 @@
             jogosGrid.innerHTML = jogos
                 .map((jogo) => {
                     const resultadoStatus = getResultadoStatus(jogo);
-                    const cardClass = jogo.finalizado ? 'jogo-card finalizado' : 'jogo-card';
-                    
-                    let resultadoHtml = '';
+                    const cardClass = jogo.finalizado ? "jogo-card finalizado" : "jogo-card";
+
+                    let resultadoHtml = "";
                     if (jogo.finalizado) {
                         const resultadoClass = `jogo-resultado ${resultadoStatus}`;
                         resultadoHtml = `
@@ -1822,7 +1890,7 @@
                         `;
                     }
 
-                    const statusBadge = jogo.finalizado 
+                    const statusBadge = jogo.finalizado
                         ? '<span class="jogo-status finalizado">Finalizado</span>'
                         : '<span class="jogo-status agendado">Agendado</span>';
 
@@ -1851,15 +1919,19 @@
                                 <button class="btn btn-edit" onclick="editJogo('${jogo.id}')" title="Editar jogo">
                                     <i class="fas fa-edit"></i> Editar
                                 </button>
-                                ${!jogo.finalizado ? `
+                                ${
+                                    !jogo.finalizado
+                                        ? `
                                     <button class="btn btn-success" onclick="openResultModal('${jogo.id}')" title="Adicionar resultado">
                                         <i class="fas fa-trophy"></i> Resultado
                                     </button>
-                                ` : `
+                                `
+                                        : `
                                     <button class="btn btn-edit" onclick="openResultModal('${jogo.id}')" title="Editar resultado">
                                         <i class="fas fa-edit"></i> Editar Resultado
                                     </button>
-                                `}
+                                `
+                                }
                                 <button class="btn btn-danger" onclick="removeJogo('${jogo.id}')" title="Remover jogo">
                                     <i class="fas fa-trash"></i> Remover
                                 </button>
@@ -1872,13 +1944,13 @@
 
         function getResultadoStatus(jogo) {
             if (!jogo.finalizado) return null;
-            
-            const golosCasa = jogo.tipo === 'Casa' ? jogo.golosCasa : jogo.golosFora;
-            const golosFora = jogo.tipo === 'Casa' ? jogo.golosFora : jogo.golosCasa;
-            
-            if (golosCasa > golosFora) return 'vitoria';
-            if (golosCasa < golosFora) return 'derrota';
-            return 'empate';
+
+            const golosCasa = jogo.tipo === "Casa" ? jogo.golosCasa : jogo.golosFora;
+            const golosFora = jogo.tipo === "Casa" ? jogo.golosFora : jogo.golosCasa;
+
+            if (golosCasa > golosFora) return "vitoria";
+            if (golosCasa < golosFora) return "derrota";
+            return "empate";
         }
 
         function formatDate(dateString) {
@@ -1892,49 +1964,24 @@
             return date.toLocaleDateString("pt-PT", options);
         }
 
-        // LocalStorage functions
-        function addJogoToLocalStorage(jogoData) {
-            const id = Date.now().toString();
-            const novoJogo = { id, ...jogoData };
-            jogos.push(novoJogo);
-            localStorage.setItem("jogos", JSON.stringify(jogos));
-            renderJogos();
-            return id;
-        }
-
-        function updateJogoInLocalStorage(id, jogoData) {
-            const index = jogos.findIndex(j => j.id === id);
-            if (index !== -1) {
-                jogos[index] = { ...jogos[index], ...jogoData };
-                localStorage.setItem("jogos", JSON.stringify(jogos));
-                renderJogos();
-            }
-        }
-
-        function deleteJogoFromLocalStorage(id) {
-            jogos = jogos.filter(j => j.id !== id);
-            localStorage.setItem("jogos", JSON.stringify(jogos));
-            renderJogos();
-        }
-
         // Admin functions
         function updateAdminStatus() {
-            const adminStatus = document.getElementById('adminStatus');
-            const adminBtn = document.getElementById('adminBtn');
+            const adminStatus = document.getElementById("adminStatus");
+            const adminBtn = document.getElementById("adminBtn");
             const body = document.body;
 
             if (isAdminLoggedIn) {
                 adminStatus.innerHTML = '<i class="fas fa-shield-alt"></i><span>Administrador</span>';
-                adminStatus.className = 'admin-status logged-in';
+                adminStatus.className = "admin-status logged-in";
                 adminBtn.innerHTML = '<i class="fas fa-sign-out-alt"></i> Sair';
-                adminBtn.className = 'btn-admin btn-logout';
-                body.classList.add('admin-logged-in');
+                adminBtn.className = "btn-admin btn-logout";
+                body.classList.add("admin-logged-in");
             } else {
                 adminStatus.innerHTML = '<i class="fas fa-user"></i><span>Visitante</span>';
-                adminStatus.className = 'admin-status logged-out';
+                adminStatus.className = "admin-status logged-out";
                 adminBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Admin';
-                adminBtn.className = 'btn-admin btn-login';
-                body.classList.remove('admin-logged-in');
+                adminBtn.className = "btn-admin btn-login";
+                body.classList.remove("admin-logged-in");
             }
         }
 
@@ -1963,7 +2010,7 @@
         function login(password) {
             if (password === ADMIN_PASSWORD) {
                 isAdminLoggedIn = true;
-                localStorage.setItem('adminLoggedIn', 'true');
+                localStorage.setItem("adminLoggedIn", "true");
                 updateAdminStatus();
                 closeLoginModal();
                 showNotification("🔥 Login realizado com sucesso! Bem-vindo, Administrador.", "success");
@@ -1976,21 +2023,21 @@
 
         function logout() {
             isAdminLoggedIn = false;
-            localStorage.setItem('adminLoggedIn', 'false');
+            localStorage.setItem("adminLoggedIn", "false");
             updateAdminStatus();
             showNotification("👋 Logout realizado com sucesso!", "success");
         }
 
         function togglePasswordVisibility() {
-            const passwordInput = document.getElementById('adminPassword');
-            const passwordIcon = document.getElementById('passwordIcon');
-            
-            if (passwordInput.type === 'password') {
-                passwordInput.type = 'text';
-                passwordIcon.className = 'fas fa-eye-slash';
+            const passwordInput = document.getElementById("adminPassword");
+            const passwordIcon = document.getElementById("passwordIcon");
+
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                passwordIcon.className = "fas fa-eye-slash";
             } else {
-                passwordInput.type = 'password';
-                passwordIcon.className = 'fas fa-eye';
+                passwordInput.type = "password";
+                passwordIcon.className = "fas fa-eye";
             }
         }
 
@@ -2011,43 +2058,43 @@
 
         // Progress bar functionality
         function updateProgressBar() {
-            const fields = ['equipa', 'adversario', 'data', 'hora', 'local', 'tipo'];
-            const steps = ['step1', 'step2', 'step3', 'step4'];
+            const fields = ["equipa", "adversario", "data", "hora", "local", "tipo"];
+            const steps = ["step1", "step2", "step3", "step4"];
             let filledFields = 0;
-            
+
             // Count filled fields
-            fields.forEach(fieldId => {
+            fields.forEach((fieldId) => {
                 const field = document.getElementById(fieldId);
-                if (field && field.value.trim() !== '') {
+                if (field && field.value.trim() !== "") {
                     filledFields++;
                 }
             });
-            
+
             // Calculate progress percentage
             const progressPercentage = Math.round((filledFields / fields.length) * 100);
-            const progressBar = document.getElementById('progressBar');
-            const progressPercentageEl = document.getElementById('progressPercentage');
-            
+            const progressBar = document.getElementById("progressBar");
+            const progressPercentageEl = document.getElementById("progressPercentage");
+
             if (progressBar) {
-                progressBar.style.width = progressPercentage + '%';
+                progressBar.style.width = progressPercentage + "%";
             }
             if (progressPercentageEl) {
-                progressPercentageEl.textContent = progressPercentage + '%';
+                progressPercentageEl.textContent = progressPercentage + "%";
             }
-            
+
             // Update step indicators
             steps.forEach((stepId, index) => {
                 const step = document.getElementById(stepId);
                 if (step) {
-                    step.classList.remove('active', 'completed');
-                    
+                    step.classList.remove("active", "completed");
+
                     const fieldsPerStep = Math.ceil(fields.length / steps.length);
                     const stepProgress = Math.floor(filledFields / fieldsPerStep);
-                    
+
                     if (index < stepProgress) {
-                        step.classList.add('completed');
+                        step.classList.add("completed");
                     } else if (index === stepProgress) {
-                        step.classList.add('active');
+                        step.classList.add("active");
                     }
                 }
             });
@@ -2055,13 +2102,13 @@
 
         // Add event listeners to form fields for progress tracking
         function initializeProgressTracking() {
-            const fields = ['equipa', 'adversario', 'data', 'hora', 'local', 'tipo'];
-            
-            fields.forEach(fieldId => {
+            const fields = ["equipa", "adversario", "data", "hora", "local", "tipo"];
+
+            fields.forEach((fieldId) => {
                 const field = document.getElementById(fieldId);
                 if (field) {
-                    field.addEventListener('input', updateProgressBar);
-                    field.addEventListener('change', updateProgressBar);
+                    field.addEventListener("input", updateProgressBar);
+                    field.addEventListener("change", updateProgressBar);
                 }
             });
         }
@@ -2074,7 +2121,7 @@
             }
             document.getElementById("addGameModal").style.display = "block";
             document.body.style.overflow = "hidden";
-            
+
             // Initialize progress tracking
             setTimeout(() => {
                 initializeProgressTracking();
@@ -2087,7 +2134,7 @@
             document.getElementById("addGameForm").reset();
             document.body.style.overflow = "auto";
             editingGameId = null;
-            
+
             // Reset modal title
             document.getElementById("gameModalTitle").textContent = "Adicionar Novo Jogo";
         }
@@ -2098,11 +2145,11 @@
                 return;
             }
 
-            const jogo = jogos.find(j => j.id === gameId);
+            const jogo = jogos.find((j) => j.id === gameId);
             if (!jogo) return;
 
             resultGameId = gameId;
-            
+
             // Preencher informações do jogo
             const gameInfo = document.getElementById("resultGameInfo");
             gameInfo.innerHTML = `
@@ -2136,7 +2183,7 @@
             const addGameModal = document.getElementById("addGameModal");
             const loginModal = document.getElementById("loginModal");
             const resultModal = document.getElementById("resultModal");
-            
+
             if (event.target === addGameModal) {
                 closeAddGameModal();
             }
@@ -2149,7 +2196,7 @@
         });
 
         // Add game form submission
-        document.getElementById("addGameForm").addEventListener("submit", (e) => {
+        document.getElementById("addGameForm").addEventListener("submit", async (e) => {
             e.preventDefault();
 
             if (!isAdminLoggedIn) {
@@ -2164,27 +2211,28 @@
                 hora: document.getElementById("hora").value,
                 local: document.getElementById("local").value,
                 tipo: document.getElementById("tipo").value,
-                finalizado: false
+                finalizado: false,
             };
 
             try {
                 if (editingGameId) {
                     // Editar jogo existente
-                    updateJogoInLocalStorage(editingGameId, jogoData);
+                    await updateJogoInFirestore(editingGameId, jogoData);
                     showNotification("✅ Jogo editado com sucesso!", "success");
                 } else {
                     // Adicionar novo jogo
-                    addJogoToLocalStorage(jogoData);
-                    showNotification("🎉 Jogo adicionado com sucesso!", "success");
+                    await addJogoToFirestore(jogoData);
+                    showNotification("🎉 Jogo adicionado com sucesso! Todos podem ver agora.", "success");
                 }
                 closeAddGameModal();
             } catch (error) {
-                showNotification("❌ Erro ao salvar jogo", "error");
+                console.error("Erro ao salvar jogo:", error);
+                showNotification("❌ Erro ao salvar jogo. Tente novamente.", "error");
             }
         });
 
         // Result form submission
-        document.getElementById("resultForm").addEventListener("submit", (e) => {
+        document.getElementById("resultForm").addEventListener("submit", async (e) => {
             e.preventDefault();
 
             if (!isAdminLoggedIn) {
@@ -2198,52 +2246,53 @@
             const golosFora = parseInt(document.getElementById("golosFora").value);
 
             try {
-                updateJogoInLocalStorage(resultGameId, {
+                await updateJogoInFirestore(resultGameId, {
                     golosCasa: golosCasa,
                     golosFora: golosFora,
-                    finalizado: true
+                    finalizado: true,
                 });
 
                 closeResultModal();
 
-                const jogo = jogos.find(j => j.id === resultGameId);
+                const jogo = jogos.find((j) => j.id === resultGameId);
                 if (jogo) {
-                    const resultado = getResultadoStatus({...jogo, golosCasa, golosFora});
+                    const resultado = getResultadoStatus({ ...jogo, golosCasa, golosFora });
                     let mensagem = "📊 Resultado adicionado com sucesso!";
-                    if (resultado === 'vitoria') mensagem += " 🎉 Vitória!";
-                    else if (resultado === 'empate') mensagem += " ⚖️ Empate!";
+                    if (resultado === "vitoria") mensagem += " 🎉 Vitória!";
+                    else if (resultado === "empate") mensagem += " ⚖️ Empate!";
                     else mensagem += " 😔 Derrota...";
 
                     showNotification(mensagem, "success");
                 }
             } catch (error) {
-                showNotification("❌ Erro ao salvar resultado", "error");
+                console.error("Erro ao salvar resultado:", error);
+                showNotification("❌ Erro ao salvar resultado. Tente novamente.", "error");
             }
         });
 
-        function editJogo(id) {
+        async function editJogo(id) {
             if (!isAdminLoggedIn) {
                 showNotification("🔒 Acesso negado! Faça login como administrador.", "error");
                 return;
             }
 
-            const jogo = jogos.find(j => j.id === id);
+            const jogo = jogos.find((j) => j.id === id);
             if (jogo) {
                 editingGameId = id;
                 document.getElementById("gameModalTitle").textContent = "Editar Jogo";
-                
+
                 document.getElementById("equipa").value = jogo.equipa;
                 document.getElementById("adversario").value = jogo.adversario;
                 document.getElementById("data").value = jogo.data;
                 document.getElementById("hora").value = jogo.hora;
                 document.getElementById("local").value = jogo.local;
                 document.getElementById("tipo").value = jogo.tipo;
-                
+
                 openAddGameModal();
             }
         }
 
-        function removeJogo(id, showConfirm = true) {
+        async function removeJogo(id, showConfirm = true) {
             if (!isAdminLoggedIn) {
                 showNotification("🔒 Acesso negado! Faça login como administrador.", "error");
                 return;
@@ -2251,10 +2300,11 @@
 
             if (!showConfirm || confirm("⚠️ Tem certeza que deseja remover este jogo?")) {
                 try {
-                    deleteJogoFromLocalStorage(id);
+                    await deleteJogoFromFirestore(id);
                     showNotification("🗑️ Jogo removido com sucesso!", "success");
                 } catch (error) {
-                    showNotification("❌ Erro ao remover jogo", "error");
+                    console.error("Erro ao remover jogo:", error);
+                    showNotification("❌ Erro ao remover jogo. Tente novamente.", "error");
                 }
             }
         }
@@ -2262,8 +2312,8 @@
         function showNotification(message, type) {
             const notification = document.createElement("div");
             notification.className = `notification ${type}`;
-            
-            const icon = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-triangle';
+
+            const icon = type === "success" ? "fa-check-circle" : "fa-exclamation-triangle";
             notification.innerHTML = `
                 <i class="fas ${icon}"></i>
                 <span>${message}</span>
@@ -2324,23 +2374,26 @@
 
         function initializeAnimations() {
             // Animate timeline items on scroll
-            const timelineItems = document.querySelectorAll('.timeline-item');
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('animate');
-                    }
-                });
-            }, { threshold: 0.1 });
+            const timelineItems = document.querySelectorAll(".timeline-item");
+            const observer = new IntersectionObserver(
+                (entries) => {
+                    entries.forEach((entry) => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add("animate");
+                        }
+                    });
+                },
+                { threshold: 0.1 }
+            );
 
-            timelineItems.forEach(item => {
+            timelineItems.forEach((item) => {
                 observer.observe(item);
             });
         }
 
         // Keyboard shortcuts
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape") {
                 closeAddGameModal();
                 closeLoginModal();
                 closeResultModal();
@@ -2360,35 +2413,9 @@
         }
 
         // Reset timer on user activity
-        document.addEventListener('click', resetInactivityTimer);
-        document.addEventListener('keypress', resetInactivityTimer);
-        document.addEventListener('scroll', resetInactivityTimer);
+        document.addEventListener("click", resetInactivityTimer);
+        document.addEventListener("keypress", resetInactivityTimer);
+        document.addEventListener("scroll", resetInactivityTimer);
     </script>
-
-    <!-- Firebase App (núcleo) -->
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-
-<!-- Firebase Firestore -->
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
-
-<script>
-  // A tua configuração
-  const firebaseConfig = {
-    apiKey: "AIzaSyANAtpCAzuPyWaFpBrZTmToqTl9LIct7eI",
-    authDomain: "gcd-armil-website-e3849.firebaseapp.com",
-    projectId: "gcd-armil-website-e3849",
-    storageBucket: "gcd-armil-website-e3849.firebasestorage.app",
-    messagingSenderId: "49300061028",
-    appId: "1:49300061028:web:b6adea9e40b8716ea8d871",
-    measurementId: "G-7SZ1ZEPWRC"
-  };
-
-  // Inicializar Firebase
-  firebase.initializeApp(firebaseConfig);
-
-  // Referência ao Firestore
-  const db = firebase.firestore();
-</script>
-
 </body>
 </html>
