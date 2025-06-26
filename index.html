@@ -25,6 +25,10 @@
           --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.2);
           --gradient-primary: linear-gradient(135deg, #1a1a1a 0%, #333333 100%);
           --gradient-card: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
+          --success-color: #28a745;
+          --danger-color: #dc3545;
+          --warning-color: #ffc107;
+          --info-color: #17a2b8;
         }
 
         body {
@@ -89,6 +93,7 @@
           display: flex;
           list-style: none;
           gap: 2rem;
+          align-items: center;
         }
 
         .nav-link {
@@ -105,6 +110,62 @@
         .nav-link.active {
           color: var(--white);
           background: var(--gradient-primary);
+          transform: translateY(-2px);
+        }
+
+        .admin-controls {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+        }
+
+        .admin-status {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          padding: 6px 12px;
+          border-radius: 20px;
+          font-size: 0.85rem;
+          font-weight: 600;
+        }
+
+        .admin-status.logged-in {
+          background: linear-gradient(135deg, var(--success-color), #20c997);
+          color: white;
+        }
+
+        .admin-status.logged-out {
+          background: linear-gradient(135deg, var(--accent-color), var(--secondary-color));
+          color: white;
+        }
+
+        .btn-admin {
+          padding: 8px 16px;
+          border: none;
+          border-radius: 20px;
+          font-size: 0.85rem;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.3s ease;
+        }
+
+        .btn-login {
+          background: linear-gradient(135deg, #007bff, #0056b3);
+          color: white;
+        }
+
+        .btn-login:hover {
+          background: linear-gradient(135deg, #0056b3, #004085);
+          transform: translateY(-2px);
+        }
+
+        .btn-logout {
+          background: linear-gradient(135deg, var(--danger-color), #c82333);
+          color: white;
+        }
+
+        .btn-logout:hover {
+          background: linear-gradient(135deg, #c82333, #a71e2a);
           transform: translateY(-2px);
         }
 
@@ -307,6 +368,30 @@
           transform: translateY(-2px);
         }
 
+        .btn-success {
+          background: linear-gradient(135deg, var(--success-color), #20c997);
+          color: var(--white);
+          font-size: 0.85rem;
+          padding: 8px 16px;
+        }
+
+        .btn-success:hover {
+          background: linear-gradient(135deg, #20c997, #17a2b8);
+          transform: translateY(-2px);
+        }
+
+        .btn-warning {
+          background: linear-gradient(135deg, var(--warning-color), #fd7e14);
+          color: var(--white);
+          font-size: 0.85rem;
+          padding: 8px 16px;
+        }
+
+        .btn-warning:hover {
+          background: linear-gradient(135deg, #fd7e14, #e83e8c);
+          transform: translateY(-2px);
+        }
+
         /* Sections */
         section {
           padding: 80px 0;
@@ -436,6 +521,10 @@
           background: var(--gradient-primary);
         }
 
+        .jogo-card.finalizado::before {
+          background: linear-gradient(135deg, var(--success-color), #20c997);
+        }
+
         .jogo-card:hover {
           transform: translateY(-8px);
           box-shadow: var(--shadow-xl);
@@ -481,11 +570,78 @@
           color: var(--white);
         }
 
+        .jogo-status {
+          padding: 4px 12px;
+          border-radius: 15px;
+          font-size: 0.75rem;
+          font-weight: 600;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          margin-left: 8px;
+        }
+
+        .jogo-status.agendado {
+          background: linear-gradient(135deg, var(--info-color), #6f42c1);
+          color: var(--white);
+        }
+
+        .jogo-status.finalizado {
+          background: linear-gradient(135deg, var(--success-color), #20c997);
+          color: var(--white);
+        }
+
         .jogo-adversario {
           font-size: 1.2rem;
           margin-bottom: 1.5rem;
           color: var(--text-dark);
           font-weight: 500;
+        }
+
+        .jogo-resultado {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          margin: 1.5rem 0;
+          padding: 1rem;
+          background: rgba(0, 0, 0, 0.05);
+          border-radius: 15px;
+          font-size: 1.5rem;
+          font-weight: bold;
+          color: var(--primary-color);
+        }
+
+        .jogo-resultado.vitoria {
+          background: linear-gradient(135deg, rgba(40, 167, 69, 0.1), rgba(32, 201, 151, 0.1));
+          border: 2px solid var(--success-color);
+        }
+
+        .jogo-resultado.derrota {
+          background: linear-gradient(135deg, rgba(220, 53, 69, 0.1), rgba(200, 35, 51, 0.1));
+          border: 2px solid var(--danger-color);
+        }
+
+        .jogo-resultado.empate {
+          background: linear-gradient(135deg, rgba(255, 193, 7, 0.1), rgba(253, 126, 20, 0.1));
+          border: 2px solid var(--warning-color);
+        }
+
+        .resultado-placar {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+        }
+
+        .resultado-casa,
+        .resultado-fora {
+          font-size: 2rem;
+          font-weight: bold;
+          min-width: 40px;
+          text-align: center;
+        }
+
+        .resultado-separador {
+          font-size: 1.5rem;
+          opacity: 0.6;
         }
 
         .jogo-info {
@@ -511,6 +667,7 @@
           display: flex;
           gap: 10px;
           justify-content: flex-end;
+          flex-wrap: wrap;
         }
 
         .btn-edit {
@@ -523,6 +680,15 @@
         .btn-edit:hover {
           background: linear-gradient(135deg, #0056b3, #004085);
           transform: translateY(-2px);
+        }
+
+        /* Admin only elements */
+        .admin-only {
+          display: none;
+        }
+
+        .admin-logged-in .admin-only {
+          display: flex;
         }
 
         /* Equipas Section */
@@ -842,6 +1008,56 @@
           margin-top: 2rem;
         }
 
+        /* Resultado form specific */
+        .resultado-inputs {
+          display: grid;
+          grid-template-columns: 1fr auto 1fr;
+          gap: 1rem;
+          align-items: end;
+        }
+
+        .resultado-inputs input {
+          text-align: center;
+          font-size: 1.2rem;
+          font-weight: bold;
+        }
+
+        .resultado-vs {
+          font-size: 1.2rem;
+          font-weight: bold;
+          color: var(--text-light);
+          padding: 12px 0;
+        }
+
+        /* Login Modal Specific */
+        .login-form {
+          text-align: center;
+        }
+
+        .login-form .form-group {
+          text-align: left;
+        }
+
+        .password-input {
+          position: relative;
+        }
+
+        .password-toggle {
+          position: absolute;
+          right: 12px;
+          top: 50%;
+          transform: translateY(-50%);
+          background: none;
+          border: none;
+          color: var(--text-light);
+          cursor: pointer;
+          font-size: 1rem;
+        }
+
+        .password-toggle:hover {
+          color: var(--primary-color);
+        }
+
         /* Responsive Design */
         @media (max-width: 768px) {
           .hamburger {
@@ -863,6 +1079,11 @@
 
           .nav-menu.active {
             left: 0;
+          }
+
+          .admin-controls {
+            flex-direction: column;
+            gap: 0.5rem;
           }
 
           .hero-title {
@@ -903,6 +1124,15 @@
 
           .jogo-actions {
             justify-content: center;
+          }
+
+          .resultado-inputs {
+            grid-template-columns: 1fr;
+            gap: 0.5rem;
+          }
+
+          .resultado-vs {
+            text-align: center;
           }
         }
 
@@ -968,6 +1198,14 @@
           animation: slideInRight 0.4s ease;
         }
 
+        .notification.success {
+          background: linear-gradient(135deg, var(--success-color), #20c997);
+        }
+
+        .notification.error {
+          background: linear-gradient(135deg, var(--danger-color), #c82333);
+        }
+
         @keyframes slideInRight {
           from {
             transform: translateX(100%);
@@ -997,7 +1235,7 @@
         <div class="nav-container">
             <div class="nav-logo">
                 <i class="fas fa-futbol"></i>
-                <span>G.C.D.Armil</span>
+                <span>GCD Armil</span>
             </div>
             <ul class="nav-menu">
                 <li class="nav-item">
@@ -1014,6 +1252,15 @@
                 </li>
                 <li class="nav-item">
                     <a href="#contactos" class="nav-link">Contactos</a>
+                </li>
+                <li class="nav-item admin-controls">
+                    <div class="admin-status" id="adminStatus">
+                        <i class="fas fa-user"></i>
+                        <span>Visitante</span>
+                    </div>
+                    <button class="btn-admin btn-login" id="adminBtn" onclick="toggleAdmin()">
+                        <i class="fas fa-sign-in-alt"></i> Admin
+                    </button>
                 </li>
             </ul>
             <div class="hamburger">
@@ -1098,7 +1345,7 @@
         <div class="container">
             <div class="section-header">
                 <h2 class="section-title">Jogos da Semana</h2>
-                <button class="btn btn-primary" onclick="openAddGameModal()">
+                <button class="btn btn-primary admin-only" onclick="openAddGameModal()">
                     <i class="fas fa-plus"></i> Adicionar Jogo
                 </button>
             </div>
@@ -1237,11 +1484,38 @@
         </div>
     </footer>
 
+    <!-- Modal para Login de Admin -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-shield-alt"></i> Acesso de Administrador</h3>
+                <span class="close" onclick="closeLoginModal()">&times;</span>
+            </div>
+            <form id="loginForm" class="login-form">
+                <div class="form-group">
+                    <label for="adminPassword">Palavra-passe:</label>
+                    <div class="password-input">
+                        <input type="password" id="adminPassword" required placeholder="Digite a palavra-passe de administrador">
+                        <button type="button" class="password-toggle" onclick="togglePasswordVisibility()">
+                            <i class="fas fa-eye" id="passwordIcon"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="form-buttons">
+                    <button type="button" class="btn btn-secondary" onclick="closeLoginModal()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-sign-in-alt"></i> Entrar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- Modal para adicionar jogos -->
     <div id="addGameModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>Adicionar Novo Jogo</h3>
+                <h3 id="gameModalTitle">Adicionar Novo Jogo</h3>
                 <span class="close" onclick="closeAddGameModal()">&times;</span>
             </div>
             <form id="addGameForm">
@@ -1280,13 +1554,57 @@
                 </div>
                 <div class="form-buttons">
                     <button type="button" class="btn btn-secondary" onclick="closeAddGameModal()">Cancelar</button>
-                    <button type="submit" class="btn btn-primary">Adicionar Jogo</button>
+                    <button type="submit" class="btn btn-primary" id="gameSubmitBtn">Adicionar Jogo</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal para adicionar resultado -->
+    <div id="resultModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-trophy"></i> Adicionar Resultado</h3>
+                <span class="close" onclick="closeResultModal()">&times;</span>
+            </div>
+            <form id="resultForm">
+                <div class="form-group">
+                    <label>Jogo:</label>
+                    <div id="resultGameInfo" style="padding: 1rem; background: rgba(0,0,0,0.05); border-radius: 10px; margin-bottom: 1rem;">
+                        <!-- Info do jogo será preenchida dinamicamente -->
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Resultado:</label>
+                    <div class="resultado-inputs">
+                        <div>
+                            <label for="golosCasa" style="font-size: 0.9rem; margin-bottom: 0.5rem;">Golos Casa</label>
+                            <input type="number" id="golosCasa" min="0" max="20" required>
+                        </div>
+                        <div class="resultado-vs">VS</div>
+                        <div>
+                            <label for="golosFora" style="font-size: 0.9rem; margin-bottom: 0.5rem;">Golos Fora</label>
+                            <input type="number" id="golosFora" min="0" max="20" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-buttons">
+                    <button type="button" class="btn btn-secondary" onclick="closeResultModal()">Cancelar</button>
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-save"></i> Guardar Resultado
+                    </button>
                 </div>
             </form>
         </div>
     </div>
 
     <script>
+        // Admin system
+        const ADMIN_PASSWORD = "armil2024"; // ALTERE ESTA SENHA!
+        let isAdminLoggedIn = localStorage.getItem('adminLoggedIn') === 'true';
+        let editingGameId = null;
+        let resultGameId = null;
+
         // Navigation functionality
         document.addEventListener("DOMContentLoaded", () => {
           const hamburger = document.querySelector(".hamburger")
@@ -1328,6 +1646,9 @@
             })
           })
 
+          // Initialize admin status
+          updateAdminStatus()
+          
           // Load initial games
           loadJogos()
 
@@ -1344,6 +1665,90 @@
           timelineItems.forEach(item => {
             observer.observe(item)
           })
+        })
+
+        // Admin functions
+        function updateAdminStatus() {
+          const adminStatus = document.getElementById('adminStatus')
+          const adminBtn = document.getElementById('adminBtn')
+          const body = document.body
+
+          if (isAdminLoggedIn) {
+            adminStatus.innerHTML = '<i class="fas fa-shield-alt"></i><span>Administrador</span>'
+            adminStatus.className = 'admin-status logged-in'
+            adminBtn.innerHTML = '<i class="fas fa-sign-out-alt"></i> Sair'
+            adminBtn.className = 'btn-admin btn-logout'
+            body.classList.add('admin-logged-in')
+          } else {
+            adminStatus.innerHTML = '<i class="fas fa-user"></i><span>Visitante</span>'
+            adminStatus.className = 'admin-status logged-out'
+            adminBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Admin'
+            adminBtn.className = 'btn-admin btn-login'
+            body.classList.remove('admin-logged-in')
+          }
+        }
+
+        function toggleAdmin() {
+          if (isAdminLoggedIn) {
+            logout()
+          } else {
+            openLoginModal()
+          }
+        }
+
+        function openLoginModal() {
+          document.getElementById("loginModal").style.display = "block"
+          document.body.style.overflow = "hidden"
+          setTimeout(() => {
+            document.getElementById("adminPassword").focus()
+          }, 100)
+        }
+
+        function closeLoginModal() {
+          document.getElementById("loginModal").style.display = "none"
+          document.getElementById("loginForm").reset()
+          document.body.style.overflow = "auto"
+        }
+
+        function login(password) {
+          if (password === ADMIN_PASSWORD) {
+            isAdminLoggedIn = true
+            localStorage.setItem('adminLoggedIn', 'true')
+            updateAdminStatus()
+            closeLoginModal()
+            showNotification("Login realizado com sucesso! Bem-vindo, Administrador.", "success")
+            return true
+          } else {
+            showNotification("Palavra-passe incorreta!", "error")
+            return false
+          }
+        }
+
+        function logout() {
+          isAdminLoggedIn = false
+          localStorage.setItem('adminLoggedIn', 'false')
+          updateAdminStatus()
+          showNotification("Logout realizado com sucesso!", "success")
+        }
+
+        function togglePasswordVisibility() {
+          const passwordInput = document.getElementById('adminPassword')
+          const passwordIcon = document.getElementById('passwordIcon')
+          
+          if (passwordInput.type === 'password') {
+            passwordInput.type = 'text'
+            passwordIcon.className = 'fas fa-eye-slash'
+          } else {
+            passwordInput.type = 'password'
+            passwordIcon.className = 'fas fa-eye'
+          }
+        }
+
+        // Login form submission
+        document.getElementById("loginForm").addEventListener("submit", (e) => {
+          e.preventDefault()
+          const password = document.getElementById("adminPassword").value
+          login(password)
         })
 
         // Smooth scrolling function
@@ -1364,6 +1769,9 @@
             hora: "15:00",
             local: "Campo Municipal de Armil",
             tipo: "Casa",
+            golosCasa: 2,
+            golosFora: 1,
+            finalizado: true
           },
           {
             id: 2,
@@ -1373,6 +1781,7 @@
             hora: "14:30",
             local: "Campo do Adversário",
             tipo: "Fora",
+            finalizado: false
           },
           {
             id: 3,
@@ -1382,8 +1791,22 @@
             hora: "20:00",
             local: "Pavilhão de Armil",
             tipo: "Casa",
+            golosCasa: 1,
+            golosFora: 1,
+            finalizado: true
           },
         ]
+
+        function getResultadoStatus(jogo) {
+          if (!jogo.finalizado) return null
+          
+          const golosCasa = jogo.tipo === 'Casa' ? jogo.golosCasa : jogo.golosFora
+          const golosFora = jogo.tipo === 'Casa' ? jogo.golosFora : jogo.golosCasa
+          
+          if (golosCasa > golosFora) return 'vitoria'
+          if (golosCasa < golosFora) return 'derrota'
+          return 'empate'
+        }
 
         function loadJogos() {
           const jogosGrid = document.getElementById("jogosGrid")
@@ -1402,14 +1825,39 @@
           jogos.sort((a, b) => new Date(a.data + " " + a.hora) - new Date(b.data + " " + b.hora))
 
           jogosGrid.innerHTML = jogos
-            .map(
-              (jogo) => `
-                <div class="jogo-card">
+            .map((jogo) => {
+              const resultadoStatus = getResultadoStatus(jogo)
+              const cardClass = jogo.finalizado ? 'jogo-card finalizado' : 'jogo-card'
+              
+              let resultadoHtml = ''
+              if (jogo.finalizado) {
+                const resultadoClass = `jogo-resultado ${resultadoStatus}`
+                resultadoHtml = `
+                  <div class="${resultadoClass}">
+                    <div class="resultado-placar">
+                      <span class="resultado-casa">${jogo.golosCasa}</span>
+                      <span class="resultado-separador">-</span>
+                      <span class="resultado-fora">${jogo.golosFora}</span>
+                    </div>
+                  </div>
+                `
+              }
+
+              const statusBadge = jogo.finalizado 
+                ? '<span class="jogo-status finalizado">Finalizado</span>'
+                : '<span class="jogo-status agendado">Agendado</span>'
+
+              return `
+                <div class="${cardClass}">
                     <div class="jogo-header">
                         <div class="jogo-equipa">${jogo.equipa}</div>
-                        <div class="jogo-tipo ${jogo.tipo.toLowerCase()}">${jogo.tipo}</div>
+                        <div style="display: flex; align-items: center;">
+                            <div class="jogo-tipo ${jogo.tipo.toLowerCase()}">${jogo.tipo}</div>
+                            ${statusBadge}
+                        </div>
                     </div>
                     <div class="jogo-adversario">vs ${jogo.adversario}</div>
+                    ${resultadoHtml}
                     <div class="jogo-info">
                         <div class="jogo-data">
                             <i class="fas fa-calendar"></i>
@@ -1420,17 +1868,26 @@
                             ${jogo.local}
                         </div>
                     </div>
-                    <div class="jogo-actions">
+                    <div class="jogo-actions admin-only">
                         <button class="btn btn-edit" onclick="editJogo(${jogo.id})" title="Editar jogo">
                             <i class="fas fa-edit"></i> Editar
                         </button>
+                        ${!jogo.finalizado ? `
+                            <button class="btn btn-success" onclick="openResultModal(${jogo.id})" title="Adicionar resultado">
+                                <i class="fas fa-trophy"></i> Resultado
+                            </button>
+                        ` : `
+                            <button class="btn btn-warning" onclick="openResultModal(${jogo.id})" title="Editar resultado">
+                                <i class="fas fa-edit"></i> Editar Resultado
+                            </button>
+                        `}
                         <button class="btn btn-danger" onclick="removeJogo(${jogo.id})" title="Remover jogo">
                             <i class="fas fa-trash"></i> Remover
                         </button>
                     </div>
                 </div>
-            `,
-            )
+            `
+            })
             .join("")
         }
 
@@ -1446,6 +1903,14 @@
         }
 
         function openAddGameModal() {
+          if (!isAdminLoggedIn) {
+            showNotification("Acesso negado! Faça login como administrador.", "error")
+            return
+          }
+          
+          editingGameId = null
+          document.getElementById("gameModalTitle").textContent = "Adicionar Novo Jogo"
+          document.getElementById("gameSubmitBtn").innerHTML = '<i class="fas fa-plus"></i> Adicionar Jogo'
           document.getElementById("addGameModal").style.display = "block"
           document.body.style.overflow = "hidden"
         }
@@ -1454,13 +1919,62 @@
           document.getElementById("addGameModal").style.display = "none"
           document.getElementById("addGameForm").reset()
           document.body.style.overflow = "auto"
+          editingGameId = null
+        }
+
+        function openResultModal(gameId) {
+          if (!isAdminLoggedIn) {
+            showNotification("Acesso negado! Faça login como administrador.", "error")
+            return
+          }
+
+          const jogo = jogos.find(j => j.id === gameId)
+          if (!jogo) return
+
+          resultGameId = gameId
+          
+          // Preencher informações do jogo
+          const gameInfo = document.getElementById("resultGameInfo")
+          gameInfo.innerHTML = `
+            <strong>${jogo.equipa}</strong> vs <strong>${jogo.adversario}</strong><br>
+            <small><i class="fas fa-calendar"></i> ${formatDate(jogo.data)} às ${jogo.hora}</small><br>
+            <small><i class="fas fa-map-marker-alt"></i> ${jogo.local}</small>
+          `
+
+          // Preencher resultado se já existir
+          if (jogo.finalizado) {
+            document.getElementById("golosCasa").value = jogo.golosCasa || 0
+            document.getElementById("golosFora").value = jogo.golosFora || 0
+          } else {
+            document.getElementById("golosCasa").value = ""
+            document.getElementById("golosFora").value = ""
+          }
+
+          document.getElementById("resultModal").style.display = "block"
+          document.body.style.overflow = "hidden"
+        }
+
+        function closeResultModal() {
+          document.getElementById("resultModal").style.display = "none"
+          document.getElementById("resultForm").reset()
+          document.body.style.overflow = "auto"
+          resultGameId = null
         }
 
         // Close modal when clicking outside
         window.addEventListener("click", (event) => {
-          const modal = document.getElementById("addGameModal")
-          if (event.target === modal) {
+          const addGameModal = document.getElementById("addGameModal")
+          const loginModal = document.getElementById("loginModal")
+          const resultModal = document.getElementById("resultModal")
+          
+          if (event.target === addGameModal) {
             closeAddGameModal()
+          }
+          if (event.target === loginModal) {
+            closeLoginModal()
+          }
+          if (event.target === resultModal) {
+            closeResultModal()
           }
         })
 
@@ -1468,28 +1982,89 @@
         document.getElementById("addGameForm").addEventListener("submit", (e) => {
           e.preventDefault()
 
-          const novoJogo = {
-            id: Date.now(),
+          if (!isAdminLoggedIn) {
+            showNotification("Acesso negado! Faça login como administrador.", "error")
+            return
+          }
+
+          const jogoData = {
             equipa: document.getElementById("equipa").value,
             adversario: document.getElementById("adversario").value,
             data: document.getElementById("data").value,
             hora: document.getElementById("hora").value,
             local: document.getElementById("local").value,
             tipo: document.getElementById("tipo").value,
+            finalizado: false
           }
 
-          jogos.push(novoJogo)
+          if (editingGameId) {
+            // Editar jogo existente
+            const jogoIndex = jogos.findIndex(j => j.id === editingGameId)
+            if (jogoIndex !== -1) {
+              jogos[jogoIndex] = { ...jogos[jogoIndex], ...jogoData }
+              showNotification("Jogo editado com sucesso!", "success")
+            }
+          } else {
+            // Adicionar novo jogo
+            const novoJogo = {
+              id: Date.now(),
+              ...jogoData
+            }
+            jogos.push(novoJogo)
+            showNotification("Jogo adicionado com sucesso!", "success")
+          }
+
           localStorage.setItem("jogos", JSON.stringify(jogos))
           loadJogos()
           closeAddGameModal()
+        })
 
-          // Show success message
-          showNotification("Jogo adicionado com sucesso!", "success")
+        // Result form submission
+        document.getElementById("resultForm").addEventListener("submit", (e) => {
+          e.preventDefault()
+
+          if (!isAdminLoggedIn) {
+            showNotification("Acesso negado! Faça login como administrador.", "error")
+            return
+          }
+
+          if (!resultGameId) return
+
+          const golosCasa = parseInt(document.getElementById("golosCasa").value)
+          const golosFora = parseInt(document.getElementById("golosFora").value)
+
+          const jogoIndex = jogos.findIndex(j => j.id === resultGameId)
+          if (jogoIndex !== -1) {
+            jogos[jogoIndex].golosCasa = golosCasa
+            jogos[jogoIndex].golosFora = golosFora
+            jogos[jogoIndex].finalizado = true
+
+            localStorage.setItem("jogos", JSON.stringify(jogos))
+            loadJogos()
+            closeResultModal()
+
+            const resultado = getResultadoStatus(jogos[jogoIndex])
+            let mensagem = "Resultado adicionado com sucesso!"
+            if (resultado === 'vitoria') mensagem += " 🎉 Vitória!"
+            else if (resultado === 'empate') mensagem += " ⚖️ Empate!"
+            else mensagem += " 😔 Derrota..."
+
+            showNotification(mensagem, "success")
+          }
         })
 
         function editJogo(id) {
+          if (!isAdminLoggedIn) {
+            showNotification("Acesso negado! Faça login como administrador.", "error")
+            return
+          }
+
           const jogo = jogos.find(j => j.id === id)
           if (jogo) {
+            editingGameId = id
+            document.getElementById("gameModalTitle").textContent = "Editar Jogo"
+            document.getElementById("gameSubmitBtn").innerHTML = '<i class="fas fa-save"></i> Guardar Alterações'
+            
             document.getElementById("equipa").value = jogo.equipa
             document.getElementById("adversario").value = jogo.adversario
             document.getElementById("data").value = jogo.data
@@ -1497,13 +2072,16 @@
             document.getElementById("local").value = jogo.local
             document.getElementById("tipo").value = jogo.tipo
             
-            // Remove the old game and open modal for editing
-            removeJogo(id, false)
             openAddGameModal()
           }
         }
 
         function removeJogo(id, showConfirm = true) {
+          if (!isAdminLoggedIn) {
+            showNotification("Acesso negado! Faça login como administrador.", "error")
+            return
+          }
+
           if (!showConfirm || confirm("Tem certeza que deseja remover este jogo?")) {
             jogos = jogos.filter((jogo) => jogo.id !== id)
             localStorage.setItem("jogos", JSON.stringify(jogos))
@@ -1517,8 +2095,10 @@
         function showNotification(message, type) {
           const notification = document.createElement("div")
           notification.className = `notification ${type}`
+          
+          const icon = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-triangle'
           notification.innerHTML = `
-                <i class="fas fa-check-circle"></i>
+                <i class="fas ${icon}"></i>
                 <span>${message}</span>
             `
 
@@ -1531,15 +2111,34 @@
                 document.body.removeChild(notification)
               }
             }, 400)
-          }, 3000)
+          }, 4000)
         }
 
         // Keyboard shortcuts
         document.addEventListener('keydown', (e) => {
           if (e.key === 'Escape') {
             closeAddGameModal()
+            closeLoginModal()
+            closeResultModal()
           }
         })
+
+        // Auto-logout after 1 hour of inactivity
+        let inactivityTimer
+        function resetInactivityTimer() {
+          clearTimeout(inactivityTimer)
+          if (isAdminLoggedIn) {
+            inactivityTimer = setTimeout(() => {
+              logout()
+              showNotification("Sessão expirada por inatividade.", "error")
+            }, 3600000) // 1 hour
+          }
+        }
+
+        // Reset timer on user activity
+        document.addEventListener('click', resetInactivityTimer)
+        document.addEventListener('keypress', resetInactivityTimer)
+        document.addEventListener('scroll', resetInactivityTimer)
     </script>
 </body>
 </html>
