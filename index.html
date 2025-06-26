@@ -1,0 +1,1545 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grupo Cultural e Desportivo de Armil</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+        }
+
+        :root {
+          --primary-color: #1a1a1a;
+          --secondary-color: #333333;
+          --accent-color: #666666;
+          --text-dark: #1a1a1a;
+          --text-light: #666;
+          --white: #ffffff;
+          --light-bg: #f8f9fa;
+          --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+          --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.15);
+          --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.2);
+          --gradient-primary: linear-gradient(135deg, #1a1a1a 0%, #333333 100%);
+          --gradient-card: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
+        }
+
+        body {
+          font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+          line-height: 1.6;
+          color: var(--text-dark);
+          overflow-x: hidden;
+        }
+
+        .container {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 0 20px;
+        }
+
+        /* Navigation */
+        .navbar {
+          position: fixed;
+          top: 0;
+          width: 100%;
+          background: rgba(255, 255, 255, 0.95);
+          backdrop-filter: blur(15px);
+          z-index: 1000;
+          transition: all 0.3s ease;
+          box-shadow: var(--shadow);
+          border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 0 20px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          height: 70px;
+        }
+
+        .nav-logo {
+          display: flex;
+          align-items: center;
+          font-size: 1.5rem;
+          font-weight: bold;
+          color: var(--primary-color);
+          transition: transform 0.3s ease;
+        }
+
+        .nav-logo:hover {
+          transform: scale(1.05);
+        }
+
+        .nav-logo i {
+          margin-right: 10px;
+          font-size: 1.8rem;
+          background: var(--gradient-primary);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+        }
+
+        .nav-menu {
+          display: flex;
+          list-style: none;
+          gap: 2rem;
+        }
+
+        .nav-link {
+          text-decoration: none;
+          color: var(--text-dark);
+          font-weight: 500;
+          transition: all 0.3s ease;
+          position: relative;
+          padding: 8px 16px;
+          border-radius: 25px;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+          color: var(--white);
+          background: var(--gradient-primary);
+          transform: translateY(-2px);
+        }
+
+        .hamburger {
+          display: none;
+          flex-direction: column;
+          cursor: pointer;
+        }
+
+        .bar {
+          width: 25px;
+          height: 3px;
+          background: var(--primary-color);
+          margin: 3px 0;
+          transition: 0.3s;
+          border-radius: 2px;
+        }
+
+        /* Hero Section */
+        .hero {
+          min-height: 100vh;
+          background: var(--gradient-primary);
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          text-align: center;
+          color: var(--white);
+          position: relative;
+          overflow: hidden;
+        }
+
+        .hero::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="rgba(255,255,255,0.1)"/></svg>')
+            repeat;
+          animation: float 20s infinite linear;
+        }
+
+        .hero::after {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: radial-gradient(circle at 30% 70%, rgba(255,255,255,0.1) 0%, transparent 50%),
+                      radial-gradient(circle at 70% 30%, rgba(255,255,255,0.05) 0%, transparent 50%);
+        }
+
+        @keyframes float {
+          0% {
+            transform: translateY(0px) rotate(0deg);
+          }
+          100% {
+            transform: translateY(-100px) rotate(360deg);
+          }
+        }
+
+        .hero-content {
+          z-index: 2;
+          max-width: 800px;
+          padding: 0 20px;
+        }
+
+        .hero-title {
+          font-size: 3.5rem;
+          font-weight: bold;
+          margin-bottom: 1rem;
+          animation: fadeInUp 1s ease;
+          text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero-subtitle {
+          font-size: 1.3rem;
+          margin-bottom: 2rem;
+          opacity: 0.9;
+          animation: fadeInUp 1s ease 0.2s both;
+        }
+
+        .hero-buttons {
+          display: flex;
+          gap: 1rem;
+          justify-content: center;
+          flex-wrap: wrap;
+          animation: fadeInUp 1s ease 0.4s both;
+        }
+
+        .hero-stats {
+          display: flex;
+          gap: 3rem;
+          margin-top: 3rem;
+          animation: fadeInUp 1s ease 0.6s both;
+        }
+
+        .stat {
+          text-align: center;
+          padding: 1rem;
+          border-radius: 15px;
+          background: rgba(255, 255, 255, 0.1);
+          backdrop-filter: blur(10px);
+          transition: transform 0.3s ease;
+        }
+
+        .stat:hover {
+          transform: translateY(-5px);
+        }
+
+        .stat h3 {
+          font-size: 2.5rem;
+          font-weight: bold;
+          margin-bottom: 0.5rem;
+        }
+
+        .stat p {
+          opacity: 0.8;
+        }
+
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        /* Buttons */
+        .btn {
+          padding: 12px 24px;
+          border: none;
+          border-radius: 50px;
+          font-size: 1rem;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          text-decoration: none;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .btn::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+          transition: left 0.5s;
+        }
+
+        .btn:hover::before {
+          left: 100%;
+        }
+
+        .btn-primary {
+          background: var(--accent-color);
+          color: var(--white);
+          box-shadow: var(--shadow);
+        }
+
+        .btn-primary:hover {
+          background: var(--secondary-color);
+          transform: translateY(-2px);
+          box-shadow: var(--shadow-lg);
+        }
+
+        .btn-secondary {
+          background: transparent;
+          color: var(--white);
+          border: 2px solid var(--white);
+        }
+
+        .btn-secondary:hover {
+          background: var(--white);
+          color: var(--primary-color);
+          transform: translateY(-2px);
+        }
+
+        .btn-danger {
+          background: linear-gradient(135deg, #dc3545, #c82333);
+          color: var(--white);
+          font-size: 0.85rem;
+          padding: 8px 16px;
+        }
+
+        .btn-danger:hover {
+          background: linear-gradient(135deg, #c82333, #a71e2a);
+          transform: translateY(-2px);
+        }
+
+        /* Sections */
+        section {
+          padding: 80px 0;
+        }
+
+        .section-title {
+          font-size: 2.5rem;
+          text-align: center;
+          margin-bottom: 3rem;
+          color: var(--primary-color);
+          position: relative;
+        }
+
+        .section-title::after {
+          content: "";
+          position: absolute;
+          bottom: -10px;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 60px;
+          height: 4px;
+          background: var(--gradient-primary);
+          border-radius: 2px;
+        }
+
+        .section-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 3rem;
+          flex-wrap: wrap;
+          gap: 1rem;
+        }
+
+        /* História Section */
+        .historia {
+          background: var(--light-bg);
+        }
+
+        .timeline-item {
+          display: flex;
+          margin-bottom: 3rem;
+          position: relative;
+          opacity: 0;
+          transform: translateY(30px);
+          transition: all 0.6s ease;
+        }
+
+        .timeline-item.animate {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        .timeline-item::before {
+          content: "";
+          position: absolute;
+          left: 80px;
+          top: 0;
+          bottom: -3rem;
+          width: 2px;
+          background: var(--gradient-primary);
+        }
+
+        .timeline-item:last-child::before {
+          display: none;
+        }
+
+        .timeline-year {
+          background: var(--gradient-primary);
+          color: var(--white);
+          padding: 10px 20px;
+          border-radius: 25px;
+          font-weight: bold;
+          min-width: 80px;
+          text-align: center;
+          margin-right: 2rem;
+          position: relative;
+          z-index: 2;
+          box-shadow: var(--shadow);
+        }
+
+        .timeline-content {
+          flex: 1;
+          background: var(--gradient-card);
+          padding: 2rem;
+          border-radius: 15px;
+          box-shadow: var(--shadow);
+          transition: transform 0.3s ease;
+        }
+
+        .timeline-content:hover {
+          transform: translateY(-5px);
+          box-shadow: var(--shadow-lg);
+        }
+
+        .timeline-content h3 {
+          color: var(--primary-color);
+          margin-bottom: 1rem;
+          font-size: 1.3rem;
+        }
+
+        /* Jogos Section */
+        .jogos-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+          gap: 2rem;
+        }
+
+        .jogo-card {
+          background: var(--gradient-card);
+          border-radius: 20px;
+          padding: 2rem;
+          box-shadow: var(--shadow);
+          transition: all 0.3s ease;
+          border: 1px solid rgba(0, 0, 0, 0.05);
+          position: relative;
+          overflow: hidden;
+        }
+
+        .jogo-card::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 4px;
+          background: var(--gradient-primary);
+        }
+
+        .jogo-card:hover {
+          transform: translateY(-8px);
+          box-shadow: var(--shadow-xl);
+        }
+
+        .jogo-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 1.5rem;
+        }
+
+        .jogo-equipa {
+          font-size: 1.3rem;
+          font-weight: bold;
+          color: var(--primary-color);
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+
+        .jogo-equipa::before {
+          content: "⚽";
+          font-size: 1.2rem;
+        }
+
+        .jogo-tipo {
+          padding: 6px 16px;
+          border-radius: 25px;
+          font-size: 0.85rem;
+          font-weight: 600;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+        }
+
+        .jogo-tipo.casa {
+          background: linear-gradient(135deg, #28a745, #20c997);
+          color: var(--white);
+        }
+
+        .jogo-tipo.fora {
+          background: linear-gradient(135deg, #ffc107, #fd7e14);
+          color: var(--white);
+        }
+
+        .jogo-adversario {
+          font-size: 1.2rem;
+          margin-bottom: 1.5rem;
+          color: var(--text-dark);
+          font-weight: 500;
+        }
+
+        .jogo-info {
+          display: flex;
+          flex-direction: column;
+          gap: 0.8rem;
+          margin-bottom: 1.5rem;
+        }
+
+        .jogo-data,
+        .jogo-local {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          color: var(--text-light);
+          font-size: 0.95rem;
+          padding: 8px 12px;
+          background: rgba(0, 0, 0, 0.05);
+          border-radius: 10px;
+        }
+
+        .jogo-actions {
+          display: flex;
+          gap: 10px;
+          justify-content: flex-end;
+        }
+
+        .btn-edit {
+          background: linear-gradient(135deg, #007bff, #0056b3);
+          color: var(--white);
+          font-size: 0.85rem;
+          padding: 8px 16px;
+        }
+
+        .btn-edit:hover {
+          background: linear-gradient(135deg, #0056b3, #004085);
+          transform: translateY(-2px);
+        }
+
+        /* Equipas Section */
+        .equipas {
+          background: var(--light-bg);
+        }
+
+        .equipas-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+          gap: 2rem;
+        }
+
+        .equipa-card {
+          background: var(--gradient-card);
+          padding: 2rem;
+          border-radius: 20px;
+          text-align: center;
+          box-shadow: var(--shadow);
+          transition: all 0.3s ease;
+          border: 1px solid rgba(0, 0, 0, 0.05);
+          position: relative;
+          overflow: hidden;
+        }
+
+        .equipa-card::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: var(--gradient-primary);
+          opacity: 0;
+          transition: opacity 0.3s ease;
+        }
+
+        .equipa-card:hover::before {
+          opacity: 0.05;
+        }
+
+        .equipa-card:hover {
+          transform: translateY(-8px);
+          box-shadow: var(--shadow-xl);
+        }
+
+        .equipa-icon {
+          width: 80px;
+          height: 80px;
+          background: var(--gradient-primary);
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin: 0 auto 1rem;
+          color: var(--white);
+          font-size: 2rem;
+          box-shadow: var(--shadow);
+          transition: transform 0.3s ease;
+        }
+
+        .equipa-card:hover .equipa-icon {
+          transform: scale(1.1) rotate(5deg);
+        }
+
+        .equipa-card h3 {
+          color: var(--primary-color);
+          margin-bottom: 1rem;
+          font-size: 1.3rem;
+        }
+
+        .equipa-card p {
+          color: var(--text-light);
+          margin-bottom: 1.5rem;
+        }
+
+        .equipa-stats {
+          display: flex;
+          justify-content: space-around;
+          flex-wrap: wrap;
+          gap: 1rem;
+        }
+
+        .equipa-stats span {
+          display: flex;
+          align-items: center;
+          gap: 5px;
+          font-size: 0.9rem;
+          color: var(--text-light);
+          padding: 5px 10px;
+          background: rgba(0, 0, 0, 0.05);
+          border-radius: 15px;
+        }
+
+        /* Contactos Section */
+        .contactos-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+          gap: 2rem;
+        }
+
+        .contacto-card {
+          background: var(--gradient-card);
+          padding: 2rem;
+          border-radius: 20px;
+          text-align: center;
+          box-shadow: var(--shadow);
+          transition: all 0.3s ease;
+          border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .contacto-card:hover {
+          transform: translateY(-8px);
+          box-shadow: var(--shadow-xl);
+        }
+
+        .contacto-card i {
+          font-size: 2.5rem;
+          color: var(--primary-color);
+          margin-bottom: 1rem;
+          background: var(--gradient-primary);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+        }
+
+        .contacto-card h3 {
+          color: var(--primary-color);
+          margin-bottom: 1rem;
+        }
+
+        /* Footer */
+        .footer {
+          background: var(--gradient-primary);
+          color: var(--white);
+          padding: 3rem 0 1rem;
+        }
+
+        .footer-content {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+          gap: 2rem;
+          margin-bottom: 2rem;
+        }
+
+        .footer-logo {
+          display: flex;
+          align-items: center;
+          font-size: 1.5rem;
+          font-weight: bold;
+          margin-bottom: 1rem;
+        }
+
+        .footer-logo i {
+          margin-right: 10px;
+          font-size: 1.8rem;
+        }
+
+        .footer-section h4 {
+          margin-bottom: 1rem;
+          color: var(--accent-color);
+        }
+
+        .footer-section ul {
+          list-style: none;
+        }
+
+        .footer-section ul li {
+          margin-bottom: 0.5rem;
+        }
+
+        .footer-section ul li a {
+          color: var(--white);
+          text-decoration: none;
+          transition: color 0.3s ease;
+        }
+
+        .footer-section ul li a:hover {
+          color: var(--accent-color);
+        }
+
+        .social-links {
+          display: flex;
+          gap: 1rem;
+        }
+
+        .social-links a {
+          width: 40px;
+          height: 40px;
+          background: var(--secondary-color);
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: var(--white);
+          text-decoration: none;
+          transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+          background: var(--accent-color);
+          transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+          text-align: center;
+          padding-top: 2rem;
+          border-top: 1px solid var(--secondary-color);
+          opacity: 0.8;
+        }
+
+        /* Modal */
+        .modal {
+          display: none;
+          position: fixed;
+          z-index: 2000;
+          left: 0;
+          top: 0;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(0, 0, 0, 0.6);
+          backdrop-filter: blur(8px);
+        }
+
+        .modal-content {
+          background: var(--gradient-card);
+          margin: 5% auto;
+          padding: 0;
+          border-radius: 20px;
+          width: 90%;
+          max-width: 500px;
+          box-shadow: var(--shadow-xl);
+          animation: modalSlideIn 0.4s ease;
+          border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        @keyframes modalSlideIn {
+          from {
+            opacity: 0;
+            transform: translateY(-50px) scale(0.9);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+          }
+        }
+
+        .modal-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 2rem 2rem 1rem;
+          border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .modal-header h3 {
+          color: var(--primary-color);
+          margin: 0;
+        }
+
+        .close {
+          color: var(--text-light);
+          font-size: 2rem;
+          font-weight: bold;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          width: 40px;
+          height: 40px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 50%;
+        }
+
+        .close:hover {
+          color: var(--primary-color);
+          background: rgba(0, 0, 0, 0.1);
+        }
+
+        .modal form {
+          padding: 2rem;
+        }
+
+        .form-group {
+          margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+          display: block;
+          margin-bottom: 0.5rem;
+          font-weight: 600;
+          color: var(--primary-color);
+        }
+
+        .form-group input,
+        .form-group select {
+          width: 100%;
+          padding: 12px 16px;
+          border: 2px solid #e0e0e0;
+          border-radius: 10px;
+          font-size: 1rem;
+          transition: all 0.3s ease;
+          background: var(--white);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+          outline: none;
+          border-color: var(--primary-color);
+          box-shadow: 0 0 0 3px rgba(26, 26, 26, 0.1);
+        }
+
+        .form-buttons {
+          display: flex;
+          gap: 1rem;
+          justify-content: flex-end;
+          margin-top: 2rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+          .hamburger {
+            display: flex;
+          }
+
+          .nav-menu {
+            position: fixed;
+            left: -100%;
+            top: 70px;
+            flex-direction: column;
+            background-color: var(--white);
+            width: 100%;
+            text-align: center;
+            transition: 0.3s;
+            box-shadow: var(--shadow);
+            padding: 2rem 0;
+          }
+
+          .nav-menu.active {
+            left: 0;
+          }
+
+          .hero-title {
+            font-size: 2.5rem;
+          }
+
+          .hero-stats {
+            gap: 2rem;
+            flex-direction: column;
+          }
+
+          .timeline-item {
+            flex-direction: column;
+            align-items: flex-start;
+          }
+
+          .timeline-item::before {
+            left: 40px;
+          }
+
+          .timeline-year {
+            margin-bottom: 1rem;
+            margin-right: 0;
+          }
+
+          .section-header {
+            flex-direction: column;
+            text-align: center;
+          }
+
+          .jogos-grid {
+            grid-template-columns: 1fr;
+          }
+
+          .form-buttons {
+            flex-direction: column;
+          }
+
+          .jogo-actions {
+            justify-content: center;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .hero-buttons {
+            flex-direction: column;
+            align-items: center;
+          }
+
+          .modal-content {
+            margin: 10% auto;
+            width: 95%;
+          }
+        }
+
+        /* Smooth scrolling */
+        html {
+          scroll-behavior: smooth;
+        }
+
+        /* Loading animation for jogos */
+        .loading {
+          text-align: center;
+          padding: 3rem;
+          color: var(--text-light);
+          background: var(--gradient-card);
+          border-radius: 20px;
+          box-shadow: var(--shadow);
+        }
+
+        .loading::after {
+          content: "";
+          display: inline-block;
+          width: 20px;
+          height: 20px;
+          border: 3px solid var(--accent-color);
+          border-radius: 50%;
+          border-top-color: transparent;
+          animation: spin 1s ease-in-out infinite;
+          margin-left: 10px;
+        }
+
+        @keyframes spin {
+          to {
+            transform: rotate(360deg);
+          }
+        }
+
+        /* Notification styles */
+        .notification {
+          position: fixed;
+          top: 100px;
+          right: 20px;
+          background: var(--gradient-primary);
+          color: white;
+          padding: 1rem 1.5rem;
+          border-radius: 15px;
+          box-shadow: var(--shadow-lg);
+          z-index: 3000;
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          animation: slideInRight 0.4s ease;
+        }
+
+        @keyframes slideInRight {
+          from {
+            transform: translateX(100%);
+            opacity: 0;
+          }
+          to {
+            transform: translateX(0);
+            opacity: 1;
+          }
+        }
+        
+        @keyframes slideOutRight {
+          from {
+            transform: translateX(0);
+            opacity: 1;
+          }
+          to {
+            transform: translateX(100%);
+            opacity: 0;
+          }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-futbol"></i>
+                <span>GCD Armil</span>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="#home" class="nav-link active">Início</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#historia" class="nav-link">História</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#jogos" class="nav-link">Jogos</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#equipas" class="nav-link">Equipas</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#contactos" class="nav-link">Contactos</a>
+                </li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">Grupo Cultural e Desportivo de Armil</h1>
+            <p class="hero-subtitle">Tradição, Paixão e Desporto desde 1985</p>
+            <div class="hero-buttons">
+                <button class="btn btn-primary" onclick="scrollToSection('jogos')">
+                    <i class="fas fa-calendar"></i> Próximos Jogos
+                </button>
+                <button class="btn btn-secondary" onclick="scrollToSection('historia')">
+                    <i class="fas fa-book"></i> Nossa História
+                </button>
+            </div>
+        </div>
+        <div class="hero-stats">
+            <div class="stat">
+                <h3>39</h3>
+                <p>Anos de História</p>
+            </div>
+            <div class="stat">
+                <h3>5</h3>
+                <p>Equipas</p>
+            </div>
+            <div class="stat">
+                <h3>150+</h3>
+                <p>Atletas</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- História Section -->
+    <section id="historia" class="historia">
+        <div class="container">
+            <h2 class="section-title">Nossa História</h2>
+            <div class="historia-content">
+                <div class="historia-text">
+                    <div class="timeline-item">
+                        <div class="timeline-year">1985</div>
+                        <div class="timeline-content">
+                            <h3>Fundação do Clube</h3>
+                            <p>O Grupo Cultural e Desportivo de Armil foi fundado em 1985 por um grupo de entusiastas do desporto local, com o objetivo de promover a prática desportiva e cultural na região.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-year">1990</div>
+                        <div class="timeline-content">
+                            <h3>Primeiro Campo Próprio</h3>
+                            <p>Construção do primeiro campo de futebol próprio, marco importante para o desenvolvimento das atividades desportivas do clube.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-year">2000</div>
+                        <div class="timeline-content">
+                            <h3>Expansão das Modalidades</h3>
+                            <p>Início das atividades em outras modalidades desportivas, incluindo futsal, basquetebol e atletismo.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-year">2024</div>
+                        <div class="timeline-content">
+                            <h3>Era Digital</h3>
+                            <p>Lançamento do novo website e modernização das comunicações do clube, mantendo sempre os valores tradicionais.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Jogos Section -->
+    <section id="jogos" class="jogos">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Jogos da Semana</h2>
+                <button class="btn btn-primary" onclick="openAddGameModal()">
+                    <i class="fas fa-plus"></i> Adicionar Jogo
+                </button>
+            </div>
+            <div class="jogos-grid" id="jogosGrid">
+                <!-- Jogos serão carregados dinamicamente -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Equipas Section -->
+    <section id="equipas" class="equipas">
+        <div class="container">
+            <h2 class="section-title">Nossas Equipas</h2>
+            <div class="equipas-grid">
+                <div class="equipa-card">
+                    <div class="equipa-icon">
+                        <i class="fas fa-futbol"></i>
+                    </div>
+                    <h3>Seniores Masculinos</h3>
+                    <p>Equipa principal do clube, competindo no campeonato distrital</p>
+                    <div class="equipa-stats">
+                        <span><i class="fas fa-users"></i> 22 jogadores</span>
+                        <span><i class="fas fa-trophy"></i> 3 títulos</span>
+                    </div>
+                </div>
+                <div class="equipa-card">
+                    <div class="equipa-icon">
+                        <i class="fas fa-running"></i>
+                    </div>
+                    <h3>Juniores</h3>
+                    <p>Formação jovem do clube, preparando os futuros talentos</p>
+                    <div class="equipa-stats">
+                        <span><i class="fas fa-users"></i> 18 jogadores</span>
+                        <span><i class="fas fa-medal"></i> Em formação</span>
+                    </div>
+                </div>
+                <div class="equipa-card">
+                    <div class="equipa-icon">
+                        <i class="fas fa-basketball-ball"></i>
+                    </div>
+                    <h3>Basquetebol</h3>
+                    <p>Equipa de basquetebol masculina e feminina</p>
+                    <div class="equipa-stats">
+                        <span><i class="fas fa-users"></i> 24 jogadores</span>
+                        <span><i class="fas fa-trophy"></i> 1 título</span>
+                    </div>
+                </div>
+                <div class="equipa-card">
+                    <div class="equipa-icon">
+                        <i class="fas fa-table-tennis"></i>
+                    </div>
+                    <h3>Futsal</h3>
+                    <p>Equipa de futsal competindo na liga regional</p>
+                    <div class="equipa-stats">
+                        <span><i class="fas fa-users"></i> 16 jogadores</span>
+                        <span><i class="fas fa-trophy"></i> 2 títulos</span>
+                    </div>
+                </div>
+                <div class="equipa-card">
+                    <div class="equipa-icon">
+                        <i class="fas fa-child"></i>
+                    </div>
+                    <h3>Escola de Futebol</h3>
+                    <p>Formação para crianças dos 6 aos 14 anos</p>
+                    <div class="equipa-stats">
+                        <span><i class="fas fa-users"></i> 45 crianças</span>
+                        <span><i class="fas fa-heart"></i> Paixão pelo jogo</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contactos Section -->
+    <section id="contactos" class="contactos">
+        <div class="container">
+            <h2 class="section-title">Contactos</h2>
+            <div class="contactos-grid">
+                <div class="contacto-card">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <h3>Morada</h3>
+                    <p>Rua do Desporto, nº 123<br>Armil, Portugal</p>
+                </div>
+                <div class="contacto-card">
+                    <i class="fas fa-phone"></i>
+                    <h3>Telefone</h3>
+                    <p>+351 123 456 789</p>
+                </div>
+                <div class="contacto-card">
+                    <i class="fas fa-envelope"></i>
+                    <h3>Email</h3>
+                    <p>geral@gcdarmil.pt</p>
+                </div>
+                <div class="contacto-card">
+                    <i class="fas fa-clock"></i>
+                    <h3>Horário</h3>
+                    <p>Seg-Sex: 18h-22h<br>Sáb-Dom: 9h-18h</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <i class="fas fa-futbol"></i>
+                        <span>GCD Armil</span>
+                    </div>
+                    <p>Promovendo o desporto e a cultura em Armil desde 1985</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Links Rápidos</h4>
+                    <ul>
+                        <li><a href="#home">Início</a></li>
+                        <li><a href="#historia">História</a></li>
+                        <li><a href="#jogos">Jogos</a></li>
+                        <li><a href="#equipas">Equipas</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Redes Sociais</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Grupo Cultural e Desportivo de Armil. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal para adicionar jogos -->
+    <div id="addGameModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Adicionar Novo Jogo</h3>
+                <span class="close" onclick="closeAddGameModal()">&times;</span>
+            </div>
+            <form id="addGameForm">
+                <div class="form-group">
+                    <label for="equipa">Equipa:</label>
+                    <select id="equipa" required>
+                        <option value="">Selecionar equipa</option>
+                        <option value="Seniores">Seniores Masculinos</option>
+                        <option value="Juniores">Juniores</option>
+                        <option value="Basquetebol">Basquetebol</option>
+                        <option value="Futsal">Futsal</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="adversario">Adversário:</label>
+                    <input type="text" id="adversario" required>
+                </div>
+                <div class="form-group">
+                    <label for="data">Data:</label>
+                    <input type="date" id="data" required>
+                </div>
+                <div class="form-group">
+                    <label for="hora">Hora:</label>
+                    <input type="time" id="hora" required>
+                </div>
+                <div class="form-group">
+                    <label for="local">Local:</label>
+                    <input type="text" id="local" required>
+                </div>
+                <div class="form-group">
+                    <label for="tipo">Tipo:</label>
+                    <select id="tipo" required>
+                        <option value="Casa">Casa</option>
+                        <option value="Fora">Fora</option>
+                    </select>
+                </div>
+                <div class="form-buttons">
+                    <button type="button" class="btn btn-secondary" onclick="closeAddGameModal()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Adicionar Jogo</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Navigation functionality
+        document.addEventListener("DOMContentLoaded", () => {
+          const hamburger = document.querySelector(".hamburger")
+          const navMenu = document.querySelector(".nav-menu")
+          const navLinks = document.querySelectorAll(".nav-link")
+
+          // Toggle mobile menu
+          hamburger.addEventListener("click", () => {
+            navMenu.classList.toggle("active")
+            hamburger.classList.toggle("active")
+          })
+
+          // Close mobile menu when clicking on a link
+          navLinks.forEach((link) => {
+            link.addEventListener("click", () => {
+              navMenu.classList.remove("active")
+              hamburger.classList.remove("active")
+            })
+          })
+
+          // Update active nav link on scroll
+          window.addEventListener("scroll", () => {
+            let current = ""
+            const sections = document.querySelectorAll("section")
+
+            sections.forEach((section) => {
+              const sectionTop = section.offsetTop
+              const sectionHeight = section.clientHeight
+              if (scrollY >= sectionTop - 200) {
+                current = section.getAttribute("id")
+              }
+            })
+
+            navLinks.forEach((link) => {
+              link.classList.remove("active")
+              if (link.getAttribute("href") === "#" + current) {
+                link.classList.add("active")
+              }
+            })
+          })
+
+          // Load initial games
+          loadJogos()
+
+          // Animate timeline items on scroll
+          const timelineItems = document.querySelectorAll('.timeline-item')
+          const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('animate')
+              }
+            })
+          }, { threshold: 0.1 })
+
+          timelineItems.forEach(item => {
+            observer.observe(item)
+          })
+        })
+
+        // Smooth scrolling function
+        function scrollToSection(sectionId) {
+          const section = document.getElementById(sectionId)
+          if (section) {
+            section.scrollIntoView({ behavior: "smooth" })
+          }
+        }
+
+        // Games management
+        let jogos = JSON.parse(localStorage.getItem("jogos")) || [
+          {
+            id: 1,
+            equipa: "Seniores",
+            adversario: "FC Exemplo",
+            data: "2024-01-15",
+            hora: "15:00",
+            local: "Campo Municipal de Armil",
+            tipo: "Casa",
+          },
+          {
+            id: 2,
+            equipa: "Juniores",
+            adversario: "Sporting Jovem",
+            data: "2024-01-17",
+            hora: "14:30",
+            local: "Campo do Adversário",
+            tipo: "Fora",
+          },
+          {
+            id: 3,
+            equipa: "Futsal",
+            adversario: "Futsal Unidos",
+            data: "2024-01-19",
+            hora: "20:00",
+            local: "Pavilhão de Armil",
+            tipo: "Casa",
+          },
+        ]
+
+        function loadJogos() {
+          const jogosGrid = document.getElementById("jogosGrid")
+
+          if (jogos.length === 0) {
+            jogosGrid.innerHTML = `
+                    <div class="loading">
+                        <i class="fas fa-calendar-times" style="font-size: 3rem; margin-bottom: 1rem; display: block;"></i>
+                        <p>Nenhum jogo agendado para esta semana</p>
+                    </div>
+                `
+            return
+          }
+
+          // Sort games by date
+          jogos.sort((a, b) => new Date(a.data + " " + a.hora) - new Date(b.data + " " + b.hora))
+
+          jogosGrid.innerHTML = jogos
+            .map(
+              (jogo) => `
+                <div class="jogo-card">
+                    <div class="jogo-header">
+                        <div class="jogo-equipa">${jogo.equipa}</div>
+                        <div class="jogo-tipo ${jogo.tipo.toLowerCase()}">${jogo.tipo}</div>
+                    </div>
+                    <div class="jogo-adversario">vs ${jogo.adversario}</div>
+                    <div class="jogo-info">
+                        <div class="jogo-data">
+                            <i class="fas fa-calendar"></i>
+                            ${formatDate(jogo.data)} às ${jogo.hora}
+                        </div>
+                        <div class="jogo-local">
+                            <i class="fas fa-map-marker-alt"></i>
+                            ${jogo.local}
+                        </div>
+                    </div>
+                    <div class="jogo-actions">
+                        <button class="btn btn-edit" onclick="editJogo(${jogo.id})" title="Editar jogo">
+                            <i class="fas fa-edit"></i> Editar
+                        </button>
+                        <button class="btn btn-danger" onclick="removeJogo(${jogo.id})" title="Remover jogo">
+                            <i class="fas fa-trash"></i> Remover
+                        </button>
+                    </div>
+                </div>
+            `,
+            )
+            .join("")
+        }
+
+        function formatDate(dateString) {
+          const date = new Date(dateString)
+          const options = {
+            weekday: "long",
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          }
+          return date.toLocaleDateString("pt-PT", options)
+        }
+
+        function openAddGameModal() {
+          document.getElementById("addGameModal").style.display = "block"
+          document.body.style.overflow = "hidden"
+        }
+
+        function closeAddGameModal() {
+          document.getElementById("addGameModal").style.display = "none"
+          document.getElementById("addGameForm").reset()
+          document.body.style.overflow = "auto"
+        }
+
+        // Close modal when clicking outside
+        window.addEventListener("click", (event) => {
+          const modal = document.getElementById("addGameModal")
+          if (event.target === modal) {
+            closeAddGameModal()
+          }
+        })
+
+        // Add game form submission
+        document.getElementById("addGameForm").addEventListener("submit", (e) => {
+          e.preventDefault()
+
+          const novoJogo = {
+            id: Date.now(),
+            equipa: document.getElementById("equipa").value,
+            adversario: document.getElementById("adversario").value,
+            data: document.getElementById("data").value,
+            hora: document.getElementById("hora").value,
+            local: document.getElementById("local").value,
+            tipo: document.getElementById("tipo").value,
+          }
+
+          jogos.push(novoJogo)
+          localStorage.setItem("jogos", JSON.stringify(jogos))
+          loadJogos()
+          closeAddGameModal()
+
+          // Show success message
+          showNotification("Jogo adicionado com sucesso!", "success")
+        })
+
+        function editJogo(id) {
+          const jogo = jogos.find(j => j.id === id)
+          if (jogo) {
+            document.getElementById("equipa").value = jogo.equipa
+            document.getElementById("adversario").value = jogo.adversario
+            document.getElementById("data").value = jogo.data
+            document.getElementById("hora").value = jogo.hora
+            document.getElementById("local").value = jogo.local
+            document.getElementById("tipo").value = jogo.tipo
+            
+            // Remove the old game and open modal for editing
+            removeJogo(id, false)
+            openAddGameModal()
+          }
+        }
+
+        function removeJogo(id, showConfirm = true) {
+          if (!showConfirm || confirm("Tem certeza que deseja remover este jogo?")) {
+            jogos = jogos.filter((jogo) => jogo.id !== id)
+            localStorage.setItem("jogos", JSON.stringify(jogos))
+            loadJogos()
+            if (showConfirm) {
+              showNotification("Jogo removido com sucesso!", "success")
+            }
+          }
+        }
+
+        function showNotification(message, type) {
+          const notification = document.createElement("div")
+          notification.className = `notification ${type}`
+          notification.innerHTML = `
+                <i class="fas fa-check-circle"></i>
+                <span>${message}</span>
+            `
+
+          document.body.appendChild(notification)
+
+          setTimeout(() => {
+            notification.style.animation = "slideOutRight 0.4s ease"
+            setTimeout(() => {
+              if (document.body.contains(notification)) {
+                document.body.removeChild(notification)
+              }
+            }, 400)
+          }, 3000)
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape') {
+            closeAddGameModal()
+          }
+        })
+    </script>
+</body>
+</html>
