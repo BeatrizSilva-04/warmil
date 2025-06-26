@@ -27,8 +27,6 @@
           --gradient-card: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
           --success-color: #28a745;
           --danger-color: #dc3545;
-          --warning-color: #ffc107;
-          --info-color: #17a2b8;
         }
 
         body {
@@ -368,30 +366,6 @@
           transform: translateY(-2px);
         }
 
-        .btn-success {
-          background: linear-gradient(135deg, var(--success-color), #20c997);
-          color: var(--white);
-          font-size: 0.85rem;
-          padding: 8px 16px;
-        }
-
-        .btn-success:hover {
-          background: linear-gradient(135deg, #20c997, #17a2b8);
-          transform: translateY(-2px);
-        }
-
-        .btn-warning {
-          background: linear-gradient(135deg, var(--warning-color), #fd7e14);
-          color: var(--white);
-          font-size: 0.85rem;
-          padding: 8px 16px;
-        }
-
-        .btn-warning:hover {
-          background: linear-gradient(135deg, #fd7e14, #e83e8c);
-          transform: translateY(-2px);
-        }
-
         /* Sections */
         section {
           padding: 80px 0;
@@ -521,10 +495,6 @@
           background: var(--gradient-primary);
         }
 
-        .jogo-card.finalizado::before {
-          background: linear-gradient(135deg, var(--success-color), #20c997);
-        }
-
         .jogo-card:hover {
           transform: translateY(-8px);
           box-shadow: var(--shadow-xl);
@@ -570,78 +540,11 @@
           color: var(--white);
         }
 
-        .jogo-status {
-          padding: 4px 12px;
-          border-radius: 15px;
-          font-size: 0.75rem;
-          font-weight: 600;
-          text-transform: uppercase;
-          letter-spacing: 0.5px;
-          margin-left: 8px;
-        }
-
-        .jogo-status.agendado {
-          background: linear-gradient(135deg, var(--info-color), #6f42c1);
-          color: var(--white);
-        }
-
-        .jogo-status.finalizado {
-          background: linear-gradient(135deg, var(--success-color), #20c997);
-          color: var(--white);
-        }
-
         .jogo-adversario {
           font-size: 1.2rem;
           margin-bottom: 1.5rem;
           color: var(--text-dark);
           font-weight: 500;
-        }
-
-        .jogo-resultado {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          margin: 1.5rem 0;
-          padding: 1rem;
-          background: rgba(0, 0, 0, 0.05);
-          border-radius: 15px;
-          font-size: 1.5rem;
-          font-weight: bold;
-          color: var(--primary-color);
-        }
-
-        .jogo-resultado.vitoria {
-          background: linear-gradient(135deg, rgba(40, 167, 69, 0.1), rgba(32, 201, 151, 0.1));
-          border: 2px solid var(--success-color);
-        }
-
-        .jogo-resultado.derrota {
-          background: linear-gradient(135deg, rgba(220, 53, 69, 0.1), rgba(200, 35, 51, 0.1));
-          border: 2px solid var(--danger-color);
-        }
-
-        .jogo-resultado.empate {
-          background: linear-gradient(135deg, rgba(255, 193, 7, 0.1), rgba(253, 126, 20, 0.1));
-          border: 2px solid var(--warning-color);
-        }
-
-        .resultado-placar {
-          display: flex;
-          align-items: center;
-          gap: 1rem;
-        }
-
-        .resultado-casa,
-        .resultado-fora {
-          font-size: 2rem;
-          font-weight: bold;
-          min-width: 40px;
-          text-align: center;
-        }
-
-        .resultado-separador {
-          font-size: 1.5rem;
-          opacity: 0.6;
         }
 
         .jogo-info {
@@ -667,7 +570,6 @@
           display: flex;
           gap: 10px;
           justify-content: flex-end;
-          flex-wrap: wrap;
         }
 
         .btn-edit {
@@ -915,17 +817,14 @@
 
         .modal-content {
           background: var(--gradient-card);
-          margin: 2% auto;
+          margin: 5% auto;
           padding: 0;
           border-radius: 20px;
           width: 90%;
           max-width: 500px;
-          max-height: 90vh;
           box-shadow: var(--shadow-xl);
           animation: modalSlideIn 0.4s ease;
           border: 1px solid rgba(0, 0, 0, 0.1);
-          overflow-y: auto;
-          position: relative;
         }
 
         @keyframes modalSlideIn {
@@ -973,8 +872,6 @@
 
         .modal form {
           padding: 2rem;
-          max-height: calc(90vh - 120px);
-          overflow-y: auto;
         }
 
         .form-group {
@@ -1011,27 +908,6 @@
           gap: 1rem;
           justify-content: flex-end;
           margin-top: 2rem;
-        }
-
-        /* Resultado form specific */
-        .resultado-inputs {
-          display: grid;
-          grid-template-columns: 1fr auto 1fr;
-          gap: 1rem;
-          align-items: end;
-        }
-
-        .resultado-inputs input {
-          text-align: center;
-          font-size: 1.2rem;
-          font-weight: bold;
-        }
-
-        .resultado-vs {
-          font-size: 1.2rem;
-          font-weight: bold;
-          color: var(--text-light);
-          padding: 12px 0;
         }
 
         /* Login Modal Specific */
@@ -1130,15 +1006,6 @@
           .jogo-actions {
             justify-content: center;
           }
-
-          .resultado-inputs {
-            grid-template-columns: 1fr;
-            gap: 0.5rem;
-          }
-
-          .resultado-vs {
-            text-align: center;
-          }
         }
 
         @media (max-width: 480px) {
@@ -1232,32 +1099,6 @@
             opacity: 0;
           }
         }
-
-        @media (max-width: 768px) {
-          .modal-content {
-            margin: 1% auto;
-            width: 95%;
-            max-height: 95vh;
-          }
-          
-          .modal form {
-            padding: 1.5rem;
-            max-height: calc(95vh - 100px);
-          }
-        }
-
-        @media (max-width: 480px) {
-          .modal-content {
-            margin: 0.5% auto;
-            width: 98%;
-            max-height: 98vh;
-          }
-          
-          .modal form {
-            padding: 1rem;
-            max-height: calc(98vh - 80px);
-          }
-        }
     </style>
 </head>
 <body>
@@ -1318,7 +1159,7 @@
         </div>
         <div class="hero-stats">
             <div class="stat">
-                <h3>47</h3>
+                <h3>39</h3>
                 <p>Anos de História</p>
             </div>
             <div class="stat">
@@ -1546,7 +1387,7 @@
     <div id="addGameModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 id="gameModalTitle">Adicionar Novo Jogo</h3>
+                <h3>Adicionar Novo Jogo</h3>
                 <span class="close" onclick="closeAddGameModal()">&times;</span>
             </div>
             <form id="addGameForm">
@@ -1585,45 +1426,7 @@
                 </div>
                 <div class="form-buttons">
                     <button type="button" class="btn btn-secondary" onclick="closeAddGameModal()">Cancelar</button>
-                    <button type="submit" class="btn btn-primary" id="gameSubmitBtn">Adicionar Jogo</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Modal para adicionar resultado -->
-    <div id="resultModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3><i class="fas fa-trophy"></i> Adicionar Resultado</h3>
-                <span class="close" onclick="closeResultModal()">&times;</span>
-            </div>
-            <form id="resultForm">
-                <div class="form-group">
-                    <label>Jogo:</label>
-                    <div id="resultGameInfo" style="padding: 1rem; background: rgba(0,0,0,0.05); border-radius: 10px; margin-bottom: 1rem;">
-                        <!-- Info do jogo será preenchida dinamicamente -->
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>Resultado:</label>
-                    <div class="resultado-inputs">
-                        <div>
-                            <label for="golosCasa" style="font-size: 0.9rem; margin-bottom: 0.5rem;">Golos Casa</label>
-                            <input type="number" id="golosCasa" min="0" max="20" required>
-                        </div>
-                        <div class="resultado-vs">VS</div>
-                        <div>
-                            <label for="golosFora" style="font-size: 0.9rem; margin-bottom: 0.5rem;">Golos Fora</label>
-                            <input type="number" id="golosFora" min="0" max="20" required>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-buttons">
-                    <button type="button" class="btn btn-secondary" onclick="closeResultModal()">Cancelar</button>
-                    <button type="submit" class="btn btn-success">
-                        <i class="fas fa-save"></i> Guardar Resultado
-                    </button>
+                    <button type="submit" class="btn btn-primary">Adicionar Jogo</button>
                 </div>
             </form>
         </div>
@@ -1633,8 +1436,6 @@
         // Admin system
         const ADMIN_PASSWORD = "armil2024"; // ALTERE ESTA SENHA!
         let isAdminLoggedIn = localStorage.getItem('adminLoggedIn') === 'true';
-        let editingGameId = null;
-        let resultGameId = null;
 
         // Navigation functionality
         document.addEventListener("DOMContentLoaded", () => {
@@ -1800,9 +1601,6 @@
             hora: "15:00",
             local: "Campo Municipal de Armil",
             tipo: "Casa",
-            golosCasa: 2,
-            golosFora: 1,
-            finalizado: true
           },
           {
             id: 2,
@@ -1812,7 +1610,6 @@
             hora: "14:30",
             local: "Campo do Adversário",
             tipo: "Fora",
-            finalizado: false
           },
           {
             id: 3,
@@ -1822,22 +1619,8 @@
             hora: "20:00",
             local: "Pavilhão de Armil",
             tipo: "Casa",
-            golosCasa: 1,
-            golosFora: 1,
-            finalizado: true
           },
         ]
-
-        function getResultadoStatus(jogo) {
-          if (!jogo.finalizado) return null
-          
-          const golosCasa = jogo.tipo === 'Casa' ? jogo.golosCasa : jogo.golosFora
-          const golosFora = jogo.tipo === 'Casa' ? jogo.golosFora : jogo.golosCasa
-          
-          if (golosCasa > golosFora) return 'vitoria'
-          if (golosCasa < golosFora) return 'derrota'
-          return 'empate'
-        }
 
         function loadJogos() {
           const jogosGrid = document.getElementById("jogosGrid")
@@ -1856,39 +1639,14 @@
           jogos.sort((a, b) => new Date(a.data + " " + a.hora) - new Date(b.data + " " + b.hora))
 
           jogosGrid.innerHTML = jogos
-            .map((jogo) => {
-              const resultadoStatus = getResultadoStatus(jogo)
-              const cardClass = jogo.finalizado ? 'jogo-card finalizado' : 'jogo-card'
-              
-              let resultadoHtml = ''
-              if (jogo.finalizado) {
-                const resultadoClass = `jogo-resultado ${resultadoStatus}`
-                resultadoHtml = `
-                  <div class="${resultadoClass}">
-                    <div class="resultado-placar">
-                      <span class="resultado-casa">${jogo.golosCasa}</span>
-                      <span class="resultado-separador">-</span>
-                      <span class="resultado-fora">${jogo.golosFora}</span>
-                    </div>
-                  </div>
-                `
-              }
-
-              const statusBadge = jogo.finalizado 
-                ? '<span class="jogo-status finalizado">Finalizado</span>'
-                : '<span class="jogo-status agendado">Agendado</span>'
-
-              return `
-                <div class="${cardClass}">
+            .map(
+              (jogo) => `
+                <div class="jogo-card">
                     <div class="jogo-header">
                         <div class="jogo-equipa">${jogo.equipa}</div>
-                        <div style="display: flex; align-items: center;">
-                            <div class="jogo-tipo ${jogo.tipo.toLowerCase()}">${jogo.tipo}</div>
-                            ${statusBadge}
-                        </div>
+                        <div class="jogo-tipo ${jogo.tipo.toLowerCase()}">${jogo.tipo}</div>
                     </div>
                     <div class="jogo-adversario">vs ${jogo.adversario}</div>
-                    ${resultadoHtml}
                     <div class="jogo-info">
                         <div class="jogo-data">
                             <i class="fas fa-calendar"></i>
@@ -1903,22 +1661,13 @@
                         <button class="btn btn-edit" onclick="editJogo(${jogo.id})" title="Editar jogo">
                             <i class="fas fa-edit"></i> Editar
                         </button>
-                        ${!jogo.finalizado ? `
-                            <button class="btn btn-success" onclick="openResultModal(${jogo.id})" title="Adicionar resultado">
-                                <i class="fas fa-trophy"></i> Resultado
-                            </button>
-                        ` : `
-                            <button class="btn btn-warning" onclick="openResultModal(${jogo.id})" title="Editar resultado">
-                                <i class="fas fa-edit"></i> Editar Resultado
-                            </button>
-                        `}
                         <button class="btn btn-danger" onclick="removeJogo(${jogo.id})" title="Remover jogo">
                             <i class="fas fa-trash"></i> Remover
                         </button>
                     </div>
                 </div>
-            `
-            })
+            `,
+            )
             .join("")
         }
 
@@ -1938,10 +1687,6 @@
             showNotification("Acesso negado! Faça login como administrador.", "error")
             return
           }
-          
-          editingGameId = null
-          document.getElementById("gameModalTitle").textContent = "Adicionar Novo Jogo"
-          document.getElementById("gameSubmitBtn").innerHTML = '<i class="fas fa-plus"></i> Adicionar Jogo'
           document.getElementById("addGameModal").style.display = "block"
           document.body.style.overflow = "hidden"
         }
@@ -1950,62 +1695,18 @@
           document.getElementById("addGameModal").style.display = "none"
           document.getElementById("addGameForm").reset()
           document.body.style.overflow = "auto"
-          editingGameId = null
-        }
-
-        function openResultModal(gameId) {
-          if (!isAdminLoggedIn) {
-            showNotification("Acesso negado! Faça login como administrador.", "error")
-            return
-          }
-
-          const jogo = jogos.find(j => j.id === gameId)
-          if (!jogo) return
-
-          resultGameId = gameId
-          
-          // Preencher informações do jogo
-          const gameInfo = document.getElementById("resultGameInfo")
-          gameInfo.innerHTML = `
-            <strong>${jogo.equipa}</strong> vs <strong>${jogo.adversario}</strong><br>
-            <small><i class="fas fa-calendar"></i> ${formatDate(jogo.data)} às ${jogo.hora}</small><br>
-            <small><i class="fas fa-map-marker-alt"></i> ${jogo.local}</small>
-          `
-
-          // Preencher resultado se já existir
-          if (jogo.finalizado) {
-            document.getElementById("golosCasa").value = jogo.golosCasa || 0
-            document.getElementById("golosFora").value = jogo.golosFora || 0
-          } else {
-            document.getElementById("golosCasa").value = ""
-            document.getElementById("golosFora").value = ""
-          }
-
-          document.getElementById("resultModal").style.display = "block"
-          document.body.style.overflow = "hidden"
-        }
-
-        function closeResultModal() {
-          document.getElementById("resultModal").style.display = "none"
-          document.getElementById("resultForm").reset()
-          document.body.style.overflow = "auto"
-          resultGameId = null
         }
 
         // Close modal when clicking outside
         window.addEventListener("click", (event) => {
           const addGameModal = document.getElementById("addGameModal")
           const loginModal = document.getElementById("loginModal")
-          const resultModal = document.getElementById("resultModal")
           
           if (event.target === addGameModal) {
             closeAddGameModal()
           }
           if (event.target === loginModal) {
             closeLoginModal()
-          }
-          if (event.target === resultModal) {
-            closeResultModal()
           }
         })
 
@@ -2018,70 +1719,23 @@
             return
           }
 
-          const jogoData = {
+          const novoJogo = {
+            id: Date.now(),
             equipa: document.getElementById("equipa").value,
             adversario: document.getElementById("adversario").value,
             data: document.getElementById("data").value,
             hora: document.getElementById("hora").value,
             local: document.getElementById("local").value,
             tipo: document.getElementById("tipo").value,
-            finalizado: false
           }
 
-          if (editingGameId) {
-            // Editar jogo existente
-            const jogoIndex = jogos.findIndex(j => j.id === editingGameId)
-            if (jogoIndex !== -1) {
-              jogos[jogoIndex] = { ...jogos[jogoIndex], ...jogoData }
-              showNotification("Jogo editado com sucesso!", "success")
-            }
-          } else {
-            // Adicionar novo jogo
-            const novoJogo = {
-              id: Date.now(),
-              ...jogoData
-            }
-            jogos.push(novoJogo)
-            showNotification("Jogo adicionado com sucesso!", "success")
-          }
-
+          jogos.push(novoJogo)
           localStorage.setItem("jogos", JSON.stringify(jogos))
           loadJogos()
           closeAddGameModal()
-        })
 
-        // Result form submission
-        document.getElementById("resultForm").addEventListener("submit", (e) => {
-          e.preventDefault()
-
-          if (!isAdminLoggedIn) {
-            showNotification("Acesso negado! Faça login como administrador.", "error")
-            return
-          }
-
-          if (!resultGameId) return
-
-          const golosCasa = parseInt(document.getElementById("golosCasa").value)
-          const golosFora = parseInt(document.getElementById("golosFora").value)
-
-          const jogoIndex = jogos.findIndex(j => j.id === resultGameId)
-          if (jogoIndex !== -1) {
-            jogos[jogoIndex].golosCasa = golosCasa
-            jogos[jogoIndex].golosFora = golosFora
-            jogos[jogoIndex].finalizado = true
-
-            localStorage.setItem("jogos", JSON.stringify(jogos))
-            loadJogos()
-            closeResultModal()
-
-            const resultado = getResultadoStatus(jogos[jogoIndex])
-            let mensagem = "Resultado adicionado com sucesso!"
-            if (resultado === 'vitoria') mensagem += " 🎉 Vitória!"
-            else if (resultado === 'empate') mensagem += " ⚖️ Empate!"
-            else mensagem += " 😔 Derrota..."
-
-            showNotification(mensagem, "success")
-          }
+          // Show success message
+          showNotification("Jogo adicionado com sucesso!", "success")
         })
 
         function editJogo(id) {
@@ -2092,10 +1746,6 @@
 
           const jogo = jogos.find(j => j.id === id)
           if (jogo) {
-            editingGameId = id
-            document.getElementById("gameModalTitle").textContent = "Editar Jogo"
-            document.getElementById("gameSubmitBtn").innerHTML = '<i class="fas fa-save"></i> Guardar Alterações'
-            
             document.getElementById("equipa").value = jogo.equipa
             document.getElementById("adversario").value = jogo.adversario
             document.getElementById("data").value = jogo.data
@@ -2103,6 +1753,8 @@
             document.getElementById("local").value = jogo.local
             document.getElementById("tipo").value = jogo.tipo
             
+            // Remove the old game and open modal for editing
+            removeJogo(id, false)
             openAddGameModal()
           }
         }
@@ -2150,7 +1802,6 @@
           if (e.key === 'Escape') {
             closeAddGameModal()
             closeLoginModal()
-            closeResultModal()
           }
         })
 
