@@ -1316,6 +1316,624 @@
         html {
           scroll-behavior: smooth;
         }
+
+        /* Galeria Section */
+        .galeria-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .galeria-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .galeria-item:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .galeria-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.4s ease;
+        }
+
+        .galeria-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .galeria-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            color: var(--white);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .galeria-item:hover .galeria-overlay {
+            opacity: 1;
+        }
+
+        .galeria-overlay i {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .image-modal-content {
+            max-width: 800px;
+        }
+
+        .image-modal-body {
+            padding: 2rem;
+            text-align: center;
+        }
+
+        /* Notícias Section */
+        .noticias-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .noticia-card {
+            background: var(--gradient-card);
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .noticia-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .noticia-image {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .noticia-image img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.4s ease;
+        }
+
+        .noticia-card:hover .noticia-image img {
+            transform: scale(1.1);
+        }
+
+        .noticia-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--gradient-primary);
+            color: var(--white);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: var(--shadow);
+        }
+
+        .noticia-content {
+            padding: 1.5rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .noticia-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            font-size: 0.85rem;
+            color: var(--text-light);
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .noticia-meta span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .noticia-content h3 {
+            color: var(--primary-color);
+            margin-bottom: 0.8rem;
+            font-size: 1.2rem;
+        }
+
+        .noticia-content p {
+            color: var(--text-dark);
+            margin-bottom: 1.2rem;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .noticia-link {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: color 0.3s ease;
+            margin-top: auto;
+        }
+
+        .noticia-link:hover {
+            color: var(--primary-color);
+        }
+
+        .noticia-link i {
+            font-size: 0.8rem;
+        }
+
+        .noticia-card.featured {
+            grid-column: 1 / -1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+        }
+
+        .noticia-card.featured .noticia-image {
+            grid-column: 1;
+            grid-row: 1;
+        }
+
+        .noticia-card.featured .noticia-content {
+            grid-column: 2;
+            grid-row: 1;
+            padding: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .noticia-card.featured {
+                grid-template-columns: 1fr;
+            }
+
+            .noticia-card.featured .noticia-image {
+                grid-column: 1;
+                grid-row: 1;
+            }
+
+            .noticia-card.featured .noticia-content {
+                grid-column: 1;
+                grid-row: 2;
+            }
+        }
+
+        /* Patrocinadores Section */
+        .patrocinadores {
+            background: var(--light-bg);
+        }
+
+        .patrocinadores-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .patrocinador-card {
+            background: var(--gradient-card);
+            padding: 1.5rem;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .patrocinador-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .patrocinador-card img {
+            width: 100%;
+            max-height: 120px;
+            object-fit: contain;
+            margin-bottom: 1rem;
+        }
+
+        .patrocinador-card h4 {
+            color: var(--primary-color);
+            font-size: 1rem;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-light);
+            margin-bottom: 3rem;
+            font-style: italic;
+        }
+
+        /* Contactos Section */
+        .contacto-map {
+            grid-column: 1 / -1;
+            margin-top: 2rem;
+            background: var(--gradient-card);
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .contacto-map:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .contacto-map h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .map-container {
+            overflow: hidden;
+            border-radius: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .contacto-map {
+                grid-column: auto;
+            }
+        }
+    
+/* Galeria Section */
+.galeria {
+    background: var(--light-bg);
+}
+
+.galeria-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.galeria-item {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow);
+}
+
+.galeria-item:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-xl);
+}
+
+.galeria-item img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.galeria-item:hover img {
+    transform: scale(1.1);
+}
+
+.galeria-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(0,0,0,0.7), rgba(0,0,0,0.4));
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.galeria-item:hover .galeria-overlay {
+    opacity: 1;
+}
+
+.galeria-overlay i {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.galeria-overlay p {
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+/* Image Modal */
+.image-modal-content {
+    max-width: 90vw;
+    max-height: 90vh;
+}
+
+.image-modal-body {
+    padding: 2rem;
+    text-align: center;
+}
+
+/* Notícias Section */
+.noticias-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 2rem;
+}
+
+.noticia-card {
+    background: var(--gradient-card);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.noticia-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-xl);
+}
+
+.noticia-card.featured {
+    grid-row: span 2;
+}
+
+.noticia-image {
+    position: relative;
+    overflow: hidden;
+}
+
+.noticia-image img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.noticia-card.featured .noticia-image img {
+    height: 250px;
+}
+
+.noticia-card:hover .noticia-image img {
+    transform: scale(1.05);
+}
+
+.noticia-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: linear-gradient(135deg, var(--danger-color), #ff6b6b);
+    color: white;
+    padding: 5px 12px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.noticia-content {
+    padding: 1.5rem;
+}
+
+.noticia-meta {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    font-size: 0.85rem;
+    color: var(--text-light);
+}
+
+.noticia-meta span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.noticia-card h3 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+    line-height: 1.4;
+}
+
+.noticia-card.featured h3 {
+    font-size: 1.4rem;
+}
+
+.noticia-card p {
+    color: var(--text-light);
+    margin-bottom: 1rem;
+    line-height: 1.6;
+}
+
+.noticia-link {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.3s ease;
+}
+
+.noticia-link:hover {
+    color: var(--secondary-color);
+    transform: translateX(5px);
+}
+
+/* Patrocinadores Section */
+.patrocinadores {
+    background: var(--light-bg);
+}
+
+.section-subtitle {
+    text-align: center;
+    color: var(--text-light);
+    margin-bottom: 3rem;
+    font-size: 1.1rem;
+}
+
+.patrocinadores-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+}
+
+.patrocinador-card {
+    background: var(--gradient-card);
+    padding: 2rem;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: var(--shadow);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.patrocinador-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-xl);
+}
+
+.patrocinador-card img {
+    width: 100%;
+    height: 80px;
+    object-fit: contain;
+    margin-bottom: 1rem;
+    filter: grayscale(100%);
+    transition: filter 0.3s ease;
+}
+
+.patrocinador-card:hover img {
+    filter: grayscale(0%);
+}
+
+.patrocinador-card h4 {
+    color: var(--primary-color);
+    font-size: 1rem;
+    margin: 0;
+}
+
+/* Contacto Map */
+.contacto-map {
+    grid-column: span 2;
+    background: var(--gradient-card);
+    padding: 2rem;
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.contacto-map:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-xl);
+}
+
+.contacto-map h3 {
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.contacto-map i {
+    font-size: 1.5rem;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.map-container {
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+}
+
+/* Timeline Images */
+.timeline-image {
+    margin-top: 1rem;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+}
+
+.timeline-image img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.timeline-content:hover .timeline-image img {
+    transform: scale(1.05);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .noticias-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .noticia-card.featured {
+        grid-row: span 1;
+    }
+    
+    .patrocinadores-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+    
+    .contacto-map {
+        grid-column: span 1;
+    }
+    
+    .galeria-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .patrocinadores-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
     </style>
 </head>
 <body>
@@ -1332,6 +1950,12 @@
                 </li>
                 <li class="nav-item">
                     <a href="#historia" class="nav-link">História</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#galeria" class="nav-link">Galeria</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#noticias" class="nav-link">Notícias</a>
                 </li>
                 <li class="nav-item">
                     <a href="#jogos" class="nav-link">Jogos</a>
@@ -1399,6 +2023,9 @@
                     <div class="timeline-item">
                         <div class="timeline-year">1985</div>
                         <div class="timeline-content">
+                            <div class="timeline-image">
+                                <img src="/placeholder.svg?height=200&width=300&text=Fundação+1985" alt="Fundação do Clube 1985">
+                            </div>
                             <h3>Fundação do Clube</h3>
                             <p>O Grupo Cultural e Desportivo de Armil foi fundado em 1985 por um grupo de entusiastas do desporto local, com o objetivo de promover a prática desportiva e cultural na região.</p>
                         </div>
@@ -1406,6 +2033,9 @@
                     <div class="timeline-item">
                         <div class="timeline-year">1990</div>
                         <div class="timeline-content">
+                            <div class="timeline-image">
+                                <img src="/placeholder.svg?height=200&width=300&text=Primeiro+Campo+1990" alt="Primeiro Campo 1990">
+                            </div>
                             <h3>Primeiro Campo Próprio</h3>
                             <p>Construção do primeiro campo de futebol próprio, marco importante para o desenvolvimento das atividades desportivas do clube.</p>
                         </div>
@@ -1413,6 +2043,9 @@
                     <div class="timeline-item">
                         <div class="timeline-year">2000</div>
                         <div class="timeline-content">
+                            <div class="timeline-image">
+                                <img src="/placeholder.svg?height=200&width=300&text=Expansão+2000" alt="Expansão das Modalidades 2000">
+                            </div>
                             <h3>Expansão das Modalidades</h3>
                             <p>Início das atividades em outras modalidades desportivas, incluindo futsal, basquetebol e atletismo.</p>
                         </div>
@@ -1420,9 +2053,63 @@
                     <div class="timeline-item">
                         <div class="timeline-year">2024</div>
                         <div class="timeline-content">
+                            <div class="timeline-image">
+                                <img src="/placeholder.svg?height=200&width=300&text=Era+Digital+2024" alt="Era Digital 2024">
+                            </div>
                             <h3>Era Digital</h3>
                             <p>Lançamento do novo website e modernização das comunicações do clube, mantendo sempre os valores tradicionais.</p>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Galeria Section -->
+    <section id="galeria" class="galeria">
+        <div class="container">
+            <h2 class="section-title">Galeria de Momentos</h2>
+            <div class="galeria-grid">
+                <div class="galeria-item" onclick="openImageModal('/placeholder.svg?height=400&width=600&text=Equipa+Seniores+2024')">
+                    <img src="/placeholder.svg?height=300&width=400&text=Equipa+Seniores+2024" alt="Equipa Seniores 2024">
+                    <div class="galeria-overlay">
+                        <i class="fas fa-search-plus"></i>
+                        <p>Equipa Seniores 2024</p>
+                    </div>
+                </div>
+                <div class="galeria-item" onclick="openImageModal('/placeholder.svg?height=400&width=600&text=Final+do+Campeonato')">
+                    <img src="/placeholder.svg?height=300&width=400&text=Final+do+Campeonato" alt="Final do Campeonato">
+                    <div class="galeria-overlay">
+                        <i class="fas fa-search-plus"></i>
+                        <p>Final do Campeonato</p>
+                    </div>
+                </div>
+                <div class="galeria-item" onclick="openImageModal('/placeholder.svg?height=400&width=600&text=Escola+de+Futebol')">
+                    <img src="/placeholder.svg?height=300&width=400&text=Escola+de+Futebol" alt="Escola de Futebol">
+                    <div class="galeria-overlay">
+                        <i class="fas fa-search-plus"></i>
+                        <p>Escola de Futebol</p>
+                    </div>
+                </div>
+                <div class="galeria-item" onclick="openImageModal('/placeholder.svg?height=400&width=600&text=Inauguração+do+Campo')">
+                    <img src="/placeholder.svg?height=300&width=400&text=Inauguração+do+Campo" alt="Inauguração do Campo">
+                    <div class="galeria-overlay">
+                        <i class="fas fa-search-plus"></i>
+                        <p>Inauguração do Campo</p>
+                    </div>
+                </div>
+                <div class="galeria-item" onclick="openImageModal('/placeholder.svg?height=400&width=600&text=Treino+Basquetebol')">
+                    <img src="/placeholder.svg?height=300&width=400&text=Treino+Basquetebol" alt="Treino de Basquetebol">
+                    <div class="galeria-overlay">
+                        <i class="fas fa-search-plus"></i>
+                        <p>Treino de Basquetebol</p>
+                    </div>
+                </div>
+                <div class="galeria-item" onclick="openImageModal('/placeholder.svg?height=400&width=600&text=Festa+de+Natal')">
+                    <img src="/placeholder.svg?height=300&width=400&text=Festa+de+Natal" alt="Festa de Natal do Clube">
+                    <div class="galeria-overlay">
+                        <i class="fas fa-search-plus"></i>
+                        <p>Festa de Natal do Clube</p>
                     </div>
                 </div>
             </div>
@@ -1449,6 +2136,58 @@
                 <p style="margin-top: 1rem; color: var(--text-light); font-size: 0.9rem;">
                     <i class="fas fa-info-circle"></i> Clique para adicionar um novo jogo ao calendário
                 </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Notícias Section -->
+    <section id="noticias" class="noticias">
+        <div class="container">
+            <h2 class="section-title">Últimas Notícias</h2>
+            <div class="noticias-grid">
+                <article class="noticia-card featured">
+                    <div class="noticia-image">
+                        <img src="/placeholder.svg?height=250&width=400&text=Vitória+Importante" alt="Vitória Importante">
+                        <div class="noticia-badge">Destaque</div>
+                    </div>
+                    <div class="noticia-content">
+                        <div class="noticia-meta">
+                            <span><i class="fas fa-calendar"></i> 15 Dezembro 2024</span>
+                            <span><i class="fas fa-user"></i> Direção</span>
+                        </div>
+                        <h3>Vitória Histórica no Derby Local</h3>
+                        <p>A nossa equipa de seniores conquistou uma vitória memorável por 3-1 contra o rival histórico, numa partida emocionante que manteve todos os adeptos em êxtase...</p>
+                        <a href="#" class="noticia-link">Ler mais <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </article>
+                
+                <article class="noticia-card">
+                    <div class="noticia-image">
+                        <img src="/placeholder.svg?height=200&width=350&text=Novo+Equipamento" alt="Novo Equipamento">
+                    </div>
+                    <div class="noticia-content">
+                        <div class="noticia-meta">
+                            <span><i class="fas fa-calendar"></i> 10 Dezembro 2024</span>
+                        </div>
+                        <h3>Novo Equipamento para a Época</h3>
+                        <p>Apresentamos o novo equipamento oficial para a época 2024/2025, com design moderno e tecnologia avançada...</p>
+                        <a href="#" class="noticia-link">Ler mais <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </article>
+                
+                <article class="noticia-card">
+                    <div class="noticia-image">
+                        <img src="/placeholder.svg?height=200&width=350&text=Inscrições+Abertas" alt="Inscrições Abertas">
+                    </div>
+                    <div class="noticia-content">
+                        <div class="noticia-meta">
+                            <span><i class="fas fa-calendar"></i> 5 Dezembro 2024</span>
+                        </div>
+                        <h3>Inscrições Abertas para 2025</h3>
+                        <p>Já estão abertas as inscrições para todas as modalidades e escalões para a próxima época desportiva...</p>
+                        <a href="#" class="noticia-link">Ler mais <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </article>
             </div>
         </div>
     </section>
@@ -1517,6 +2256,40 @@
         </div>
     </section>
 
+    <!-- Patrocinadores Section -->
+    <section id="patrocinadores" class="patrocinadores">
+        <div class="container">
+            <h2 class="section-title">Nossos Parceiros</h2>
+            <p class="section-subtitle">Agradecemos o apoio de todos os nossos patrocinadores e parceiros</p>
+            <div class="patrocinadores-grid">
+                <div class="patrocinador-card">
+                    <img src="/placeholder.svg?height=100&width=200&text=Patrocinador+Principal" alt="Patrocinador Principal">
+                    <h4>Patrocinador Principal</h4>
+                </div>
+                <div class="patrocinador-card">
+                    <img src="/placeholder.svg?height=100&width=200&text=Banco+Local" alt="Banco Local">
+                    <h4>Banco Local</h4>
+                </div>
+                <div class="patrocinador-card">
+                    <img src="/placeholder.svg?height=100&width=200&text=Restaurante+Armil" alt="Restaurante Armil">
+                    <h4>Restaurante Armil</h4>
+                </div>
+                <div class="patrocinador-card">
+                    <img src="/placeholder.svg?height=100&width=200&text=Loja+Desporto" alt="Loja de Desporto">
+                    <h4>Loja de Desporto</h4>
+                </div>
+                <div class="patrocinador-card">
+                    <img src="/placeholder.svg?height=100&width=200&text=Farmácia+Central" alt="Farmácia Central">
+                    <h4>Farmácia Central</h4>
+                </div>
+                <div class="patrocinador-card">
+                    <img src="/placeholder.svg?height=100&width=200&text=Câmara+Municipal" alt="Câmara Municipal">
+                    <h4>Câmara Municipal</h4>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Contactos Section -->
     <section id="contactos" class="contactos">
         <div class="container">
@@ -1541,6 +2314,19 @@
                     <i class="fas fa-clock"></i>
                     <h3>Horário</h3>
                     <p>Seg-Sex: 18h-22h<br>Sáb-Dom: 9h-18h</p>
+                </div>
+                <div class="contacto-map">
+                    <h3><i class="fas fa-map-marked-alt"></i> Localização</h3>
+                    <div class="map-container">
+                        <iframe 
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3048.4!2d-8.6291!3d40.2111!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDDCsDEyJzQwLjAiTiA4wrAzNyc0NC44Ilc!5e0!3m2!1spt!2spt!4v1234567890"
+                            width="100%" 
+                            height="300" 
+                            style="border:0; border-radius: 15px;" 
+                            allowfullscreen="" 
+                            loading="lazy">
+                        </iframe>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1717,6 +2503,19 @@
                     </button>
                 </div>
             </form>
+        </div>
+    </div>
+
+    <!-- Modal para Galeria de Imagens -->
+    <div id="imageModal" class="modal">
+        <div class="modal-content image-modal-content">
+            <div class="modal-header">
+                <h3 id="imageModalTitle">Galeria</h3>
+                <span class="close" onclick="closeImageModal()">&times;</span>
+            </div>
+            <div class="image-modal-body">
+                <img id="modalImage" src="/placeholder.svg" alt="" style="width: 100%; height: auto; border-radius: 10px;">
+            </div>
         </div>
     </div>
 
@@ -2183,6 +2982,7 @@
             const addGameModal = document.getElementById("addGameModal");
             const loginModal = document.getElementById("loginModal");
             const resultModal = document.getElementById("resultModal");
+            const imageModal = document.getElementById("imageModal");
 
             if (event.target === addGameModal) {
                 closeAddGameModal();
@@ -2192,6 +2992,9 @@
             }
             if (event.target === resultModal) {
                 closeResultModal();
+            }
+            if (event.target === imageModal) {
+                closeImageModal();
             }
         });
 
@@ -2391,12 +3194,25 @@
             });
         }
 
+        function openImageModal(imageSrc) {
+            const modalImage = document.getElementById("modalImage");
+            modalImage.src = imageSrc;
+            document.getElementById("imageModal").style.display = "block";
+            document.body.style.overflow = "hidden";
+        }
+
+        function closeImageModal() {
+            document.getElementById("imageModal").style.display = "none";
+            document.body.style.overflow = "auto";
+        }
+
         // Keyboard shortcuts
         document.addEventListener("keydown", (e) => {
             if (e.key === "Escape") {
                 closeAddGameModal();
                 closeLoginModal();
                 closeResultModal();
+                closeImageModal();
             }
         });
 
@@ -2416,6 +3232,93 @@
         document.addEventListener("click", resetInactivityTimer);
         document.addEventListener("keypress", resetInactivityTimer);
         document.addEventListener("scroll", resetInactivityTimer);
+    
+// Galeria de Imagens
+function openImageModal(imageSrc) {
+    const modal = document.getElementById("imageModal");
+    const modalImage = document.getElementById("modalImage");
+    const modalTitle = document.getElementById("imageModalTitle");
+    
+    modalImage.src = imageSrc;
+    modalTitle.textContent = "Galeria - " + imageSrc.split('text=')[1]?.replace(/\+/g, ' ') || "Imagem";
+    modal.style.display = "block";
+    document.body.style.overflow = "hidden";
+}
+
+function closeImageModal() {
+    const modal = document.getElementById("imageModal");
+    modal.style.display = "none";
+    document.body.style.overflow = "auto";
+}
+
+// Adicionar ao event listener de clique fora do modal
+window.addEventListener("click", (event) => {
+    const addGameModal = document.getElementById("addGameModal");
+    const loginModal = document.getElementById("loginModal");
+    const resultModal = document.getElementById("resultModal");
+    const imageModal = document.getElementById("imageModal");
+
+    if (event.target === addGameModal) {
+        closeAddGameModal();
+    }
+    if (event.target === loginModal) {
+        closeLoginModal();
+    }
+    if (event.target === resultModal) {
+        closeResultModal();
+    }
+    if (event.target === imageModal) {
+        closeImageModal();
+    }
+});
+
+// Adicionar ao keyboard shortcuts
+document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+        closeAddGameModal();
+        closeLoginModal();
+        closeResultModal();
+        closeImageModal();
+    }
+});
+
+// Animação para as novas seções
+function initializeNewAnimations() {
+    // Animate galeria items on scroll
+    const galeriaItems = document.querySelectorAll(".galeria-item");
+    const noticiaCards = document.querySelectorAll(".noticia-card");
+    const patrocinadorCards = document.querySelectorAll(".patrocinador-card");
+    
+    const observer = new IntersectionObserver(
+        (entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.style.opacity = "1";
+                        entry.target.style.transform = "translateY(0)";
+                    }, index * 100);
+                }
+            });
+        },
+        { threshold: 0.1 }
+    );
+
+    [...galeriaItems, ...noticiaCards, ...patrocinadorCards].forEach((item) => {
+        item.style.opacity = "0";
+        item.style.transform = "translateY(30px)";
+        item.style.transition = "all 0.6s ease";
+        observer.observe(item);
+    });
+}
+
+// Chamar a nova função de animações na inicialização
+function initializeApp() {
+    updateAdminStatus();
+    initializeNavigation();
+    initializeAnimations();
+    initializeNewAnimations();
+    console.log("✅ Aplicação inicializada");
+}
     </script>
 </body>
 </html>
