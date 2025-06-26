@@ -2364,5 +2364,31 @@
         document.addEventListener('keypress', resetInactivityTimer);
         document.addEventListener('scroll', resetInactivityTimer);
     </script>
+
+    <!-- Firebase App (núcleo) -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+
+<!-- Firebase Firestore -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+
+<script>
+  // A tua configuração
+  const firebaseConfig = {
+    apiKey: "AIzaSyANAtpCAzuPyWaFpBrZTmToqTl9LIct7eI",
+    authDomain: "gcd-armil-website-e3849.firebaseapp.com",
+    projectId: "gcd-armil-website-e3849",
+    storageBucket: "gcd-armil-website-e3849.firebasestorage.app",
+    messagingSenderId: "49300061028",
+    appId: "1:49300061028:web:b6adea9e40b8716ea8d871",
+    measurementId: "G-7SZ1ZEPWRC"
+  };
+
+  // Inicializar Firebase
+  firebase.initializeApp(firebaseConfig);
+
+  // Referência ao Firestore
+  const db = firebase.firestore();
+</script>
+
 </body>
 </html>

@@ -1,16 +1,19 @@
-// Navigation functionality
+// Firebase compat já deve estar carregado no HTML
+const db = firebase.firestore()
+
+let jogos = []
+let isAdminLoggedIn = localStorage.getItem('adminLoggedIn') === 'true'
+
 document.addEventListener("DOMContentLoaded", () => {
   const hamburger = document.querySelector(".hamburger")
   const navMenu = document.querySelector(".nav-menu")
   const navLinks = document.querySelectorAll(".nav-link")
 
-  // Toggle mobile menu
   hamburger.addEventListener("click", () => {
     navMenu.classList.toggle("active")
     hamburger.classList.toggle("active")
   })
 
-  // Close mobile menu when clicking on a link
   navLinks.forEach((link) => {
     link.addEventListener("click", () => {
       navMenu.classList.remove("active")
@@ -18,14 +21,12 @@ document.addEventListener("DOMContentLoaded", () => {
     })
   })
 
-  // Update active nav link on scroll
   window.addEventListener("scroll", () => {
     let current = ""
     const sections = document.querySelectorAll("section")
 
     sections.forEach((section) => {
       const sectionTop = section.offsetTop
-      const sectionHeight = section.clientHeight
       if (scrollY >= sectionTop - 200) {
         current = section.getAttribute("id")
       }
@@ -39,11 +40,11 @@ document.addEventListener("DOMContentLoaded", () => {
     })
   })
 
-  // Load initial games
+  updateAdminStatus()
   loadJogos()
 })
 
-// Smooth scrolling function
+// Smooth scroll
 function scrollToSection(sectionId) {
   const section = document.getElementById(sectionId)
   if (section) {
@@ -51,92 +52,47 @@ function scrollToSection(sectionId) {
   }
 }
 
-// Games management
-let jogos = JSON.parse(localStorage.getItem("jogos")) || [
-  {
-    id: 1,
-    equipa: "Seniores",
-    adversario: "FC Exemplo",
-    data: "2024-01-15",
-    hora: "15:00",
-    local: "Campo Municipal de Antime",
-    tipo: "Casa",
-  },
-  {
-    id: 2,
-    equipa: "Juniores",
-    adversario: "Sporting Jovem",
-    data: "2024-01-17",
-    hora: "14:30",
-    local: "Campo do Adversário",
-    tipo: "Fora",
-  },
-  {
-    id: 3,
-    equipa: "Futsal",
-    adversario: "Futsal Unidos",
-    data: "2024-01-19",
-    hora: "20:00",
-    local: "Pavilhão de Antime",
-    tipo: "Casa",
-  },
-]
+// =====================
+// Firebase + Jogos
+// =====================
 
-function loadJogos() {
+async function loadJogos() {
   const jogosGrid = document.getElementById("jogosGrid")
+  jogosGrid.innerHTML = `<p>A carregar jogos...</p>`
+
+  const snapshot = await db.collection("jogos").get()
+  jogos = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))
 
   if (jogos.length === 0) {
-    jogosGrid.innerHTML = `
-            <div class="loading">
-                <p>Nenhum jogo agendado para esta semana</p>
-            </div>
-        `
+    jogosGrid.innerHTML = `<div class="loading"><p>Nenhum jogo agendado para esta semana</p></div>`
     return
   }
 
-  // Sort games by date
   jogos.sort((a, b) => new Date(a.data + " " + a.hora) - new Date(b.data + " " + b.hora))
 
-  jogosGrid.innerHTML = jogos
-    .map(
-      (jogo) => `
-        <div class="jogo-card">
-            <div class="jogo-header">
-                <div class="jogo-equipa">${jogo.equipa}</div>
-                <div class="jogo-tipo ${jogo.tipo.toLowerCase()}">${jogo.tipo}</div>
-            </div>
-            <div class="jogo-adversario">vs ${jogo.adversario}</div>
-            <div class="jogo-info">
-                <div class="jogo-data">
-                    <i class="fas fa-calendar"></i>
-                    ${formatDate(jogo.data)} às ${jogo.hora}
-                </div>
-                <div class="jogo-local">
-                    <i class="fas fa-map-marker-alt"></i>
-                    ${jogo.local}
-                </div>
-            </div>
-            <button class="btn btn-secondary" style="margin-top: 1rem; font-size: 0.9rem;" onclick="removeJogo(${jogo.id})">
-                <i class="fas fa-trash"></i> Remover
-            </button>
-        </div>
-    `,
-    )
-    .join("")
+  jogosGrid.innerHTML = jogos.map(jogo => `
+    <div class="jogo-card">
+      <div class="jogo-header">
+        <div class="jogo-equipa">${jogo.equipa}</div>
+        <div class="jogo-tipo ${jogo.tipo.toLowerCase()}">${jogo.tipo}</div>
+      </div>
+      <div class="jogo-adversario">vs ${jogo.adversario}</div>
+      <div class="jogo-info">
+        <div class="jogo-data"><i class="fas fa-calendar"></i> ${formatDate(jogo.data)} às ${jogo.hora}</div>
+        <div class="jogo-local"><i class="fas fa-map-marker-alt"></i> ${jogo.local}</div>
+      </div>
+      ${isAdminLoggedIn ? `<button class="btn btn-secondary" onclick="removeJogo('${jogo.id}')"><i class="fas fa-trash"></i> Remover</button>` : ""}
+    </div>`).join("")
 }
 
 function formatDate(dateString) {
   const date = new Date(dateString)
-  const options = {
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  }
+  const options = { weekday: "long", year: "numeric", month: "long", day: "numeric" }
   return date.toLocaleDateString("pt-PT", options)
 }
 
 function openAddGameModal() {
+  if (!isAdminLoggedIn) return
   document.getElementById("addGameModal").style.display = "block"
 }
 
@@ -145,7 +101,6 @@ function closeAddGameModal() {
   document.getElementById("addGameForm").reset()
 }
 
-// Close modal when clicking outside
 window.addEventListener("click", (event) => {
   const modal = document.getElementById("addGameModal")
   if (event.target === modal) {
@@ -153,13 +108,10 @@ window.addEventListener("click", (event) => {
   }
 })
 
-// Add game form submission
-document.getElementById("addGameForm").addEventListener("submit", (e) => {
+document.getElementById("addGameForm").addEventListener("submit", async (e) => {
   e.preventDefault()
 
-  const formData = new FormData(e.target)
   const novoJogo = {
-    id: Date.now(),
     equipa: document.getElementById("equipa").value,
     adversario: document.getElementById("adversario").value,
     data: document.getElementById("data").value,
@@ -168,47 +120,131 @@ document.getElementById("addGameForm").addEventListener("submit", (e) => {
     tipo: document.getElementById("tipo").value,
   }
 
-  jogos.push(novoJogo)
-  localStorage.setItem("jogos", JSON.stringify(jogos))
-  loadJogos()
-  closeAddGameModal()
-
-  // Show success message
-  showNotification("Jogo adicionado com sucesso!", "success")
+  try {
+    await db.collection("jogos").add(novoJogo)
+    showNotification("Jogo adicionado com sucesso!", "success")
+    closeAddGameModal()
+    loadJogos()
+  } catch (error) {
+    showNotification("Erro ao adicionar jogo.", "error")
+  }
 })
 
-function removeJogo(id) {
-  if (confirm("Tem certeza que deseja remover este jogo?")) {
-    jogos = jogos.filter((jogo) => jogo.id !== id)
-    localStorage.setItem("jogos", JSON.stringify(jogos))
-    loadJogos()
+async function removeJogo(id) {
+  if (!isAdminLoggedIn) return
+  if (!confirm("Tem certeza que deseja remover este jogo?")) return
+
+  try {
+    await db.collection("jogos").doc(id).delete()
     showNotification("Jogo removido com sucesso!", "success")
+    loadJogos()
+  } catch (error) {
+    showNotification("Erro ao remover jogo.", "error")
   }
 }
+
+// =====================
+// Admin Login
+// =====================
+
+const ADMIN_PASSWORD = "armil2024"
+
+function updateAdminStatus() {
+  const adminStatus = document.getElementById("adminStatus")
+  const adminBtn = document.getElementById("adminBtn")
+  const body = document.body
+
+  if (isAdminLoggedIn) {
+    adminStatus.innerHTML = '<i class="fas fa-shield-alt"></i><span>Administrador</span>'
+    adminStatus.className = 'admin-status logged-in'
+    adminBtn.innerHTML = '<i class="fas fa-sign-out-alt"></i> Sair'
+    adminBtn.className = 'btn-admin btn-logout'
+    body.classList.add('admin-logged-in')
+  } else {
+    adminStatus.innerHTML = '<i class="fas fa-user"></i><span>Visitante</span>'
+    adminStatus.className = 'admin-status logged-out'
+    adminBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Admin'
+    adminBtn.className = 'btn-admin btn-login'
+    body.classList.remove('admin-logged-in')
+  }
+}
+
+function toggleAdmin() {
+  if (isAdminLoggedIn) {
+    isAdminLoggedIn = false
+    localStorage.setItem('adminLoggedIn', 'false')
+    updateAdminStatus()
+    loadJogos()
+  } else {
+    openLoginModal()
+  }
+}
+
+function openLoginModal() {
+  document.getElementById("loginModal").style.display = "block"
+  document.body.style.overflow = "hidden"
+}
+
+function closeLoginModal() {
+  document.getElementById("loginModal").style.display = "none"
+  document.getElementById("loginForm").reset()
+  document.body.style.overflow = "auto"
+}
+
+document.getElementById("loginForm").addEventListener("submit", (e) => {
+  e.preventDefault()
+  const pass = document.getElementById("adminPassword").value
+  if (pass === ADMIN_PASSWORD) {
+    isAdminLoggedIn = true
+    localStorage.setItem('adminLoggedIn', 'true')
+    updateAdminStatus()
+    closeLoginModal()
+    showNotification("Bem-vindo, Administrador!", "success")
+    loadJogos()
+  } else {
+    showNotification("Palavra-passe incorreta!", "error")
+  }
+})
+
+// Mostrar/esconder palavra-passe
+function togglePasswordVisibility() {
+  const input = document.getElementById("adminPassword")
+  const icon = document.getElementById("passwordIcon")
+  if (input.type === "password") {
+    input.type = "text"
+    icon.classList.remove("fa-eye")
+    icon.classList.add("fa-eye-slash")
+  } else {
+    input.type = "password"
+    icon.classList.remove("fa-eye-slash")
+    icon.classList.add("fa-eye")
+  }
+}
+
+// =====================
+// Notificações
+// =====================
 
 function showNotification(message, type) {
   const notification = document.createElement("div")
   notification.className = `notification ${type}`
-  notification.innerHTML = `
-        <i class="fas fa-check-circle"></i>
-        <span>${message}</span>
-    `
+  notification.innerHTML = `<i class="fas fa-${type === "success" ? "check-circle" : "exclamation-triangle"}"></i><span>${message}</span>`
 
   notification.style.cssText = `
-        position: fixed;
-        top: 100px;
-        right: 20px;
-        background: var(--accent-color);
-        color: white;
-        padding: 1rem 1.5rem;
-        border-radius: 8px;
-        box-shadow: var(--shadow-lg);
-        z-index: 3000;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        animation: slideInRight 0.3s ease;
-    `
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    background: var(--accent-color);
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    box-shadow: var(--shadow-lg);
+    z-index: 3000;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    animation: slideInRight 0.3s ease;
+  `
 
   document.body.appendChild(notification)
 
@@ -220,53 +256,16 @@ function showNotification(message, type) {
   }, 3000)
 }
 
-// Add CSS for notifications
 const style = document.createElement("style")
 style.textContent = `
-    @keyframes slideInRight {
-        from {
-            transform: translateX(100%);
-            opacity: 0;
-        }
-        to {
-            transform: translateX(0);
-            opacity: 1;
-        }
-    }
-    
-    @keyframes slideOutRight {
-        from {
-            transform: translateX(0);
-            opacity: 1;
-        }
-        to {
-            transform: translateX(100%);
-            opacity: 0;
-        }
-    }
+  @keyframes slideInRight {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+  }
+
+  @keyframes slideOutRight {
+    from { transform: translateX(0); opacity: 1; }
+    to { transform: translateX(100%); opacity: 0; }
+  }
 `
 document.head.appendChild(style)
-
-// Intersection Observer for animations
-const observerOptions = {
-  threshold: 0.1,
-  rootMargin: "0px 0px -50px 0px",
-}
-
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach((entry) => {
-    if (entry.isIntersecting) {
-      entry.target.style.animation = "fadeInUp 0.6s ease forwards"
-    }
-  })
-}, observerOptions)
-
-// Observe elements for animation
-document.addEventListener("DOMContentLoaded", () => {
-  const animateElements = document.querySelectorAll(".equipa-card, .contacto-card, .timeline-item")
-  animateElements.forEach((el) => {
-    el.style.opacity = "0"
-    el.style.transform = "translateY(30px)"
-    observer.observe(el)
-  })
-})
