@@ -241,17 +241,6 @@
           animation: float 20s infinite linear;
         }
 
-        .hero::after {
-          content: "";
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: radial-gradient(circle at 30% 70%, rgba(255,255,255,0.1) 0%, transparent 50%),
-                      radial-gradient(circle at 70% 30%, rgba(255,255,255,0.05) 0%, transparent 50%);
-        }
-
         @keyframes float {
           0% {
             transform: translateY(0px) rotate(0deg);
@@ -348,21 +337,6 @@
           overflow: hidden;
         }
 
-        .btn::before {
-          content: "";
-          position: absolute;
-          top: 0;
-          left: -100%;
-          width: 100%;
-          height: 100%;
-          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-          transition: left 0.5s;
-        }
-
-        .btn:hover::before {
-          left: 100%;
-        }
-
         .btn-primary {
           background: var(--accent-color);
           color: var(--white);
@@ -411,15 +385,15 @@
           transform: translateY(-2px);
         }
 
-        .btn-warning {
-          background: linear-gradient(135deg, var(--warning-color), #fd7e14);
+        .btn-edit {
+          background: linear-gradient(135deg, #007bff, #0056b3);
           color: var(--white);
           font-size: 0.85rem;
           padding: 8px 16px;
         }
 
-        .btn-warning:hover {
-          background: linear-gradient(135deg, #fd7e14, #e83e8c);
+        .btn-edit:hover {
+          background: linear-gradient(135deg, #0056b3, #004085);
           transform: translateY(-2px);
         }
 
@@ -701,18 +675,6 @@
           flex-wrap: wrap;
         }
 
-        .btn-edit {
-          background: linear-gradient(135deg, #007bff, #0056b3);
-          color: var(--white);
-          font-size: 0.85rem;
-          padding: 8px 16px;
-        }
-
-        .btn-edit:hover {
-          background: linear-gradient(135deg, #0056b3, #004085);
-          transform: translateY(-2px);
-        }
-
         /* Admin only elements */
         .admin-only {
           display: none;
@@ -769,24 +731,6 @@
           box-shadow: var(--shadow);
           transition: all 0.3s ease;
           border: 1px solid rgba(0, 0, 0, 0.05);
-          position: relative;
-          overflow: hidden;
-        }
-
-        .equipa-card::before {
-          content: "";
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background: var(--gradient-primary);
-          opacity: 0;
-          transition: opacity 0.3s ease;
-        }
-
-        .equipa-card:hover::before {
-          opacity: 0.05;
         }
 
         .equipa-card:hover {
@@ -1667,45 +1611,80 @@
         </div>
     </div>
 
-    <!-- Firebase SDK e JavaScript -->
-    <script type="module">
-        // Import Firebase modules
-        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-        import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, onSnapshot, query, orderBy } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
-        import { getAuth, signInAnonymously, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
-
-        // Firebase configuration
-        const firebaseConfig = {
-          apiKey: "AIzaSyANAtpCAzuPyWaFpBrZTmToqTl9LIct7eI",
-          authDomain: "gcd-armil-website-e3849.firebaseapp.com",
-          projectId: "gcd-armil-website-e3849",
-          storageBucket: "gcd-armil-website-e3849.firebasestorage.app",
-          messagingSenderId: "49300061028",
-          appId: "1:49300061028:web:b6adea9e40b8716ea8d871",
-          measurementId: "G-7SZ1ZEPWRC"
-        };
-
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        const auth = getAuth(app);
-
+    <script>
         // Global variables
-        window.db = db;
-        window.auth = auth;
-        window.firebaseModules = {
-            collection, addDoc, getDocs, doc, updateDoc, deleteDoc, onSnapshot, query, orderBy
-        };
-
         let isAdminLoggedIn = localStorage.getItem('adminLoggedIn') === 'true';
         let editingGameId = null;
         let resultGameId = null;
         let jogos = [];
-        let unsubscribeJogos = null;
+        let firebaseConnected = false;
 
         const ADMIN_PASSWORD = "armil2024"; // ALTERE ESTA SENHA!
 
-        // Update Firebase status
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 Inicializando aplicação...');
+            
+            // Try Firebase first, then fallback
+            initializeFirebase()
+                .then(() => {
+                    console.log('✅ Firebase inicializado com sucesso');
+                    firebaseConnected = true;
+                    updateFirebaseStatus('connected');
+                    loadJogosFromFirebase();
+                })
+                .catch((error) => {
+                    console.warn('⚠️ Firebase falhou, usando dados locais:', error);
+                    firebaseConnected = false;
+                    updateFirebaseStatus('disconnected');
+                    loadJogosFromLocalStorage();
+                })
+                .finally(() => {
+                    initializeApp();
+                });
+        });
+
+        // Firebase initialization
+        async function initializeFirebase() {
+            try {
+                // Import Firebase modules
+                const { initializeApp } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js');
+                const { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, onSnapshot, query, orderBy } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js');
+                const { getAuth, signInAnonymously } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js');
+
+                // Firebase configuration
+                const firebaseConfig = {
+                    apiKey: "AIzaSyANAtpCAzuPyWaFpBrZTmToqTl9LIct7eI",
+                    authDomain: "gcd-armil-website-e3849.firebaseapp.com",
+                    projectId: "gcd-armil-website-e3849",
+                    storageBucket: "gcd-armil-website-e3849.firebasestorage.app",
+                    messagingSenderId: "49300061028",
+                    appId: "1:49300061028:web:b6adea9e40b8716ea8d871",
+                    measurementId: "G-7SZ1ZEPWRC"
+                };
+
+                // Initialize Firebase
+                const app = initializeApp(firebaseConfig);
+                const db = getFirestore(app);
+                const auth = getAuth(app);
+
+                // Store globally
+                window.db = db;
+                window.auth = auth;
+                window.firebaseModules = {
+                    collection, addDoc, getDocs, doc, updateDoc, deleteDoc, onSnapshot, query, orderBy
+                };
+
+                // Sign in anonymously
+                await signInAnonymously(auth);
+                
+                return { db, auth };
+            } catch (error) {
+                console.error('Erro ao inicializar Firebase:', error);
+                throw error;
+            }
+        }
+
         function updateFirebaseStatus(status) {
             const statusEl = document.getElementById('firebaseStatus');
             
@@ -1720,7 +1699,11 @@
                     break;
                 case 'disconnected':
                     statusEl.className = 'firebase-status disconnected';
-                    statusEl.innerHTML = '<i class="fas fa-exclamation-triangle"></i><span>Firebase Desconectado</span>';
+                    statusEl.innerHTML = '<i class="fas fa-exclamation-triangle"></i><span>Modo Offline</span>';
+                    setTimeout(() => {
+                        statusEl.style.opacity = '0';
+                        setTimeout(() => statusEl.style.display = 'none', 5000);
+                    }, 3000);
                     break;
                 case 'loading':
                     statusEl.className = 'firebase-status loading';
@@ -1729,86 +1712,43 @@
             }
         }
 
-        // Initialize Firebase Auth
-        signInAnonymously(auth)
-            .then(() => {
-                console.log('🔥 Firebase conectado com sucesso!');
-                updateFirebaseStatus('connected');
-                loadJogosFromFirebase();
-                initializeApp();
-            })
-            .catch((error) => {
-                console.error('Erro ao conectar Firebase:', error);
-                updateFirebaseStatus('disconnected');
-                loadJogosFromLocalStorage();
-                initializeApp();
-            });
-
         // Initialize app
         function initializeApp() {
             updateAdminStatus();
             initializeNavigation();
             initializeAnimations();
+            console.log('✅ Aplicação inicializada');
         }
 
         // Firebase functions
-        async function addJogoToFirebase(jogoData) {
-            try {
-                const docRef = await addDoc(collection(db, 'jogos'), {
-                    ...jogoData,
-                    createdAt: new Date(),
-                    updatedAt: new Date()
-                });
-                console.log('Jogo adicionado:', docRef.id);
-                return docRef.id;
-            } catch (error) {
-                console.error('Erro ao adicionar jogo:', error);
-                throw error;
-            }
-        }
-
-        async function updateJogoInFirebase(id, jogoData) {
-            try {
-                const jogoRef = doc(db, 'jogos', id);
-                await updateDoc(jogoRef, {
-                    ...jogoData,
-                    updatedAt: new Date()
-                });
-                console.log('Jogo atualizado:', id);
-            } catch (error) {
-                console.error('Erro ao atualizar jogo:', error);
-                throw error;
-            }
-        }
-
-        async function deleteJogoFromFirebase(id) {
-            try {
-                await deleteDoc(doc(db, 'jogos', id));
-                console.log('Jogo removido:', id);
-            } catch (error) {
-                console.error('Erro ao remover jogo:', error);
-                throw error;
-            }
-        }
-
-        function loadJogosFromFirebase() {
-            const q = query(collection(db, 'jogos'), orderBy('data', 'asc'));
-            
-            unsubscribeJogos = onSnapshot(q, (querySnapshot) => {
-                jogos = [];
-                querySnapshot.forEach((doc) => {
-                    jogos.push({
-                        id: doc.id,
-                        ...doc.data()
-                    });
-                });
-                console.log('Jogos carregados do Firebase:', jogos.length);
-                renderJogos();
-            }, (error) => {
-                console.error('Erro ao carregar jogos:', error);
-                updateFirebaseStatus('disconnected');
+        async function loadJogosFromFirebase() {
+            if (!firebaseConnected || !window.db) {
                 loadJogosFromLocalStorage();
-            });
+                return;
+            }
+
+            try {
+                const { collection, query, orderBy, onSnapshot } = window.firebaseModules;
+                const q = query(collection(window.db, 'jogos'), orderBy('data', 'asc'));
+                
+                onSnapshot(q, (querySnapshot) => {
+                    jogos = [];
+                    querySnapshot.forEach((doc) => {
+                        jogos.push({
+                            id: doc.id,
+                            ...doc.data()
+                        });
+                    });
+                    console.log('📊 Jogos carregados do Firebase:', jogos.length);
+                    renderJogos();
+                }, (error) => {
+                    console.error('Erro ao carregar jogos do Firebase:', error);
+                    loadJogosFromLocalStorage();
+                });
+            } catch (error) {
+                console.error('Erro no listener Firebase:', error);
+                loadJogosFromLocalStorage();
+            }
         }
 
         function loadJogosFromLocalStorage() {
@@ -1835,8 +1775,19 @@
                     local: "Campo do Adversário",
                     tipo: "Fora",
                     finalizado: false
+                },
+                {
+                    id: "3",
+                    equipa: "Futsal",
+                    adversario: "Futsal Unidos",
+                    data: "2024-01-19",
+                    hora: "20:00",
+                    local: "Pavilhão de Armil",
+                    tipo: "Casa",
+                    finalizado: false
                 }
             ];
+            console.log('📁 Jogos carregados do localStorage:', jogos.length);
             renderJogos();
         }
 
@@ -1866,6 +1817,8 @@
                     
                     let resultadoHtml = '';
                     if (jogo.finalizado) {
+                        const resultadoClass = `jogo-resultado ${resultadoStatus}`;
+                        result  {
                         const resultadoClass = `jogo-resultado ${resultadoStatus}`;
                         resultadoHtml = `
                           <div class="${resultadoClass}">
@@ -1912,7 +1865,7 @@
                                         <i class="fas fa-trophy"></i> Resultado
                                     </button>
                                 ` : `
-                                    <button class="btn btn-warning" onclick="openResultModal('${jogo.id}')" title="Editar resultado">
+                                    <button class="btn btn-edit" onclick="openResultModal('${jogo.id}')" title="Editar resultado">
                                         <i class="fas fa-edit"></i> Editar Resultado
                                     </button>
                                 `}
@@ -1948,6 +1901,86 @@
             return date.toLocaleDateString("pt-PT", options);
         }
 
+        // Firebase CRUD operations
+        async function addJogoToFirebase(jogoData) {
+            if (!firebaseConnected || !window.db) {
+                return addJogoToLocalStorage(jogoData);
+            }
+
+            try {
+                const { collection, addDoc } = window.firebaseModules;
+                const docRef = await addDoc(collection(window.db, 'jogos'), {
+                    ...jogoData,
+                    createdAt: new Date(),
+                    updatedAt: new Date()
+                });
+                console.log('✅ Jogo adicionado ao Firebase:', docRef.id);
+                return docRef.id;
+            } catch (error) {
+                console.error('❌ Erro ao adicionar jogo ao Firebase:', error);
+                return addJogoToLocalStorage(jogoData);
+            }
+        }
+
+        async function updateJogoInFirebase(id, jogoData) {
+            if (!firebaseConnected || !window.db) {
+                return updateJogoInLocalStorage(id, jogoData);
+            }
+
+            try {
+                const { doc, updateDoc } = window.firebaseModules;
+                const jogoRef = doc(window.db, 'jogos', id);
+                await updateDoc(jogoRef, {
+                    ...jogoData,
+                    updatedAt: new Date()
+                });
+                console.log('✅ Jogo atualizado no Firebase:', id);
+            } catch (error) {
+                console.error('❌ Erro ao atualizar jogo no Firebase:', error);
+                updateJogoInLocalStorage(id, jogoData);
+            }
+        }
+
+        async function deleteJogoFromFirebase(id) {
+            if (!firebaseConnected || !window.db) {
+                return deleteJogoFromLocalStorage(id);
+            }
+
+            try {
+                const { doc, deleteDoc } = window.firebaseModules;
+                await deleteDoc(doc(window.db, 'jogos', id));
+                console.log('✅ Jogo removido do Firebase:', id);
+            } catch (error) {
+                console.error('❌ Erro ao remover jogo do Firebase:', error);
+                deleteJogoFromLocalStorage(id);
+            }
+        }
+
+        // LocalStorage fallback functions
+        function addJogoToLocalStorage(jogoData) {
+            const id = Date.now().toString();
+            const novoJogo = { id, ...jogoData };
+            jogos.push(novoJogo);
+            localStorage.setItem("jogos", JSON.stringify(jogos));
+            renderJogos();
+            return id;
+        }
+
+        function updateJogoInLocalStorage(id, jogoData) {
+            const index = jogos.findIndex(j => j.id === id);
+            if (index !== -1) {
+                jogos[index] = { ...jogos[index], ...jogoData };
+                localStorage.setItem("jogos", JSON.stringify(jogos));
+                renderJogos();
+            }
+        }
+
+        function deleteJogoFromLocalStorage(id) {
+            jogos = jogos.filter(j => j.id !== id);
+            localStorage.setItem("jogos", JSON.stringify(jogos));
+            renderJogos();
+        }
+
         // Admin functions
         function updateAdminStatus() {
             const adminStatus = document.getElementById('adminStatus');
@@ -1969,7 +2002,7 @@
             }
         }
 
-        window.toggleAdmin = function() {
+        function toggleAdmin() {
             if (isAdminLoggedIn) {
                 logout();
             } else {
@@ -1977,7 +2010,7 @@
             }
         }
 
-        window.openLoginModal = function() {
+        function openLoginModal() {
             document.getElementById("loginModal").style.display = "block";
             document.body.style.overflow = "hidden";
             setTimeout(() => {
@@ -1985,7 +2018,7 @@
             }, 100);
         }
 
-        window.closeLoginModal = function() {
+        function closeLoginModal() {
             document.getElementById("loginModal").style.display = "none";
             document.getElementById("loginForm").reset();
             document.body.style.overflow = "auto";
@@ -2012,7 +2045,7 @@
             showNotification("👋 Logout realizado com sucesso!", "success");
         }
 
-        window.togglePasswordVisibility = function() {
+        function togglePasswordVisibility() {
             const passwordInput = document.getElementById('adminPassword');
             const passwordIcon = document.getElementById('passwordIcon');
             
@@ -2033,7 +2066,7 @@
         });
 
         // Smooth scrolling function
-        window.scrollToSection = function(sectionId) {
+        function scrollToSection(sectionId) {
             const section = document.getElementById(sectionId);
             if (section) {
                 section.scrollIntoView({ behavior: "smooth" });
@@ -2041,7 +2074,7 @@
         }
 
         // Modal functions
-        window.openAddGameModal = function() {
+        function openAddGameModal() {
             if (!isAdminLoggedIn) {
                 showNotification("🔒 Acesso negado! Faça login como administrador.", "error");
                 return;
@@ -2054,14 +2087,14 @@
             document.body.style.overflow = "hidden";
         }
 
-        window.closeAddGameModal = function() {
+        function closeAddGameModal() {
             document.getElementById("addGameModal").style.display = "none";
             document.getElementById("addGameForm").reset();
             document.body.style.overflow = "auto";
             editingGameId = null;
         }
 
-        window.openResultModal = function(gameId) {
+        function openResultModal(gameId) {
             if (!isAdminLoggedIn) {
                 showNotification("🔒 Acesso negado! Faça login como administrador.", "error");
                 return;
@@ -2093,7 +2126,7 @@
             document.body.style.overflow = "hidden";
         }
 
-        window.closeResultModal = function() {
+        function closeResultModal() {
             document.getElementById("resultModal").style.display = "none";
             document.getElementById("resultForm").reset();
             document.body.style.overflow = "auto";
@@ -2190,7 +2223,7 @@
             }
         });
 
-        window.editJogo = function(id) {
+        function editJogo(id) {
             if (!isAdminLoggedIn) {
                 showNotification("🔒 Acesso negado! Faça login como administrador.", "error");
                 return;
@@ -2213,7 +2246,7 @@
             }
         }
 
-        window.removeJogo = async function(id, showConfirm = true) {
+        async function removeJogo(id, showConfirm = true) {
             if (!isAdminLoggedIn) {
                 showNotification("🔒 Acesso negado! Faça login como administrador.", "error");
                 return;
@@ -2333,13 +2366,6 @@
         document.addEventListener('click', resetInactivityTimer);
         document.addEventListener('keypress', resetInactivityTimer);
         document.addEventListener('scroll', resetInactivityTimer);
-
-        // Cleanup on page unload
-        window.addEventListener('beforeunload', () => {
-            if (unsubscribeJogos) {
-                unsubscribeJogos();
-            }
-        });
     </script>
 </body>
 </html>
