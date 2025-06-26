@@ -44,6 +44,37 @@
           padding: 0 20px;
         }
 
+        /* Firebase Status */
+        .firebase-status {
+          position: fixed;
+          top: 80px;
+          right: 20px;
+          padding: 8px 16px;
+          border-radius: 20px;
+          font-size: 0.8rem;
+          font-weight: 600;
+          z-index: 1001;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          transition: all 0.3s ease;
+        }
+
+        .firebase-status.connected {
+          background: linear-gradient(135deg, var(--success-color), #20c997);
+          color: white;
+        }
+
+        .firebase-status.disconnected {
+          background: linear-gradient(135deg, var(--danger-color), #c82333);
+          color: white;
+        }
+
+        .firebase-status.loading {
+          background: linear-gradient(135deg, var(--warning-color), #fd7e14);
+          color: white;
+        }
+
         /* Navigation */
         .navbar {
           position: fixed;
@@ -691,6 +722,34 @@
           display: flex;
         }
 
+        /* Loading states */
+        .loading {
+          text-align: center;
+          padding: 3rem;
+          color: var(--text-light);
+          background: var(--gradient-card);
+          border-radius: 20px;
+          box-shadow: var(--shadow);
+        }
+
+        .loading::after {
+          content: "";
+          display: inline-block;
+          width: 20px;
+          height: 20px;
+          border: 3px solid var(--accent-color);
+          border-radius: 50%;
+          border-top-color: transparent;
+          animation: spin 1s ease-in-out infinite;
+          margin-left: 10px;
+        }
+
+        @keyframes spin {
+          to {
+            transform: rotate(360deg);
+          }
+        }
+
         /* Equipas Section */
         .equipas {
           background: var(--light-bg);
@@ -1063,6 +1122,53 @@
           color: var(--primary-color);
         }
 
+        /* Notification styles */
+        .notification {
+          position: fixed;
+          top: 100px;
+          right: 20px;
+          background: var(--gradient-primary);
+          color: white;
+          padding: 1rem 1.5rem;
+          border-radius: 15px;
+          box-shadow: var(--shadow-lg);
+          z-index: 3000;
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          animation: slideInRight 0.4s ease;
+        }
+
+        .notification.success {
+          background: linear-gradient(135deg, var(--success-color), #20c997);
+        }
+
+        .notification.error {
+          background: linear-gradient(135deg, var(--danger-color), #c82333);
+        }
+
+        @keyframes slideInRight {
+          from {
+            transform: translateX(100%);
+            opacity: 0;
+          }
+          to {
+            transform: translateX(0);
+            opacity: 1;
+          }
+        }
+        
+        @keyframes slideOutRight {
+          from {
+            transform: translateX(0);
+            opacity: 1;
+          }
+          to {
+            transform: translateX(100%);
+            opacity: 0;
+          }
+        }
+
         /* Responsive Design */
         @media (max-width: 768px) {
           .hamburger {
@@ -1139,101 +1245,7 @@
           .resultado-vs {
             text-align: center;
           }
-        }
 
-        @media (max-width: 480px) {
-          .hero-buttons {
-            flex-direction: column;
-            align-items: center;
-          }
-
-          .modal-content {
-            margin: 10% auto;
-            width: 95%;
-          }
-        }
-
-        /* Smooth scrolling */
-        html {
-          scroll-behavior: smooth;
-        }
-
-        /* Loading animation for jogos */
-        .loading {
-          text-align: center;
-          padding: 3rem;
-          color: var(--text-light);
-          background: var(--gradient-card);
-          border-radius: 20px;
-          box-shadow: var(--shadow);
-        }
-
-        .loading::after {
-          content: "";
-          display: inline-block;
-          width: 20px;
-          height: 20px;
-          border: 3px solid var(--accent-color);
-          border-radius: 50%;
-          border-top-color: transparent;
-          animation: spin 1s ease-in-out infinite;
-          margin-left: 10px;
-        }
-
-        @keyframes spin {
-          to {
-            transform: rotate(360deg);
-          }
-        }
-
-        /* Notification styles */
-        .notification {
-          position: fixed;
-          top: 100px;
-          right: 20px;
-          background: var(--gradient-primary);
-          color: white;
-          padding: 1rem 1.5rem;
-          border-radius: 15px;
-          box-shadow: var(--shadow-lg);
-          z-index: 3000;
-          display: flex;
-          align-items: center;
-          gap: 10px;
-          animation: slideInRight 0.4s ease;
-        }
-
-        .notification.success {
-          background: linear-gradient(135deg, var(--success-color), #20c997);
-        }
-
-        .notification.error {
-          background: linear-gradient(135deg, var(--danger-color), #c82333);
-        }
-
-        @keyframes slideInRight {
-          from {
-            transform: translateX(100%);
-            opacity: 0;
-          }
-          to {
-            transform: translateX(0);
-            opacity: 1;
-          }
-        }
-        
-        @keyframes slideOutRight {
-          from {
-            transform: translateX(0);
-            opacity: 1;
-          }
-          to {
-            transform: translateX(100%);
-            opacity: 0;
-          }
-        }
-
-        @media (max-width: 768px) {
           .modal-content {
             margin: 1% auto;
             width: 95%;
@@ -1244,9 +1256,21 @@
             padding: 1.5rem;
             max-height: calc(95vh - 100px);
           }
+
+          .firebase-status {
+            top: 75px;
+            right: 10px;
+            font-size: 0.7rem;
+            padding: 6px 12px;
+          }
         }
 
         @media (max-width: 480px) {
+          .hero-buttons {
+            flex-direction: column;
+            align-items: center;
+          }
+
           .modal-content {
             margin: 0.5% auto;
             width: 98%;
@@ -1258,9 +1282,20 @@
             max-height: calc(98vh - 80px);
           }
         }
+
+        /* Smooth scrolling */
+        html {
+          scroll-behavior: smooth;
+        }
     </style>
 </head>
 <body>
+    <!-- Firebase Status -->
+    <div id="firebaseStatus" class="firebase-status loading">
+        <i class="fas fa-spinner fa-spin"></i>
+        <span>Conectando Firebase...</span>
+    </div>
+
     <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
@@ -1318,7 +1353,7 @@
         </div>
         <div class="hero-stats">
             <div class="stat">
-                <h3>47</h3>
+                <h3>39</h3>
                 <p>Anos de História</p>
             </div>
             <div class="stat">
@@ -1381,7 +1416,10 @@
                 </button>
             </div>
             <div class="jogos-grid" id="jogosGrid">
-                <!-- Jogos serão carregados dinamicamente -->
+                <div class="loading">
+                    <i class="fas fa-spinner fa-spin" style="font-size: 2rem; margin-bottom: 1rem; display: block;"></i>
+                    <p>Carregando jogos...</p>
+                </div>
             </div>
         </div>
     </section>
@@ -1629,547 +1667,679 @@
         </div>
     </div>
 
-    <script>
-        // Admin system
-        const ADMIN_PASSWORD = "armil2024"; // ALTERE ESTA SENHA!
+    <!-- Firebase SDK e JavaScript -->
+    <script type="module">
+        // Import Firebase modules
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, onSnapshot, query, orderBy } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        import { getAuth, signInAnonymously, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+
+        // Firebase configuration
+        const firebaseConfig = {
+          apiKey: "AIzaSyANAtpCAzuPyWaFpBrZTmToqTl9LIct7eI",
+          authDomain: "gcd-armil-website-e3849.firebaseapp.com",
+          projectId: "gcd-armil-website-e3849",
+          storageBucket: "gcd-armil-website-e3849.firebasestorage.app",
+          messagingSenderId: "49300061028",
+          appId: "1:49300061028:web:b6adea9e40b8716ea8d871",
+          measurementId: "G-7SZ1ZEPWRC"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        // Global variables
+        window.db = db;
+        window.auth = auth;
+        window.firebaseModules = {
+            collection, addDoc, getDocs, doc, updateDoc, deleteDoc, onSnapshot, query, orderBy
+        };
+
         let isAdminLoggedIn = localStorage.getItem('adminLoggedIn') === 'true';
         let editingGameId = null;
         let resultGameId = null;
+        let jogos = [];
+        let unsubscribeJogos = null;
 
-        // Navigation functionality
-        document.addEventListener("DOMContentLoaded", () => {
-          const hamburger = document.querySelector(".hamburger")
-          const navMenu = document.querySelector(".nav-menu")
-          const navLinks = document.querySelectorAll(".nav-link")
+        const ADMIN_PASSWORD = "armil2024"; // ALTERE ESTA SENHA!
 
-          // Toggle mobile menu
-          hamburger.addEventListener("click", () => {
-            navMenu.classList.toggle("active")
-            hamburger.classList.toggle("active")
-          })
+        // Update Firebase status
+        function updateFirebaseStatus(status) {
+            const statusEl = document.getElementById('firebaseStatus');
+            
+            switch(status) {
+                case 'connected':
+                    statusEl.className = 'firebase-status connected';
+                    statusEl.innerHTML = '<i class="fas fa-check-circle"></i><span>Firebase Conectado</span>';
+                    setTimeout(() => {
+                        statusEl.style.opacity = '0';
+                        setTimeout(() => statusEl.style.display = 'none', 300);
+                    }, 3000);
+                    break;
+                case 'disconnected':
+                    statusEl.className = 'firebase-status disconnected';
+                    statusEl.innerHTML = '<i class="fas fa-exclamation-triangle"></i><span>Firebase Desconectado</span>';
+                    break;
+                case 'loading':
+                    statusEl.className = 'firebase-status loading';
+                    statusEl.innerHTML = '<i class="fas fa-spinner fa-spin"></i><span>Conectando Firebase...</span>';
+                    break;
+            }
+        }
 
-          // Close mobile menu when clicking on a link
-          navLinks.forEach((link) => {
-            link.addEventListener("click", () => {
-              navMenu.classList.remove("active")
-              hamburger.classList.remove("active")
+        // Initialize Firebase Auth
+        signInAnonymously(auth)
+            .then(() => {
+                console.log('🔥 Firebase conectado com sucesso!');
+                updateFirebaseStatus('connected');
+                loadJogosFromFirebase();
+                initializeApp();
             })
-          })
+            .catch((error) => {
+                console.error('Erro ao conectar Firebase:', error);
+                updateFirebaseStatus('disconnected');
+                loadJogosFromLocalStorage();
+                initializeApp();
+            });
 
-          // Update active nav link on scroll
-          window.addEventListener("scroll", () => {
-            let current = ""
-            const sections = document.querySelectorAll("section")
+        // Initialize app
+        function initializeApp() {
+            updateAdminStatus();
+            initializeNavigation();
+            initializeAnimations();
+        }
 
-            sections.forEach((section) => {
-              const sectionTop = section.offsetTop
-              const sectionHeight = section.clientHeight
-              if (scrollY >= sectionTop - 200) {
-                current = section.getAttribute("id")
-              }
-            })
+        // Firebase functions
+        async function addJogoToFirebase(jogoData) {
+            try {
+                const docRef = await addDoc(collection(db, 'jogos'), {
+                    ...jogoData,
+                    createdAt: new Date(),
+                    updatedAt: new Date()
+                });
+                console.log('Jogo adicionado:', docRef.id);
+                return docRef.id;
+            } catch (error) {
+                console.error('Erro ao adicionar jogo:', error);
+                throw error;
+            }
+        }
 
-            navLinks.forEach((link) => {
-              link.classList.remove("active")
-              if (link.getAttribute("href") === "#" + current) {
-                link.classList.add("active")
-              }
-            })
-          })
+        async function updateJogoInFirebase(id, jogoData) {
+            try {
+                const jogoRef = doc(db, 'jogos', id);
+                await updateDoc(jogoRef, {
+                    ...jogoData,
+                    updatedAt: new Date()
+                });
+                console.log('Jogo atualizado:', id);
+            } catch (error) {
+                console.error('Erro ao atualizar jogo:', error);
+                throw error;
+            }
+        }
 
-          // Initialize admin status
-          updateAdminStatus()
-          
-          // Load initial games
-          loadJogos()
+        async function deleteJogoFromFirebase(id) {
+            try {
+                await deleteDoc(doc(db, 'jogos', id));
+                console.log('Jogo removido:', id);
+            } catch (error) {
+                console.error('Erro ao remover jogo:', error);
+                throw error;
+            }
+        }
 
-          // Animate timeline items on scroll
-          const timelineItems = document.querySelectorAll('.timeline-item')
-          const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-              if (entry.isIntersecting) {
-                entry.target.classList.add('animate')
-              }
-            })
-          }, { threshold: 0.1 })
+        function loadJogosFromFirebase() {
+            const q = query(collection(db, 'jogos'), orderBy('data', 'asc'));
+            
+            unsubscribeJogos = onSnapshot(q, (querySnapshot) => {
+                jogos = [];
+                querySnapshot.forEach((doc) => {
+                    jogos.push({
+                        id: doc.id,
+                        ...doc.data()
+                    });
+                });
+                console.log('Jogos carregados do Firebase:', jogos.length);
+                renderJogos();
+            }, (error) => {
+                console.error('Erro ao carregar jogos:', error);
+                updateFirebaseStatus('disconnected');
+                loadJogosFromLocalStorage();
+            });
+        }
 
-          timelineItems.forEach(item => {
-            observer.observe(item)
-          })
-        })
+        function loadJogosFromLocalStorage() {
+            // Fallback data
+            jogos = JSON.parse(localStorage.getItem("jogos")) || [
+                {
+                    id: "1",
+                    equipa: "Seniores",
+                    adversario: "FC Exemplo",
+                    data: "2024-01-15",
+                    hora: "15:00",
+                    local: "Campo Municipal de Armil",
+                    tipo: "Casa",
+                    golosCasa: 2,
+                    golosFora: 1,
+                    finalizado: true
+                },
+                {
+                    id: "2",
+                    equipa: "Juniores",
+                    adversario: "Sporting Jovem",
+                    data: "2024-01-17",
+                    hora: "14:30",
+                    local: "Campo do Adversário",
+                    tipo: "Fora",
+                    finalizado: false
+                }
+            ];
+            renderJogos();
+        }
+
+        function renderJogos() {
+            const jogosGrid = document.getElementById("jogosGrid");
+
+            if (jogos.length === 0) {
+                jogosGrid.innerHTML = `
+                    <div class="loading">
+                        <i class="fas fa-calendar-times" style="font-size: 3rem; margin-bottom: 1rem; display: block;"></i>
+                        <p>Nenhum jogo agendado</p>
+                        <small style="opacity: 0.7; margin-top: 1rem; display: block;">
+                            ${isAdminLoggedIn ? 'Clique em "Adicionar Jogo" para começar!' : 'Aguarde novos jogos serem adicionados.'}
+                        </small>
+                    </div>
+                `;
+                return;
+            }
+
+            // Sort games by date
+            jogos.sort((a, b) => new Date(a.data + " " + a.hora) - new Date(b.data + " " + b.hora));
+
+            jogosGrid.innerHTML = jogos
+                .map((jogo) => {
+                    const resultadoStatus = getResultadoStatus(jogo);
+                    const cardClass = jogo.finalizado ? 'jogo-card finalizado' : 'jogo-card';
+                    
+                    let resultadoHtml = '';
+                    if (jogo.finalizado) {
+                        const resultadoClass = `jogo-resultado ${resultadoStatus}`;
+                        resultadoHtml = `
+                          <div class="${resultadoClass}">
+                            <div class="resultado-placar">
+                              <span class="resultado-casa">${jogo.golosCasa}</span>
+                              <span class="resultado-separador">-</span>
+                              <span class="resultado-fora">${jogo.golosFora}</span>
+                            </div>
+                          </div>
+                        `;
+                    }
+
+                    const statusBadge = jogo.finalizado 
+                        ? '<span class="jogo-status finalizado">Finalizado</span>'
+                        : '<span class="jogo-status agendado">Agendado</span>';
+
+                    return `
+                        <div class="${cardClass}">
+                            <div class="jogo-header">
+                                <div class="jogo-equipa">${jogo.equipa}</div>
+                                <div style="display: flex; align-items: center;">
+                                    <div class="jogo-tipo ${jogo.tipo.toLowerCase()}">${jogo.tipo}</div>
+                                    ${statusBadge}
+                                </div>
+                            </div>
+                            <div class="jogo-adversario">vs ${jogo.adversario}</div>
+                            ${resultadoHtml}
+                            <div class="jogo-info">
+                                <div class="jogo-data">
+                                    <i class="fas fa-calendar"></i>
+                                    ${formatDate(jogo.data)} às ${jogo.hora}
+                                </div>
+                                <div class="jogo-local">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    ${jogo.local}
+                                </div>
+                            </div>
+                            <div class="jogo-actions admin-only">
+                                <button class="btn btn-edit" onclick="editJogo('${jogo.id}')" title="Editar jogo">
+                                    <i class="fas fa-edit"></i> Editar
+                                </button>
+                                ${!jogo.finalizado ? `
+                                    <button class="btn btn-success" onclick="openResultModal('${jogo.id}')" title="Adicionar resultado">
+                                        <i class="fas fa-trophy"></i> Resultado
+                                    </button>
+                                ` : `
+                                    <button class="btn btn-warning" onclick="openResultModal('${jogo.id}')" title="Editar resultado">
+                                        <i class="fas fa-edit"></i> Editar Resultado
+                                    </button>
+                                `}
+                                <button class="btn btn-danger" onclick="removeJogo('${jogo.id}')" title="Remover jogo">
+                                    <i class="fas fa-trash"></i> Remover
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                })
+                .join("");
+        }
+
+        function getResultadoStatus(jogo) {
+            if (!jogo.finalizado) return null;
+            
+            const golosCasa = jogo.tipo === 'Casa' ? jogo.golosCasa : jogo.golosFora;
+            const golosFora = jogo.tipo === 'Casa' ? jogo.golosFora : jogo.golosCasa;
+            
+            if (golosCasa > golosFora) return 'vitoria';
+            if (golosCasa < golosFora) return 'derrota';
+            return 'empate';
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const options = {
+                weekday: "long",
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+            };
+            return date.toLocaleDateString("pt-PT", options);
+        }
 
         // Admin functions
         function updateAdminStatus() {
-          const adminStatus = document.getElementById('adminStatus')
-          const adminBtn = document.getElementById('adminBtn')
-          const body = document.body
+            const adminStatus = document.getElementById('adminStatus');
+            const adminBtn = document.getElementById('adminBtn');
+            const body = document.body;
 
-          if (isAdminLoggedIn) {
-            adminStatus.innerHTML = '<i class="fas fa-shield-alt"></i><span>Administrador</span>'
-            adminStatus.className = 'admin-status logged-in'
-            adminBtn.innerHTML = '<i class="fas fa-sign-out-alt"></i> Sair'
-            adminBtn.className = 'btn-admin btn-logout'
-            body.classList.add('admin-logged-in')
-          } else {
-            adminStatus.innerHTML = '<i class="fas fa-user"></i><span>Visitante</span>'
-            adminStatus.className = 'admin-status logged-out'
-            adminBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Admin'
-            adminBtn.className = 'btn-admin btn-login'
-            body.classList.remove('admin-logged-in')
-          }
+            if (isAdminLoggedIn) {
+                adminStatus.innerHTML = '<i class="fas fa-shield-alt"></i><span>Administrador</span>';
+                adminStatus.className = 'admin-status logged-in';
+                adminBtn.innerHTML = '<i class="fas fa-sign-out-alt"></i> Sair';
+                adminBtn.className = 'btn-admin btn-logout';
+                body.classList.add('admin-logged-in');
+            } else {
+                adminStatus.innerHTML = '<i class="fas fa-user"></i><span>Visitante</span>';
+                adminStatus.className = 'admin-status logged-out';
+                adminBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Admin';
+                adminBtn.className = 'btn-admin btn-login';
+                body.classList.remove('admin-logged-in');
+            }
         }
 
-        function toggleAdmin() {
-          if (isAdminLoggedIn) {
-            logout()
-          } else {
-            openLoginModal()
-          }
+        window.toggleAdmin = function() {
+            if (isAdminLoggedIn) {
+                logout();
+            } else {
+                openLoginModal();
+            }
         }
 
-        function openLoginModal() {
-          document.getElementById("loginModal").style.display = "block"
-          document.body.style.overflow = "hidden"
-          setTimeout(() => {
-            document.getElementById("adminPassword").focus()
-          }, 100)
+        window.openLoginModal = function() {
+            document.getElementById("loginModal").style.display = "block";
+            document.body.style.overflow = "hidden";
+            setTimeout(() => {
+                document.getElementById("adminPassword").focus();
+            }, 100);
         }
 
-        function closeLoginModal() {
-          document.getElementById("loginModal").style.display = "none"
-          document.getElementById("loginForm").reset()
-          document.body.style.overflow = "auto"
+        window.closeLoginModal = function() {
+            document.getElementById("loginModal").style.display = "none";
+            document.getElementById("loginForm").reset();
+            document.body.style.overflow = "auto";
         }
 
         function login(password) {
-          if (password === ADMIN_PASSWORD) {
-            isAdminLoggedIn = true
-            localStorage.setItem('adminLoggedIn', 'true')
-            updateAdminStatus()
-            closeLoginModal()
-            showNotification("Login realizado com sucesso! Bem-vindo, Administrador.", "success")
-            return true
-          } else {
-            showNotification("Palavra-passe incorreta!", "error")
-            return false
-          }
+            if (password === ADMIN_PASSWORD) {
+                isAdminLoggedIn = true;
+                localStorage.setItem('adminLoggedIn', 'true');
+                updateAdminStatus();
+                closeLoginModal();
+                showNotification("🔥 Login realizado com sucesso! Bem-vindo, Administrador.", "success");
+                return true;
+            } else {
+                showNotification("❌ Palavra-passe incorreta!", "error");
+                return false;
+            }
         }
 
         function logout() {
-          isAdminLoggedIn = false
-          localStorage.setItem('adminLoggedIn', 'false')
-          updateAdminStatus()
-          showNotification("Logout realizado com sucesso!", "success")
+            isAdminLoggedIn = false;
+            localStorage.setItem('adminLoggedIn', 'false');
+            updateAdminStatus();
+            showNotification("👋 Logout realizado com sucesso!", "success");
         }
 
-        function togglePasswordVisibility() {
-          const passwordInput = document.getElementById('adminPassword')
-          const passwordIcon = document.getElementById('passwordIcon')
-          
-          if (passwordInput.type === 'password') {
-            passwordInput.type = 'text'
-            passwordIcon.className = 'fas fa-eye-slash'
-          } else {
-            passwordInput.type = 'password'
-            passwordIcon.className = 'fas fa-eye'
-          }
+        window.togglePasswordVisibility = function() {
+            const passwordInput = document.getElementById('adminPassword');
+            const passwordIcon = document.getElementById('passwordIcon');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                passwordIcon.className = 'fas fa-eye-slash';
+            } else {
+                passwordInput.type = 'password';
+                passwordIcon.className = 'fas fa-eye';
+            }
         }
 
         // Login form submission
         document.getElementById("loginForm").addEventListener("submit", (e) => {
-          e.preventDefault()
-          const password = document.getElementById("adminPassword").value
-          login(password)
-        })
+            e.preventDefault();
+            const password = document.getElementById("adminPassword").value;
+            login(password);
+        });
 
         // Smooth scrolling function
-        function scrollToSection(sectionId) {
-          const section = document.getElementById(sectionId)
-          if (section) {
-            section.scrollIntoView({ behavior: "smooth" })
-          }
+        window.scrollToSection = function(sectionId) {
+            const section = document.getElementById(sectionId);
+            if (section) {
+                section.scrollIntoView({ behavior: "smooth" });
+            }
         }
 
-        // Games management
-        let jogos = JSON.parse(localStorage.getItem("jogos")) || [
-          {
-            id: 1,
-            equipa: "Seniores",
-            adversario: "FC Exemplo",
-            data: "2024-01-15",
-            hora: "15:00",
-            local: "Campo Municipal de Armil",
-            tipo: "Casa",
-            golosCasa: 2,
-            golosFora: 1,
-            finalizado: true
-          },
-          {
-            id: 2,
-            equipa: "Juniores",
-            adversario: "Sporting Jovem",
-            data: "2024-01-17",
-            hora: "14:30",
-            local: "Campo do Adversário",
-            tipo: "Fora",
-            finalizado: false
-          },
-          {
-            id: 3,
-            equipa: "Futsal",
-            adversario: "Futsal Unidos",
-            data: "2024-01-19",
-            hora: "20:00",
-            local: "Pavilhão de Armil",
-            tipo: "Casa",
-            golosCasa: 1,
-            golosFora: 1,
-            finalizado: true
-          },
-        ]
-
-        function getResultadoStatus(jogo) {
-          if (!jogo.finalizado) return null
-          
-          const golosCasa = jogo.tipo === 'Casa' ? jogo.golosCasa : jogo.golosFora
-          const golosFora = jogo.tipo === 'Casa' ? jogo.golosFora : jogo.golosCasa
-          
-          if (golosCasa > golosFora) return 'vitoria'
-          if (golosCasa < golosFora) return 'derrota'
-          return 'empate'
+        // Modal functions
+        window.openAddGameModal = function() {
+            if (!isAdminLoggedIn) {
+                showNotification("🔒 Acesso negado! Faça login como administrador.", "error");
+                return;
+            }
+            
+            editingGameId = null;
+            document.getElementById("gameModalTitle").textContent = "Adicionar Novo Jogo";
+            document.getElementById("gameSubmitBtn").innerHTML = '<i class="fas fa-plus"></i> Adicionar Jogo';
+            document.getElementById("addGameModal").style.display = "block";
+            document.body.style.overflow = "hidden";
         }
 
-        function loadJogos() {
-          const jogosGrid = document.getElementById("jogosGrid")
-
-          if (jogos.length === 0) {
-            jogosGrid.innerHTML = `
-                    <div class="loading">
-                        <i class="fas fa-calendar-times" style="font-size: 3rem; margin-bottom: 1rem; display: block;"></i>
-                        <p>Nenhum jogo agendado para esta semana</p>
-                    </div>
-                `
-            return
-          }
-
-          // Sort games by date
-          jogos.sort((a, b) => new Date(a.data + " " + a.hora) - new Date(b.data + " " + b.hora))
-
-          jogosGrid.innerHTML = jogos
-            .map((jogo) => {
-              const resultadoStatus = getResultadoStatus(jogo)
-              const cardClass = jogo.finalizado ? 'jogo-card finalizado' : 'jogo-card'
-              
-              let resultadoHtml = ''
-              if (jogo.finalizado) {
-                const resultadoClass = `jogo-resultado ${resultadoStatus}`
-                resultadoHtml = `
-                  <div class="${resultadoClass}">
-                    <div class="resultado-placar">
-                      <span class="resultado-casa">${jogo.golosCasa}</span>
-                      <span class="resultado-separador">-</span>
-                      <span class="resultado-fora">${jogo.golosFora}</span>
-                    </div>
-                  </div>
-                `
-              }
-
-              const statusBadge = jogo.finalizado 
-                ? '<span class="jogo-status finalizado">Finalizado</span>'
-                : '<span class="jogo-status agendado">Agendado</span>'
-
-              return `
-                <div class="${cardClass}">
-                    <div class="jogo-header">
-                        <div class="jogo-equipa">${jogo.equipa}</div>
-                        <div style="display: flex; align-items: center;">
-                            <div class="jogo-tipo ${jogo.tipo.toLowerCase()}">${jogo.tipo}</div>
-                            ${statusBadge}
-                        </div>
-                    </div>
-                    <div class="jogo-adversario">vs ${jogo.adversario}</div>
-                    ${resultadoHtml}
-                    <div class="jogo-info">
-                        <div class="jogo-data">
-                            <i class="fas fa-calendar"></i>
-                            ${formatDate(jogo.data)} às ${jogo.hora}
-                        </div>
-                        <div class="jogo-local">
-                            <i class="fas fa-map-marker-alt"></i>
-                            ${jogo.local}
-                        </div>
-                    </div>
-                    <div class="jogo-actions admin-only">
-                        <button class="btn btn-edit" onclick="editJogo(${jogo.id})" title="Editar jogo">
-                            <i class="fas fa-edit"></i> Editar
-                        </button>
-                        ${!jogo.finalizado ? `
-                            <button class="btn btn-success" onclick="openResultModal(${jogo.id})" title="Adicionar resultado">
-                                <i class="fas fa-trophy"></i> Resultado
-                            </button>
-                        ` : `
-                            <button class="btn btn-warning" onclick="openResultModal(${jogo.id})" title="Editar resultado">
-                                <i class="fas fa-edit"></i> Editar Resultado
-                            </button>
-                        `}
-                        <button class="btn btn-danger" onclick="removeJogo(${jogo.id})" title="Remover jogo">
-                            <i class="fas fa-trash"></i> Remover
-                        </button>
-                    </div>
-                </div>
-            `
-            })
-            .join("")
+        window.closeAddGameModal = function() {
+            document.getElementById("addGameModal").style.display = "none";
+            document.getElementById("addGameForm").reset();
+            document.body.style.overflow = "auto";
+            editingGameId = null;
         }
 
-        function formatDate(dateString) {
-          const date = new Date(dateString)
-          const options = {
-            weekday: "long",
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-          }
-          return date.toLocaleDateString("pt-PT", options)
+        window.openResultModal = function(gameId) {
+            if (!isAdminLoggedIn) {
+                showNotification("🔒 Acesso negado! Faça login como administrador.", "error");
+                return;
+            }
+
+            const jogo = jogos.find(j => j.id === gameId);
+            if (!jogo) return;
+
+            resultGameId = gameId;
+            
+            // Preencher informações do jogo
+            const gameInfo = document.getElementById("resultGameInfo");
+            gameInfo.innerHTML = `
+                <strong>${jogo.equipa}</strong> vs <strong>${jogo.adversario}</strong><br>
+                <small><i class="fas fa-calendar"></i> ${formatDate(jogo.data)} às ${jogo.hora}</small><br>
+                <small><i class="fas fa-map-marker-alt"></i> ${jogo.local}</small>
+            `;
+
+            // Preencher resultado se já existir
+            if (jogo.finalizado) {
+                document.getElementById("golosCasa").value = jogo.golosCasa || 0;
+                document.getElementById("golosFora").value = jogo.golosFora || 0;
+            } else {
+                document.getElementById("golosCasa").value = "";
+                document.getElementById("golosFora").value = "";
+            }
+
+            document.getElementById("resultModal").style.display = "block";
+            document.body.style.overflow = "hidden";
         }
 
-        function openAddGameModal() {
-          if (!isAdminLoggedIn) {
-            showNotification("Acesso negado! Faça login como administrador.", "error")
-            return
-          }
-          
-          editingGameId = null
-          document.getElementById("gameModalTitle").textContent = "Adicionar Novo Jogo"
-          document.getElementById("gameSubmitBtn").innerHTML = '<i class="fas fa-plus"></i> Adicionar Jogo'
-          document.getElementById("addGameModal").style.display = "block"
-          document.body.style.overflow = "hidden"
-        }
-
-        function closeAddGameModal() {
-          document.getElementById("addGameModal").style.display = "none"
-          document.getElementById("addGameForm").reset()
-          document.body.style.overflow = "auto"
-          editingGameId = null
-        }
-
-        function openResultModal(gameId) {
-          if (!isAdminLoggedIn) {
-            showNotification("Acesso negado! Faça login como administrador.", "error")
-            return
-          }
-
-          const jogo = jogos.find(j => j.id === gameId)
-          if (!jogo) return
-
-          resultGameId = gameId
-          
-          // Preencher informações do jogo
-          const gameInfo = document.getElementById("resultGameInfo")
-          gameInfo.innerHTML = `
-            <strong>${jogo.equipa}</strong> vs <strong>${jogo.adversario}</strong><br>
-            <small><i class="fas fa-calendar"></i> ${formatDate(jogo.data)} às ${jogo.hora}</small><br>
-            <small><i class="fas fa-map-marker-alt"></i> ${jogo.local}</small>
-          `
-
-          // Preencher resultado se já existir
-          if (jogo.finalizado) {
-            document.getElementById("golosCasa").value = jogo.golosCasa || 0
-            document.getElementById("golosFora").value = jogo.golosFora || 0
-          } else {
-            document.getElementById("golosCasa").value = ""
-            document.getElementById("golosFora").value = ""
-          }
-
-          document.getElementById("resultModal").style.display = "block"
-          document.body.style.overflow = "hidden"
-        }
-
-        function closeResultModal() {
-          document.getElementById("resultModal").style.display = "none"
-          document.getElementById("resultForm").reset()
-          document.body.style.overflow = "auto"
-          resultGameId = null
+        window.closeResultModal = function() {
+            document.getElementById("resultModal").style.display = "none";
+            document.getElementById("resultForm").reset();
+            document.body.style.overflow = "auto";
+            resultGameId = null;
         }
 
         // Close modal when clicking outside
         window.addEventListener("click", (event) => {
-          const addGameModal = document.getElementById("addGameModal")
-          const loginModal = document.getElementById("loginModal")
-          const resultModal = document.getElementById("resultModal")
-          
-          if (event.target === addGameModal) {
-            closeAddGameModal()
-          }
-          if (event.target === loginModal) {
-            closeLoginModal()
-          }
-          if (event.target === resultModal) {
-            closeResultModal()
-          }
-        })
+            const addGameModal = document.getElementById("addGameModal");
+            const loginModal = document.getElementById("loginModal");
+            const resultModal = document.getElementById("resultModal");
+            
+            if (event.target === addGameModal) {
+                closeAddGameModal();
+            }
+            if (event.target === loginModal) {
+                closeLoginModal();
+            }
+            if (event.target === resultModal) {
+                closeResultModal();
+            }
+        });
 
         // Add game form submission
-        document.getElementById("addGameForm").addEventListener("submit", (e) => {
-          e.preventDefault()
+        document.getElementById("addGameForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
 
-          if (!isAdminLoggedIn) {
-            showNotification("Acesso negado! Faça login como administrador.", "error")
-            return
-          }
-
-          const jogoData = {
-            equipa: document.getElementById("equipa").value,
-            adversario: document.getElementById("adversario").value,
-            data: document.getElementById("data").value,
-            hora: document.getElementById("hora").value,
-            local: document.getElementById("local").value,
-            tipo: document.getElementById("tipo").value,
-            finalizado: false
-          }
-
-          if (editingGameId) {
-            // Editar jogo existente
-            const jogoIndex = jogos.findIndex(j => j.id === editingGameId)
-            if (jogoIndex !== -1) {
-              jogos[jogoIndex] = { ...jogos[jogoIndex], ...jogoData }
-              showNotification("Jogo editado com sucesso!", "success")
+            if (!isAdminLoggedIn) {
+                showNotification("🔒 Acesso negado! Faça login como administrador.", "error");
+                return;
             }
-          } else {
-            // Adicionar novo jogo
-            const novoJogo = {
-              id: Date.now(),
-              ...jogoData
-            }
-            jogos.push(novoJogo)
-            showNotification("Jogo adicionado com sucesso!", "success")
-          }
 
-          localStorage.setItem("jogos", JSON.stringify(jogos))
-          loadJogos()
-          closeAddGameModal()
-        })
+            const jogoData = {
+                equipa: document.getElementById("equipa").value,
+                adversario: document.getElementById("adversario").value,
+                data: document.getElementById("data").value,
+                hora: document.getElementById("hora").value,
+                local: document.getElementById("local").value,
+                tipo: document.getElementById("tipo").value,
+                finalizado: false
+            };
+
+            try {
+                if (editingGameId) {
+                    // Editar jogo existente
+                    await updateJogoInFirebase(editingGameId, jogoData);
+                    showNotification("✅ Jogo editado com sucesso!", "success");
+                } else {
+                    // Adicionar novo jogo
+                    await addJogoToFirebase(jogoData);
+                    showNotification("🎉 Jogo adicionado com sucesso!", "success");
+                }
+                closeAddGameModal();
+            } catch (error) {
+                showNotification("❌ Erro ao salvar jogo", "error");
+            }
+        });
 
         // Result form submission
-        document.getElementById("resultForm").addEventListener("submit", (e) => {
-          e.preventDefault()
+        document.getElementById("resultForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
 
-          if (!isAdminLoggedIn) {
-            showNotification("Acesso negado! Faça login como administrador.", "error")
-            return
-          }
+            if (!isAdminLoggedIn) {
+                showNotification("🔒 Acesso negado! Faça login como administrador.", "error");
+                return;
+            }
 
-          if (!resultGameId) return
+            if (!resultGameId) return;
 
-          const golosCasa = parseInt(document.getElementById("golosCasa").value)
-          const golosFora = parseInt(document.getElementById("golosFora").value)
+            const golosCasa = parseInt(document.getElementById("golosCasa").value);
+            const golosFora = parseInt(document.getElementById("golosFora").value);
 
-          const jogoIndex = jogos.findIndex(j => j.id === resultGameId)
-          if (jogoIndex !== -1) {
-            jogos[jogoIndex].golosCasa = golosCasa
-            jogos[jogoIndex].golosFora = golosFora
-            jogos[jogoIndex].finalizado = true
+            try {
+                await updateJogoInFirebase(resultGameId, {
+                    golosCasa: golosCasa,
+                    golosFora: golosFora,
+                    finalizado: true
+                });
 
-            localStorage.setItem("jogos", JSON.stringify(jogos))
-            loadJogos()
-            closeResultModal()
+                closeResultModal();
 
-            const resultado = getResultadoStatus(jogos[jogoIndex])
-            let mensagem = "Resultado adicionado com sucesso!"
-            if (resultado === 'vitoria') mensagem += " 🎉 Vitória!"
-            else if (resultado === 'empate') mensagem += " ⚖️ Empate!"
-            else mensagem += " 😔 Derrota..."
+                const jogo = jogos.find(j => j.id === resultGameId);
+                if (jogo) {
+                    const resultado = getResultadoStatus({...jogo, golosCasa, golosFora});
+                    let mensagem = "📊 Resultado adicionado com sucesso!";
+                    if (resultado === 'vitoria') mensagem += " 🎉 Vitória!";
+                    else if (resultado === 'empate') mensagem += " ⚖️ Empate!";
+                    else mensagem += " 😔 Derrota...";
 
-            showNotification(mensagem, "success")
-          }
-        })
+                    showNotification(mensagem, "success");
+                }
+            } catch (error) {
+                showNotification("❌ Erro ao salvar resultado", "error");
+            }
+        });
 
-        function editJogo(id) {
-          if (!isAdminLoggedIn) {
-            showNotification("Acesso negado! Faça login como administrador.", "error")
-            return
-          }
+        window.editJogo = function(id) {
+            if (!isAdminLoggedIn) {
+                showNotification("🔒 Acesso negado! Faça login como administrador.", "error");
+                return;
+            }
 
-          const jogo = jogos.find(j => j.id === id)
-          if (jogo) {
-            editingGameId = id
-            document.getElementById("gameModalTitle").textContent = "Editar Jogo"
-            document.getElementById("gameSubmitBtn").innerHTML = '<i class="fas fa-save"></i> Guardar Alterações'
-            
-            document.getElementById("equipa").value = jogo.equipa
-            document.getElementById("adversario").value = jogo.adversario
-            document.getElementById("data").value = jogo.data
-            document.getElementById("hora").value = jogo.hora
-            document.getElementById("local").value = jogo.local
-            document.getElementById("tipo").value = jogo.tipo
-            
-            openAddGameModal()
-          }
+            const jogo = jogos.find(j => j.id === id);
+            if (jogo) {
+                editingGameId = id;
+                document.getElementById("gameModalTitle").textContent = "Editar Jogo";
+                document.getElementById("gameSubmitBtn").innerHTML = '<i class="fas fa-save"></i> Guardar Alterações';
+                
+                document.getElementById("equipa").value = jogo.equipa;
+                document.getElementById("adversario").value = jogo.adversario;
+                document.getElementById("data").value = jogo.data;
+                document.getElementById("hora").value = jogo.hora;
+                document.getElementById("local").value = jogo.local;
+                document.getElementById("tipo").value = jogo.tipo;
+                
+                openAddGameModal();
+            }
         }
 
-        function removeJogo(id, showConfirm = true) {
-          if (!isAdminLoggedIn) {
-            showNotification("Acesso negado! Faça login como administrador.", "error")
-            return
-          }
-
-          if (!showConfirm || confirm("Tem certeza que deseja remover este jogo?")) {
-            jogos = jogos.filter((jogo) => jogo.id !== id)
-            localStorage.setItem("jogos", JSON.stringify(jogos))
-            loadJogos()
-            if (showConfirm) {
-              showNotification("Jogo removido com sucesso!", "success")
+        window.removeJogo = async function(id, showConfirm = true) {
+            if (!isAdminLoggedIn) {
+                showNotification("🔒 Acesso negado! Faça login como administrador.", "error");
+                return;
             }
-          }
+
+            if (!showConfirm || confirm("⚠️ Tem certeza que deseja remover este jogo?")) {
+                try {
+                    await deleteJogoFromFirebase(id);
+                    showNotification("🗑️ Jogo removido com sucesso!", "success");
+                } catch (error) {
+                    showNotification("❌ Erro ao remover jogo", "error");
+                }
+            }
         }
 
         function showNotification(message, type) {
-          const notification = document.createElement("div")
-          notification.className = `notification ${type}`
-          
-          const icon = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-triangle'
-          notification.innerHTML = `
+            const notification = document.createElement("div");
+            notification.className = `notification ${type}`;
+            
+            const icon = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-triangle';
+            notification.innerHTML = `
                 <i class="fas ${icon}"></i>
                 <span>${message}</span>
-            `
+            `;
 
-          document.body.appendChild(notification)
+            document.body.appendChild(notification);
 
-          setTimeout(() => {
-            notification.style.animation = "slideOutRight 0.4s ease"
             setTimeout(() => {
-              if (document.body.contains(notification)) {
-                document.body.removeChild(notification)
-              }
-            }, 400)
-          }, 4000)
+                notification.style.animation = "slideOutRight 0.4s ease";
+                setTimeout(() => {
+                    if (document.body.contains(notification)) {
+                        document.body.removeChild(notification);
+                    }
+                }, 400);
+            }, 4000);
+        }
+
+        function initializeNavigation() {
+            const hamburger = document.querySelector(".hamburger");
+            const navMenu = document.querySelector(".nav-menu");
+            const navLinks = document.querySelectorAll(".nav-link");
+
+            // Toggle mobile menu
+            hamburger.addEventListener("click", () => {
+                navMenu.classList.toggle("active");
+                hamburger.classList.toggle("active");
+            });
+
+            // Close mobile menu when clicking on a link
+            navLinks.forEach((link) => {
+                link.addEventListener("click", () => {
+                    navMenu.classList.remove("active");
+                    hamburger.classList.remove("active");
+                });
+            });
+
+            // Update active nav link on scroll
+            window.addEventListener("scroll", () => {
+                let current = "";
+                const sections = document.querySelectorAll("section");
+
+                sections.forEach((section) => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    if (scrollY >= sectionTop - 200) {
+                        current = section.getAttribute("id");
+                    }
+                });
+
+                navLinks.forEach((link) => {
+                    link.classList.remove("active");
+                    if (link.getAttribute("href") === "#" + current) {
+                        link.classList.add("active");
+                    }
+                });
+            });
+        }
+
+        function initializeAnimations() {
+            // Animate timeline items on scroll
+            const timelineItems = document.querySelectorAll('.timeline-item');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            timelineItems.forEach(item => {
+                observer.observe(item);
+            });
         }
 
         // Keyboard shortcuts
         document.addEventListener('keydown', (e) => {
-          if (e.key === 'Escape') {
-            closeAddGameModal()
-            closeLoginModal()
-            closeResultModal()
-          }
-        })
+            if (e.key === 'Escape') {
+                closeAddGameModal();
+                closeLoginModal();
+                closeResultModal();
+            }
+        });
 
         // Auto-logout after 1 hour of inactivity
-        let inactivityTimer
+        let inactivityTimer;
         function resetInactivityTimer() {
-          clearTimeout(inactivityTimer)
-          if (isAdminLoggedIn) {
-            inactivityTimer = setTimeout(() => {
-              logout()
-              showNotification("Sessão expirada por inatividade.", "error")
-            }, 3600000) // 1 hour
-          }
+            clearTimeout(inactivityTimer);
+            if (isAdminLoggedIn) {
+                inactivityTimer = setTimeout(() => {
+                    logout();
+                    showNotification("⏰ Sessão expirada por inatividade.", "error");
+                }, 3600000); // 1 hour
+            }
         }
 
         // Reset timer on user activity
-        document.addEventListener('click', resetInactivityTimer)
-        document.addEventListener('keypress', resetInactivityTimer)
-        document.addEventListener('scroll', resetInactivityTimer)
+        document.addEventListener('click', resetInactivityTimer);
+        document.addEventListener('keypress', resetInactivityTimer);
+        document.addEventListener('scroll', resetInactivityTimer);
+
+        // Cleanup on page unload
+        window.addEventListener('beforeunload', () => {
+            if (unsubscribeJogos) {
+                unsubscribeJogos();
+            }
+        });
     </script>
 </body>
 </html>
