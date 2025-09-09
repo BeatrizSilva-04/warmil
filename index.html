@@ -1,307 +1,848 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt-BR" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Grupo Cultural e Desportivo de Armil</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+Pro:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="app/globals.css">
+    <style>
+        .font-montserrat { font-family: 'Montserrat', sans-serif; }
+        .font-open-sans { font-family: 'Open Sans', sans-serif; }
+        
+        /* Adicionando animações de salto e rotação para a imagem */
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+        
+        @keyframes rotate {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        
+        .bounce-animation {
+            animation: bounce 2s infinite;
+        }
+        
+        .rotate-animation {
+            animation: rotate 3s linear infinite;
+        }
+        
+        .bounce-rotate-animation {
+            animation: bounce 2s infinite, rotate 4s linear infinite;
+        }
+    </style>
 </head>
-<body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">
-                <!-- Using the actual logo image instead of SVG -->
-                <img src="img/armil.jpg" alt="GCD Armil " width="50" height="50">
-                <span>GCD Armil</span>
-            </div>
-            <ul class="nav-menu">
-                <li><a href="#home" class="nav-link active">Início</a></li>
-                <li><a href="#games" class="nav-link">Jogos</a></li>
-                <li><a href="#teams" class="nav-link">Equipas</a></li>
-                <li><a href="produtos.html" class="nav-link">Produtos</a></li>
-                <li><a href="#contact" class="nav-link">Contactos</a></li>
-            </ul>
-            <div class="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
+<body class="bg-background text-foreground">
+    <!-- Header -->
+    <header class="bg-card shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <!-- usando a imagem real do símbolo do clube -->
+                    <img src="img/simboloarmil.png" alt="Símbolo GCD Armil" class="w-12 h-12 rounded-full object-contain">
+                    <span class="ml-3 font-montserrat font-bold text-xl text-foreground">GCD Armil</span>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#home" class="text-foreground hover:text-primary transition-colors font-open-sans font-semibold">Início</a>
+                    <a href="#teams" class="text-foreground hover:text-primary transition-colors font-open-sans font-semibold">Equipas</a>
+                    <a href="#matches" class="text-foreground hover:text-primary transition-colors font-open-sans font-semibold">Jogos</a>
+                    <a href="#about" class="text-foreground hover:text-primary transition-colors font-open-sans font-semibold">Sobre Nós</a>
+                </nav>
+
+                <!-- Search and Social -->
+                <div class="hidden md:flex items-center space-x-4">
+                    <div class="relative">
+                        <input type="text" placeholder="Buscar..." class="bg-input border border-border rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+                        <svg class="absolute right-3 top-2.5 h-4 w-4 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                    </div>
+                    <div class="flex space-x-2">
+                        <a href="#" class="text-muted-foreground hover:text-primary transition-colors">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-muted-foreground hover:text-primary transition-colors">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15 0 1.49.75 2.81 1.91 3.56-.71 0-1.37-.2-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.93.07 4.28 4.28 0 0 0 4 2.98 8.521 8.521 0 0 1-5.33 1.84c-.34 0-.68-.02-1.02-.06C3.44 20.29 5.7 21 8.12 21 16 21 20.33 14.46 20.33 8.79c0-.19 0-.37-.01-.56.84-.6 1.56-1.36 2.14-2.23z"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="text-muted-foreground hover:text-primary transition-colors">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.174-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.402.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.357-.629-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24.009 12.017 24.009c6.624 0 11.99-5.367 11.99-11.988C24.007 5.367 18.641.001.012.001z"/>
+                        </svg>
+                    </a>
+                </div>
+
+                <!-- Mobile menu button -->
+                <button class="md:hidden text-foreground" id="mobile-menu-button">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
             </div>
         </div>
-    </nav>
+
+        <!-- Mobile menu -->
+        <div class="md:hidden mobile-menu fixed inset-y-0 left-0 w-64 bg-card shadow-lg z-50" id="mobile-menu">
+            <div class="p-4">
+                <div class="flex items-center justify-between mb-8">
+                    <div class="flex items-center">
+                        <!-- usando a imagem real do símbolo no menu mobile -->
+                        <img src="img/simboloarmil.png" alt="Símbolo GCD Armil" class="w-10 h-10 rounded-full object-contain">
+                        <span class="ml-3 font-montserrat font-bold text-lg text-foreground">GCD Armil</span>
+                    </div>
+                    <button class="text-foreground" id="close-mobile-menu">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12M6 12h12"></path>
+                        </svg>
+                    </button>
+                </div>
+                <nav class="space-y-4">
+                    <a href="#home" class="block text-foreground hover:text-primary transition-colors font-open-sans font-semibold py-2">Início</a>
+                    <a href="#teams" class="block text-foreground hover:text-primary transition-colors font-open-sans font-semibold py-2">Equipas</a>
+                    <a href="#matches" class="block text-foreground hover:text-primary transition-colors font-open-sans font-semibold py-2">Jogos</a>
+                    <a href="#history" class="block text-foreground hover:text-primary transition-colors font-open-sans font-semibold py-2">História</a>
+                    <a href="#about" class="block text-foreground hover:text-primary transition-colors font-open-sans font-semibold py-2">Sobre Nós</a>
+                </nav>
+            </div>
+        </div>
+    </header>
 
     <!-- Hero Section -->
-    <!-- Completely redesigned hero section with better layout and visual appeal -->
-    <section id="home" class="hero">
-        <div class="hero-background">
-            <div class="hero-pattern"></div>
+    <section id="home" class="relative h-screen flex items-center justify-center bg-background">
+        <!-- Adicionando imagem de fundo fundo.png com overlay escuro -->
+        <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image: url('img/fundo.png');">
+            <div class="absolute inset-0 bg-black/60"></div>
         </div>
-        <div class="hero-content">
-            <div class="hero-text">
-                <div class="hero-badge">
-                    <i class="fas fa-star"></i>
-                    <span>Fundado em 1978</span>
+        
+        <div class="relative z-10 text-center text-white max-w-4xl mx-auto px-4">
+            <!-- Usando símbolo real e atualizando texto conforme imagem -->
+            <div class="mb-8">
+                <div class="w-32 h-32 mx-auto mb-6 flex items-center justify-center">
+                    <img src="img/simboloarmil.png" alt="Símbolo Grupo Cultural e Desportivo de Armil" class="w-full h-full object-contain filter brightness-0 invert">
                 </div>
-                <h1>Grupo Cultural e<br><span class="highlight">Desportivo de Armil</span></h1>
-                <p class="hero-subtitle">Mais de 45 anos de paixão, tradição e excelência desportiva na nossa comunidade</p>
-                
-                <div class="hero-features">
-                    <div class="feature">
-                        <div class="feature-icon">
-                            <i class="fas fa-users"></i>
-                        </div>
-                        <div class="feature-text">
-                            <span class="feature-number">100+</span>
-                            <span class="feature-label">Atletas</span>
-                        </div>
-                    </div>
-                    <div class="feature">
-                        <div class="feature-icon">
-                            <i class="fas fa-trophy"></i>
-                        </div>
-                        <div class="feature-text">
-                            <span class="feature-number">45+</span>
-                            <span class="feature-label">Anos de História</span>
-                        </div>
-                    </div>
-                    <div class="feature">
-                        <div class="feature-icon">
-                            <i class="fas fa-heart"></i>
-                        </div>
-                        <div class="feature-text">
-                            <span class="feature-number">1</span>
-                            <span class="feature-label">Paixão</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="hero-buttons">
-                    <button class="btn btn-primary" onclick="scrollToSection('games')">
-                        <i class="fas fa-calendar-alt"></i>
-                        Ver Próximos Jogos
-                    </button>
-                    <button class="btn btn-secondary" onclick="scrollToSection('teams')">
-                        <i class="fas fa-users"></i>
-                        Conhecer as Equipas
-                    </button>
-                </div>
+                <h1 class="font-montserrat font-black text-4xl md:text-6xl mb-2 text-balance">
+                    Grupo Cultural e Desportivo de Armil
+                </h1>
+                <!-- Adicionando data de fundação conforme imagem -->
+                <p class="font-montserrat font-semibold text-xl md:text-2xl mb-8">
+                    Fundado a 6 de junho de 1978
+                </p>
             </div>
-            <div class="hero-visual">
-                <div class="hero-logo-container">
-                    <img src="img/simboloarmil.png" alt="GCD Armil Logo" class="hero-logo">
-                    <div class="logo-glow"></div>
-                </div>
-                <div class="hero-stats-floating">
-                    <div class="floating-stat">
-                        <i class="fas fa-futbol"></i>
-                        <span>Futsal & Futebol</span>
-                    </div>
-                    <div class="floating-stat">
-                        <i class="fas fa-medal"></i>
-                        <span>Tradição</span>
-                    </div>
-                    <div class="floating-stat">
-                        <i class="fas fa-handshake"></i>
-                        <span>Comunidade</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Games Section -->
-    <section id="games" class="games-section">
-        <div class="container">
-            <div class="section-header">
-                <h2>Jogos e Resultados</h2>
-                <p>Acompanhe os nossos próximos jogos e resultados recentes</p>
-            </div>
-            
-            <div class="games-tabs">
-                <button class="tab-btn active" onclick="showGames('upcoming')">Próximos Jogos</button>
-                <button class="tab-btn" onclick="showGames('results')">Resultados</button>
-            </div>
-
-            <div id="upcoming-games" class="games-grid">
-                <!-- Games will be loaded here by JavaScript -->
-            </div>
-
-            <div id="results-games" class="games-grid" style="display: none;">
-                <!-- Results will be loaded here by JavaScript -->
-            </div>
+            <button class="bg-primary hover:bg-primary/90 text-primary-foreground font-open-sans font-semibold px-8 py-4 rounded-lg text-lg transition-colors">
+                Junte-se ao Clube
+            </button>
         </div>
     </section>
 
     <!-- Teams Section -->
-    <section id="teams" class="teams-section">
-        <div class="container">
-            <div class="section-header">
-                <h2>As Nossas Equipas</h2>
-                <p>Conheça os nossos atletas e equipa técnica</p>
+    <section id="teams" class="py-16 bg-background">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="font-montserrat font-black text-4xl text-center mb-12 text-foreground">Nossas Equipas</h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Traquinas -->
+                <div class="team-card bg-card rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow cursor-pointer" onclick="toggleTeamPlayers('traquinas')">
+                    <img src="/placeholder.svg?height=200&width=400" alt="Equipa Traquinas" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="font-montserrat font-bold text-xl mb-3 text-card-foreground">Traquinas</h3>
+                        <p class="font-open-sans text-muted-foreground mb-4">Escalão de formação mais jovem do clube</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-muted-foreground">Idades: 6-8 anos</span>
+                            <span class="text-primary hover:text-primary/80 font-semibold">Ver Jogadores</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Benjamins -->
+                <div class="team-card bg-card rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow cursor-pointer" onclick="toggleTeamPlayers('benjamins')">
+                    <img src="/placeholder.svg?height=200&width=400" alt="Equipa Benjamins" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="font-montserrat font-bold text-xl mb-3 text-card-foreground">Benjamins</h3>
+                        <p class="font-open-sans text-muted-foreground mb-4">Formação base com foco no desenvolvimento técnico</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-muted-foreground">Idades: 8-10 anos</span>
+                            <span class="text-primary hover:text-primary/80 font-semibold">Ver Jogadores</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Infantis -->
+                <div class="team-card bg-card rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow cursor-pointer" onclick="toggleTeamPlayers('infantis')">
+                    <img src="/placeholder.svg?height=200&width=400" alt="Equipa Infantis" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="font-montserrat font-bold text-xl mb-3 text-card-foreground">Infantis</h3>
+                        <p class="font-open-sans text-muted-foreground mb-4">Desenvolvimento tático e técnico avançado</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-muted-foreground">Idades: 10-12 anos</span>
+                            <span class="text-primary hover:text-primary/80 font-semibold">Ver Jogadores</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Juvenis -->
+                <div class="team-card bg-card rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow cursor-pointer" onclick="toggleTeamPlayers('juvenis')">
+                    <img src="/placeholder.svg?height=200&width=400" alt="Equipa Juvenis" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="font-montserrat font-bold text-xl mb-3 text-card-foreground">Juvenis</h3>
+                        <p class="font-open-sans text-muted-foreground mb-4">Preparação para o futebol sénior</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-muted-foreground">Idades: 16-18 anos</span>
+                            <span class="text-primary hover:text-primary/80 font-semibold">Ver Jogadores</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Séniores Futsal -->
+                <div class="team-card bg-card rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow cursor-pointer" onclick="toggleTeamPlayers('seniores-futsal')">
+                    <img src="img/seniores_futsal.jpg" alt="Equipa Séniores Futsal" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="font-montserrat font-bold text-xl mb-3 text-card-foreground">Séniores Futsal</h3>
+                        <p class="font-open-sans text-muted-foreground mb-4">Equipa principal de futsal do clube</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-muted-foreground">Competição Principal</span>
+                            <span class="text-primary hover:text-primary/80 font-semibold">Ver Jogadores</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Séniores Futebol -->
+                <div class="team-card bg-card rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow cursor-pointer" onclick="toggleTeamPlayers('seniores-futebol')">
+                    <img src="/placeholder.svg?height=200&width=400" alt="Equipa Séniores Futebol" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="font-montserrat font-bold text-xl mb-3 text-card-foreground">Séniores Futebol</h3>
+                        <p class="font-open-sans text-muted-foreground mb-4">Equipa principal de futebol do clube</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-muted-foreground">Competição Principal</span>
+                            <span class="text-primary hover:text-primary/80 font-semibold">Ver Jogadores</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Veteranos -->
+                <div class="team-card bg-card rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow cursor-pointer" onclick="toggleTeamPlayers('veteranos')">
+                    <img src="/placeholder.svg?height=200&width=400" alt="Equipa Veteranos" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="font-montserrat font-bold text-xl mb-3 text-card-foreground">Veteranos</h3>
+                        <p class="font-open-sans text-muted-foreground mb-4">Futebol recreativo para os mais experientes</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-muted-foreground">Idades: 35+ anos</span>
+                            <span class="text-primary hover:text-primary/80 font-semibold">Ver Jogadores</span>
+                        </div>
+                    </div>
+                </div>
             </div>
-            
-            <div class="teams-grid">
-                <div class="team-card" onclick="showTeamDetails('senior')">
-                    <div class="team-image">
-                        <img src="img/seniores_futsal.jpg" alt="Equipa Sénior">
+
+            <!-- Players Lists (Hidden by default) -->
+            <div id="team-players" class="mt-12 hidden">
+                <div class="bg-card rounded-lg p-6 shadow-lg">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 id="team-title" class="font-montserrat font-bold text-2xl text-card-foreground"></h3>
+                        <button onclick="hideTeamPlayers()" class="text-muted-foreground hover:text-foreground">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
                     </div>
-                    <div class="team-info">
-                        <h3>Equipa Sénior Futsal</h3>
-                        <span class="team-category">Sénior Masculino</span>
-                    </div>
-                </div>
-                <div class="team-card" onclick="showTeamDetails('senior')">
-                    <div class="team-image">
-                        <img src="img/seniores_futsal.jpg" alt="Equipa Sénior">
-                    </div>
-                    <div class="team-info">
-                        <h3>Equipa Sénior Futebol</h3>
-                        <span class="team-category">Sénior Masculino</span>
-                    </div>
-                </div>
-                <div class="team-card" onclick="showTeamDetails('junior')">
-                    <div class="team-image">
-                        <img src="img/iniciados.jpg" alt="Juvenis">
-                    </div>
-                    <div class="team-info">
-                        <h3>Equipa Juvenis</h3>
-                        <p>Os nossos jovens talentos em formação</p>
-                        <span class="team-category">Juvenis</span>
-                    </div>
-                </div>
-                <div class="team-card" onclick="showTeamDetails('youth')">
-                    <div class="team-image">
-                        <img src="/placeholder.svg?height=200&width=300" alt="Equipa Infantil">
-                    </div>
-                    <div class="team-info">
-                        <h3>Equipa Infantil</h3>
-                        <p>A base do nosso futuro desportivo</p>
-                        <span class="team-category">Infantis</span>
+                    <div id="players-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <!-- Players will be populated by JavaScript -->
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Contact Section -->
-    <section id="contact" class="contact-section">
-        <div class="container">
-            <div class="section-header">
-                <h2>Contactos</h2>
-                <p>Entre em contacto connosco</p>
-            </div>
+    <!-- Matches Section -->
+    <section id="matches" class="py-16 bg-background">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Updated title and added subtitle -->
+            <h2 class="font-montserrat font-black text-4xl text-center mb-4 text-foreground">Jogos e Resultados</h2>
+            <p class="font-open-sans text-center text-muted-foreground mb-8">Acompanhe os nossos próximos jogos e resultados recentes</p>
             
-            <div class="contact-grid">
-                <div class="contact-info">
-                    <div class="contact-item">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <div>
-                            <h4>Morada</h4>
-                            <p>Rua do Campo de Futebol, Armil<br>Portugal</p>
+            <!-- Added toggle buttons for games and results -->
+            <div class="flex justify-center mb-8">
+                <div class="bg-muted rounded-lg p-1 inline-flex">
+                    <button id="proximos-jogos-btn" class="px-6 py-3 rounded-md font-semibold transition-all duration-200 bg-foreground text-background">
+                        Próximos Jogos
+                    </button>
+                    <button id="resultados-btn" class="px-6 py-3 rounded-md font-semibold transition-all duration-200 text-muted-foreground hover:text-foreground">
+                        Resultados
+                    </button>
+                </div>
+            </div>
+
+            <!-- Updated matches cards with neutral background circles and team logos -->
+            <div id="proximos-jogos" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="match-card bg-card rounded-lg p-6 shadow-lg">
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-sm text-muted-foreground">22 Agosto 2025 • 15:00</span>
+                        <span class="bg-foreground text-background px-3 py-1 rounded-full text-sm font-semibold">Juvenis</span>
+                    </div>
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="text-center">
+                            <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-2 border-2 border-gray-300">
+                                <img src="img/armil.png" alt="GCD Armil" class="w-12 h-12 object-contain">
+                            </div>
+                            <p class="font-semibold text-sm">GCD Armil</p>
+                        </div>
+                        <div class="text-center mx-4">
+                            <p class="font-montserrat font-bold text-2xl text-foreground">VS</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-2 border-2 border-gray-300">
+                                <img src="img/sporting.png" alt="Sporting" class="w-12 h-12 object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                <div class="w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center text-white font-bold text-xs" style="display: none;">VG</div>
+                            </div>
+                            <p class="font-semibold text-sm">Sporting</p>
                         </div>
                     </div>
-                    
-                    <div class="contact-item">
-                        <i class="fas fa-phone"></i>
-                        <div>
-                            <h4>Telefone</h4>
-                            <p>966 368 977</p>
-                        </div>
-                    </div>
-                    
-                    <div class="contact-item">
-                        <i class="fas fa-envelope"></i>
-                        <div>
-                            <h4>Email</h4>
-                            <p>gcdarmil78@gmail.com</p>
-                        </div>
-                    </div>
-                    
-                    <div class="contact-item">
-                        <i class="fas fa-clock"></i>
-                        <div>
-                            <h4>Horário</h4>
-                            <p>Segunda a Sexta: 18h00 - 22h00<br>Sábado: 14h00 - 20h00</p>
-                        </div>
+                    <div class="text-center">
+                        <p class="text-sm text-muted-foreground flex items-center justify-center">
+                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            </svg>
+                            Campo do Armil
+                        </p>
                     </div>
                 </div>
+
+                <div class="match-card bg-card rounded-lg p-6 shadow-lg">
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-sm text-muted-foreground">22 Dezembro 2024 • 14:30</span>
+                        <span class="bg-foreground text-background px-3 py-1 rounded-full text-sm font-semibold">Veteranos</span>
+                    </div>
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="text-center">
+                            <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-2 border-2 border-gray-300">
+                                <img src="img/sporting.png" alt="SC Unidos" class="w-12 h-12 object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold text-xs" style="display: none;">SC</div>
+                            </div>
+                            <p class="font-semibold text-sm">Sporting</p>
+                        </div>
+                        <div class="text-center mx-4">
+                            <p class="font-montserrat font-bold text-2xl text-foreground">VS</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-2 border-2 border-gray-300">
+                                <img src="img/armil.png" alt="GCD Armil" class="w-12 h-12 object-contain">
+                            </div>
+                            <p class="font-semibold text-sm">GCD Armil</p>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-sm text-muted-foreground flex items-center justify-center">
+                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            </svg>
+                            Estádio José Alvalade
+                        </p>
+                    </div>
+                </div>
+
+                <div class="match-card bg-card rounded-lg p-6 shadow-lg">
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-sm text-muted-foreground">4 Janeiro 2025 • 16:00</span>
+                        <span class="bg-foreground text-background px-3 py-1 rounded-full text-sm font-semibold">Séniores Futebol</span>
+                    </div>
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="text-center">
+                            <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-2 border-2 border-gray-300">
+                                <img src="img/armil.png" alt="GCD Armil" class="w-12 h-12 object-contain">
+                            </div>
+                            <p class="font-semibold text-sm">GCD Armil</p>
+                        </div>
+                        <div class="text-center mx-4">
+                            <p class="font-montserrat font-bold text-2xl text-foreground">VS</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-2 border-2 border-gray-300">
+                                <img src="img/sporting.png" alt="EC Vitória" class="w-12 h-12 object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                <div class="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center text-white font-bold text-xs" style="display: none;">EC</div>
+                            </div>
+                            <p class="font-semibold text-sm">Sporting</p>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-sm text-muted-foreground flex items-center justify-center">
+                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            </svg>
+                            Campo do Armil
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Resultados -->
+            <div id="resultados" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 hidden">
+                <div class="match-card bg-card rounded-lg p-6 shadow-lg">
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-sm text-muted-foreground">15 Novembro 2024</span>
+                        <span class="bg-foreground text-background px-3 py-1 rounded-full text-sm font-semibold">Veteranos</span>
+                    </div>
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="text-center">
+                            <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-2 border-2 border-gray-300">
+                                <img src="img/armil.png" alt="GCD Armil" class="w-12 h-12 object-contain">
+                            </div>
+                            <p class="font-semibold text-sm">GCD Armil</p>
+                            <p class="font-bold text-2xl text-green-600">3</p>
+                        </div>
+                        <div class="text-center mx-4">
+                            <p class="font-montserrat font-bold text-xl text-muted-foreground">-</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-2 border-2 border-gray-300">
+                                <img src="img/sporting.png" alt="Sporting" class="w-12 h-12 object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                <div class="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center text-white font-bold text-xs" style="display: none;">AD</div>
+                            </div>
+                            <p class="font-semibold text-sm">Sporting</p>
+                            <p class="font-bold text-2xl text-red-600">1</p>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-sm text-muted-foreground flex items-center justify-center">
+                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            </svg>
+                            Campo do Armil
+                        </p>
+                    </div>
+                </div>
+ <!-- Resultado 2-->
+                <div class="match-card bg-card rounded-lg p-6 shadow-lg">
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-sm text-muted-foreground">8 Novembro 2024</span>
+                        <span class="bg-foreground text-background px-3 py-1 rounded-full text-sm font-semibold">Juvenis</span>
+                    </div>
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="text-center">
+                            <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-2 border-2 border-gray-300">
+                                <img src="img/sporting.png" alt="Sporting" class="w-12 h-12 object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                <div class="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center text-white font-bold text-xs" style="display: none;">FC</div>
+                            </div>
+                            <p class="font-semibold text-sm">Sporting</p>
+                            <p class="font-bold text-2xl text-red-600">0</p>
+                        </div>
+                        <div class="text-center mx-4">
+                            <p class="font-montserrat font-bold text-xl text-muted-foreground">-</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-2 border-2 border-gray-300">
+                                <img src="img/armil.png" alt="GCD Armil" class="w-12 h-12 object-contain">
+                            </div>
+                            <p class="font-semibold text-sm">GCD Armil</p>
+                            <p class="font-bold text-2xl text-green-600">2</p>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-sm text-muted-foreground flex items-center justify-center">
+                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            </svg>
+                            Campo Municipal
+                        </p>
+                    </div>
+                </div>
+                 <!-- Resultado 3-->
+
+                              <div class="match-card bg-card rounded-lg p-6 shadow-lg">
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-sm text-muted-foreground">8 Novembro 2024</span>
+                        <span class="bg-foreground text-background px-3 py-1 rounded-full text-sm font-semibold">Juvenis</span>
+                    </div>
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="text-center">
+                            <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-2 border-2 border-gray-300">
+                                <img src="img/sporting.png" alt="Sporting" class="w-12 h-12 object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                <div class="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center text-white font-bold text-xs" style="display: none;">FC</div>
+                            </div>
+                            <p class="font-semibold text-sm">Sporting</p>
+                            <p class="font-bold text-2xl text-red-600">0</p>
+                        </div>
+                        <div class="text-center mx-4">
+                            <p class="font-montserrat font-bold text-xl text-muted-foreground">-</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-2 border-2 border-gray-300">
+                                <img src="img/armil.png" alt="GCD Armil" class="w-12 h-12 object-contain">
+                            </div>
+                            <p class="font-semibold text-sm">GCD Armil</p>
+                            <p class="font-bold text-2xl text-green-600">2</p>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-sm text-muted-foreground flex items-center justify-center">
+                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            </svg>
+                            Campo Municipal
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-16 bg-muted">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <h2 class="font-montserrat font-black text-4xl md:text-5xl text-center mb-12 text-primary">
+                Sobre Nós
+            </h2>
+            
+            <div class="space-y-6 font-open-sans text-muted-foreground text-lg leading-relaxed">
+                <p>
+                    O Grupo Cultural e Desportivo de Armil foi fundado a 6 de junho de 1978, fruto da paixão e do empenho de um grupo de amigos e habitantes da freguesia que acreditavam no poder do desporto e da cultura como motores de união comunitária. Desde então, o clube tornou-se uma referência local, não só pela sua vertente competitiva, mas também pela sua forte ligação social e cultural à população.
+                </p>
                 
-                <div class="contact-form">
-                    <form id="contactForm">
-                        <div class="form-group">
-                            <input type="text" id="name" name="name" placeholder="Nome" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="email" id="email" name="email" placeholder="Email" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" id="subject" name="subject" placeholder="Assunto" required>
-                        </div>
-                        <div class="form-group">
-                            <textarea id="message" name="message" placeholder="Mensagem" rows="5" required></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Enviar Mensagem</button>
-                    </form>
-                </div>
+                <p>
+                    Ao longo das décadas, o clube cresceu e consolidou-se, sendo reconhecido pela sua aposta nas modalidades de futsal e futebol, oferecendo oportunidades de prática desportiva em diversos escalões de formação, desde os mais jovens até aos seniores e veteranos.
+                </p>
+                
+                <p>
+                    O clube tem participado regularmente em campeonatos locais e distritais, conquistando títulos e distinções que enchem de orgulho toda a comunidade de Armil. Mas mais do que os troféus, o que distingue esta coletividade é a capacidade de formar jovens atletas, transmitindo valores de disciplina, respeito, solidariedade e espírito de equipa.
+                </p>
+                
+                <p>
+                    Paralelamente à vertente desportiva, o Grupo Cultural e Desportivo de Armil promove também iniciativas de carácter cultural e social, reforçando assim a sua identidade como verdadeiro ponto de encontro da freguesia.
+                </p>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <div class="footer-logo">
-                        <!-- Using the actual logo image in footer -->
-                        <img src="img/simboloarmil.png" alt="GCD Armil Logo" width="50" height="50">
-                        <span>GCD Armil</span>
+    <footer class="bg-sidebar text-sidebar-foreground py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <!-- usando a imagem real do símbolo no footer -->
+                        <img src="img/simboloarmil.png" alt="Símbolo GCD Armil" class="w-12 h-12 rounded-full object-contain">
+                        <span class="ml-3 font-montserrat font-bold text-xl">GCD Armil</span>
                     </div>
-                    <p>Grupo Cultural e Desportivo de Armil - Fundado em 1978</p>
-                    <div class="social-links">
-                        <a href="https://www.facebook.com/profile.php?id=100054213772626" target="_blank"><i class="fab fa-facebook"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-youtube"></i></a>
-                    </div>
+                    <p class="font-open-sans text-sm text-sidebar-foreground/80">
+                        Paixão, força e tradição desde 1985. Mais que um clube, uma família.
+                    </p>
                 </div>
-                
-                <div class="footer-section">
-                    <h4>Links Rápidos</h4>
-                    <ul>
-                        <li><a href="#home">Início</a></li>
-                        <li><a href="#games">Jogos</a></li>
-                        <li><a href="#teams">Equipas</a></li>
-                        <li><a href="produtos.html">Produtos</a></li>
-                        <li><a href="#contact">Contactos</a></li>
+
+                <div>
+                    <h4 class="font-montserrat font-bold text-lg mb-4">Links Rápidos</h4>
+                    <ul class="space-y-2 font-open-sans text-sm">
+                        <li><a href="#home" class="hover:text-sidebar-primary transition-colors">Início</a></li>
+                        <li><a href="#teams" class="hover:text-sidebar-primary transition-colors">Equipas</a></li>
+                        <li><a href="#matches" class="hover:text-sidebar-primary transition-colors">Jogos</a></li>
+                        <li><a href="#about" class="hover:text-sidebar-primary transition-colors">Sobre Nós</a></li>
                     </ul>
                 </div>
-                
-                <div class="footer-section">
-                    <h4>Contacto</h4>
-                    <p><i class="fas fa-map-marker-alt"></i> Armil, Portugal</p>
-                    <p><i class="fas fa-phone"></i> 966 368 977</p>
-                    <p><i class="fas fa-envelope"></i> gcdarmil78@gmail.com</p>
+
+                <div>
+                    <h4 class="font-montserrat font-bold text-lg mb-4">Contato</h4>
+                    <div class="space-y-2 font-open-sans text-sm">
+                        <p>📍 Rua dos Leões, 123</p>
+                        <p>📞 (11) 1234-5678</p>
+                        <p>✉️ contato@fcleoes.com</p>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="font-montserrat font-bold text-lg mb-4">Newsletter</h4>
+                    <p class="font-open-sans text-sm mb-4">Receba as últimas notícias do clube</p>
+                    <div class="flex">
+                        <input type="email" placeholder="Seu e-mail" class="flex-1 px-3 py-2 bg-background text-foreground rounded-l-lg text-sm focus:outline-none focus:ring-2 focus:ring-sidebar-primary">
+                        <button class="bg-sidebar-primary text-sidebar-primary-foreground px-4 py-2 rounded-r-lg hover:bg-sidebar-primary/90 transition-colors">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                            </svg>
+                        </button>
+                    </div>
                 </div>
             </div>
-            
-            <div class="footer-bottom">
-                <p>&copy;  Grupo Cultural e Desportivo de Armil. Todos os direitos reservados.</p>
+
+            <div class="border-t border-sidebar-border mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="font-open-sans text-sm text-sidebar-foreground/60">
+                    <!-- Atualizado copyright -->
+                    © 2024 Grupo Cultural e Desportivo de Armil. Todos os direitos reservados.
+                </p>
+                <div class="flex space-x-4 mt-4 md:mt-0">
+                    <a href="#" class="text-sidebar-foreground/60 hover:text-sidebar-primary transition-colors">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M24 4.557c-.883.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15 0 1.49.75 2.81 1.91 3.56-.71 0-1.37-.2-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.93.07 4.28 4.28 0 0 0 4 2.98 8.521 8.521 0 0 1-5.33 1.84c-.34 0-.68-.02-1.02-.06C3.44 20.29 5.7 21 8.12 21 16 21 20.33 14.46 20.33 8.79c0-.19 0-.37-.01-.56.84-.6 1.56-1.36 2.14-2.23z"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="text-sidebar-foreground/60 hover:text-sidebar-primary transition-colors">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15 0 1.49.75 2.81 1.91 3.56-.71 0-1.37-.2-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.93.07 4.28 4.28 0 0 0 4 2.98 8.521 8.521 0 0 1-5.33 1.84c-.34 0-.68-.02-1.02-.06C3.44 20.29 5.7 21 8.12 21 16 21 20.33 14.46 20.33 8.79c0-.19 0-.37-.01-.56.84-.6 1.56-1.36 2.14-2.23z"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="text-sidebar-foreground/60 hover:text-sidebar-primary transition-colors">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.174-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.402.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.357-.629-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24.009 12.017 24.009c6.624 0 11.99-5.367 11.99-11.988C24.007 5.367 18.641.001.012.001z"/>
+                        </svg>
+                    </a>
+                </div>
             </div>
         </div>
     </footer>
 
-    <!-- Team Details Modal -->
-    <div id="teamModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <div id="teamDetails">
-                <!-- Team details will be loaded here -->
-            </div>
-        </div>
-    </div>
+    <script>
+        // Mobile menu functionality
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const closeMobileMenu = document.getElementById('close-mobile-menu');
 
-    <script src="script.js"></script>
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.add('open');
+        });
+
+        closeMobileMenu.addEventListener('click', () => {
+            mobileMenu.classList.remove('open');
+        });
+
+        // Close mobile menu when clicking on a link
+        const mobileMenuLinks = mobileMenu.querySelectorAll('a');
+        mobileMenuLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('open');
+            });
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add scroll effect to header
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.classList.add('backdrop-blur-sm', 'bg-card/95');
+            } else {
+                header.classList.remove('backdrop-blur-sm', 'bg-card/95');
+            }
+        });
+
+        // Newsletter form submission
+        const newsletterForm = document.querySelector('footer form');
+        if (newsletterForm) {
+            newsletterForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const email = e.target.querySelector('input[type="email"]').value;
+                alert(`Obrigado por se inscrever com o e-mail: ${email}`);
+                e.target.reset();
+            });
+        }
+
+        // Add animation to player cards on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe player cards
+        document.querySelectorAll('.player-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+
+        // Observe timeline items
+        document.querySelectorAll('.timeline-item').forEach(item => {
+            item.style.opacity = '0';
+            item.style.transform = 'translateX(-20px)';
+            item.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(item);
+        });
+
+        const proximosJogosBtn = document.getElementById('proximos-jogos-btn');
+        const resultadosBtn = document.getElementById('resultados-btn');
+        const proximosJogosSection = document.getElementById('proximos-jogos');
+        const resultadosSection = document.getElementById('resultados');
+
+        proximosJogosBtn.addEventListener('click', () => {
+            // Update button styles
+            proximosJogosBtn.classList.add('bg-foreground', 'text-background');
+            proximosJogosBtn.classList.remove('text-muted-foreground');
+            resultadosBtn.classList.remove('bg-foreground', 'text-background');
+            resultadosBtn.classList.add('text-muted-foreground');
+            
+            // Show/hide sections
+            proximosJogosSection.classList.remove('hidden');
+            resultadosSection.classList.add('hidden');
+        });
+
+        resultadosBtn.addEventListener('click', () => {
+            // Update button styles
+            resultadosBtn.classList.add('bg-foreground', 'text-background');
+            resultadosBtn.classList.remove('text-muted-foreground');
+            proximosJogosBtn.classList.remove('bg-foreground', 'text-background');
+            proximosJogosBtn.classList.add('text-muted-foreground');
+            
+            // Show/hide sections
+            resultadosSection.classList.remove('hidden');
+            proximosJogosSection.classList.add('hidden');
+        });
+
+        // Team players data
+        const teamPlayers = {
+            'traquinas': [
+                { name: 'João Silva', position: 'Avançado', number: 9, photo: 'img/players/joao-silva.jpg' },
+                { name: 'Pedro Santos', position: 'Médio', number: 10, photo: 'img/players/pedro-santos.jpg' },
+                { name: 'Miguel Costa', position: 'Defesa', number: 4, photo: 'img/players/miguel-costa.jpg' },
+                { name: 'Tiago Oliveira', position: 'Guarda-Redes', number: 1, photo: 'img/players/tiago-oliveira.jpg' },
+                { name: 'André Ferreira', position: 'Extremo', number: 7, photo: 'img/players/andre-ferreira.jpg' },
+                { name: 'Bruno Almeida', position: 'Defesa', number: 3, photo: 'img/players/bruno-almeida.jpg' }
+            ],
+            'benjamins': [
+                { name: 'Carlos Pereira', position: 'Avançado', number: 9, photo: 'img/players/carlos-pereira.jpg' },
+                { name: 'Rui Martins', position: 'Médio', number: 8, photo: 'img/players/rui-martins.jpg' },
+                { name: 'Nuno Rodrigues', position: 'Defesa', number: 5, photo: 'img/players/nuno-rodrigues.jpg' },
+                { name: 'Hugo Sousa', position: 'Guarda-Redes', number: 1, photo: 'img/players/hugo-sousa.jpg' },
+                { name: 'Diogo Lopes', position: 'Extremo', number: 11, photo: 'img/players/diogo-lopes.jpg' },
+                { name: 'Ricardo Gomes', position: 'Médio', number: 6, photo: 'img/players/ricardo-gomes.jpg' }
+            ],
+            'infantis': [
+                { name: 'Francisco Dias', position: 'Avançado', number: 10, photo: 'img/players/francisco-dias.jpg' },
+                { name: 'Gonçalo Ribeiro', position: 'Médio', number: 8, photo: 'img/players/goncalo-ribeiro.jpg' },
+                { name: 'Tomás Carvalho', position: 'Defesa', number: 4, photo: 'img/players/tomas-carvalho.jpg' },
+                { name: 'Afonso Pinto', position: 'Guarda-Redes', number: 1, photo: 'img/players/afonso-pinto.jpg' },
+                { name: 'Bernardo Lima', position: 'Extremo', number: 11, photo: 'img/players/bernardo-lima.jpg' },
+                { name: 'Rodrigo Neves', position: 'Defesa', number: 3, photo: 'img/players/rodrigo-neves.jpg' }
+            ],
+            'juvenis': [
+                { name: 'Daniel Moreira', position: 'Avançado', number: 9, photo: 'img/players/daniel-moreira.jpg' },
+                { name: 'Fábio Cunha', position: 'Médio', number: 10, photo: 'img/players/fabio-cunha.jpg' },
+                { name: 'Luís Barbosa', position: 'Defesa', number: 3, photo: 'img/players/luis-barbosa.jpg' },
+                { name: 'Marco Silva', position: 'Guarda-Redes', number: 1, photo: 'img/players/marco-silva.jpg' },
+                { name: 'Paulo Mendes', position: 'Extremo', number: 11, photo: 'img/players/paulo-mendes.jpg' },
+                { name: 'Sérgio Teixeira', position: 'Médio', number: 6, photo: 'img/players/sergio-teixeira.jpg' }
+            ],
+            'seniores-futsal': [
+                { name: 'António Fernandes', position: 'Pivot', number: 9, photo: 'img/players/antonio-fernandes.jpg' },
+                { name: 'José Correia', position: 'Ala', number: 7, photo: 'img/players/jose-correia.jpg' },
+                { name: 'Manuel Rocha', position: 'Fixo', number: 4, photo: 'img/players/manuel-rocha.jpg' },
+                { name: 'Vítor Azevedo', position: 'Guarda-Redes', number: 1, photo: 'img/players/vitor-azevedo.jpg' },
+                { name: 'Carlos Monteiro', position: 'Ala', number: 11, photo: 'img/players/carlos-monteiro.jpg' },
+                { name: 'Pedro Lemos', position: 'Avançado', number: 9, photo: 'img/pedro_lemos.jpg' },
+                { name: 'Pedro Machado', position: 'Universal', number: 8, photo: 'img/players/pedro-machado.jpg' }
+            ],
+            'seniores-futebol': [
+                { name: 'Chico', position: 'Guarda Redes', number: 1, photo: 'img/chico.jpg' },
+                { name: 'Hugo', position: 'Guarda Redes', number: 12, photo: 'img/hugo.jpg' },
+                { name: 'Pedro Lemos', position: 'Médio', number: 8, photo: 'img/pedro_lemos.jpg' },
+                { name: 'Nivaldo', position: 'Médio', number: 6, photo: 'img/nivaldo.jpg' },
+                { name: 'Luís Sousa', position: 'Médio', number: 10, photo: 'img/luis_sousa.jpg' },
+                { name: 'Suleimane', position: 'Médio', number: 11, photo: 'img/suleimane.jpg' },
+                { name: 'Tiago Rodrigues', position: 'Defesa', number: 4, photo: 'img/tiago.jpg' },
+                { name: 'Hugo Marques', position: 'Guarda-Redes', number: 13, photo: 'img/players/hugo-marques.jpg' },
+                { name: 'Diogo Cardoso', position: 'Extremo', number: 7, photo: 'img/players/diogo-cardoso.jpg' },
+                { name: 'Ricardo Pires', position: 'Médio', number: 9, photo: 'img/players/ricardo-pires.jpg' }
+            ],
+            'veteranos': [
+                { name: 'Manuel Soares', position: 'Avançado', number: 9, photo: 'img/players/manuel-soares.jpg' },
+                { name: 'António Vieira', position: 'Médio', number: 8, photo: 'img/players/antonio-vieira.jpg' },
+                { name: 'José Reis', position: 'Defesa', number: 5, photo: 'img/players/jose-reis.jpg' },
+                { name: 'Carlos Matos', position: 'Guarda-Redes', number: 1, photo: 'img/players/carlos-matos.jpg' },
+                { name: 'Fernando Costa', position: 'Extremo', number: 11, photo: 'img/players/fernando-costa.jpg' },
+                { name: 'Joaquim Leal', position: 'Defesa', number: 3, photo: 'img/players/joaquim-leal.jpg' }
+            ]
+        };
+
+        // Function to toggle team players display
+        function toggleTeamPlayers(teamId) {
+            const playersSection = document.getElementById('team-players');
+            const teamTitle = document.getElementById('team-title');
+            const playersGrid = document.getElementById('players-grid');
+            
+            // Get team name for display
+            const teamNames = {
+                'traquinas': 'Traquinas',
+                'benjamins': 'Benjamins',
+                'infantis': 'Infantis',
+                'juvenis': 'Juvenis',
+                'seniores-futsal': 'Séniores Futsal',
+                'seniores-futebol': 'Séniores Futebol',
+                'veteranos': 'Veteranos'
+            };
+            
+            // Set team title
+            teamTitle.textContent = `Jogadores - ${teamNames[teamId]}`;
+            
+            // Clear previous players
+            playersGrid.innerHTML = '';
+            
+            // Add players for selected team
+            const players = teamPlayers[teamId] || [];
+            players.forEach(player => {
+                const playerCard = document.createElement('div');
+                playerCard.className = 'bg-muted rounded-lg p-4 text-center';
+                playerCard.innerHTML = `
+                    <div class="w-20 h-20 mx-auto mb-3 relative">
+                        <img src="${player.photo}" alt="${player.name}" class="w-full h-full rounded-full object-cover border-2 border-primary" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="w-full h-full bg-primary rounded-full flex items-center justify-center text-primary-foreground font-bold text-xl absolute top-0 left-0" style="display: none;">
+                            ${player.number}
+                        </div>
+                    </div>
+                    <h4 class="font-montserrat font-bold text-lg text-foreground">${player.name}</h4>
+                    <p class="font-open-sans text-muted-foreground">${player.position}</p>
+                    <p class="font-open-sans text-sm text-muted-foreground mt-1">Nº ${player.number}</p>
+                `;
+                playersGrid.appendChild(playerCard);
+            });
+            
+            // Show players section
+            playersSection.classList.remove('hidden');
+            playersSection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Function to hide team players
+        function hideTeamPlayers() {
+            const playersSection = document.getElementById('team-players');
+            playersSection.classList.add('hidden');
+        }
+    </script>
 </body>
 </html>
