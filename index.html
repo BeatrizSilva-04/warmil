@@ -648,13 +648,77 @@
 
     <script>
         window.addEventListener('load', function() {
-            setTimeout(function() {
-                const loadingScreen = document.getElementById('loading-screen');
-                loadingScreen.classList.add('fade-out');
+            // Verificar se todas as imagens críticas carregaram
+            const criticalImages = document.querySelectorAll('img[src*="simboloarmil"]');
+            let imagesLoaded = 0;
+            let totalImages = criticalImages.length;
+            
+            function checkImagesLoaded() {
+                imagesLoaded++;
+                if (imagesLoaded >= totalImages || totalImages === 0) {
+                    hideLoadingScreen();
+                }
+            }
+            
+            function hideLoadingScreen() {
                 setTimeout(function() {
-                    loadingScreen.style.display = 'none';
-                }, 500);
-            }, 1500); // Loading screen por 1.5 segundos
+                    const loadingScreen = document.getElementById('loading-screen');
+                    if (loadingScreen) {
+                        loadingScreen.classList.add('fade-out');
+                        setTimeout(function() {
+                            loadingScreen.style.display = 'none';
+                        }, 500);
+                    }
+                }, 800); // Reduzido para 0.8 segundos
+            }
+            
+            // Se não há imagens críticas ou se demorar muito, esconder o loading
+            if (totalImages === 0) {
+                hideLoadingScreen();
+            } else {
+                // Adicionar listeners para as imagens críticas
+                criticalImages.forEach(img => {
+                    if (img.complete) {
+                        checkImagesLoaded();
+                    } else {
+                        img.addEventListener('load', checkImagesLoaded);
+                        img.addEventListener('error', function() {
+                            // Se a imagem falhar, usar um fallback
+                            this.style.display = 'none';
+                            checkImagesLoaded();
+                        });
+                    }
+                });
+                
+                // Timeout de segurança - forçar esconder loading após 3 segundos
+                setTimeout(hideLoadingScreen, 3000);
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const images = document.querySelectorAll('img');
+            images.forEach(img => {
+                img.addEventListener('error', function() {
+                    if (this.src.includes('simboloarmil')) {
+                        // Criar um símbolo SVG simples como fallback
+                        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+                        svg.setAttribute('viewBox', '0 0 100 100');
+                        svg.setAttribute('class', this.className);
+                        svg.style.width = this.style.width || '100%';
+                        svg.style.height = this.style.height || '100%';
+                        svg.innerHTML = `
+                            <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" stroke-width="3"/>
+                            <text x="50" y="35" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="currentColor">GCD</text>
+                            <text x="50" y="55" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="currentColor">ARMIL</text>
+                            <text x="50" y="70" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="currentColor">1978</text>
+                        `;
+                        this.parentNode.replaceChild(svg, this);
+                    } else {
+                        // Para outras imagens, usar placeholder padrão
+                        this.src = '/placeholder.svg?height=200&width=400&text=Imagem+Indisponível';
+                    }
+                });
+            });
         });
 
         // Mobile menu functionality
@@ -805,9 +869,8 @@
                 { name: 'Tomás Sousa', position: 'Defesa', number: 3, photo: 'img/tomas.jpg' },
                 { name: 'Afonso Cardoso', position: 'Guarda-Redes', number: 1, photo: 'img/afonso.jpg' },
                 { name: 'David Pinto', position: 'Extremo', number: 11, photo: 'img/pinto.jpg' },
-                { name: 'Rui ', position: 'Médio', number: 6, photo: 'img/rui.jpg' }
+                { name: 'Rui ', position: 'Médio', number: 6, photo: 'img/rui.jpg' },
                 { name: 'Henrique Alves ', position: 'Médio', number: 6, photo: 'img/henrique.jpg' }
-              
             ],
             'seniores-futsal': [
                 { name: 'António Fernandes', position: 'Pivot', number: 9, photo: 'img/players/antonio-fernandes.jpg' },
@@ -895,10 +958,3 @@
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
