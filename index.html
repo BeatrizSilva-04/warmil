@@ -123,6 +123,7 @@
                     <a href="#teams" class="text-white hover:text-primary transition-colors font-open-sans font-semibold">Equipas</a>
                     <a href="#matches" class="text-white hover:text-primary transition-colors font-open-sans font-semibold">Jogos</a>
                     <a href="#about" class="text-white hover:text-primary transition-colors font-open-sans font-semibold">Sobre Nós</a>
+                     <a href="#events" class="text-white hover:text-primary transition-colors font-open-sans font-semibold">Eventos</a>
                 </nav>
 
                 <!-- Search and Social -->
@@ -174,6 +175,8 @@
                     <a href="#matches" class="block text-white hover:text-primary transition-colors font-open-sans font-semibold py-2">Jogos</a>
                     <a href="#history" class="block text-white hover:text-primary transition-colors font-open-sans font-semibold py-2">História</a>
                     <a href="#about" class="block text-white hover:text-primary transition-colors font-open-sans font-semibold py-2">Sobre Nós</a>
+                      <a href="#events" class="block text-white hover:text-primary transition-colors font-open-sans font-semibold py-2">Eventos</a>
+</nav>
                 </nav>
             </div>
         </div>
@@ -559,6 +562,99 @@
             </div>
         </div>
     </section>
+    
+<!-- Events Section -->
+<section id="events" class="py-16 bg-background">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="font-montserrat font-black text-4xl text-center mb-12 text-foreground">Próximos Eventos</h2>
+        
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Evento 1 -->
+            <div class="event-card bg-card rounded-lg overflow-hidden shadow-lg" data-event-id="torneio">
+                <div class="relative">
+          <video 
+            class="w-full h-48 object-cover"
+            autoplay 
+            muted 
+            loop 
+            playsinline
+        >
+            <source src="img/armilcup.mp4" type="video/mp4">
+            <!-- Fallback para browsers que não suportam vídeo -->
+            <img src="img/armilcup.jpg" alt="Armil Cup" class="w-full h-48 object-cover">
+        </video>
+        <div class="absolute top-4 right-4 bg-primary text-primary-foreground px-4 py-2 rounded-full">
+    
+        </div>
+    </div>
+                <div class="p-6">
+                    <h3 class="font-montserrat font-bold text-xl mb-3 text-card-foreground">Armil Cup</h3>
+                    <p class="font-open-sans text-muted-foreground mb-4">Torneio de futsal juvenil com várias equipas da região.</p>
+                    <div class="flex items-center justify-between">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Evento 2 -->
+            <div class="event-card bg-card rounded-lg overflow-hidden shadow-lg" data-event-id="jantar">
+                <div class="relative">
+                    <img src="img/eventos/jantar1.jpg" alt="Jantar de Aniversário" class="w-full h-48 object-cover">
+                    <div class="absolute top-4 right-4 bg-primary text-primary-foreground px-4 py-2 rounded-full">
+                        <span class="text-sm font-semibold">6 Jun</span>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <h3 class="font-montserrat font-bold text-xl mb-3 text-card-foreground">Jantar de Aniversário</h3>
+                    <p class="font-open-sans text-muted-foreground mb-4">Celebração do 46º aniversário do clube com jantar convívio.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm text-muted-foreground flex items-center">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            20:00
+                        </span>
+                        <button onclick="showEventDetails('jantar')" class="text-primary hover:text-primary/80 font-semibold">Saber mais</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Evento 3 -->
+            <div class="event-card bg-card rounded-lg overflow-hidden shadow-lg" data-event-id="arraial">
+                <div class="relative">
+                    <img src="img/eventos/arraial1.jpg" alt="Arraial de São João" class="w-full h-48 object-cover">
+                    <div class="absolute top-4 right-4 bg-primary text-primary-foreground px-4 py-2 rounded-full">
+                        <span class="text-sm font-semibold">23 Jun</span>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <h3 class="font-montserrat font-bold text-xl mb-3 text-card-foreground">Arraial de São João</h3>
+                    <p class="font-open-sans text-muted-foreground mb-4">Festa tradicional com sardinhada, música e animação.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm text-muted-foreground flex items-center">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            19:00
+                        </span>
+                        <button onclick="showEventDetails('arraial')" class="text-primary hover:text-primary/80 font-semibold">Saber mais</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Event Details Modal -->
+<div id="eventModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+    <div class="flex items-center justify-center min-h-screen p-4">
+        <div class="bg-background max-w-4xl w-full rounded-lg overflow-hidden shadow-xl">
+            <div id="eventContent" class="relative">
+                <!-- Content will be dynamically inserted here -->
+            </div>
+        </div>
+    </div>
+</div>
+
 
     <!-- About Section -->
     <section id="about" class="py-16 bg-muted">
@@ -882,13 +978,15 @@
 
 ],
             'seniores-futsal': [
-                { name: 'Tiago Cruz', position: 'Pivot', number: 9, photo: 'img/players/antonio-fernandes.jpg' },
-                { name: 'José Correia', position: 'Ala', number: 7, photo: 'img/players/jose-correia.jpg' },
-                { name: 'Manuel Rocha', position: 'Fixo', number: 4, photo: 'img/players/manuel-rocha.jpg' },
-                { name: 'Vítor Azevedo', position: 'Guarda-Redes', number: 1, photo: 'img/players/vitor-azevedo.jpg' },
-                { name: 'Carlos Monteiro', position: 'Ala', number: 11, photo: 'img/players/carlos-monteiro.jpg' },
-                { name: 'Pedro Lemos', position: 'Avançado', number: 9, photo: 'img/pedro_lemos.jpg' },
-                { name: 'Pedro Machado', position: 'Universal', number: 8, photo: 'img/players/pedro-machado.jpg' }
+                { name: 'Tiago Cruz', position: 'Guarda-Redes', number: 9, photo: 'img/cruz.jpg' },
+                { name: 'Sebastian Tedesco', position: 'Ala', number: 7, photo: 'img/tedesco.jpg' },
+                { name: 'Cláudio Carneiro', position: 'Fixo', number: 4, photo: 'img/claudio.jpg' },
+                { name: 'Jorge Lameiras', position: 'Ala', number: 1, photo: 'img/ginho.jpg' },
+                { name: 'Francisco Liz', position: 'Ala', number: 11, photo: 'img/liz.jpg' },
+                { name: 'Samuel Castro', position: 'Ala', number: 9, photo: 'img/samu.jpg' },
+                { name: 'João Ribeiro', position: 'Ala', number: 9, photo: 'img/ribeiro.jpg' },
+                { name: 'Samuel Castro', position: 'Ala', number: 9, photo: 'img/samu.jpg' },
+                { name: 'Pedro ', position: 'Ala', number: 8, photo: 'img/players/pedro-machado.jpg' }
             ],
             'seniores-futebol': [
                 { name: 'Chico', position: 'Guarda Redes', number: 1, photo: 'img/chico.jpg' },
