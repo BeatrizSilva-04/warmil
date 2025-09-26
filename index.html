@@ -566,339 +566,101 @@
     </section>
     
 <!-- Events Section -->
-
 <section id="events" class="py-16 bg-background">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="font-montserrat font-black text-4xl text-center mb-4 text-foreground">Próximos Eventos</h2>
-            <p class="font-open-sans text-center text-muted-foreground mb-12">Descubra os eventos mais emocionantes do nosso clube</p>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <h2 class="font-montserrat font-black text-4xl text-center mb-8 text-foreground">Próximos Eventos</h2>
 
-            <div class="events-carousel">
-                <div class="events-container" id="events-container">
-                     Evento 1: Armil Cup 
-                    <div class="event-card">
-                        <div class="event-image">
-                            <img src="img/armilcup.jpg" alt="Armil Cup" onerror="this.src='/placeholder.svg?height=200&width=350&text=Armil+Cup'">
-                            <div class="event-category">Torneio</div>
-                        </div>
-                        <div class="event-content">
-                            <h3 class="event-title">Armil Cup 2025</h3>
-                            <p class="event-description">O maior torneio de futsal juvenil da região, reunindo as melhores equipas numa competição emocionante.</p>
-                            <div class="event-date">
-                                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/>
-                                </svg>
-                                15-17 Janeiro 2025
-                            </div>
-                            <button class="event-button" onclick="openEventModal('armil-cup')">
-                                Saber mais
-                                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" style="margin-left: 8px;">
-                                    <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
+    <div class="flex overflow-x-auto space-x-6 pb-4">
+      <!-- Evento 1 -->
+      <div class="event-card bg-card rounded-lg shadow-lg min-w-[300px] flex-shrink-0">
+        <img src="img/armilcup.jpg" alt="Armil Cup" class="w-full h-48 object-cover rounded-t">
+        <div class="p-4">
+          <h3 class="font-montserrat font-bold text-xl mb-2 text-card-foreground">Armil Cup</h3>
+          <p class="font-open-sans text-muted-foreground mb-2">Torneio de futsal juvenil com várias equipas da região.</p>
+          
+          <!-- Checkbox que controla o modal -->
+          <input type="checkbox" id="event1-modal-toggle" class="hidden">
+          <label for="event1-modal-toggle" class="bg-primary text-primary-foreground px-4 py-2 rounded cursor-pointer inline-block">Saber mais</label>
 
-                     Evento 2: Jantar de Aniversário 
-                    <div class="event-card">
-                        <div class="event-image">
-                            <img src="img/eventos/jantar1.jpg" alt="Jantar de Aniversário" onerror="this.src='/placeholder.svg?height=200&width=350&text=Jantar+Aniversário'">
-                            <div class="event-category">Celebração</div>
-                        </div>
-                        <div class="event-content">
-                            <h3 class="event-title">Jantar de Aniversário</h3>
-                            <p class="event-description">Celebração do 47º aniversário do clube com jantar convívio, música ao vivo e entrega de prémios.</p>
-                            <div class="event-date">
-                                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/>
-                                </svg>
-                                6 Junho 2025
-                            </div>
-                            <button class="event-button" onclick="openEventModal('jantar-aniversario')">
-                                Saber mais
-                                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" style="margin-left: 8px;">
-                                    <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
+          <!-- Modal -->
+          <div class="fixed inset-0 flex items-center justify-center z-50 opacity-0 pointer-events-none transition-opacity duration-300">
+            <!-- Fundo semitransparente -->
+            <label for="event1-modal-toggle" class="absolute inset-0 bg-black bg-opacity-50 cursor-pointer"></label>
 
-                     Evento 3: Arraial de São João 
-                    <div class="event-card">
-                        <div class="event-image">
-                            <img src="img/eventos/arraial1.jpg" alt="Arraial de São João" onerror="this.src='/placeholder.svg?height=200&width=350&text=Arraial+São+João'">
-                            <div class="event-category">Festa Popular</div>
-                        </div>
-                        <div class="event-content">
-                            <h3 class="event-title">Arraial de São João</h3>
-                            <p class="event-description">Festa tradicional com sardinhada, música popular, dança e diversão para toda a família.</p>
-                            <div class="event-date">
-                                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/>
-                                </svg>
-                                23-24 Junho 2025
-                            </div>
-                            <button class="event-button" onclick="openEventModal('arraial-sao-joao')">
-                                Saber mais
-                                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" style="margin-left: 8px;">
-                                    <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-
-                     Evento 4: Torneio de Veteranos 
-                    <div class="event-card">
-                        <div class="event-image">
-                            <img src="/placeholder.svg?height=200&width=350&text=Torneio+Veteranos" alt="Torneio de Veteranos">
-                            <div class="event-category">Desporto</div>
-                        </div>
-                        <div class="event-content">
-                            <h3 class="event-title">Torneio de Veteranos</h3>
-                            <p class="event-description">Competição amigável entre equipas de veteranos da região, promovendo o convívio e o fair-play.</p>
-                            <div class="event-date">
-                                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/>
-                                </svg>
-                                12 Julho 2025
-                            </div>
-                            <button class="event-button" onclick="openEventModal('torneio-veteranos')">
-                                Saber mais
-                                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" style="margin-left: 8px;">
-                                    <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                 Setas de navegação 
-                <button class="carousel-nav prev" onclick="prevEvent()">
-                    <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
-                    </svg>
-                </button>
-                <button class="carousel-nav next" onclick="nextEvent()">
-                    <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
-                    </svg>
-                </button>
-
-                 Indicadores 
-                <div class="carousel-indicators">
-                    <div class="indicator active" onclick="goToEvent(0)"></div>
-                    <div class="indicator" onclick="goToEvent(1)"></div>
-                    <div class="indicator" onclick="goToEvent(2)"></div>
-                    <div class="indicator" onclick="goToEvent(3)"></div>
-                </div>
+            <!-- Caixa central -->
+            <div class="bg-background max-w-2xl w-full p-6 rounded-2xl shadow-xl relative z-10">
+              <h3 class="font-montserrat font-bold text-2xl mb-4">Armil Cup - Mais informações</h3>
+              <p class="font-open-sans text-muted-foreground mb-4">
+                O Armil Cup é um torneio anual de futsal juvenil que reúne equipas da região para competir em diversas categorias.
+              </p>
+              <img src="img/armilcup2.jpg" alt="Armil Cup 2" class="w-full h-48 object-cover rounded mb-2">
+              <img src="img/armilcup3.jpg" alt="Armil Cup 3" class="w-full h-48 object-cover rounded mb-2">
+              <label for="event1-modal-toggle" class="mt-4 inline-block bg-red-500 text-white px-4 py-2 rounded cursor-pointer">Fechar</label>
             </div>
+          </div>
         </div>
+      </div>
 
-         Modais dos eventos 
-         Modal Armil Cup 
-        <div class="event-modal" id="armil-cup-modal">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <img src="img/armilcup.jpg" alt="Armil Cup" onerror="this.src='/placeholder.svg?height=250&width=600&text=Armil+Cup'">
-                    <button class="modal-close" onclick="closeEventModal('armil-cup')">
-                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
-                        </svg>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <h3 class="modal-title">Armil Cup 2025</h3>
-                    <div class="modal-info">
-                        <div class="info-item">
-                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/>
-                            </svg>
-                            15-17 Janeiro 2025
-                        </div>
-                        <div class="info-item">
-                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-                            </svg>
-                            Pavilhão do Armil
-                        </div>
-                        <div class="info-item">
-                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                            </svg>
-                            Torneio Juvenil
-                        </div>
-                    </div>
-                    <p class="modal-description">
-                        O Armil Cup é o evento desportivo mais aguardado do ano! Durante três dias, o pavilhão do clube recebe as melhores equipas juvenis da região numa competição intensa e emocionante. 
-                        <br><br>
-                        O torneio conta com várias categorias etárias, desde os benjamins até aos juvenis, proporcionando uma oportunidade única para os jovens atletas mostrarem o seu talento e paixão pelo futsal. Além da competição, o evento inclui atividades paralelas, comes e beberes, e muita animação para toda a família.
-                        <br><br>
-                        Venha apoiar as nossas equipas e assistir a jogos de grande qualidade técnica!
-                    </p>
-                    <div class="modal-gallery">
-                        <div class="gallery-image">
-                            <img src="img/armilcup2.jpg" alt="Armil Cup - Jogo" onerror="this.src='/placeholder.svg?height=180&width=250&text=Armil+Cup+Jogo'">
-                        </div>
-                        <div class="gallery-image">
-                            <img src="img/armilcup3.jpg" alt="Armil Cup - Cerimónia" onerror="this.src='/placeholder.svg?height=180&width=250&text=Armil+Cup+Cerimónia'">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+      <!-- Evento 2 -->
+      <div class="event-card bg-card rounded-lg shadow-lg min-w-[300px] flex-shrink-0">
+        <img src="img/eventos/jantar1.jpg" alt="Jantar" class="w-full h-48 object-cover rounded-t">
+        <div class="p-4">
+          <h3 class="font-montserrat font-bold text-xl mb-2 text-card-foreground">Jantar de Aniversário</h3>
+          <p class="font-open-sans text-muted-foreground mb-2">Celebração do 46º aniversário do clube com jantar convívio.</p>
 
-         Modal Jantar de Aniversário 
-        <div class="event-modal" id="jantar-aniversario-modal">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <img src="img/eventos/jantar1.jpg" alt="Jantar de Aniversário" onerror="this.src='/placeholder.svg?height=250&width=600&text=Jantar+Aniversário'">
-                    <button class="modal-close" onclick="closeEventModal('jantar-aniversario')">
-                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
-                        </svg>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <h3 class="modal-title">Jantar de Aniversário</h3>
-                    <div class="modal-info">
-                        <div class="info-item">
-                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/>
-                            </svg>
-                            6 Junho 2025
-                        </div>
-                        <div class="info-item">
-                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-                            </svg>
-                            Salão de Festas do Clube
-                        </div>
-                        <div class="info-item">
-                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
-                            </svg>
-                            19:30
-                        </div>
-                    </div>
-                    <p class="modal-description">
-                        Celebre connosco o 47º aniversário do Grupo Cultural e Desportivo de Armil! Uma noite especial dedicada a todos os sócios, atletas, dirigentes e familiares que fazem parte da nossa grande família.
-                        <br><br>
-                        O jantar contará com um menu tradicional português, música ao vivo com artistas locais, entrega de prémios aos atletas que se destacaram durante a época, e muita animação. É uma oportunidade única para conviver, relembrar os melhores momentos e fortalecer os laços que nos unem.
-                        <br><br>
-                        Reservas limitadas - não perca esta celebração inesquecível!
-                    </p>
-                    <div class="modal-gallery">
-                        <div class="gallery-image">
-                            <img src="img/eventos/jantar2.jpg" alt="Jantar - Mesa" onerror="this.src='/placeholder.svg?height=180&width=250&text=Jantar+Mesa'">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+          <input type="checkbox" id="event2-modal-toggle" class="hidden">
+          <label for="event2-modal-toggle" class="bg-primary text-primary-foreground px-4 py-2 rounded cursor-pointer inline-block">Saber mais</label>
 
-         Modal Arraial de São João 
-        <div class="event-modal" id="arraial-sao-joao-modal">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <img src="img/eventos/arraial1.jpg" alt="Arraial de São João" onerror="this.src='/placeholder.svg?height=250&width=600&text=Arraial+São+João'">
-                    <button class="modal-close" onclick="closeEventModal('arraial-sao-joao')">
-                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
-                        </svg>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <h3 class="modal-title">Arraial de São João</h3>
-                    <div class="modal-info">
-                        <div class="info-item">
-                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/>
-                            </svg>
-                            23-24 Junho 2025
-                        </div>
-                        <div class="info-item">
-                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-                            </svg>
-                            Recinto do Clube
-                        </div>
-                        <div class="info-item">
-                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M9 11H7v6h2v-6zm4 0h-2v6h2v-6zm4 0h-2v6h2v-6zm2-7h-3V2h-2v2H8V2H6v2H3c-.55 0-1 .45-1 1v1h20V5c0-.55-.45-1-1-1z"/>
-                            </svg>
-                            Festa Popular
-                        </div>
-                    </div>
-                    <p class="modal-description">
-                        Venha celebrar o São João connosco numa festa tradicional portuguesa cheia de cor, sabor e alegria! Durante dois dias, o recinto do clube transforma-se num verdadeiro arraial com todas as tradições desta época festiva.
-                        <br><br>
-                        Haverá sardinhada, caldo verde, broa de milho e outras iguarias tradicionais. A música popular portuguesa e os grupos folclóricos locais animarão as noites, enquanto as crianças poderão desfrutar de jogos tradicionais e atividades especiais.
-                        <br><br>
-                        Não se esqueça dos martelos de plástico e dos manjericos! Uma festa para toda a família que celebra as nossas tradições e fortalece a comunidade.
-                    </p>
-                    <div class="modal-gallery">
-                        <div class="gallery-image">
-                            <img src="img/eventos/arraial2.jpg" alt="Arraial - Dança" onerror="this.src='/placeholder.svg?height=180&width=250&text=Arraial+Dança'">
-                        </div>
-                        <div class="gallery-image">
-                            <img src="img/eventos/arraial3.jpg" alt="Arraial - Comida" onerror="this.src='/placeholder.svg?height=180&width=250&text=Arraial+Comida'">
-                        </div>
-                    </div>
-                </div>
+          <div class="fixed inset-0 flex items-center justify-center z-50 opacity-0 pointer-events-none transition-opacity duration-300">
+            <label for="event2-modal-toggle" class="absolute inset-0 bg-black bg-opacity-50 cursor-pointer"></label>
+            <div class="bg-background max-w-2xl w-full p-6 rounded-2xl shadow-xl relative z-10">
+              <h3 class="font-montserrat font-bold text-2xl mb-4">Jantar de Aniversário - Mais informações</h3>
+              <p class="font-open-sans text-muted-foreground mb-4">
+                O jantar contará com música ao vivo, prémios para atletas e muita animação para os sócios e familiares.
+              </p>
+              <img src="img/eventos/jantar2.jpg" alt="Jantar 2" class="w-full h-48 object-cover rounded mb-2">
+              <label for="event2-modal-toggle" class="mt-4 inline-block bg-red-500 text-white px-4 py-2 rounded cursor-pointer">Fechar</label>
             </div>
+          </div>
         </div>
+      </div>
 
-         Modal Torneio de Veteranos 
-        <div class="event-modal" id="torneio-veteranos-modal">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <img src="/placeholder.svg?height=250&width=600&text=Torneio+Veteranos" alt="Torneio de Veteranos">
-                    <button class="modal-close" onclick="closeEventModal('torneio-veteranos')">
-                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
-                        </svg>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <h3 class="modal-title">Torneio de Veteranos</h3>
-                    <div class="modal-info">
-                        <div class="info-item">
-                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/>
-                            </svg>
-                            12 Julho 2025
-                        </div>
-                        <div class="info-item">
-                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-                            </svg>
-                            Campo do Armil
-                        </div>
-                        <div class="info-item">
-                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
-                            </svg>
-                            14:00
-                        </div>
-                    </div>
-                    <p class="modal-description">
-                        Um dia dedicado aos nossos veteranos! O Torneio de Veteranos é uma competição amigável que reúne equipas de jogadores com mais de 35 anos de várias localidades da região.
-                        <br><br>
-                        Mais do que uma competição, é um momento de convívio, partilha de experiências e celebração do amor pelo futebol que não tem idade. Os jogos decorrem num ambiente descontraído, privilegiando o fair-play e a camaradagem.
-                        <br><br>
-                        Após os jogos, haverá um almoço convívio onde todos os participantes poderão confraternizar e relembrar os bons tempos do futebol.
-                    </p>
-                    <div class="modal-gallery">
-                        <div class="gallery-image">
-                            <img src="/placeholder.svg?height=180&width=250&text=Veteranos+Jogo" alt="Veteranos - Jogo">
-                        </div>
-                        <div class="gallery-image">
-                            <img src="/placeholder.svg?height=180&width=250&text=Veteranos+Convívio" alt="Veteranos - Convívio">
-                        </div>
-                    </div>
-                </div>
+      <!-- Evento 3 -->
+      <div class="event-card bg-card rounded-lg shadow-lg min-w-[300px] flex-shrink-0">
+        <img src="img/eventos/arraial1.jpg" alt="Arraial" class="w-full h-48 object-cover rounded-t">
+        <div class="p-4">
+          <h3 class="font-montserrat font-bold text-xl mb-2 text-card-foreground">Arraial de São João</h3>
+          <p class="font-open-sans text-muted-foreground mb-2">Festa tradicional com sardinhada, música e animação.</p>
+
+          <input type="checkbox" id="event3-modal-toggle" class="hidden">
+          <label for="event3-modal-toggle" class="bg-primary text-primary-foreground px-4 py-2 rounded cursor-pointer inline-block">Saber mais</label>
+
+          <div class="fixed inset-0 flex items-center justify-center z-50 opacity-0 pointer-events-none transition-opacity duration-300">
+            <label for="event3-modal-toggle" class="absolute inset-0 bg-black bg-opacity-50 cursor-pointer"></label>
+            <div class="bg-background max-w-2xl w-full p-6 rounded-2xl shadow-xl relative z-10">
+              <h3 class="font-montserrat font-bold text-2xl mb-4">Arraial de São João - Mais informações</h3>
+              <p class="font-open-sans text-muted-foreground mb-4">
+                Venha celebrar o São João com música ao vivo, dança, barraquinhas de comida típica e muita diversão para todas as idades.
+              </p>
+              <img src="img/eventos/arraial2.jpg" alt="Arraial 2" class="w-full h-48 object-cover rounded mb-2">
+              <img src="img/eventos/arraial3.jpg" alt="Arraial 3" class="w-full h-48 object-cover rounded mb-2">
+              <label for="event3-modal-toggle" class="mt-4 inline-block bg-red-500 text-white px-4 py-2 rounded cursor-pointer">Fechar</label>
             </div>
+          </div>
         </div>
-    </section>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+/* Mostrar modal quando checkbox está checked */
+input[type="checkbox"]:checked + label + div {
+  opacity: 1;
+  pointer-events: auto;
+}
+</style>
 
     <!-- About Section -->
     <section id="about" class="py-16 bg-muted">
@@ -1329,77 +1091,8 @@ function hideTeamPlayers() {
     document.getElementById('team-players').classList.add('hidden');
 }
 
-//  JavaScript para o carrossel de eventos e modais
-let currentEventIndex = 0;
-const totalEvents = 4;
-
-function updateCarousel() {
-    const container = document.getElementById('events-container');
-    const translateX = -currentEventIndex * (350 + 24); // largura do cartão + margem
-    container.style.transform = `translateX(${translateX}px)`;
-    
-    // Atualizar indicadores
-    document.querySelectorAll('.indicator').forEach((indicator, index) => {
-        indicator.classList.toggle('active', index === currentEventIndex);
-    });
-}
-
-function nextEvent() {
-    currentEventIndex = (currentEventIndex + 1) % totalEvents;
-    updateCarousel();
-}
-
-function prevEvent() {
-    currentEventIndex = (currentEventIndex - 1 + totalEvents) % totalEvents;
-    updateCarousel();
-}
-
-function goToEvent(index) {
-    currentEventIndex = index;
-    updateCarousel();
-}
-
-// Auto-advance carousel
-setInterval(nextEvent, 5000);
-
-// Modal functions
-function openEventModal(eventId) {
-    const modal = document.getElementById(eventId + '-modal');
-    if (modal) {
-        modal.classList.add('active');
-        document.body.style.overflow = 'hidden';
-    }
-}
-
-function closeEventModal(eventId) {
-    const modal = document.getElementById(eventId + '-modal');
-    if (modal) {
-        modal.classList.remove('active');
-        document.body.style.overflow = 'auto';
-    }
-}
-
-// Close modal when clicking outside
-document.querySelectorAll('.event-modal').forEach(modal => {
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal) {
-            modal.classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
-    });
-});
-
-// Close modal with Escape key
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-        document.querySelectorAll('.event-modal.active').forEach(modal => {
-            modal.classList.remove('active');
-            document.body.style.overflow = 'auto';
-        });
-    }
-});
-
 </script>
 
 </body>
 </html>
+
