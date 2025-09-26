@@ -97,359 +97,27 @@
         .mobile-menu.open {
             transform: translateX(0);
         }
-
-        /* Adicionando estilos completos para a secção de eventos */
-        .events-carousel {
-            position: relative;
-            overflow: hidden;
-            padding: 0 60px;
-        }
-        
-        .events-container {
-            display: flex;
-            transition: transform 0.5s ease-in-out;
-            gap: 24px;
-        }
-        
-        .event-card {
-            min-width: 350px;
-            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            border: 1px solid rgba(0, 0, 0, 0.05);
-        }
-        
-        .event-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-        }
-        
-        .event-image {
-            position: relative;
-            height: 220px;
-            overflow: hidden;
-        }
-        
-        .event-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.3s ease;
-        }
-        
-        .event-card:hover .event-image img {
-            transform: scale(1.05);
-        }
-        
-        .event-category {
-            position: absolute;
-            top: 16px;
-            right: 16px;
-            background: rgba(34, 197, 94, 0.9);
-            color: white;
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            backdrop-filter: blur(10px);
-        }
-        
-        .event-content {
-            padding: 24px;
-        }
-        
-        .event-title {
-            font-size: 22px;
-            font-weight: 700;
-            color: #1f2937;
-            margin-bottom: 12px;
-            line-height: 1.3;
-        }
-        
-        .event-description {
-            color: #6b7280;
-            font-size: 14px;
-            line-height: 1.6;
-            margin-bottom: 16px;
-        }
-        
-        .event-date {
-            display: flex;
-            align-items: center;
-            color: #059669;
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 20px;
-        }
-        
-        .event-date svg {
-            margin-right: 8px;
-        }
-        
-        .event-button {
-            background: linear-gradient(135deg, #059669 0%, #047857 100%);
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 25px;
-            font-weight: 600;
-            font-size: 14px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-        }
-        
-        .event-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(5, 150, 105, 0.3);
-        }
-        
-        .carousel-nav {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(255, 255, 255, 0.95);
-            border: none;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            z-index: 10;
-        }
-        
-        .carousel-nav:hover {
-            background: white;
-            transform: translateY(-50%) scale(1.1);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
-        }
-        
-        .carousel-nav.prev {
-            left: 10px;
-        }
-        
-        .carousel-nav.next {
-            right: 10px;
-        }
-        
-        .carousel-indicators {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 32px;
-        }
-        
-        .indicator {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #d1d5db;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .indicator.active {
-            background: #059669;
-            transform: scale(1.3);
-        }
-        
-        /* Estilos para os modais */
-        .event-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(5px);
-        }
-        
-        .event-modal.active {
-            opacity: 1;
-            visibility: visible;
-        }
-        
-        .modal-content {
-            background: white;
-            border-radius: 20px;
-            max-width: 700px;
-            width: 90%;
-            max-height: 85vh;
-            overflow-y: auto;
-            position: relative;
-            transform: scale(0.8);
-            transition: transform 0.3s ease;
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
-        }
-        
-        .event-modal.active .modal-content {
-            transform: scale(1);
-        }
-        
-        .modal-header {
-            position: relative;
-            height: 250px;
-            overflow: hidden;
-            border-radius: 20px 20px 0 0;
-        }
-        
-        .modal-header img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        .modal-close {
-            position: absolute;
-            top: 16px;
-            right: 16px;
-            background: rgba(255, 255, 255, 0.9);
-            border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-        }
-        
-        .modal-close:hover {
-            background: white;
-            transform: scale(1.1);
-        }
-        
-        .modal-body {
-            padding: 32px;
-        }
-        
-        .modal-title {
-            font-size: 28px;
-            font-weight: 700;
-            color: #1f2937;
-            margin-bottom: 20px;
-        }
-        
-        .modal-info {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            margin-bottom: 24px;
-            padding: 20px;
-            background: #f9fafb;
-            border-radius: 12px;
-        }
-        
-        .info-item {
-            display: flex;
-            align-items: center;
-            color: #374151;
-            font-weight: 500;
-        }
-        
-        .info-item svg {
-            margin-right: 8px;
-            color: #059669;
-        }
-        
-        .modal-description {
-            color: #4b5563;
-            line-height: 1.7;
-            margin-bottom: 24px;
-            font-size: 16px;
-        }
-        
-        .modal-gallery {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-            margin-top: 24px;
-        }
-        
-        .gallery-image {
-            border-radius: 12px;
-            overflow: hidden;
-            height: 180px;
-        }
-        
-        .gallery-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.3s ease;
-        }
-        
-        .gallery-image:hover img {
-            transform: scale(1.05);
-        }
-        
-        @media (max-width: 768px) {
-            .events-carousel {
-                padding: 0 40px;
-            }
-            
-            .event-card {
-                min-width: 300px;
-            }
-            
-            .carousel-nav {
-                width: 44px;
-                height: 44px;
-            }
-            
-            .modal-content {
-                width: 95%;
-                margin: 20px;
-            }
-            
-            .modal-gallery {
-                grid-template-columns: 1fr;
-            }
-            
-            .modal-info {
-                flex-direction: column;
-                gap: 12px;
-            }
-        }
     </style>
 </head>
 <body class="bg-background text-foreground">
-     Adicionando tela de loading preta com símbolo maior 
+    <!-- Adicionando tela de loading preta com símbolo maior -->
     <div id="loading-screen">
         <img src="img/simboloarmil.png" alt="GCD Armil" class="loading-logo filter brightness-0 invert">
     </div>
 
-     Header 
-     alterando fundo da navbar para preto e texto para branco 
+    <!-- Header -->
+    <!-- alterando fundo da navbar para preto e texto para branco -->
     <header class="bg-black shadow-lg sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
-                 Logo 
+                <!-- Logo -->
                 <div class="flex items-center">
-                     Aumentando tamanho do símbolo na navbar 
+                    <!-- Aumentando tamanho do símbolo na navbar -->
                     <img src="img/simboloarmil.png" alt="Símbolo GCD Armil" class="w-16 h-16 rounded-full object-contain">
                     <span class="ml-3 font-montserrat font-bold text-xl text-white">GCD Armil</span>
                 </div>
 
-                 Desktop Navigation 
+                <!-- Desktop Navigation -->
                 <nav class="hidden md:flex space-x-8">
                     <a href="#home" class="text-white hover:text-primary transition-colors font-open-sans font-semibold">Início</a>
                     <a href="#teams" class="text-white hover:text-primary transition-colors font-open-sans font-semibold">Equipas</a>
@@ -459,11 +127,11 @@
 
                 </nav>
 
-                 Search and Social 
+                <!-- Search and Social -->
                 <div class="hidden md:flex items-center space-x-4">
-                     removendo a busca conforme solicitado 
+                    <!-- removendo a busca conforme solicitado -->
                     <div class="flex space-x-2">
-                         substituindo Twitter e Pinterest por Facebook e Instagram 
+                        <!-- substituindo Twitter e Pinterest por Facebook e Instagram -->
                         <a href="https://www.facebook.com/profile.php?id=100054213772626" target="_blank" class="text-white hover:text-primary transition-colors">
                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
@@ -477,7 +145,7 @@
                     </div>
                 </div>
 
-                 Mobile menu button 
+                <!-- Mobile menu button -->
                 <button class="md:hidden text-white" id="mobile-menu-button">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
@@ -486,13 +154,13 @@
             </div>
         </div>
 
-         Mobile menu 
-         alterando fundo do menu mobile para preto e texto para branco 
+        <!-- Mobile menu -->
+        <!-- alterando fundo do menu mobile para preto e texto para branco -->
         <div class="md:hidden mobile-menu fixed inset-y-0 left-0 w-64 bg-black shadow-lg z-50" id="mobile-menu">
             <div class="p-4">
                 <div class="flex items-center justify-between mb-8">
                     <div class="flex items-center">
-                         usando a imagem real do símbolo no menu mobile 
+                        <!-- usando a imagem real do símbolo no menu mobile -->
                         <img src="img/simboloarmil.png" alt="Símbolo GCD Armil" class="w-10 h-10 rounded-full object-contain">
                         <span class="ml-3 font-montserrat font-bold text-lg text-white">GCD Armil</span>
                     </div>
@@ -516,15 +184,15 @@
         </div>
     </header>
 
-     Hero Section 
+    <!-- Hero Section -->
     <section id="home" class="relative h-screen flex items-center justify-center bg-background">
-         Adicionando imagem de fundo fundo.png com overlay escuro 
+        <!-- Adicionando imagem de fundo fundo.png com overlay escuro -->
         <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image: url('img/fundo.png');">
             <div class="absolute inset-0 bg-black/60"></div>
         </div>
         
         <div class="relative z-10 text-center text-white max-w-4xl mx-auto px-4">
-             Aumentando símbolo no hero e melhorando responsividade 
+            <!-- Aumentando símbolo no hero e melhorando responsividade -->
             <div class="mb-8">
                 <div class="w-40 h-40 sm:w-48 sm:h-48 md:w-56 md:h-56 mx-auto mb-6 flex items-center justify-center">
                     <img src="img/simboloarmil.png" alt="Símbolo Grupo Cultural e Desportivo de Armil" class="w-full h-full object-contain filter brightness-0 invert">
@@ -532,7 +200,7 @@
                 <h1 class="hero-title font-montserrat font-black text-3xl sm:text-4xl md:text-5xl lg:text-6xl mb-2 text-balance">
                     Grupo Cultural e Desportivo de Armil
                 </h1>
-                 Adicionando data de fundação conforme imagem 
+                <!-- Adicionando data de fundação conforme imagem -->
                 <p class="hero-subtitle font-montserrat font-semibold text-lg sm:text-xl md:text-2xl mb-8">
                     Fundado a 6 de junho de 1978
                 </p>
@@ -543,12 +211,12 @@
         </div>
     </section>
 
-     Teams Section 
+    <!-- Teams Section -->
     <section id="teams" class="py-16 bg-background">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 class="font-montserrat font-black text-4xl text-center mb-12 text-foreground">As Nossas Equipas</h2>
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                 Traquinas 
+                <!-- Traquinas -->
                 <div class="team-card bg-card rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow cursor-pointer" onclick="toggleTeamPlayers('traquinas')">
                     <img src="/placeholder.svg?height=200&width=400" alt="Equipa Traquinas" class="w-full h-48 object-cover">
                     <div class="p-6">
@@ -561,7 +229,7 @@
                     </div>
                 </div>
 
-                 Benjamins 
+                <!-- Benjamins -->
                 <div class="team-card bg-card rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow cursor-pointer" onclick="toggleTeamPlayers('benjamins')">
                     <img src="/placeholder.svg?height=200&width=400" alt="Equipa Benjamins" class="w-full h-48 object-cover">
                     <div class="p-6">
@@ -574,7 +242,7 @@
                     </div>
                 </div>
 
-                 Infantis 
+                <!-- Infantis -->
                 <div class="team-card bg-card rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow cursor-pointer" onclick="toggleTeamPlayers('infantis')">
                     <img src="/placeholder.svg?height=200&width=400" alt="Equipa Infantis" class="w-full h-48 object-cover">
                     <div class="p-6">
@@ -587,7 +255,7 @@
                     </div>
                 </div>
 
-                 Juvenis 
+                <!-- Juvenis -->
                 <div class="team-card bg-card rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow cursor-pointer" onclick="toggleTeamPlayers('juvenis')">
                     <img src="/placeholder.svg?height=200&width=400" alt="Equipa Juvenis" class="w-full h-48 object-cover">
                     <div class="p-6">
@@ -600,7 +268,7 @@
                     </div>
                 </div>
 
-                 Séniores Futsal 
+                <!-- Séniores Futsal -->
                 <div class="team-card bg-card rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow cursor-pointer" onclick="toggleTeamPlayers('seniores-futsal')">
                     <img src="img/seniores_futsal.jpg" alt="Equipa Séniores Futsal" class="w-full h-48 object-cover">
                     <div class="p-6">
@@ -613,7 +281,7 @@
                     </div>
                 </div>
 
-                 Séniores Futebol 
+                <!-- Séniores Futebol -->
                 <div class="team-card bg-card rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow cursor-pointer" onclick="toggleTeamPlayers('seniores-futebol')">
                     <img src="/placeholder.svg?height=200&width=400" alt="Equipa Séniores Futebol" class="w-full h-48 object-cover">
                     <div class="p-6">
@@ -626,7 +294,7 @@
                     </div>
                 </div>
 
-                 Veteranos 
+                <!-- Veteranos -->
                 <div class="team-card bg-card rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow cursor-pointer" onclick="toggleTeamPlayers('veteranos')">
                     <img src="/placeholder.svg?height=200&width=400" alt="Equipa Veteranos" class="w-full h-48 object-cover">
                     <div class="p-6">
@@ -640,7 +308,7 @@
                 </div>
             </div>
 
-             Players Lists (Hidden by default) 
+            <!-- Players Lists (Hidden by default) -->
             <div id="team-players" class="mt-12 hidden">
                 <div class="bg-card rounded-lg p-6 shadow-lg">
                     <div class="flex justify-between items-center mb-6">
@@ -652,21 +320,21 @@
                         </button>
                     </div>
                     <div id="players-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                         Players will be populated by JavaScript 
+                        <!-- Players will be populated by JavaScript -->
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-     Matches Section 
+    <!-- Matches Section -->
     <section id="matches" class="py-16 bg-background">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-             Updated title and added subtitle 
+            <!-- Updated title and added subtitle -->
             <h2 class="font-montserrat font-black text-4xl text-center mb-4 text-foreground">Jogos e Resultados</h2>
             <p class="font-open-sans text-center text-muted-foreground mb-8">Acompanhe os nossos próximos jogos e resultados recentes</p>
             
-             Added toggle buttons for games and results 
+            <!-- Added toggle buttons for games and results -->
             <div class="flex justify-center mb-8">
                 <div class="bg-muted rounded-lg p-1 inline-flex">
                     <button id="proximos-jogos-btn" class="px-6 py-3 rounded-md font-semibold transition-all duration-200 bg-foreground text-background">
@@ -678,7 +346,7 @@
                 </div>
             </div>
 
-             Updated matches cards with neutral background circles and team logos 
+            <!-- Updated matches cards with neutral background circles and team logos -->
             <div id="proximos-jogos" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <div class="match-card bg-card rounded-lg p-6 shadow-lg">
                     <div class="flex justify-between items-center mb-4">
@@ -783,7 +451,7 @@
                 </div>
             </div>
 
-             Resultados 
+            <!-- Resultados -->
             <div id="resultados" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 hidden">
                 <div class="match-card bg-card rounded-lg p-6 shadow-lg">
                     <div class="flex justify-between items-center mb-4">
@@ -820,7 +488,7 @@
                         </p>
                     </div>
                 </div>
-  Resultado 2
+ <!-- Resultado 2-->
                 <div class="match-card bg-card rounded-lg p-6 shadow-lg">
                     <div class="flex justify-between items-center mb-4">
                         <span class="text-sm text-muted-foreground">8 Novembro 2024</span>
@@ -856,7 +524,7 @@
                         </p>
                     </div>
                 </div>
-                  Resultado 3
+                 <!-- Resultado 3-->
 
                               <div class="match-card bg-card rounded-lg p-6 shadow-lg">
                     <div class="flex justify-between items-center mb-4">
@@ -897,8 +565,9 @@
         </div>
     </section>
     
-     Nova secção de eventos com carrossel horizontal e modais elegantes 
-    <section id="events" class="py-16 bg-background">
+<!-- Events Section -->
+
+<section id="events" class="py-16 bg-background">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 class="font-montserrat font-black text-4xl text-center mb-4 text-foreground">Próximos Eventos</h2>
             <p class="font-open-sans text-center text-muted-foreground mb-12">Descubra os eventos mais emocionantes do nosso clube</p>
@@ -1231,7 +900,7 @@
         </div>
     </section>
 
-     About Section 
+    <!-- About Section -->
     <section id="about" class="py-16 bg-muted">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
             <h2 class="font-montserrat font-black text-4xl md:text-5xl text-center mb-12 text-primary">
@@ -1258,14 +927,14 @@
         </div>
     </section>
 
-     Footer 
+    <!-- Footer -->
     <footer class="bg-sidebar text-sidebar-foreground py-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-             Alterando de md:grid-cols-4 para md:grid-cols-3 e centralizando 
+            <!-- Alterando de md:grid-cols-4 para md:grid-cols-3 e centralizando -->
             <div class="grid md:grid-cols-3 gap-8 justify-items-center text-center md:text-left">
                 <div>
                     <div class="flex items-center mb-4 justify-center md:justify-start">
-                         usando a imagem real do símbolo no footer 
+                        <!-- usando a imagem real do símbolo no footer -->
                         <img src="img/simboloarmil.png" alt="Símbolo GCD Armil" class="w-12 h-12 rounded-full object-contain">
                         <span class="ml-3 font-montserrat font-bold text-xl">GCD Armil</span>
                     </div>
@@ -1297,11 +966,11 @@
 
             <div class="border-t border-sidebar-border mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
                 <p class="font-open-sans text-sm text-sidebar-foreground/60">
-                     Atualizado copyright 
-                    © 2025 Grupo Cultural e Desportivo de Armil. Todos os direitos reservados.
+                    <!-- Atualizado copyright -->
+                    © 2024 Grupo Cultural e Desportivo de Armil. Todos os direitos reservados.
                 </p>
                 <div class="flex space-x-4 mt-4 md:mt-0">
-                     substituindo Twitter e Pinterest por Facebook e Instagram no footer 
+                    <!-- substituindo Twitter e Pinterest por Facebook e Instagram no footer -->
                     <a href="https://www.facebook.com/profile.php?id=100054213772626" target="_blank" class="text-sidebar-foreground/60 hover:text-sidebar-primary transition-colors">
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
@@ -1318,78 +987,6 @@
     </footer>
 
     <script>
-        
-        // JavaScript para o carrossel de eventos e modais
-        let currentEventIndex = 0;
-        const totalEvents = 4;
-
-        function updateCarousel() {
-            const container = document.getElementById('events-container');
-            const translateX = -currentEventIndex * (350 + 24); // largura do cartão + margem
-            container.style.transform = `translateX(${translateX}px)`;
-            
-            // Atualizar indicadores
-            document.querySelectorAll('.indicator').forEach((indicator, index) => {
-                indicator.classList.toggle('active', index === currentEventIndex);
-            });
-        }
-
-        function nextEvent() {
-            currentEventIndex = (currentEventIndex + 1) % totalEvents;
-            updateCarousel();
-        }
-
-        function prevEvent() {
-            currentEventIndex = (currentEventIndex - 1 + totalEvents) % totalEvents;
-            updateCarousel();
-        }
-
-        function goToEvent(index) {
-            currentEventIndex = index;
-            updateCarousel();
-        }
-
-        // Auto-advance carousel
-        setInterval(nextEvent, 5000);
-
-        // Modal functions
-        function openEventModal(eventId) {
-            const modal = document.getElementById(eventId + '-modal');
-            if (modal) {
-                modal.classList.add('active');
-                document.body.style.overflow = 'hidden';
-            }
-        }
-
-        function closeEventModal(eventId) {
-            const modal = document.getElementById(eventId + '-modal');
-            if (modal) {
-                modal.classList.remove('active');
-                document.body.style.overflow = 'auto';
-            }
-        }
-
-        // Close modal when clicking outside
-        document.querySelectorAll('.event-modal').forEach(modal => {
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) {
-                    modal.classList.remove('active');
-                    document.body.style.overflow = 'auto';
-                }
-            });
-        });
-
-        // Close modal with Escape key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                document.querySelectorAll('.event-modal.active').forEach(modal => {
-                    modal.classList.remove('active');
-                    document.body.style.overflow = 'auto';
-                });
-            }
-        });
-
-
         window.addEventListener('load', function() {
             // Verificar se todas as imagens críticas carregaram
             const criticalImages = document.querySelectorAll('img[src*="simboloarmil"]');
@@ -1731,6 +1328,76 @@ function toggleTeamPlayers(teamId) {
 function hideTeamPlayers() {
     document.getElementById('team-players').classList.add('hidden');
 }
+
+//  JavaScript para o carrossel de eventos e modais
+let currentEventIndex = 0;
+const totalEvents = 4;
+
+function updateCarousel() {
+    const container = document.getElementById('events-container');
+    const translateX = -currentEventIndex * (350 + 24); // largura do cartão + margem
+    container.style.transform = `translateX(${translateX}px)`;
+    
+    // Atualizar indicadores
+    document.querySelectorAll('.indicator').forEach((indicator, index) => {
+        indicator.classList.toggle('active', index === currentEventIndex);
+    });
+}
+
+function nextEvent() {
+    currentEventIndex = (currentEventIndex + 1) % totalEvents;
+    updateCarousel();
+}
+
+function prevEvent() {
+    currentEventIndex = (currentEventIndex - 1 + totalEvents) % totalEvents;
+    updateCarousel();
+}
+
+function goToEvent(index) {
+    currentEventIndex = index;
+    updateCarousel();
+}
+
+// Auto-advance carousel
+setInterval(nextEvent, 5000);
+
+// Modal functions
+function openEventModal(eventId) {
+    const modal = document.getElementById(eventId + '-modal');
+    if (modal) {
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+function closeEventModal(eventId) {
+    const modal = document.getElementById(eventId + '-modal');
+    if (modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = 'auto';
+    }
+}
+
+// Close modal when clicking outside
+document.querySelectorAll('.event-modal').forEach(modal => {
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+    });
+});
+
+// Close modal with Escape key
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        document.querySelectorAll('.event-modal.active').forEach(modal => {
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        });
+    }
+});
 
 </script>
 
