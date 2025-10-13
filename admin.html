@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel de Administração - GCD Armil</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="app/globals.css">
+    <style>
+        .font-montserrat { font-family: 'Montserrat', sans-serif; }
+        .font-open-sans { font-family: 'Open Sans', sans-serif; }
+        
+        .tab-button.active {
+            background-color: var(--primary);
+            color: var(--primary-foreground);
+        }
+    </style>
+</head>
+<body class="bg-background text-foreground">
+     Header 
+    <header class="bg-black shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <img src="img/simboloarmil.png" alt="GCD Armil" class="w-12 h-12 rounded-full object-contain">
+                    <span class="ml-3 font-montserrat font-bold text-xl text-white">Painel de Administração</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="index.html" class="text-white hover:text-primary transition-colors font-open-sans">Ver Site</a>
+                    <button id="logout-btn" class="bg-destructive hover:bg-destructive/90 text-destructive-foreground px-4 py-2 rounded-lg font-open-sans font-semibold transition-colors">
+                        Sair
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+         Tabs 
+        <div class="flex space-x-2 mb-8 border-b border-border">
+            <button class="tab-button active px-6 py-3 font-montserrat font-semibold rounded-t-lg transition-colors" data-tab="games">
+                Gerir Jogos
+            </button>
+            <button class="tab-button px-6 py-3 font-montserrat font-semibold rounded-t-lg transition-colors hover:bg-muted" data-tab="results">
+                Gerir Resultados
+            </button>
+        </div>
+
+         Games Tab 
+        <div id="games-tab" class="tab-content">
+            <div class="grid lg:grid-cols-2 gap-8">
+                 Add Game Form 
+                <div class="bg-card rounded-lg shadow-lg p-6">
+                    <h2 class="font-montserrat font-bold text-2xl text-card-foreground mb-6">Adicionar Jogo</h2>
+                    
+                    <form id="add-game-form" class="space-y-4">
+                        <div>
+                            <label class="block font-open-sans font-semibold text-card-foreground mb-2">Data e Hora</label>
+                            <input type="datetime-local" id="game-datetime" class="w-full px-4 py-2 rounded-lg border border-border bg-input text-foreground focus:border-primary focus:outline-none" required>
+                        </div>
+
+                        <div>
+                            <label class="block font-open-sans font-semibold text-card-foreground mb-2">Equipa</label>
+                            <select id="game-team" class="w-full px-4 py-2 rounded-lg border border-border bg-input text-foreground focus:border-primary focus:outline-none" required>
+                                <option value="">Selecione a equipa</option>
+                                <option value="Traquinas">Traquinas</option>
+                                <option value="Benjamins">Benjamins</option>
+                                <option value="Infantis">Infantis</option>
+                                <option value="Juvenis">Juvenis</option>
+                                <option value="Séniores Futsal">Séniores Futsal</option>
+                                <option value="Séniores Futebol">Séniores Futebol</option>
+                                <option value="Veteranos">Veteranos</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block font-open-sans font-semibold text-card-foreground mb-2">Equipa Adversária</label>
+                            <input type="text" id="game-opponent" class="w-full px-4 py-2 rounded-lg border border-border bg-input text-foreground focus:border-primary focus:outline-none" placeholder="Nome da equipa adversária" required>
+                        </div>
+
+                        <div>
+                            <label class="block font-open-sans font-semibold text-card-foreground mb-2">Logo Adversário (URL)</label>
+                            <input type="url" id="game-opponent-logo" class="w-full px-4 py-2 rounded-lg border border-border bg-input text-foreground focus:border-primary focus:outline-none" placeholder="https://exemplo.com/logo.png">
+                        </div>
+
+                        <div>
+                            <label class="block font-open-sans font-semibold text-card-foreground mb-2">Local</label>
+                            <input type="text" id="game-location" class="w-full px-4 py-2 rounded-lg border border-border bg-input text-foreground focus:border-primary focus:outline-none" placeholder="Campo do Armil" required>
+                        </div>
+
+                        <div>
+                            <label class="block font-open-sans font-semibold text-card-foreground mb-2">Casa/Fora</label>
+                            <select id="game-home-away" class="w-full px-4 py-2 rounded-lg border border-border bg-input text-foreground focus:border-primary focus:outline-none" required>
+                                <option value="home">Casa</option>
+                                <option value="away">Fora</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-open-sans font-semibold px-6 py-3 rounded-lg transition-colors">
+                            Adicionar Jogo
+                        </button>
+                    </form>
+                </div>
+
+                 Games List 
+                <div class="bg-card rounded-lg shadow-lg p-6">
+                    <h2 class="font-montserrat font-bold text-2xl text-card-foreground mb-6">Jogos Agendados</h2>
+                    <div id="games-list" class="space-y-4 max-h-[600px] overflow-y-auto">
+                         Games will be populated here 
+                    </div>
+                </div>
+            </div>
+        </div>
+
+         Results Tab 
+        <div id="results-tab" class="tab-content hidden">
+            <div class="grid lg:grid-cols-2 gap-8">
+                 Add Result Form 
+                <div class="bg-card rounded-lg shadow-lg p-6">
+                    <h2 class="font-montserrat font-bold text-2xl text-card-foreground mb-6">Adicionar Resultado</h2>
+                    
+                    <form id="add-result-form" class="space-y-4">
+                        <div>
+                            <label class="block font-open-sans font-semibold text-card-foreground mb-2">Selecionar Jogo</label>
+                            <select id="result-game" class="w-full px-4 py-2 rounded-lg border border-border bg-input text-foreground focus:border-primary focus:outline-none" required>
+                                <option value="">Selecione um jogo</option>
+                            </select>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block font-open-sans font-semibold text-card-foreground mb-2">Golos GCD Armil</label>
+                                <input type="number" id="result-home-score" min="0" class="w-full px-4 py-2 rounded-lg border border-border bg-input text-foreground focus:border-primary focus:outline-none" required>
+                            </div>
+                            <div>
+                                <label class="block font-open-sans font-semibold text-card-foreground mb-2">Golos Adversário</label>
+                                <input type="number" id="result-away-score" min="0" class="w-full px-4 py-2 rounded-lg border border-border bg-input text-foreground focus:border-primary focus:outline-none" required>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block font-open-sans font-semibold text-card-foreground mb-2">Foto do Jogo (URL)</label>
+                            <input type="url" id="result-photo" class="w-full px-4 py-2 rounded-lg border border-border bg-input text-foreground focus:border-primary focus:outline-none" placeholder="https://exemplo.com/foto.jpg">
+                        </div>
+
+                        <button type="submit" class="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-open-sans font-semibold px-6 py-3 rounded-lg transition-colors">
+                            Adicionar Resultado
+                        </button>
+                    </form>
+                </div>
+
+                 Results List 
+                <div class="bg-card rounded-lg shadow-lg p-6">
+                    <h2 class="font-montserrat font-bold text-2xl text-card-foreground mb-6">Resultados Registados</h2>
+                    <div id="results-list" class="space-y-4 max-h-[600px] overflow-y-auto">
+                         Results will be populated here 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/admin.js"></script>
+</body>
+</html>

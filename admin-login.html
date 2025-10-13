@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Administrador - GCD Armil</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="app/globals.css">
+    <style>
+        .font-montserrat { font-family: 'Montserrat', sans-serif; }
+        .font-open-sans { font-family: 'Open Sans', sans-serif; }
+    </style>
+</head>
+<body class="bg-background text-foreground">
+    <div class="min-h-screen flex items-center justify-center px-4" style="background-image: url('img/fundo.png'); background-size: cover; background-position: center;">
+        <div class="absolute inset-0 bg-black/70"></div>
+        
+        <div class="relative z-10 max-w-md w-full">
+            <div class="bg-card rounded-lg shadow-2xl p-8">
+                <div class="text-center mb-8">
+                    <img src="img/simboloarmil.png" alt="GCD Armil" class="w-24 h-24 mx-auto mb-4 object-contain">
+                    <h1 class="font-montserrat font-black text-3xl text-card-foreground mb-2">Área de Administrador</h1>
+                    <p class="font-open-sans text-muted-foreground">Insira a palavra-passe para aceder</p>
+                </div>
+
+                <form id="login-form" class="space-y-6">
+                    <div>
+                        <label for="password" class="block font-open-sans font-semibold text-card-foreground mb-2">Palavra-passe</label>
+                        <input 
+                            type="password" 
+                            id="password" 
+                            class="w-full px-4 py-3 rounded-lg border-2 border-border bg-input text-foreground focus:border-primary focus:outline-none transition-colors"
+                            placeholder="Digite a palavra-passe"
+                            required
+                        >
+                    </div>
+
+                    <div id="error-message" class="hidden bg-destructive/10 border border-destructive text-destructive px-4 py-3 rounded-lg text-sm">
+                        Palavra-passe incorreta. Tente novamente.
+                    </div>
+
+                    <button 
+                        type="submit" 
+                        class="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-open-sans font-semibold px-6 py-3 rounded-lg transition-colors"
+                    >
+                        Entrar
+                    </button>
+                </form>
+
+                <div class="mt-6 text-center">
+                    <a href="index.html" class="font-open-sans text-sm text-muted-foreground hover:text-primary transition-colors">
+                        ← Voltar ao site
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('error-message');
+            
+            // Default password: "armil2024" (you can change this)
+            const correctPassword = 'armil2024';
+            
+            if (password === correctPassword) {
+                // Store authentication in localStorage
+                localStorage.setItem('adminAuthenticated', 'true');
+                localStorage.setItem('adminLoginTime', Date.now().toString());
+                
+                // Redirect to admin panel
+                window.location.href = 'admin.html';
+            } else {
+                errorMessage.classList.remove('hidden');
+                document.getElementById('password').value = '';
+                document.getElementById('password').focus();
+            }
+        });
+    </script>
+</body>
+</html>

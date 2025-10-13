@@ -6,12 +6,32 @@
     <title>Grupo Cultural e Desportivo de Armil</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="app/globals.css">
     <style>
+        /* Added inline CSS for all styles */
         .font-montserrat { font-family: 'Montserrat', sans-serif; }
         .font-open-sans { font-family: 'Open Sans', sans-serif; }
         
-        /* Adicionando tela de loading preta com símbolo */
+        :root {
+            --background: #ffffff;
+            --foreground: #374151;
+            --card: #fefce8;
+            --card-foreground: #374151;
+            --primary: #d97706;
+            --primary-foreground: #ffffff;
+            --muted: #fefce8;
+            --muted-foreground: #374151;
+            --border: #e5e7eb;
+            --sidebar: #fefce8;
+            --sidebar-foreground: #374151;
+            --sidebar-primary: #d97706;
+            --sidebar-border: #e5e7eb;
+        }
+        
+        body {
+            background-color: var(--background);
+            color: var(--foreground);
+        }
+        
         #loading-screen {
             position: fixed;
             top: 0;
@@ -42,41 +62,6 @@
             50% { transform: scale(1.1); opacity: 1; }
         }
         
-        /* Adicionando animações de salto e rotação para a imagem */
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {
-                transform: translateY(0);
-            }
-            40% {
-                transform: translateY(-10px);
-            }
-            60% {
-                transform: translateY(-5px);
-            }
-        }
-        
-        @keyframes rotate {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-        
-        .bounce-animation {
-            animation: bounce 2s infinite;
-        }
-        
-        .rotate-animation {
-            animation: rotate 3s linear infinite;
-        }
-        
-        .bounce-rotate-animation {
-            animation: bounce 2s infinite, rotate 4s linear infinite;
-        }
-        
-        /* Melhorando responsividade para todos os dispositivos */
         @media (max-width: 640px) {
             .hero-title { font-size: 2.5rem !important; }
             .hero-subtitle { font-size: 1.25rem !important; }
@@ -88,7 +73,6 @@
             .hero-subtitle { font-size: 1.1rem !important; }
         }
         
-        /* Melhorando mobile menu */
         .mobile-menu {
             transform: translateX(-100%);
             transition: transform 0.3s ease-in-out;
@@ -97,848 +81,589 @@
         .mobile-menu.open {
             transform: translateX(0);
         }
+        
+        /* Added styles for view switching */
+        .view {
+            display: none;
+        }
+        
+        .view.active {
+            display: block;
+        }
+        
+        /* Added admin panel styles */
+        .admin-card {
+            background: var(--card);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--foreground);
+        }
+        
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid var(--border);
+            border-radius: 0.375rem;
+            font-size: 1rem;
+        }
+        
+        .form-textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .btn {
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: var(--primary-foreground);
+        }
+        
+        .btn-primary:hover {
+            opacity: 0.9;
+        }
+        
+        .btn-secondary {
+            background: #6b7280;
+            color: white;
+        }
+        
+        .btn-danger {
+            background: #dc2626;
+            color: white;
+        }
+        
+        .match-item {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .match-item img {
+            max-width: 100px;
+            max-height: 100px;
+            object-fit: cover;
+            border-radius: 0.375rem;
+        }
     </style>
 </head>
-<body class="bg-background text-foreground">
-    <!-- Adicionando tela de loading preta com símbolo maior -->
-    <div id="loading-screen">
+<body>
+     <div id="loading-screen">
         <img src="img/simboloarmil.png" alt="GCD Armil" class="loading-logo filter brightness-0 invert">
     </div>
 
-    <!-- Header -->
-    <!-- alterando fundo da navbar para preto e texto para branco -->
-    <header class="bg-black shadow-lg sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <!-- Logo -->
-                <div class="flex items-center">
-                    <!-- Aumentando tamanho do símbolo na navbar -->
-                    <img src="img/simboloarmil.png" alt="Símbolo GCD Armil" class="w-16 h-16 rounded-full object-contain">
-                    <span class="ml-3 font-montserrat font-bold text-xl text-white">GCD Armil</span>
+    <div id="home-view" class="view active">
+        <header class="bg-black shadow-lg sticky top-0 z-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-16">
+                    <div class="flex items-center">
+                        <img src="img/simboloarmil.png" alt="Símbolo GCD Armil" class="w-16 h-16 rounded-full object-contain">
+                        <span class="ml-3 font-montserrat font-bold text-xl text-white">GCD Armil</span>
+                    </div>
+
+                    <nav class="hidden md:flex space-x-8">
+                        <a href="#home" class="text-white hover:text-primary transition-colors font-open-sans font-semibold">Início</a>
+                        <a href="#teams" class="text-white hover:text-primary transition-colors font-open-sans font-semibold">Equipas</a>
+                        <a href="#about" class="text-white hover:text-primary transition-colors font-open-sans font-semibold">Sobre Nós</a>
+                    </nav>
+
+                    <div class="hidden md:flex items-center space-x-4">
+                        <div class="flex space-x-2">
+                            <a href="https://www.facebook.com/profile.php?id=100054213772626" target="_blank" class="text-white hover:text-primary transition-colors">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                                </svg>
+                            </a>
+                            <a href="https://www.instagram.com/gcdarmil/" target="_blank" class="text-white hover:text-primary transition-colors">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+
+                    <button class="md:hidden text-white" id="mobile-menu-button">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <div class="md:hidden mobile-menu fixed inset-y-0 left-0 w-64 bg-black shadow-lg z-50" id="mobile-menu">
+                <div class="p-4">
+                    <div class="flex items-center justify-between mb-8">
+                        <div class="flex items-center">
+                            <img src="img/simboloarmil.png" alt="Símbolo GCD Armil" class="w-10 h-10 rounded-full object-contain">
+                            <span class="ml-3 font-montserrat font-bold text-lg text-white">GCD Armil</span>
+                        </div>
+                        <button class="text-white" id="close-mobile-menu">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <nav class="space-y-4">
+                        <a href="#home" class="block text-white hover:text-primary transition-colors font-open-sans font-semibold py-2">Início</a>
+                        <a href="#teams" class="block text-white hover:text-primary transition-colors font-open-sans font-semibold py-2">Equipas</a>
+                        <a href="#about" class="block text-white hover:text-primary transition-colors font-open-sans font-semibold py-2">Sobre Nós</a>
+                    </nav>
+                </div>
+            </div>
+        </header>
+
+        <section id="home" class="relative h-screen flex items-center justify-center bg-background">
+            <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image: url('img/fundo.png');">
+                <div class="absolute inset-0 bg-black/60"></div>
+            </div>
+            
+            <div class="relative z-10 text-center text-white max-w-4xl mx-auto px-4">
+                <div class="mb-8">
+                    <div class="w-40 h-40 sm:w-48 sm:h-48 md:w-56 md:h-56 mx-auto mb-6 flex items-center justify-center">
+                        <img src="img/simboloarmil.png" alt="Símbolo Grupo Cultural e Desportivo de Armil" class="w-full h-full object-contain filter brightness-0 invert">
+                    </div>
+                    <h1 class="hero-title font-montserrat font-black text-3xl sm:text-4xl md:text-5xl lg:text-6xl mb-2 text-balance">
+                        Grupo Cultural e Desportivo de Armil
+                    </h1>
+                    <p class="hero-subtitle font-montserrat font-semibold text-lg sm:text-xl md:text-2xl mb-8">
+                        Fundado a 6 de junho de 1978
+                    </p>
+                </div>
+                <button class="bg-primary hover:bg-primary/90 text-primary-foreground font-open-sans font-semibold px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-base sm:text-lg transition-colors">
+                    Junta-te ao Nosso Clube
+                </button>
+            </div>
+        </section>
+
+        <!-- Moved matches and results section to hero area for prominence -->
+        <section id="matches" class="py-12 bg-white border-b-4 border-primary">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="font-montserrat font-black text-3xl md:text-4xl text-center mb-10 text-foreground">Jogos e Resultados</h2>
+                
+                <div class="mb-10">
+                    <h3 class="font-montserrat font-bold text-xl md:text-2xl mb-6 text-foreground">Próximos Jogos</h3>
+                    <div id="upcoming-matches-list" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Matches will be loaded here -->
+                    </div>
                 </div>
 
-                <!-- Desktop Navigation -->
-                <nav class="hidden md:flex space-x-8">
-                    <a href="#home" class="text-white hover:text-primary transition-colors font-open-sans font-semibold">Início</a>
-                    <a href="#teams" class="text-white hover:text-primary transition-colors font-open-sans font-semibold">Equipas</a>
-                    <a href="#matches" class="text-white hover:text-primary transition-colors font-open-sans font-semibold">Jogos</a>
-                    <a href="#events" class="text-white hover:text-primary transition-colors font-open-sans font-semibold">Eventos</a>
-                    <a href="#about" class="text-white hover:text-primary transition-colors font-open-sans font-semibold">Sobre Nós</a>
+                <div>
+                    <h3 class="font-montserrat font-bold text-xl md:text-2xl mb-6 text-foreground">Últimos Resultados</h3>
+                    <div id="recent-results-list" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Results will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </section>
 
-                </nav>
+        <section id="teams" class="py-16 bg-background">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="font-montserrat font-black text-4xl text-center mb-12 text-foreground">As Nossas Equipas</h2>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    
+                    <div class="team-card bg-card rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow cursor-pointer" onclick="toggleTeamPlayers('traquinas')">
+                        <img src="/placeholder.svg?height=200&width=400" alt="Equipa Traquinas" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <h3 class="font-montserrat font-bold text-xl mb-3 text-card-foreground">Traquinas</h3>
+                            <p class="font-open-sans text-muted-foreground mb-4">Escalão de formação mais jovem do clube</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-muted-foreground">Idades: 6-8 anos</span>
+                                <span class="text-primary hover:text-primary/80 font-semibold">Ver Jogadores</span>
+                            </div>
+                        </div>
+                    </div>
 
-                <!-- Search and Social -->
-                <div class="hidden md:flex items-center space-x-4">
-                    <!-- removendo a busca conforme solicitado -->
-                    <div class="flex space-x-2">
-                        <!-- substituindo Twitter e Pinterest por Facebook e Instagram -->
-                        <a href="https://www.facebook.com/profile.php?id=100054213772626" target="_blank" class="text-white hover:text-primary transition-colors">
+
+                      
+                    <div class="team-card bg-card rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow cursor-pointer" onclick="toggleTeamPlayers('infantis')">
+                        <img src="/placeholder.svg?height=200&width=400" alt="Equipa Infantis" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <h3 class="font-montserrat font-bold text-xl mb-3 text-card-foreground">Infantis</h3>
+                            <p class="font-open-sans text-muted-foreground mb-4">Desenvolvimento tático e técnico avançado</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-muted-foreground">Idades: 10-12 anos</span>
+                                <span class="text-primary hover:text-primary/80 font-semibold">Ver Jogadores</span>
+                            </div>
+                        </div>
+                    </div>
+
+                      
+                    <div class="team-card bg-card rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow cursor-pointer" onclick="toggleTeamPlayers('juvenis')">
+                        <img src="/placeholder.svg?height=200&width=400" alt="Equipa Juvenis" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <h3 class="font-montserrat font-bold text-xl mb-3 text-card-foreground">Juvenis</h3>
+                            <p class="font-open-sans text-muted-foreground mb-4">Preparação para o futebol sénior</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-muted-foreground">Idades: 16-18 anos</span>
+                                <span class="text-primary hover:text-primary/80 font-semibold">Ver Jogadores</span>
+                            </div>
+                        </div>
+                    </div>
+
+                     
+                    <div class="team-card bg-card rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow cursor-pointer" onclick="toggleTeamPlayers('seniores-futsal')">
+                        <img src="img/seniores_futsal.jpg" alt="Equipa Séniores Futsal" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <h3 class="font-montserrat font-bold text-xl mb-3 text-card-foreground">Séniores Futsal</h3>
+                            <p class="font-open-sans text-muted-foreground mb-4">Equipa principal de futsal do clube</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-muted-foreground">Competição Principal</span>
+                                <span class="text-primary hover:text-primary/80 font-semibold">Ver Jogadores</span>
+                            </div>
+                        </div>
+                    </div>
+
+                 
+                    <div class="team-card bg-card rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow cursor-pointer" onclick="toggleTeamPlayers('seniores-futebol')">
+                        <img src="/placeholder.svg?height=200&width=400" alt="Equipa Séniores Futebol" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <h3 class="font-montserrat font-bold text-xl mb-3 text-card-foreground">Séniores Futebol</h3>
+                            <p class="font-open-sans text-muted-foreground mb-4">Equipa principal de futebol do clube</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-muted-foreground">Competição Principal</span>
+                                <span class="text-primary hover:text-primary/80 font-semibold">Ver Jogadores</span>
+                            </div>
+                        </div>
+                    </div>
+
+                  
+                    <div class="team-card bg-card rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow cursor-pointer" onclick="toggleTeamPlayers('veteranos')">
+                        <img src="/placeholder.svg?height=200&width=400" alt="Equipa Veteranos" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <h3 class="font-montserrat font-bold text-xl mb-3 text-card-foreground">Veteranos</h3>
+                            <p class="font-open-sans text-muted-foreground mb-4">Futebol recreativo para os mais experientes</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-muted-foreground">Idades: 35+ anos</span>
+                                <span class="text-primary hover:text-primary/80 font-semibold">Ver Jogadores</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                  
+                <div id="team-players" class="mt-12 hidden">
+                    <div class="bg-card rounded-lg p-6 shadow-lg">
+                        <div class="flex justify-between items-center mb-6">
+                            <h3 id="team-title" class="font-montserrat font-bold text-2xl text-card-foreground"></h3>
+                            <button onclick="hideTeamPlayers()" class="text-muted-foreground hover:text-foreground">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                            </button>
+                        </div>
+                        <div id="players-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                             
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="py-16 bg-muted">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+                <h2 class="font-montserrat font-black text-4xl md:text-5xl text-center mb-12 text-primary">
+                    Sobre Nós
+                </h2>
+                
+                <div class="space-y-6 font-open-sans text-muted-foreground text-lg leading-relaxed">
+                    <p>
+                        O Grupo Cultural e Desportivo de Armil foi fundado a 6 de junho de 1978, fruto da paixão e do empenho de um grupo de amigos e habitantes da freguesia que acreditavam no poder do desporto e da cultura como motores de união comunitária. Desde então, o clube tornou-se uma referência local, não só pela sua vertente competitiva, mas também pela sua forte ligação social e cultural à população.
+                    </p>
+                    
+                    <p>
+                        Ao longo das décadas, o clube cresceu e consolidou-se, sendo reconhecido pela sua aposta nas modalidades de futsal e futebol, oferecendo oportunidades de prática desportiva em diversos escalões de formação, desde os mais jovens até aos seniores e veteranos.
+                    </p>
+                    
+                    <p>
+                        O clube tem participado regularmente em campeonatos locais e distritais, conquistando títulos e distinções que enchem de orgulho toda a comunidade de Armil. Mas mais do que os troféus, o que distingue esta coletividade é a capacidade de formar jovens atletas, transmitindo valores de disciplina, respeito, solidariedade e espírito de equipa.
+                    </p>
+                    
+                    <p>
+                        Paralelamente à vertente desportiva, o Grupo Cultural e Desportivo de Armil promove também initiatives de carácter cultural e social, reforçando assim a sua identidade como verdadeiro ponto de encontro da freguesia.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <footer class="bg-sidebar text-sidebar-foreground py-12">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid md:grid-cols-3 gap-8 justify-items-center text-center md:text-left">
+                    <div>
+                        <div class="flex items-center mb-4 justify-center md:justify-start">
+                            <img src="img/simboloarmil.png" alt="Símbolo GCD Armil" class="w-12 h-12 rounded-full object-contain">
+                            <span class="ml-3 font-montserrat font-bold text-xl">GCD Armil</span>
+                        </div>
+                        <p class="font-open-sans text-sm text-sidebar-foreground/80">
+                        Paixão, força e tradição desde 1978. Mais que um clube, uma família.
+                        </p>
+                    </div>
+
+                    <div>
+                        <h4 class="font-montserrat font-bold text-lg mb-4">Links Rápidos</h4>
+                        <ul class="space-y-2 font-open-sans text-sm">
+                            <li><a href="#home" class="hover:text-sidebar-primary transition-colors">Início</a></li>
+                            <li><a href="#teams" class="hover:text-sidebar-primary transition-colors">Equipas</a></li>
+                            <li><a href="#about" class="hover:text-sidebar-primary transition-colors">Sobre Nós</a></li>
+                            <li><a href="#" onclick="showAdminLogin(); return false;" class="hover:text-sidebar-primary transition-colors">Área de Administrador</a></li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h4 class="font-montserrat font-bold text-lg mb-4">Contacto</h4>
+                        <div class="space-y-2 font-open-sans text-sm">
+                            <p>📍 Rua Campo de Futebol, 4820-010</p>
+                            <p>📞 966368977</p>
+                            <p>✉️ gcdarmil78@gmail.com</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="border-t border-sidebar-border mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
+                    <p class="font-open-sans text-sm text-sidebar-foreground/60">
+                        © 2025 Grupo Cultural e Desportivo de Armil. Todos os direitos reservados.
+                    </p>
+                    <div class="flex space-x-4 mt-4 md:mt-0">
+                        <a href="https://www.facebook.com/profile.php?id=100054213772626" target="_blank" class="text-sidebar-foreground/60 hover:text-sidebar-primary transition-colors">
                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
                             </svg>
                         </a>
-                        <a href="https://www.instagram.com/gcdarmil/" target="_blank" class="text-white hover:text-primary transition-colors">
+                        <a href="https://www.instagram.com/gcdarmil/" target="_blank" class="text-sidebar-foreground/60 hover:text-sidebar-primary transition-colors">
                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
                             </svg>
                         </a>
                     </div>
                 </div>
+            </div>
+        </footer>
+    </div>
 
-                <!-- Mobile menu button -->
-                <button class="md:hidden text-white" id="mobile-menu-button">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                    </svg>
-                </button>
+    <div id="admin-login-view" class="view">
+        <div class="min-h-screen flex items-center justify-center bg-gray-100 px-4">
+            <div class="max-w-md w-full bg-white rounded-lg shadow-lg p-8">
+                <div class="text-center mb-8">
+                    <img src="img/simboloarmil.png" alt="GCD Armil" class="w-24 h-24 mx-auto mb-4">
+                    <h2 class="font-montserrat font-bold text-2xl text-foreground">Área de Administrador</h2>
+                    <p class="text-muted-foreground mt-2">Faça login para gerir jogos e resultados</p>
+                </div>
+                
+                <form id="login-form" onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label class="form-label">Palavra-passe</label>
+                        <input type="password" id="admin-password" class="form-input" required placeholder="Digite a palavra-passe">
+                    </div>
+                    
+                    <div id="login-error" class="text-red-600 text-sm mb-4 hidden">Palavra-passe incorreta!</div>
+                    
+                    <button type="submit" class="btn btn-primary w-full mb-4">Entrar</button>
+                    <button type="button" onclick="showHome()" class="btn btn-secondary w-full">Voltar ao Site</button>
+                </form>
             </div>
         </div>
+    </div>
 
-        <!-- Mobile menu -->
-        <!-- alterando fundo do menu mobile para preto e texto para branco -->
-        <div class="md:hidden mobile-menu fixed inset-y-0 left-0 w-64 bg-black shadow-lg z-50" id="mobile-menu">
-            <div class="p-4">
-                <div class="flex items-center justify-between mb-8">
-                    <div class="flex items-center">
-                        <!-- usando a imagem real do símbolo no menu mobile -->
-                        <img src="img/simboloarmil.png" alt="Símbolo GCD Armil" class="w-10 h-10 rounded-full object-contain">
-                        <span class="ml-3 font-montserrat font-bold text-lg text-white">GCD Armil</span>
-                    </div>
-                    <button class="text-white" id="close-mobile-menu">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12M6 12h12"></path>
-                        </svg>
-                    </button>
-                </div>
-                <nav class="space-y-4">
-                    <a href="#home" class="block text-white hover:text-primary transition-colors font-open-sans font-semibold py-2">Início</a>
-                    <a href="#teams" class="block text-white hover:text-primary transition-colors font-open-sans font-semibold py-2">Equipas</a>
-                    <a href="#matches" class="block text-white hover:text-primary transition-colors font-open-sans font-semibold py-2">Jogos</a>
-                    <a href="#history" class="block text-white hover:text-primary transition-colors font-open-sans font-semibold py-2">História</a>
-                    <a href="#events" class="block text-white hover:text-primary transition-colors font-open-sans font-semibold py-2">Eventos</a>
-                    <a href="#about" class="block text-white hover:text-primary transition-colors font-open-sans font-semibold py-2">Sobre Nós</a>
-                      
-</nav>
-                </nav>
-            </div>
-        </div>
-    </header>
-
-    <!-- Hero Section -->
-    <section id="home" class="relative h-screen flex items-center justify-center bg-background">
-        <!-- Adicionando imagem de fundo fundo.png com overlay escuro -->
-        <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image: url('img/fundo.png');">
-            <div class="absolute inset-0 bg-black/60"></div>
-        </div>
-        
-        <div class="relative z-10 text-center text-white max-w-4xl mx-auto px-4">
-            <!-- Aumentando símbolo no hero e melhorando responsividade -->
-            <div class="mb-8">
-                <div class="w-40 h-40 sm:w-48 sm:h-48 md:w-56 md:h-56 mx-auto mb-6 flex items-center justify-center">
-                    <img src="img/simboloarmil.png" alt="Símbolo Grupo Cultural e Desportivo de Armil" class="w-full h-full object-contain filter brightness-0 invert">
-                </div>
-                <h1 class="hero-title font-montserrat font-black text-3xl sm:text-4xl md:text-5xl lg:text-6xl mb-2 text-balance">
-                    Grupo Cultural e Desportivo de Armil
-                </h1>
-                <!-- Adicionando data de fundação conforme imagem -->
-                <p class="hero-subtitle font-montserrat font-semibold text-lg sm:text-xl md:text-2xl mb-8">
-                    Fundado a 6 de junho de 1978
-                </p>
-            </div>
-            <button class="bg-primary hover:bg-primary/90 text-primary-foreground font-open-sans font-semibold px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-base sm:text-lg transition-colors">
-                Junta-te ao Nosso Clube
-            </button>
-        </div>
-    </section>
-
-    <!-- Teams Section -->
-    <section id="teams" class="py-16 bg-background">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="font-montserrat font-black text-4xl text-center mb-12 text-foreground">As Nossas Equipas</h2>
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Traquinas -->
-                <div class="team-card bg-card rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow cursor-pointer" onclick="toggleTeamPlayers('traquinas')">
-                    <img src="/placeholder.svg?height=200&width=400" alt="Equipa Traquinas" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 class="font-montserrat font-bold text-xl mb-3 text-card-foreground">Traquinas</h3>
-                        <p class="font-open-sans text-muted-foreground mb-4">Escalão de formação mais jovem do clube</p>
-                        <div class="flex justify-between items-center">
-                            <span class="text-sm text-muted-foreground">Idades: 6-8 anos</span>
-                            <span class="text-primary hover:text-primary/80 font-semibold">Ver Jogadores</span>
+    <div id="admin-panel-view" class="view">
+        <div class="min-h-screen bg-gray-100">
+            <header class="bg-black text-white shadow-lg">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center">
+                            <img src="img/simboloarmil.png" alt="GCD Armil" class="w-12 h-12 rounded-full object-contain">
+                            <span class="ml-3 font-montserrat font-bold text-xl">Painel de Administração</span>
                         </div>
+                        <button onclick="handleLogout()" class="btn btn-danger">Sair</button>
                     </div>
                 </div>
+            </header>
 
-                <!-- Benjamins -->
-                <div class="team-card bg-card rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow cursor-pointer" onclick="toggleTeamPlayers('benjamins')">
-                    <img src="/placeholder.svg?height=200&width=400" alt="Equipa Benjamins" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 class="font-montserrat font-bold text-xl mb-3 text-card-foreground">Benjamins</h3>
-                        <p class="font-open-sans text-muted-foreground mb-4">Formação base com foco no desenvolvimento técnico</p>
-                        <div class="flex justify-between items-center">
-                            <span class="text-sm text-muted-foreground">Idades: 8-10 anos</span>
-                            <span class="text-primary hover:text-primary/80 font-semibold">Ver Jogadores</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Infantis -->
-                <div class="team-card bg-card rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow cursor-pointer" onclick="toggleTeamPlayers('infantis')">
-                    <img src="/placeholder.svg?height=200&width=400" alt="Equipa Infantis" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 class="font-montserrat font-bold text-xl mb-3 text-card-foreground">Infantis</h3>
-                        <p class="font-open-sans text-muted-foreground mb-4">Desenvolvimento tático e técnico avançado</p>
-                        <div class="flex justify-between items-center">
-                            <span class="text-sm text-muted-foreground">Idades: 10-12 anos</span>
-                            <span class="text-primary hover:text-primary/80 font-semibold">Ver Jogadores</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Juvenis -->
-                <div class="team-card bg-card rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow cursor-pointer" onclick="toggleTeamPlayers('juvenis')">
-                    <img src="/placeholder.svg?height=200&width=400" alt="Equipa Juvenis" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 class="font-montserrat font-bold text-xl mb-3 text-card-foreground">Juvenis</h3>
-                        <p class="font-open-sans text-muted-foreground mb-4">Preparação para o futebol sénior</p>
-                        <div class="flex justify-between items-center">
-                            <span class="text-sm text-muted-foreground">Idades: 16-18 anos</span>
-                            <span class="text-primary hover:text-primary/80 font-semibold">Ver Jogadores</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Séniores Futsal -->
-                <div class="team-card bg-card rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow cursor-pointer" onclick="toggleTeamPlayers('seniores-futsal')">
-                    <img src="img/seniores_futsal.jpg" alt="Equipa Séniores Futsal" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 class="font-montserrat font-bold text-xl mb-3 text-card-foreground">Séniores Futsal</h3>
-                        <p class="font-open-sans text-muted-foreground mb-4">Equipa principal de futsal do clube</p>
-                        <div class="flex justify-between items-center">
-                            <span class="text-sm text-muted-foreground">Competição Principal</span>
-                            <span class="text-primary hover:text-primary/80 font-semibold">Ver Jogadores</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Séniores Futebol -->
-                <div class="team-card bg-card rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow cursor-pointer" onclick="toggleTeamPlayers('seniores-futebol')">
-                    <img src="/placeholder.svg?height=200&width=400" alt="Equipa Séniores Futebol" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 class="font-montserrat font-bold text-xl mb-3 text-card-foreground">Séniores Futebol</h3>
-                        <p class="font-open-sans text-muted-foreground mb-4">Equipa principal de futebol do clube</p>
-                        <div class="flex justify-between items-center">
-                            <span class="text-sm text-muted-foreground">Competição Principal</span>
-                            <span class="text-primary hover:text-primary/80 font-semibold">Ver Jogadores</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Veteranos -->
-                <div class="team-card bg-card rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow cursor-pointer" onclick="toggleTeamPlayers('veteranos')">
-                    <img src="/placeholder.svg?height=200&width=400" alt="Equipa Veteranos" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 class="font-montserrat font-bold text-xl mb-3 text-card-foreground">Veteranos</h3>
-                        <p class="font-open-sans text-muted-foreground mb-4">Futebol recreativo para os mais experientes</p>
-                        <div class="flex justify-between items-center">
-                            <span class="text-sm text-muted-foreground">Idades: 35+ anos</span>
-                            <span class="text-primary hover:text-primary/80 font-semibold">Ver Jogadores</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Players Lists (Hidden by default) -->
-            <div id="team-players" class="mt-12 hidden">
-                <div class="bg-card rounded-lg p-6 shadow-lg">
-                    <div class="flex justify-between items-center mb-6">
-                        <h3 id="team-title" class="font-montserrat font-bold text-2xl text-card-foreground"></h3>
-                        <button onclick="hideTeamPlayers()" class="text-muted-foreground hover:text-foreground">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12M6 12h12"></path>
-                            </svg>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <div class="mb-6 border-b border-gray-300">
+                    <div class="flex space-x-4">
+                        <button onclick="showAdminTab('games')" id="tab-games" class="px-4 py-2 font-semibold border-b-2 border-primary text-primary">
+                            Gerir Jogos
+                        </button>
+                        <button onclick="showAdminTab('results')" id="tab-results" class="px-4 py-2 font-semibold border-b-2 border-transparent text-gray-600 hover:text-primary">
+                            Gerir Resultados
                         </button>
                     </div>
-                    <div id="players-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        <!-- Players will be populated by JavaScript -->
+                </div>
+
+                <div id="admin-tab-games" class="admin-tab">
+                    <div class="admin-card">
+                        <h3 class="font-montserrat font-bold text-xl mb-4">Adicionar Novo Jogo</h3>
+                        <form id="add-game-form" onsubmit="handleAddGame(event)">
+                            <div class="grid md:grid-cols-2 gap-4">
+                                <div class="form-group">
+                                    <label class="form-label">Data e Hora</label>
+                                    <input type="datetime-local" id="game-date" class="form-input" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label">Escalão</label>
+                                    <select id="game-team" class="form-select" required>
+                                        <option value="">Selecione...</option>
+                                        <option value="Traquinas">Traquinas</option>
+                                        <option value="Benjamins">Benjamins</option>
+                                        <option value="Infantis">Infantis</option>
+                                        <option value="Juvenis">Juvenis</option>
+                                        <option value="Séniores Futsal">Séniores Futsal</option>
+                                        <option value="Séniores Futebol">Séniores Futebol</option>
+                                        <option value="Veteranos">Veteranos</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label">Equipa Casa</label>
+                                    <input type="text" id="game-home-team" class="form-input" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label">Equipa Fora</label>
+                                    <input type="text" id="game-away-team" class="form-input" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label">Local</label>
+                                    <input type="text" id="game-location" class="form-input" required>
+                                </div>
+                                
+                                <!-- Added file upload for home team logo -->
+                                <div class="form-group">
+                                    <label class="form-label">Logo Equipa Casa</label>
+                                    <input type="file" id="game-home-logo-file" class="form-input" accept="image/*" onchange="previewImage(this, 'game-home-logo-preview')">
+                                    <input type="url" id="game-home-logo" class="form-input mt-2" placeholder="Ou cole URL da imagem">
+                                    <img id="game-home-logo-preview" class="mt-2 max-w-xs max-h-24 object-contain hidden">
+                                </div>
+                                
+                                <!-- Added file upload for away team logo -->
+                                <div class="form-group">
+                                    <label class="form-label">Logo Equipa Fora</label>
+                                    <input type="file" id="game-away-logo-file" class="form-input" accept="image/*" onchange="previewImage(this, 'game-away-logo-preview')">
+                                    <input type="url" id="game-away-logo" class="form-input mt-2" placeholder="Ou cole URL da imagem">
+                                    <img id="game-away-logo-preview" class="mt-2 max-w-xs max-h-24 object-contain hidden">
+                                </div>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary">Adicionar Jogo</button>
+                        </form>
+                    </div>
+
+                    <div class="admin-card">
+                        <h3 class="font-montserrat font-bold text-xl mb-4">Jogos Agendados</h3>
+                        <div id="games-list"></div>
+                    </div>
+                </div>
+
+                <div id="admin-tab-results" class="admin-tab hidden">
+                    <div class="admin-card">
+                        <h3 class="font-montserrat font-bold text-xl mb-4">Adicionar Resultado</h3>
+                        <form id="add-result-form" onsubmit="handleAddResult(event)">
+                            <div class="grid md:grid-cols-2 gap-4">
+                                <div class="form-group">
+                                    <label class="form-label">Data</label>
+                                    <input type="date" id="result-date" class="form-input" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label">Escalão</label>
+                                    <select id="result-team" class="form-select" required>
+                                        <option value="">Selecione...</option>
+                                        <option value="Traquinas">Traquinas</option>
+                                        <option value="Benjamins">Benjamins</option>
+                                        <option value="Infantis">Infantis</option>
+                                        <option value="Juvenis">Juvenis</option>
+                                        <option value="Séniores Futsal">Séniores Futsal</option>
+                                        <option value="Séniores Futebol">Séniores Futebol</option>
+                                        <option value="Veteranos">Veteranos</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label">Equipa Casa</label>
+                                    <input type="text" id="result-home-team" class="form-input" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label">Golos Casa</label>
+                                    <input type="number" id="result-home-score" class="form-input" min="0" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label">Equipa Fora</label>
+                                    <input type="text" id="result-away-team" class="form-input" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label">Golos Fora</label>
+                                    <input type="number" id="result-away-score" class="form-input" min="0" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label">Local</label>
+                                    <input type="text" id="result-location" class="form-input" required>
+                                </div>
+                                
+                                <!-- Added file upload for home team logo -->
+                                <div class="form-group">
+                                    <label class="form-label">Logo Equipa Casa</label>
+                                    <input type="file" id="result-home-logo-file" class="form-input" accept="image/*" onchange="previewImage(this, 'result-home-logo-preview')">
+                                    <input type="url" id="result-home-logo" class="form-input mt-2" placeholder="Ou cole URL da imagem">
+                                    <img id="result-home-logo-preview" class="mt-2 max-w-xs max-h-24 object-contain hidden">
+                                </div>
+                                
+                                <!-- Added file upload for away team logo -->
+                                <div class="form-group">
+                                    <label class="form-label">Logo Equipa Fora</label>
+                                    <input type="file" id="result-away-logo-file" class="form-input" accept="image/*" onchange="previewImage(this, 'result-away-logo-preview')">
+                                    <input type="url" id="result-away-logo" class="form-input mt-2" placeholder="Ou cole URL da imagem">
+                                    <img id="result-away-logo-preview" class="mt-2 max-w-xs max-h-24 object-contain hidden">
+                                </div>
+                                
+                                <!-- Added file upload for match photo -->
+                                <div class="form-group md:col-span-2">
+                                    <label class="form-label">Foto do Jogo</label>
+                                    <input type="file" id="result-photo-file" class="form-input" accept="image/*" onchange="previewImage(this, 'result-photo-preview')">
+                                    <input type="url" id="result-photo" class="form-input mt-2" placeholder="Ou cole URL da imagem">
+                                    <img id="result-photo-preview" class="mt-2 max-w-full max-h-48 object-contain hidden">
+                                </div>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary">Adicionar Resultado</button>
+                        </form>
+                    </div>
+
+                    <div class="admin-card">
+                        <h3 class="font-montserrat font-bold text-xl mb-4">Resultados Registados</h3>
+                        <div id="results-list"></div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
-
-    <!-- Matches Section -->
-    <section id="matches" class="py-16 bg-background">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <!-- Updated title and added subtitle -->
-            <h2 class="font-montserrat font-black text-4xl text-center mb-4 text-foreground">Jogos e Resultados</h2>
-            <p class="font-open-sans text-center text-muted-foreground mb-8">Acompanhe os nossos próximos jogos e resultados recentes</p>
-            
-            <!-- Added toggle buttons for games and results -->
-            <div class="flex justify-center mb-8">
-                <div class="bg-muted rounded-lg p-1 inline-flex">
-                    <button id="proximos-jogos-btn" class="px-6 py-3 rounded-md font-semibold transition-all duration-200 bg-foreground text-background">
-                        Próximos Jogos
-                    </button>
-                    <button id="resultados-btn" class="px-6 py-3 rounded-md font-semibold transition-all duration-200 text-muted-foreground hover:text-foreground">
-                        Resultados
-                    </button>
-                </div>
-            </div>
-
-            <!-- Updated matches cards with neutral background circles and team logos -->
-            <div id="proximos-jogos" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="match-card bg-card rounded-lg p-6 shadow-lg">
-                    <div class="flex justify-between items-center mb-4">
-                        <span class="text-sm text-muted-foreground">22 Agosto 2025 • 15:00</span>
-                        <span class="bg-foreground text-background px-3 py-1 rounded-full text-sm font-semibold">Juvenis</span>
-                    </div>
-                    <div class="flex items-center justify-between mb-4">
-                        <div class="text-center">
-                            <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-2 border-2 border-gray-300">
-                                <img src="img/armil.png" alt="GCD Armil" class="w-12 h-12 object-contain">
-                            </div>
-                            <p class="font-semibold text-sm">GCD Armil</p>
-                        </div>
-                        <div class="text-center mx-4">
-                            <p class="font-montserrat font-bold text-2xl text-foreground">VS</p>
-                        </div>
-                        <div class="text-center">
-                            <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-2 border-2 border-gray-300">
-                                <img src="img/sporting.png" alt="Sporting" class="w-12 h-12 object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                                <div class="w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center text-white font-bold text-xs" style="display: none;">VG</div>
-                            </div>
-                            <p class="font-semibold text-sm">Sporting</p>
-                        </div>
-                    </div>
-                    <div class="text-center">
-                        <p class="text-sm text-muted-foreground flex items-center justify-center">
-                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                            </svg>
-                            Campo do Armil
-                        </p>
-                    </div>
-                </div>
-
-                <div class="match-card bg-card rounded-lg p-6 shadow-lg">
-                    <div class="flex justify-between items-center mb-4">
-                        <span class="text-sm text-muted-foreground">22 Dezembro 2024 • 14:30</span>
-                        <span class="bg-foreground text-background px-3 py-1 rounded-full text-sm font-semibold">Veteranos</span>
-                    </div>
-                    <div class="flex items-center justify-between mb-4">
-                        <div class="text-center">
-                            <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-2 border-2 border-gray-300">
-                                <img src="img/sporting.png" alt="SC Unidos" class="w-12 h-12 object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                                <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold text-xs" style="display: none;">SC</div>
-                            </div>
-                            <p class="font-semibold text-sm">Sporting</p>
-                        </div>
-                        <div class="text-center mx-4">
-                            <p class="font-montserrat font-bold text-2xl text-foreground">VS</p>
-                        </div>
-                        <div class="text-center">
-                            <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-2 border-2 border-gray-300">
-                                <img src="img/armil.png" alt="GCD Armil" class="w-12 h-12 object-contain">
-                            </div>
-                            <p class="font-semibold text-sm">GCD Armil</p>
-                        </div>
-                    </div>
-                    <div class="text-center">
-                        <p class="text-sm text-muted-foreground flex items-center justify-center">
-                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                            </svg>
-                            Estádio José Alvalade
-                        </p>
-                    </div>
-                </div>
-
-                <div class="match-card bg-card rounded-lg p-6 shadow-lg">
-                    <div class="flex justify-between items-center mb-4">
-                        <span class="text-sm text-muted-foreground">4 Janeiro 2025 • 16:00</span>
-                        <span class="bg-foreground text-background px-3 py-1 rounded-full text-sm font-semibold">Séniores Futebol</span>
-                    </div>
-                    <div class="flex items-center justify-between mb-4">
-                        <div class="text-center">
-                            <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-2 border-2 border-gray-300">
-                                <img src="img/armil.png" alt="GCD Armil" class="w-12 h-12 object-contain">
-                            </div>
-                            <p class="font-semibold text-sm">GCD Armil</p>
-                        </div>
-                        <div class="text-center mx-4">
-                            <p class="font-montserrat font-bold text-2xl text-foreground">VS</p>
-                        </div>
-                        <div class="text-center">
-                            <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-2 border-2 border-gray-300">
-                                <img src="img/sporting.png" alt="EC Vitória" class="w-12 h-12 object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                                <div class="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center text-white font-bold text-xs" style="display: none;">EC</div>
-                            </div>
-                            <p class="font-semibold text-sm">Sporting</p>
-                        </div>
-                    </div>
-                    <div class="text-center">
-                        <p class="text-sm text-muted-foreground flex items-center justify-center">
-                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                            </svg>
-                            Campo do Armil
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Resultados -->
-            <div id="resultados" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 hidden">
-                <div class="match-card bg-card rounded-lg p-6 shadow-lg">
-                    <div class="flex justify-between items-center mb-4">
-                        <span class="text-sm text-muted-foreground">15 Novembro 2024</span>
-                        <span class="bg-foreground text-background px-3 py-1 rounded-full text-sm font-semibold">Veteranos</span>
-                    </div>
-                    <div class="flex items-center justify-between mb-4">
-                        <div class="text-center">
-                            <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-2 border-2 border-gray-300">
-                                <img src="img/armil.png" alt="GCD Armil" class="w-12 h-12 object-contain">
-                            </div>
-                            <p class="font-semibold text-sm">GCD Armil</p>
-                            <p class="font-bold text-2xl text-green-600">3</p>
-                        </div>
-                        <div class="text-center mx-4">
-                            <p class="font-montserrat font-bold text-xl text-muted-foreground">-</p>
-                        </div>
-                        <div class="text-center">
-                            <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-2 border-2 border-gray-300">
-                                <img src="img/sporting.png" alt="Sporting" class="w-12 h-12 object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                                <div class="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center text-white font-bold text-xs" style="display: none;">AD</div>
-                            </div>
-                            <p class="font-semibold text-sm">Sporting</p>
-                            <p class="font-bold text-2xl text-red-600">1</p>
-                        </div>
-                    </div>
-                    <div class="text-center">
-                        <p class="text-sm text-muted-foreground flex items-center justify-center">
-                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                            </svg>
-                            Campo do Armil
-                        </p>
-                    </div>
-                </div>
- <!-- Resultado 2-->
-                <div class="match-card bg-card rounded-lg p-6 shadow-lg">
-                    <div class="flex justify-between items-center mb-4">
-                        <span class="text-sm text-muted-foreground">8 Novembro 2024</span>
-                        <span class="bg-foreground text-background px-3 py-1 rounded-full text-sm font-semibold">Juvenis</span>
-                    </div>
-                    <div class="flex items-center justify-between mb-4">
-                        <div class="text-center">
-                            <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-2 border-2 border-gray-300">
-                                <img src="img/sporting.png" alt="Sporting" class="w-12 h-12 object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                                <div class="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center text-white font-bold text-xs" style="display: none;">FC</div>
-                            </div>
-                            <p class="font-semibold text-sm">Sporting</p>
-                            <p class="font-bold text-2xl text-red-600">0</p>
-                        </div>
-                        <div class="text-center mx-4">
-                            <p class="font-montserrat font-bold text-xl text-muted-foreground">-</p>
-                        </div>
-                        <div class="text-center">
-                            <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-2 border-2 border-gray-300">
-                                <img src="img/armil.png" alt="GCD Armil" class="w-12 h-12 object-contain">
-                            </div>
-                            <p class="font-semibold text-sm">GCD Armil</p>
-                            <p class="font-bold text-2xl text-green-600">2</p>
-                        </div>
-                    </div>
-                    <div class="text-center">
-                        <p class="text-sm text-muted-foreground flex items-center justify-center">
-                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                            </svg>
-                            Campo Municipal
-                        </p>
-                    </div>
-                </div>
-                 <!-- Resultado 3-->
-
-                              <div class="match-card bg-card rounded-lg p-6 shadow-lg">
-                    <div class="flex justify-between items-center mb-4">
-                        <span class="text-sm text-muted-foreground">8 Novembro 2024</span>
-                        <span class="bg-foreground text-background px-3 py-1 rounded-full text-sm font-semibold">Juvenis</span>
-                    </div>
-                    <div class="flex items-center justify-between mb-4">
-                        <div class="text-center">
-                            <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-2 border-2 border-gray-300">
-                                <img src="img/sporting.png" alt="Sporting" class="w-12 h-12 object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                                <div class="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center text-white font-bold text-xs" style="display: none;">FC</div>
-                            </div>
-                            <p class="font-semibold text-sm">Sporting</p>
-                            <p class="font-bold text-2xl text-red-600">0</p>
-                        </div>
-                        <div class="text-center mx-4">
-                            <p class="font-montserrat font-bold text-xl text-muted-foreground">-</p>
-                        </div>
-                        <div class="text-center">
-                            <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-2 border-2 border-gray-300">
-                                <img src="img/armil.png" alt="GCD Armil" class="w-12 h-12 object-contain">
-                            </div>
-                            <p class="font-semibold text-sm">GCD Armil</p>
-                            <p class="font-bold text-2xl text-green-600">2</p>
-                        </div>
-                    </div>
-                    <div class="text-center">
-                        <p class="text-sm text-muted-foreground flex items-center justify-center">
-                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                            </svg>
-                            Campo Municipal
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-<!-- Events Section -->
-<section id="events" class="py-16 bg-background">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <h2 class="font-montserrat font-black text-4xl text-center mb-8 text-foreground">Próximos Eventos</h2>
-
-    <div class="flex overflow-x-auto space-x-6 pb-4">
-      <!-- Evento 1 -->
-      <div class="event-card bg-card rounded-lg shadow-lg min-w-[300px] flex-shrink-0">
-        <img src="img/armilcup.jpg" alt="Armil Cup" class="w-full h-48 object-cover rounded-t">
-        <div class="p-4">
-          <h3 class="font-montserrat font-bold text-xl mb-2 text-card-foreground">Armil Cup</h3>
-          <p class="font-open-sans text-muted-foreground mb-2">Torneio de futsal juvenil com várias equipas da região.</p>
-          
-          <!-- Checkbox que controla o modal -->
-          <input type="checkbox" id="event1-modal-toggle" class="hidden">
-          <label for="event1-modal-toggle" class="bg-primary text-primary-foreground px-4 py-2 rounded cursor-pointer inline-block">Saber mais</label>
-
-          <!-- Modal -->
-          <div class="fixed inset-0 flex items-center justify-center z-50 opacity-0 pointer-events-none transition-opacity duration-300">
-            <!-- Fundo semitransparente -->
-            <label for="event1-modal-toggle" class="absolute inset-0 bg-black bg-opacity-50 cursor-pointer"></label>
-
-            <!-- Caixa central -->
-            <div class="bg-background max-w-2xl w-full p-6 rounded-2xl shadow-xl relative z-10">
-              <h3 class="font-montserrat font-bold text-2xl mb-4">Armil Cup - Mais informações</h3>
-              <p class="font-open-sans text-muted-foreground mb-4">
-                O Armil Cup é um torneio anual de futsal juvenil que reúne equipas da região para competir em diversas categorias.
-              </p>
-              <img src="img/armilcup2.jpg" alt="Armil Cup 2" class="w-full h-48 object-cover rounded mb-2">
-              <img src="img/armilcup3.jpg" alt="Armil Cup 3" class="w-full h-48 object-cover rounded mb-2">
-              <label for="event1-modal-toggle" class="mt-4 inline-block bg-red-500 text-white px-4 py-2 rounded cursor-pointer">Fechar</label>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Evento 2 -->
-      <div class="event-card bg-card rounded-lg shadow-lg min-w-[300px] flex-shrink-0">
-        <img src="img/eventos/jantar1.jpg" alt="Jantar" class="w-full h-48 object-cover rounded-t">
-        <div class="p-4">
-          <h3 class="font-montserrat font-bold text-xl mb-2 text-card-foreground">Jantar de Aniversário</h3>
-          <p class="font-open-sans text-muted-foreground mb-2">Celebração do 46º aniversário do clube com jantar convívio.</p>
-
-          <input type="checkbox" id="event2-modal-toggle" class="hidden">
-          <label for="event2-modal-toggle" class="bg-primary text-primary-foreground px-4 py-2 rounded cursor-pointer inline-block">Saber mais</label>
-
-          <div class="fixed inset-0 flex items-center justify-center z-50 opacity-0 pointer-events-none transition-opacity duration-300">
-            <label for="event2-modal-toggle" class="absolute inset-0 bg-black bg-opacity-50 cursor-pointer"></label>
-            <div class="bg-background max-w-2xl w-full p-6 rounded-2xl shadow-xl relative z-10">
-              <h3 class="font-montserrat font-bold text-2xl mb-4">Jantar de Aniversário - Mais informações</h3>
-              <p class="font-open-sans text-muted-foreground mb-4">
-                O jantar contará com música ao vivo, prémios para atletas e muita animação para os sócios e familiares.
-              </p>
-              <img src="img/eventos/jantar2.jpg" alt="Jantar 2" class="w-full h-48 object-cover rounded mb-2">
-              <label for="event2-modal-toggle" class="mt-4 inline-block bg-red-500 text-white px-4 py-2 rounded cursor-pointer">Fechar</label>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Evento 3 -->
-      <div class="event-card bg-card rounded-lg shadow-lg min-w-[300px] flex-shrink-0">
-        <img src="img/eventos/arraial1.jpg" alt="Arraial" class="w-full h-48 object-cover rounded-t">
-        <div class="p-4">
-          <h3 class="font-montserrat font-bold text-xl mb-2 text-card-foreground">Arraial de São João</h3>
-          <p class="font-open-sans text-muted-foreground mb-2">Festa tradicional com sardinhada, música e animação.</p>
-
-          <input type="checkbox" id="event3-modal-toggle" class="hidden">
-          <label for="event3-modal-toggle" class="bg-primary text-primary-foreground px-4 py-2 rounded cursor-pointer inline-block">Saber mais</label>
-
-          <div class="fixed inset-0 flex items-center justify-center z-50 opacity-0 pointer-events-none transition-opacity duration-300">
-            <label for="event3-modal-toggle" class="absolute inset-0 bg-black bg-opacity-50 cursor-pointer"></label>
-            <div class="bg-background max-w-2xl w-full p-6 rounded-2xl shadow-xl relative z-10">
-              <h3 class="font-montserrat font-bold text-2xl mb-4">Arraial de São João - Mais informações</h3>
-              <p class="font-open-sans text-muted-foreground mb-4">
-                Venha celebrar o São João com música ao vivo, dança, barraquinhas de comida típica e muita diversão para todas as idades.
-              </p>
-              <img src="img/eventos/arraial2.jpg" alt="Arraial 2" class="w-full h-48 object-cover rounded mb-2">
-              <img src="img/eventos/arraial3.jpg" alt="Arraial 3" class="w-full h-48 object-cover rounded mb-2">
-              <label for="event3-modal-toggle" class="mt-4 inline-block bg-red-500 text-white px-4 py-2 rounded cursor-pointer">Fechar</label>
-            </div>
-          </div>
-        </div>
-      </div>
-
     </div>
-  </div>
-</section>
-
-<style>
-/* Mostrar modal quando checkbox está checked */
-input[type="checkbox"]:checked + label + div {
-  opacity: 1;
-  pointer-events: auto;
-}
-</style>
-
-    <!-- About Section -->
-    <section id="about" class="py-16 bg-muted">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-            <h2 class="font-montserrat font-black text-4xl md:text-5xl text-center mb-12 text-primary">
-                Sobre Nós
-            </h2>
-            
-            <div class="space-y-6 font-open-sans text-muted-foreground text-lg leading-relaxed">
-                <p>
-                    O Grupo Cultural e Desportivo de Armil foi fundado a 6 de junho de 1978, fruto da paixão e do empenho de um grupo de amigos e habitantes da freguesia que acreditavam no poder do desporto e da cultura como motores de união comunitária. Desde então, o clube tornou-se uma referência local, não só pela sua vertente competitiva, mas também pela sua forte ligação social e cultural à população.
-                </p>
-                
-                <p>
-                    Ao longo das décadas, o clube cresceu e consolidou-se, sendo reconhecido pela sua aposta nas modalidades de futsal e futebol, oferecendo oportunidades de prática desportiva em diversos escalões de formação, desde os mais jovens até aos seniores e veteranos.
-                </p>
-                
-                <p>
-                    O clube tem participado regularmente em campeonatos locais e distritais, conquistando títulos e distinções que enchem de orgulho toda a comunidade de Armil. Mas mais do que os troféus, o que distingue esta coletividade é a capacidade de formar jovens atletas, transmitindo valores de disciplina, respeito, solidariedade e espírito de equipa.
-                </p>
-                
-                <p>
-                    Paralelamente à vertente desportiva, o Grupo Cultural e Desportivo de Armil promove também iniciativas de carácter cultural e social, reforçando assim a sua identidade como verdadeiro ponto de encontro da freguesia.
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="bg-sidebar text-sidebar-foreground py-12">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <!-- Alterando de md:grid-cols-4 para md:grid-cols-3 e centralizando -->
-            <div class="grid md:grid-cols-3 gap-8 justify-items-center text-center md:text-left">
-                <div>
-                    <div class="flex items-center mb-4 justify-center md:justify-start">
-                        <!-- usando a imagem real do símbolo no footer -->
-                        <img src="img/simboloarmil.png" alt="Símbolo GCD Armil" class="w-12 h-12 rounded-full object-contain">
-                        <span class="ml-3 font-montserrat font-bold text-xl">GCD Armil</span>
-                    </div>
-                    <p class="font-open-sans text-sm text-sidebar-foreground/80">
-                    Paixão, força e tradição desde 1985. Mais que um clube, uma família.
-                    </p>
-                </div>
-
-                <div>
-                    <h4 class="font-montserrat font-bold text-lg mb-4">Links Rápidos</h4>
-                    <ul class="space-y-2 font-open-sans text-sm">
-                        <li><a href="#home" class="hover:text-sidebar-primary transition-colors">Início</a></li>
-                        <li><a href="#teams" class="hover:text-sidebar-primary transition-colors">Equipas</a></li>
-                        <li><a href="#matches" class="hover:text-sidebar-primary transition-colors">Jogos</a></li>
-                        <li><a href="#about" class="hover:text-sidebar-primary transition-colors">Sobre Nós</a></li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h4 class="font-montserrat font-bold text-lg mb-4">Contacto</h4>
-                    <div class="space-y-2 font-open-sans text-sm">
-                        <p>📍 Rua Campo de Futebol, 4820-010</p>
-                        <p>📞 966368977</p>
-                        <p>✉️ gcdarmil78@gmail.com</p>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="border-t border-sidebar-border mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
-                <p class="font-open-sans text-sm text-sidebar-foreground/60">
-                    <!-- Atualizado copyright -->
-                    © 2024 Grupo Cultural e Desportivo de Armil. Todos os direitos reservados.
-                </p>
-                <div class="flex space-x-4 mt-4 md:mt-0">
-                    <!-- substituindo Twitter e Pinterest por Facebook e Instagram no footer -->
-                    <a href="https://www.facebook.com/profile.php?id=100054213772626" target="_blank" class="text-sidebar-foreground/60 hover:text-sidebar-primary transition-colors">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                        </svg>
-                    </a>
-                    <a href="https://www.instagram.com/gcdarmil/" target="_blank" class="text-sidebar-foreground/60 hover:text-sidebar-primary transition-colors">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                        </svg>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </footer>
 
     <script>
-        window.addEventListener('load', function() {
-            // Verificar se todas as imagens críticas carregaram
-            const criticalImages = document.querySelectorAll('img[src*="simboloarmil"]');
-            let imagesLoaded = 0;
-            let totalImages = criticalImages.length;
-            
-            function checkImagesLoaded() {
-                imagesLoaded++;
-                if (imagesLoaded >= totalImages || totalImages === 0) {
-                    hideLoadingScreen();
-                }
-            }
-            
-            function hideLoadingScreen() {
-                setTimeout(function() {
-                    const loadingScreen = document.getElementById('loading-screen');
-                    if (loadingScreen) {
-                        loadingScreen.classList.add('fade-out');
-                        setTimeout(function() {
-                            loadingScreen.style.display = 'none';
-                        }, 500);
-                    }
-                }, 800); // Reduzido para 0.8 segundos
-            }
-            
-            // Se não há imagens críticas ou se demorar muito, esconder o loading
-            if (totalImages === 0) {
-                hideLoadingScreen();
-            } else {
-                // Adicionar listeners para as imagens críticas
-                criticalImages.forEach(img => {
-                    if (img.complete) {
-                        checkImagesLoaded();
-                    } else {
-                        img.addEventListener('load', checkImagesLoaded);
-                        img.addEventListener('error', function() {
-                            // Se a imagem falhar, usar um fallback
-                            this.style.display = 'none';
-                            checkImagesLoaded();
-                        });
-                    }
-                });
-                
-                // Timeout de segurança - forçar esconder loading após 3 segundos
-                setTimeout(hideLoadingScreen, 3000);
-            }
-        });
-
-        document.addEventListener('DOMContentLoaded', function() {
-            const images = document.querySelectorAll('img');
-            images.forEach(img => {
-                img.addEventListener('error', function() {
-                    if (this.src.includes('simboloarmil')) {
-                        // Criar um símbolo SVG simples como fallback
-                        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-                        svg.setAttribute('viewBox', '0 0 100 100');
-                        svg.setAttribute('class', this.className);
-                        svg.style.width = this.style.width || '100%';
-                        svg.style.height = this.style.height || '100%';
-                        svg.innerHTML = `
-                            <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" stroke-width="3"/>
-                            <text x="50" y="35" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="currentColor">GCD</text>
-                            <text x="50" y="55" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="currentColor">ARMIL</text>
-                            <text x="50" y="70" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="currentColor">1978</text>
-                        `;
-                        this.parentNode.replaceChild(svg, this);
-                    } else {
-                        // Para outras imagens, usar placeholder padrão
-                        this.src = '/placeholder.svg?height=200&width=400&text=Imagem+Indisponível';
-                    }
-                });
-            });
-        });
-
-        // Mobile menu functionality
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-        const closeMobileMenu = document.getElementById('close-mobile-menu');
-
-        mobileMenuButton.addEventListener('click', () => {
-            mobileMenu.classList.add('open');
-        });
-
-        closeMobileMenu.addEventListener('click', () => {
-            mobileMenu.classList.remove('open');
-        });
-
-        // Close mobile menu when clicking on a link
-        const mobileMenuLinks = mobileMenu.querySelectorAll('a');
-        mobileMenuLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.remove('open');
-            });
-        });
-
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-
-        // Add scroll effect to header
-        window.addEventListener('scroll', () => {
-            const header = document.querySelector('header');
-            if (window.scrollY > 100) {
-                header.classList.add('backdrop-blur-sm');
-            } else {
-                header.classList.remove('backdrop-blur-sm');
-            }
-        });
-
-        // Newsletter form submission
-        const newsletterForm = document.querySelector('footer form');
-        if (newsletterForm) {
-            newsletterForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                const email = e.target.querySelector('input[type="email"]').value;
-                alert(`Obrigado por se inscrever com o e-mail: ${email}`);
-                e.target.reset();
-            });
-        }
-
-        // Add animation to player cards on scroll
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, observerOptions);
-
-        // Observe player cards
-        document.querySelectorAll('.player-card').forEach(card => {
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(20px)';
-            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-            observer.observe(card);
-        });
-
-        // Observe timeline items
-        document.querySelectorAll('.timeline-item').forEach(item => {
-            item.style.opacity = '0';
-            item.style.transform = 'translateX(-20px)';
-            item.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-            observer.observe(item);
-        });
-
-        const proximosJogosBtn = document.getElementById('proximos-jogos-btn');
-        const resultadosBtn = document.getElementById('resultados-btn');
-        const proximosJogosSection = document.getElementById('proximos-jogos');
-        const resultadosSection = document.getElementById('resultados');
-
-        proximosJogosBtn.addEventListener('click', () => {
-            // Update button styles
-            proximosJogosBtn.classList.add('bg-foreground', 'text-background');
-            proximosJogosBtn.classList.remove('text-muted-foreground');
-            resultadosBtn.classList.remove('bg-foreground', 'text-background');
-            resultadosBtn.classList.add('text-muted-foreground');
-            
-            // Show/hide sections
-            proximosJogosSection.classList.remove('hidden');
-            resultadosSection.classList.add('hidden');
-        });
-
-        resultadosBtn.addEventListener('click', () => {
-            // Update button styles
-            resultadosBtn.classList.add('bg-foreground', 'text-background');
-            resultadosBtn.classList.remove('text-muted-foreground');
-            proximosJogosBtn.classList.remove('bg-foreground', 'text-background');
-            proximosJogosBtn.classList.add('text-muted-foreground');
-            
-            // Show/hide sections
-            resultadosSection.classList.remove('hidden');
-            proximosJogosSection.classList.add('hidden');
-        });
-
         // Team players data
         const teamPlayers = {
             'traquinas': [
@@ -949,7 +674,6 @@ input[type="checkbox"]:checked + label + div {
                 { name: 'André Ferreira', position: 'Extremo', number: 7, photo: 'img/players/andre-ferreira.jpg' },
                 { name: 'Bruno Almeida', position: 'Defesa', number: 3, photo: 'img/players/bruno-almeida.jpg' }
             ],
-
             'infantis': [
                 { name: 'Francisco Dias', position: 'Avançado', number: 10, photo: 'img/players/francisco-dias.jpg' },
                 { name: 'Gonçalo Ribeiro', position: 'Médio', number: 8, photo: 'img/players/goncalo-ribeiro.jpg' },
@@ -958,8 +682,7 @@ input[type="checkbox"]:checked + label + div {
                 { name: 'Bernardo Lima', position: 'Extremo', number: 11, photo: 'img/players/bernardo-lima.jpg' },
                 { name: 'Rodrigo Neves', position: 'Defesa', number: 3, photo: 'img/players/rodrigo-neves.jpg' }
             ],
-
-         'juvenis': [
+            'juvenis': [
                 { name: 'Tiago Pereira', position: 'Guarda-Redes', number: 9, photo: 'img/tiagogr.jpg' },
                 { name: 'Lucas Silva', position: 'Médio', number: 10, photo: 'img/lucas.jpg' },
                 { name: 'Tomás Sousa', position: 'Defesa', number: 3, photo: 'img/tomas.jpg' },
@@ -976,8 +699,7 @@ input[type="checkbox"]:checked + label + div {
                 { name: 'Bruno', position: 'Médio', number: 6, photo: 'img/bruno.jpg' },
                 { name: 'João Sampaio', position: 'Médio', number: 6, photo: 'img/sampaio.jpg' },
                 { name: 'Equipa Técnica', role: 'Equipa Técnica', nameList: ['Paulo Gonçalves','Paulo Cardoso','Joel Pião','Duarte Ferreira'], photo: 'img/eq.tecnicaa.png' }
-
-],
+            ],
             'seniores-futsal': [
                 { name: 'Tiago Cruz', position: 'Guarda-Redes', number: 9, photo: 'img/cruz.jpg' },
                 { name: 'Sebastian Tedesco', position: 'Ala', number: 7, photo: 'img/tedesco.jpg' },
@@ -986,8 +708,7 @@ input[type="checkbox"]:checked + label + div {
                 { name: 'Francisco Liz', position: 'Ala', number: 11, photo: 'img/liz.jpg' },
                 { name: 'Samuel Castro', position: 'Ala', number: 9, photo: 'img/samu.jpg' },
                 { name: 'João Ribeiro', position: 'Ala', number: 9, photo: 'img/ribeiro.jpg' },
-                { name: 'Samuel Castro', position: 'Ala', number: 9, photo: 'img/samu.jpg' },
-                { name: 'Pedro ', position: 'Ala', number: 8, photo: 'img/players/pedro-machado.jpg' }
+                { name: 'Pedro', position: 'Ala', number: 8, photo: 'img/players/pedro-machado.jpg' }
             ],
             'seniores-futebol': [
                 { name: 'Francisco Ferreira', position: 'Guarda Redes', number: 1, photo: 'img/chico.jpg' },
@@ -1020,79 +741,522 @@ input[type="checkbox"]:checked + label + div {
             ]
         };
 
-// ==================== FUNÇÃO PARA MOSTRAR JOGADORES ====================
-function toggleTeamPlayers(teamId) {
-    const playersSection = document.getElementById('team-players');
-    const teamTitle = document.getElementById('team-title');
-    const playersGrid = document.getElementById('players-grid');
+        // Admin password (change this!)
+        const ADMIN_PASSWORD = 'armil2024';
+        
+        // Initialize
+        window.addEventListener('load', function() {
+            hideLoadingScreen();
+            checkAuth();
+            loadGames();
+            loadResults();
+            loadPublicMatches();
+            loadPublicResults();
+        });
 
-    const teamNames = {
-        'traquinas': 'Traquinas',
-        'benjamins': 'Benjamins',
-        'infantis': 'Infantis',
-        'juvenis': 'Juvenis',
-        'seniores-futsal': 'Séniores Futsal',
-        'seniores-futebol': 'Séniores Futebol',
-        'veteranos': 'Veteranos'
-    };
-
-    teamTitle.textContent = `Equipa - ${teamNames[teamId]}`;
-    playersGrid.innerHTML = '';
-
-    const players = teamPlayers[teamId] || [];
-    players.forEach(player => {
-        const playerCard = document.createElement('div');
-        playerCard.className = 'bg-muted rounded-lg p-4 text-center';
-
-        if (player.role && player.nameList) {
-            // Staff com vários nomes
-            const namesHtml = player.nameList.map(n => `<div>${n}</div>`).join('');
-            playerCard.innerHTML = `
-                <div class="w-20 h-20 mx-auto mb-3">
-                    <img src="${player.photo}" alt="Equipa Técnica" class="w-full h-full rounded-full object-cover border-2 border-primary">
-                </div>
-                <h4 class="font-bold text-lg text-foreground">${player.role}</h4>
-                <div class="text-muted-foreground mt-1">${namesHtml}</div>
-            `;
-        } else if (player.role) {
-            // Staff individual
-            playerCard.innerHTML = `
-                <div class="w-20 h-20 mx-auto mb-3">
-                    <img src="${player.photo}" alt="${player.name}" class="w-full h-full rounded-full object-cover border-2 border-primary">
-                </div>
-                <h4 class="font-bold text-lg text-foreground">${player.name}</h4>
-                <p class="text-muted-foreground">${player.role}</p>
-            `;
-        } else {
-            // Jogador: Nome + Número
-            playerCard.innerHTML = `
-                <div class="w-20 h-20 mx-auto mb-3 relative">
-                    <img src="${player.photo}" alt="${player.name}" class="w-full h-full rounded-full object-cover border-2 border-primary" 
-                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                    <div class="w-full h-full bg-primary rounded-full flex items-center justify-center 
-                                text-primary-foreground font-bold text-xl absolute top-0 left-0" style="display: none;">
-                        ${player.number}
-                    </div>
-                </div>
-                <h4 class="font-bold text-lg text-foreground">${player.name}</h4>
-                <p class="text-muted-foreground">Nº ${player.number}</p>
-            `;
+        function hideLoadingScreen() {
+            setTimeout(function() {
+                const loadingScreen = document.getElementById('loading-screen');
+                if (loadingScreen) {
+                    loadingScreen.classList.add('fade-out');
+                    setTimeout(function() {
+                        loadingScreen.style.display = 'none';
+                    }, 500);
+                }
+            }, 800);
         }
 
-        playersGrid.appendChild(playerCard);
-    });
+        // View switching
+        function showView(viewId) {
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            document.getElementById(viewId).classList.add('active');
+            window.scrollTo(0, 0);
+        }
 
-    playersSection.classList.remove('hidden');
-    playersSection.scrollIntoView({ behavior: 'smooth' });
-}
+        function showHome() {
+            showView('home-view');
+        }
 
-// ==================== ESCONDER JOGADORES ====================
-function hideTeamPlayers() {
-    document.getElementById('team-players').classList.add('hidden');
-}
+        function showAdminLogin() {
+            showView('admin-login-view');
+            document.getElementById('admin-password').value = '';
+            document.getElementById('login-error').classList.add('hidden');
+        }
 
-</script>
+        function showAdminPanel() {
+            showView('admin-panel-view');
+            loadGames();
+            loadResults();
+        }
 
+        // Authentication
+        function checkAuth() {
+            const auth = localStorage.getItem('admin_auth');
+            if (auth) {
+                const authData = JSON.parse(auth);
+                const now = new Date().getTime();
+                if (now - authData.timestamp < 24 * 60 * 60 * 1000) {
+                    // Session valid
+                    return;
+                }
+            }
+        }
+
+        function handleLogin(event) {
+            event.preventDefault();
+            const password = document.getElementById('admin-password').value;
+            
+            if (password === ADMIN_PASSWORD) {
+                localStorage.setItem('admin_auth', JSON.stringify({
+                    timestamp: new Date().getTime()
+                }));
+                showAdminPanel();
+            } else {
+                document.getElementById('login-error').classList.remove('hidden');
+            }
+        }
+
+        function handleLogout() {
+            localStorage.removeItem('admin_auth');
+            showHome();
+        }
+
+        // Admin tabs
+        function showAdminTab(tab) {
+            document.querySelectorAll('.admin-tab').forEach(t => t.classList.add('hidden'));
+            document.getElementById('admin-tab-' + tab).classList.remove('hidden');
+            
+            document.querySelectorAll('[id^="tab-"]').forEach(btn => {
+                btn.classList.remove('border-primary', 'text-primary');
+                btn.classList.add('border-transparent', 'text-gray-600');
+            });
+            
+            const activeBtn = document.getElementById('tab-' + tab);
+            activeBtn.classList.add('border-primary', 'text-primary');
+            activeBtn.classList.remove('border-transparent', 'text-gray-600');
+        }
+
+        // Games management
+        function handleAddGame(event) {
+            event.preventDefault();
+            
+            // Get file inputs
+            const homeLogoFile = document.getElementById('game-home-logo-file').files[0];
+            const awayLogoFile = document.getElementById('game-away-logo-file').files[0];
+            
+            // Convert files to base64 if uploaded, otherwise use URL
+            const homeLogo = homeLogoFile ? fileToBase64(homeLogoFile) : Promise.resolve(document.getElementById('game-home-logo').value);
+            const awayLogo = awayLogoFile ? fileToBase64(awayLogoFile) : Promise.resolve(document.getElementById('game-away-logo').value);
+            
+            Promise.all([homeLogo, awayLogo]).then(([finalHomeLogo, finalAwayLogo]) => {
+                const game = {
+                    id: Date.now(),
+                    date: document.getElementById('game-date').value,
+                    team: document.getElementById('game-team').value,
+                    homeTeam: document.getElementById('game-home-team').value,
+                    awayTeam: document.getElementById('game-away-team').value,
+                    location: document.getElementById('game-location').value,
+                    homeLogo: finalHomeLogo,
+                    awayLogo: finalAwayLogo
+                };
+                
+                const games = getGames();
+                games.push(game);
+                localStorage.setItem('games', JSON.stringify(games));
+                
+                document.getElementById('add-game-form').reset();
+                document.getElementById('game-home-logo-preview').classList.add('hidden');
+                document.getElementById('game-away-logo-preview').classList.add('hidden');
+                loadGames();
+                loadPublicMatches(); // Update public view as well
+                alert('Jogo adicionado com sucesso!');
+            });
+        }
+
+        function getGames() {
+            return JSON.parse(localStorage.getItem('games') || '[]');
+        }
+
+        function loadGames() {
+            const games = getGames();
+            const container = document.getElementById('games-list');
+            
+            if (!container) return;
+
+            if (games.length === 0) {
+                container.innerHTML = '<p class="text-muted-foreground">Nenhum jogo agendado.</p>';
+                return;
+            }
+            
+            container.innerHTML = games.map(game => `
+                <div class="match-item">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="font-bold">${new Date(game.date).toLocaleString('pt-PT')}</p>
+                            <p class="text-sm text-gray-600">${game.team}</p>
+                            <p class="mt-2">${game.homeTeam} vs ${game.awayTeam}</p>
+                            <p class="text-sm text-gray-600">${game.location}</p>
+                        </div>
+                        <button onclick="deleteGame(${game.id})" class="btn btn-danger btn-sm">Eliminar</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function deleteGame(id) {
+            if (confirm('Tem a certeza que deseja eliminar este jogo?')) {
+                const games = getGames().filter(g => g.id !== id);
+                localStorage.setItem('games', JSON.stringify(games));
+                loadGames();
+                loadPublicMatches(); // Update public view as well
+            }
+        }
+
+        // Results management
+        async function handleAddResult(event) {
+            event.preventDefault();
+            
+            // Get file inputs
+            const homeLogoFile = document.getElementById('result-home-logo-file').files[0];
+            const awayLogoFile = document.getElementById('result-away-logo-file').files[0];
+            const photoFile = document.getElementById('result-photo-file').files[0];
+            
+            // Convert files to base64 if uploaded, otherwise use URL
+            const homeLogo = homeLogoFile ? fileToBase64(homeLogoFile) : Promise.resolve(document.getElementById('result-home-logo').value);
+            const awayLogo = awayLogoFile ? fileToBase64(awayLogoFile) : Promise.resolve(document.getElementById('result-away-logo').value);
+            const photo = photoFile ? fileToBase64(photoFile) : Promise.resolve(document.getElementById('result-photo').value);
+            
+            Promise.all([homeLogo, awayLogo, photo]).then(([finalHomeLogo, finalAwayLogo, finalPhoto]) => {
+                const result = {
+                    id: Date.now(),
+                    date: document.getElementById('result-date').value,
+                    team: document.getElementById('result-team').value,
+                    homeTeam: document.getElementById('result-home-team').value,
+                    homeScore: document.getElementById('result-home-score').value,
+                    awayTeam: document.getElementById('result-away-team').value,
+                    awayScore: document.getElementById('result-away-score').value,
+                    location: document.getElementById('result-location').value,
+                    homeLogo: finalHomeLogo,
+                    awayLogo: finalAwayLogo,
+                    photo: finalPhoto
+                };
+                
+                const results = getResults();
+                results.push(result);
+                localStorage.setItem('results', JSON.stringify(results));
+                
+                document.getElementById('add-result-form').reset();
+                document.getElementById('result-home-logo-preview').classList.add('hidden');
+                document.getElementById('result-away-logo-preview').classList.add('hidden');
+                document.getElementById('result-photo-preview').classList.add('hidden');
+                loadResults();
+                loadPublicResults();
+                alert('Resultado adicionado com sucesso!');
+            });
+        }
+
+        function getResults() {
+            return JSON.parse(localStorage.getItem('results') || '[]');
+        }
+
+        function loadResults() {
+            const results = getResults();
+            const container = document.getElementById('results-list');
+            
+            if (!container) return;
+
+            if (results.length === 0) {
+                container.innerHTML = '<p class="text-muted-foreground">Nenhum resultado registado.</p>';
+                return;
+            }
+            
+            container.innerHTML = results.map(result => `
+                <div class="match-item">
+                    <div class="flex justify-between items-start">
+                        <div class="flex-1">
+                            <p class="font-bold">${new Date(result.date).toLocaleDateString('pt-PT')}</p>
+                            <p class="text-sm text-gray-600">${result.team}</p>
+                            <p class="mt-2 text-lg">${result.homeTeam} <span class="font-bold">${result.homeScore} - ${result.awayScore}</span> ${result.awayTeam}</p>
+                            <p class="text-sm text-gray-600">${result.location}</p>
+                            ${result.photo ? `<img src="${result.photo}" alt="Foto do jogo" class="mt-2">` : ''}
+                        </div>
+                        <button onclick="deleteResult(${result.id})" class="btn btn-danger btn-sm">Eliminar</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function deleteResult(id) {
+            if (confirm('Tem a certeza que deseja eliminar este resultado?')) {
+                const results = getResults().filter(r => r.id !== id);
+                localStorage.setItem('results', JSON.stringify(results));
+                loadResults();
+                loadPublicResults();
+            }
+        }
+
+        function loadPublicMatches() {
+            const games = getGames();
+            const container = document.getElementById('upcoming-matches-list');
+            
+            if (!container) return;
+            
+            // Filter future games and sort by date
+            const now = new Date();
+            const upcomingGames = games
+                .filter(game => new Date(game.date) >= now)
+                .sort((a, b) => new Date(a.date) - new Date(b.date))
+                .slice(0, 6); // Show max 6 upcoming games
+            
+            if (upcomingGames.length === 0) {
+                container.innerHTML = '<p class="text-muted-foreground col-span-full text-center">Nenhum jogo agendado no momento.</p>';
+                return;
+            }
+            
+            container.innerHTML = upcomingGames.map(game => {
+                const gameDate = new Date(game.date);
+                const dateStr = gameDate.toLocaleDateString('pt-PT', { 
+                    day: 'numeric', 
+                    month: 'long',
+                    year: 'numeric'
+                });
+                const timeStr = gameDate.toLocaleTimeString('pt-PT', { 
+                    hour: '2-digit', 
+                    minute: '2-digit' 
+                });
+                
+                return `
+                    <div class="bg-card rounded-lg p-6 shadow-lg">
+                        <div class="text-center mb-4">
+                            <p class="text-sm text-primary font-semibold">${game.team}</p>
+                            <p class="text-xs text-muted-foreground mt-1">${dateStr} às ${timeStr}</p>
+                        </div>
+                        
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex-1 text-center">
+                                ${game.homeLogo ? `<img src="${game.homeLogo}" alt="${game.homeTeam}" class="w-16 h-16 mx-auto mb-2 object-contain">` : ''}
+                                <p class="font-bold text-sm">${game.homeTeam}</p>
+                            </div>
+                            
+                            <div class="px-4">
+                                <p class="text-2xl font-bold text-muted-foreground">VS</p>
+                            </div>
+                            
+                            <div class="flex-1 text-center">
+                                ${game.awayLogo ? `<img src="${game.awayLogo}" alt="${game.awayTeam}" class="w-16 h-16 mx-auto mb-2 object-contain">` : ''}
+                                <p class="font-bold text-sm">${game.awayTeam}</p>
+                            </div>
+                        </div>
+                        
+                        <div class="text-center pt-4 border-t border-border">
+                            <p class="text-xs text-muted-foreground">📍 ${game.location}</p>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function loadPublicResults() {
+            const results = getResults();
+            const container = document.getElementById('recent-results-list');
+            
+            if (!container) return;
+            
+            // Sort by date (most recent first) and show max 6
+            const recentResults = results
+                .sort((a, b) => new Date(b.date) - new Date(a.date))
+                .slice(0, 6);
+            
+            if (recentResults.length === 0) {
+                container.innerHTML = '<p class="text-muted-foreground col-span-full text-center">Nenhum resultado disponível.</p>';
+                return;
+            }
+            
+            container.innerHTML = recentResults.map(result => {
+                const resultDate = new Date(result.date);
+                const dateStr = resultDate.toLocaleDateString('pt-PT', { 
+                    day: 'numeric', 
+                    month: 'long',
+                    year: 'numeric'
+                });
+                
+                const homeScore = parseInt(result.homeScore);
+                const awayScore = parseInt(result.awayScore);
+                let resultClass = 'text-muted-foreground';
+                let resultText = 'Empate';
+                
+                // Determine if Armil won (assuming Armil is usually home team or check team name)
+                // A more robust check might involve checking against a predefined list of "our" teams
+                const ourTeams = ['Armil', 'GCD Armil']; // Add variations if needed
+                const isArmilHome = ourTeams.some(team => result.homeTeam.toLowerCase().includes(team.toLowerCase()));
+                const isArmilAway = ourTeams.some(team => result.awayTeam.toLowerCase().includes(team.toLowerCase()));
+
+                if (isArmilHome) {
+                    if (homeScore > awayScore) {
+                        resultClass = 'text-green-600';
+                        resultText = 'Vitória';
+                    } else if (homeScore < awayScore) {
+                        resultClass = 'text-red-600';
+                        resultText = 'Derrota';
+                    }
+                } else if (isArmilAway) {
+                    if (awayScore > homeScore) {
+                        resultClass = 'text-green-600';
+                        resultText = 'Vitória';
+                    } else if (awayScore < homeScore) {
+                        resultClass = 'text-red-600';
+                        resultText = 'Derrota';
+                    }
+                }
+                
+                return `
+                    <div class="bg-card rounded-lg p-6 shadow-lg">
+                        <div class="text-center mb-4">
+                            <p class="text-sm text-primary font-semibold">${result.team}</p>
+                            <p class="text-xs text-muted-foreground mt-1">${dateStr}</p>
+                            <p class="text-xs font-semibold ${resultClass} mt-1">${resultText}</p>
+                        </div>
+                        
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex-1 text-center">
+                                ${result.homeLogo ? `<img src="${result.homeLogo}" alt="${result.homeTeam}" class="w-12 h-12 mx-auto mb-2 object-contain">` : ''}
+                                <p class="font-bold text-sm">${result.homeTeam}</p>
+                            </div>
+                            
+                            <div class="px-4">
+                                <p class="text-3xl font-black text-foreground">${result.homeScore} - ${result.awayScore}</p>
+                            </div>
+                            
+                            <div class="flex-1 text-center">
+                                ${result.awayLogo ? `<img src="${result.awayLogo}" alt="${result.awayTeam}" class="w-12 h-12 mx-auto mb-2 object-contain">` : ''}
+                                <p class="font-bold text-sm">${result.awayTeam}</p>
+                            </div>
+                        </div>
+                        
+                        ${result.photo ? `
+                            <div class="mt-4">
+                                <img src="${result.photo}" alt="Foto do jogo" class="w-full h-40 object-cover rounded-lg">
+                            </div>
+                        ` : ''}
+                        
+                        <div class="text-center pt-4 border-t border-border mt-4">
+                            <p class="text-xs text-muted-foreground">📍 ${result.location}</p>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Team players functions
+        function toggleTeamPlayers(teamId) {
+            const playersSection = document.getElementById('team-players');
+            const teamTitle = document.getElementById('team-title');
+            const playersGrid = document.getElementById('players-grid');
+
+            const teamNames = {
+                'traquinas': 'Traquinas',
+                'benjamins': 'Benjamins',
+                'infantis': 'Infantis',
+                'juvenis': 'Juvenis',
+                'seniores-futsal': 'Séniores Futsal',
+                'seniores-futebol': 'Séniores Futebol',
+                'veteranos': 'Veteranos'
+            };
+
+            teamTitle.textContent = `Equipa - ${teamNames[teamId]}`;
+            playersGrid.innerHTML = '';
+
+            const players = teamPlayers[teamId] || [];
+            players.forEach(player => {
+                const playerCard = document.createElement('div');
+                playerCard.className = 'bg-muted rounded-lg p-4 text-center';
+
+                if (player.role && player.nameList) {
+                    const namesHtml = player.nameList.map(n => `<div>${n}</div>`).join('');
+                    playerCard.innerHTML = `
+                        <div class="w-20 h-20 mx-auto mb-3">
+                            <img src="${player.photo}" alt="Equipa Técnica" class="w-full h-full rounded-full object-cover border-2 border-primary">
+                        </div>
+                        <h4 class="font-bold text-lg text-foreground">${player.role}</h4>
+                        <div class="text-muted-foreground mt-1">${namesHtml}</div>
+                    `;
+                } else if (player.role) {
+                    playerCard.innerHTML = `
+                        <div class="w-20 h-20 mx-auto mb-3">
+                            <img src="${player.photo}" alt="${player.name}" class="w-full h-full rounded-full object-cover border-2 border-primary">
+                        </div>
+                        <h4 class="font-bold text-lg text-foreground">${player.name}</h4>
+                        <p class="text-muted-foreground">${player.role}</p>
+                    `;
+                } else {
+                    playerCard.innerHTML = `
+                        <div class="w-20 h-20 mx-auto mb-3 relative">
+                            <img src="${player.photo}" alt="${player.name}" class="w-full h-full rounded-full object-cover border-2 border-primary" 
+                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="w-full h-full bg-primary rounded-full flex items-center justify-center 
+                                        text-primary-foreground font-bold text-xl absolute top-0 left-0" style="display: none;">
+                                ${player.number}
+                            </div>
+                        </div>
+                        <h4 class="font-bold text-lg text-foreground">${player.name}</h4>
+                        <p class="text-muted-foreground">Nº ${player.number}</p>
+                    `;
+                }
+
+                playersGrid.appendChild(playerCard);
+            });
+
+            playersSection.classList.remove('hidden');
+            playersSection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function hideTeamPlayers() {
+            document.getElementById('team-players').classList.add('hidden');
+        }
+
+        // Mobile menu
+        document.getElementById('mobile-menu-button').addEventListener('click', () => {
+            document.getElementById('mobile-menu').classList.add('open');
+        });
+
+        document.getElementById('close-mobile-menu').addEventListener('click', () => {
+            document.getElementById('mobile-menu').classList.remove('open');
+        });
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        function fileToBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function previewImage(input, previewId) {
+            const preview = document.getElementById(previewId);
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    preview.classList.remove('hidden');
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
 </body>
 </html>
-
