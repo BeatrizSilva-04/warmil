@@ -673,6 +673,14 @@
         </div>
     </div>
 
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    
+    <!-- Firebase Configuration -->
+    <script src="firebase-config.js"></script>
+    <script src="firebase-utils.js"></script>
+
     <script>
         // Team players data
         const teamPlayers = {
@@ -764,8 +772,6 @@
         window.addEventListener('load', function() {
             hideLoadingScreen();
             checkAuth();
-            loadGames();
-            loadResults();
             loadPublicMatches();
             loadPublicResults();
         });
@@ -853,48 +859,42 @@
         }
 
         // Games management
-        function handleAddGame(event) {
+        // Updated to use Firebase instead of localStorage
+        async function handleAddGame(event) {
             event.preventDefault();
             
-            // Get file inputs
             const homeLogoFile = document.getElementById('game-home-logo-file').files[0];
             const awayLogoFile = document.getElementById('game-away-logo-file').files[0];
             
-            // Convert files to base64 if uploaded, otherwise use URL
-            const homeLogo = homeLogoFile ? fileToBase64(homeLogoFile) : Promise.resolve(document.getElementById('game-home-logo').value);
-            const awayLogo = awayLogoFile ? fileToBase64(awayLogoFile) : Promise.resolve(document.getElementById('game-away-logo').value);
+            const homeLogo = homeLogoFile ? await fileToBase64(homeLogoFile) : document.getElementById('game-home-logo').value;
+            const awayLogo = awayLogoFile ? await fileToBase64(awayLogoFile) : document.getElementById('game-away-logo').value;
             
-            Promise.all([homeLogo, awayLogo]).then(([finalHomeLogo, finalAwayLogo]) => {
-                const game = {
-                    id: Date.now(),
-                    date: document.getElementById('game-date').value,
-                    team: document.getElementById('game-team').value,
-                    homeTeam: document.getElementById('game-home-team').value,
-                    awayTeam: document.getElementById('game-away-team').value,
-                    location: document.getElementById('game-location').value,
-                    homeLogo: finalHomeLogo,
-                    awayLogo: finalAwayLogo
-                };
-                
-                const games = getGames();
-                games.push(game);
-                localStorage.setItem('games', JSON.stringify(games));
-                
+            const game = {
+                date: document.getElementById('game-date').value,
+                team: document.getElementById('game-team').value,
+                homeTeam: document.getElementById('game-home-team').value,
+                awayTeam: document.getElementById('game-away-team').value,
+                location: document.getElementById('game-location').value,
+                homeLogo: homeLogo,
+                awayLogo: awayLogo
+            };
+            
+            try {
+                await window.firebaseUtils.addGameToFirebase(game);
                 document.getElementById('add-game-form').reset();
                 document.getElementById('game-home-logo-preview').classList.add('hidden');
                 document.getElementById('game-away-logo-preview').classList.add('hidden');
-                loadGames();
-                loadPublicMatches(); // Update public view as well
                 alert('Jogo adicionado com sucesso!');
-            });
+                loadGames(); // Reload games in admin panel
+                loadPublicMatches(); // Update public view as well
+            } catch (error) {
+                alert('Erro ao adicionar jogo: ' + error.message);
+            }
         }
 
-        function getGames() {
-            return JSON.parse(localStorage.getItem('games') || '[]');
-        }
-
-        function loadGames() {
-            const games = getGames();
+        // Updated to use Firebase instead of localStorage
+        async function loadGames() {
+            const games = await window.firebaseUtils.getGamesFromFirebase();
             const container = document.getElementById('games-list');
             
             if (!container) return;
@@ -913,70 +913,68 @@
                             <p class="mt-2">${game.homeTeam} vs ${game.awayTeam}</p>
                             <p class="text-sm text-gray-600">${game.location}</p>
                         </div>
-                        <button onclick="deleteGame(${game.id})" class="btn btn-danger btn-sm">Eliminar</button>
+                        <button onclick="deleteGame('${game.id}')" class="btn btn-danger btn-sm">Eliminar</button>
                     </div>
                 </div>
             `).join('');
         }
 
-        function deleteGame(id) {
+        // Updated to use Firebase instead of localStorage
+        async function deleteGame(id) {
             if (confirm('Tem a certeza que deseja eliminar este jogo?')) {
-                const games = getGames().filter(g => g.id !== id);
-                localStorage.setItem('games', JSON.stringify(games));
-                loadGames();
-                loadPublicMatches(); // Update public view as well
+                try {
+                    await window.firebaseUtils.deleteGameFromFirebase(id);
+                    loadGames();
+                    loadPublicMatches(); // Update public view as well
+                } catch (error) {
+                    alert('Erro ao eliminar jogo: ' + error.message);
+                }
             }
         }
 
         // Results management
+        // Updated to use Firebase instead of localStorage
         async function handleAddResult(event) {
             event.preventDefault();
             
-            // Get file inputs
             const homeLogoFile = document.getElementById('result-home-logo-file').files[0];
             const awayLogoFile = document.getElementById('result-away-logo-file').files[0];
             const photoFile = document.getElementById('result-photo-file').files[0];
             
-            // Convert files to base64 if uploaded, otherwise use URL
-            const homeLogo = homeLogoFile ? fileToBase64(homeLogoFile) : Promise.resolve(document.getElementById('result-home-logo').value);
-            const awayLogo = awayLogoFile ? fileToBase64(awayLogoFile) : Promise.resolve(document.getElementById('result-away-logo').value);
-            const photo = photoFile ? fileToBase64(photoFile) : Promise.resolve(document.getElementById('result-photo').value);
+            const homeLogo = homeLogoFile ? await fileToBase64(homeLogoFile) : document.getElementById('result-home-logo').value;
+            const awayLogo = awayLogoFile ? await fileToBase64(awayLogoFile) : document.getElementById('result-away-logo').value;
+            const photo = photoFile ? await fileToBase64(photoFile) : document.getElementById('result-photo').value;
             
-            Promise.all([homeLogo, awayLogo, photo]).then(([finalHomeLogo, finalAwayLogo, finalPhoto]) => {
-                const result = {
-                    id: Date.now(),
-                    date: document.getElementById('result-date').value,
-                    team: document.getElementById('result-team').value,
-                    homeTeam: document.getElementById('result-home-team').value,
-                    homeScore: document.getElementById('result-home-score').value,
-                    awayTeam: document.getElementById('result-away-team').value,
-                    awayScore: document.getElementById('result-away-score').value,
-                    location: document.getElementById('result-location').value,
-                    homeLogo: finalHomeLogo,
-                    awayLogo: finalAwayLogo,
-                    photo: finalPhoto
-                };
-                
-                const results = getResults();
-                results.push(result);
-                localStorage.setItem('results', JSON.stringify(results));
-                
+            const result = {
+                date: document.getElementById('result-date').value,
+                team: document.getElementById('result-team').value,
+                homeTeam: document.getElementById('result-home-team').value,
+                homeScore: parseInt(document.getElementById('result-home-score').value),
+                awayTeam: document.getElementById('result-away-team').value,
+                awayScore: parseInt(document.getElementById('result-away-score').value),
+                location: document.getElementById('result-location').value,
+                homeLogo: homeLogo,
+                awayLogo: awayLogo,
+                photo: photo
+            };
+            
+            try {
+                await window.firebaseUtils.addResultToFirebase(result);
                 document.getElementById('add-result-form').reset();
                 document.getElementById('result-home-logo-preview').classList.add('hidden');
                 document.getElementById('result-away-logo-preview').classList.add('hidden');
                 document.getElementById('result-photo-preview').classList.add('hidden');
+                alert('Resultado adicionado com sucesso!');
                 loadResults();
                 loadPublicResults();
-                alert('Resultado adicionado com sucesso!');
-            });
+            } catch (error) {
+                alert('Erro ao adicionar resultado: ' + error.message);
+            }
         }
 
-        function getResults() {
-            return JSON.parse(localStorage.getItem('results') || '[]');
-        }
-
-        function loadResults() {
-            const results = getResults();
+        // Updated to use Firebase instead of localStorage
+        async function loadResults() {
+            const results = await window.firebaseUtils.getResultsFromFirebase();
             const container = document.getElementById('results-list');
             
             if (!container) return;
@@ -996,171 +994,173 @@
                             <p class="text-sm text-gray-600">${result.location}</p>
                             ${result.photo ? `<img src="${result.photo}" alt="Foto do jogo" class="mt-2">` : ''}
                         </div>
-                        <button onclick="deleteResult(${result.id})" class="btn btn-danger btn-sm">Eliminar</button>
+                        <button onclick="deleteResult('${result.id}')" class="btn btn-danger btn-sm">Eliminar</button>
                     </div>
                 </div>
             `).join('');
         }
 
-        function deleteResult(id) {
+        // Updated to use Firebase instead of localStorage
+        async function deleteResult(id) {
             if (confirm('Tem a certeza que deseja eliminar este resultado?')) {
-                const results = getResults().filter(r => r.id !== id);
-                localStorage.setItem('results', JSON.stringify(results));
-                loadResults();
-                loadPublicResults();
+                try {
+                    await window.firebaseUtils.deleteResultFromFirebase(id);
+                    loadResults();
+                    loadPublicResults();
+                } catch (error) {
+                    alert('Erro ao eliminar resultado: ' + error.message);
+                }
             }
         }
 
-        function loadPublicMatches() {
-            const games = getGames();
-            const container = document.getElementById('upcoming-matches-list');
-            
-            if (!container) return;
-            
-            // Filter future games and sort by date
-            const now = new Date();
-            const upcomingGames = games
-                .filter(game => new Date(game.date) >= now)
-                .sort((a, b) => new Date(a.date) - new Date(b.date))
-                .slice(0, 6); // Show max 6 upcoming games
-            
-            if (upcomingGames.length === 0) {
-                container.innerHTML = '<p class="text-muted-foreground col-span-full text-center">Nenhum jogo agendado no momento.</p>';
-                return;
-            }
-            
-            container.innerHTML = upcomingGames.map(game => {
-                const gameDate = new Date(game.date);
-                const dateStr = gameDate.toLocaleDateString('pt-PT', { 
-                    day: 'numeric', 
-                    month: 'long',
-                    year: 'numeric'
-                });
-                const timeStr = gameDate.toLocaleTimeString('pt-PT', { 
-                    hour: '2-digit', 
-                    minute: '2-digit' 
-                });
+        async function loadPublicMatches() {
+            // Use real-time listener for automatic updates
+            window.firebaseUtils.listenToGames(games => {
+                const container = document.getElementById('upcoming-matches-list');
+                if (!container) return;
                 
-                return `
-                    <div class="bg-card rounded-lg p-6 shadow-lg">
-                        <div class="text-center mb-4">
-                            <p class="text-sm text-primary font-semibold">${game.team}</p>
-                            <p class="text-xs text-muted-foreground mt-1">${dateStr} às ${timeStr}</p>
-                        </div>
-                        
-                        <div class="flex items-center justify-between mb-4">
-                            <div class="flex-1 text-center">
-                                ${game.homeLogo ? `<img src="${game.homeLogo}" alt="${game.homeTeam}" class="w-16 h-16 mx-auto mb-2 object-contain">` : ''}
-                                <p class="font-bold text-sm">${game.homeTeam}</p>
-                            </div>
-                            
-                            <div class="px-4">
-                                <p class="text-2xl font-bold text-muted-foreground">VS</p>
-                            </div>
-                            
-                            <div class="flex-1 text-center">
-                                ${game.awayLogo ? `<img src="${game.awayLogo}" alt="${game.awayTeam}" class="w-16 h-16 mx-auto mb-2 object-contain">` : ''}
-                                <p class="font-bold text-sm">${game.awayTeam}</p>
-                            </div>
-                        </div>
-                        
-                        <div class="text-center pt-4 border-t border-border">
-                            <p class="text-xs text-muted-foreground">📍 ${game.location}</p>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function loadPublicResults() {
-            const results = getResults();
-            const container = document.getElementById('recent-results-list');
-            
-            if (!container) return;
-            
-            // Sort by date (most recent first) and show max 6
-            const recentResults = results
-                .sort((a, b) => new Date(b.date) - new Date(a.date))
-                .slice(0, 6);
-            
-            if (recentResults.length === 0) {
-                container.innerHTML = '<p class="text-muted-foreground col-span-full text-center">Nenhum resultado disponível.</p>';
-                return;
-            }
-            
-            container.innerHTML = recentResults.map(result => {
-                const resultDate = new Date(result.date);
-                const dateStr = resultDate.toLocaleDateString('pt-PT', { 
-                    day: 'numeric', 
-                    month: 'long',
-                    year: 'numeric'
-                });
+                const now = new Date();
+                const upcomingGames = games
+                    .filter(game => new Date(game.date) >= now)
+                    .sort((a, b) => new Date(a.date) - new Date(b.date))
+                    .slice(0, 6);
                 
-                const homeScore = parseInt(result.homeScore);
-                const awayScore = parseInt(result.awayScore);
-                let resultClass = 'text-muted-foreground';
-                let resultText = 'Empate';
-                
-                // Determine if Armil won (assuming Armil is usually home team or check team name)
-                // A more robust check might involve checking against a predefined list of "our" teams
-                const ourTeams = ['Armil', 'GCD Armil']; // Add variations if needed
-                const isArmilHome = ourTeams.some(team => result.homeTeam.toLowerCase().includes(team.toLowerCase()));
-                const isArmilAway = ourTeams.some(team => result.awayTeam.toLowerCase().includes(team.toLowerCase()));
-
-                if (isArmilHome) {
-                    if (homeScore > awayScore) {
-                        resultClass = 'text-green-600';
-                        resultText = 'Vitória';
-                    } else if (homeScore < awayScore) {
-                        resultClass = 'text-red-600';
-                        resultText = 'Derrota';
-                    }
-                } else if (isArmilAway) {
-                    if (awayScore > homeScore) {
-                        resultClass = 'text-green-600';
-                        resultText = 'Vitória';
-                    } else if (awayScore < homeScore) {
-                        resultClass = 'text-red-600';
-                        resultText = 'Derrota';
-                    }
+                if (upcomingGames.length === 0) {
+                    container.innerHTML = '<p class="text-muted-foreground col-span-full text-center">Nenhum jogo agendado no momento.</p>';
+                    return;
                 }
                 
-                return `
-                    <div class="bg-card rounded-lg p-6 shadow-lg">
-                        <div class="text-center mb-4">
-                            <p class="text-sm text-primary font-semibold">${result.team}</p>
-                            <p class="text-xs text-muted-foreground mt-1">${dateStr}</p>
-                            <p class="text-xs font-semibold ${resultClass} mt-1">${resultText}</p>
-                        </div>
-                        
-                        <div class="flex items-center justify-between mb-4">
-                            <div class="flex-1 text-center">
-                                ${result.homeLogo ? `<img src="${result.homeLogo}" alt="${result.homeTeam}" class="w-12 h-12 mx-auto mb-2 object-contain">` : ''}
-                                <p class="font-bold text-sm">${result.homeTeam}</p>
+                container.innerHTML = upcomingGames.map(game => {
+                    const gameDate = new Date(game.date);
+                    const dateStr = gameDate.toLocaleDateString('pt-PT', { 
+                        day: 'numeric', 
+                        month: 'long',
+                        year: 'numeric'
+                    });
+                    const timeStr = gameDate.toLocaleTimeString('pt-PT', { 
+                        hour: '2-digit', 
+                        minute: '2-digit' 
+                    });
+                    
+                    return `
+                        <div class="bg-card rounded-lg p-6 shadow-lg">
+                            <div class="text-center mb-4">
+                                <p class="text-sm text-primary font-semibold">${game.team}</p>
+                                <p class="text-xs text-muted-foreground mt-1">${dateStr} às ${timeStr}</p>
                             </div>
                             
-                            <div class="px-4">
-                                <p class="text-3xl font-black text-foreground">${result.homeScore} - ${result.awayScore}</p>
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex-1 text-center">
+                                    ${game.homeLogo ? `<img src="${game.homeLogo}" alt="${game.homeTeam}" class="w-16 h-16 mx-auto mb-2 object-contain">` : ''}
+                                    <p class="font-bold text-sm">${game.homeTeam}</p>
+                                </div>
+                                
+                                <div class="px-4">
+                                    <p class="text-2xl font-bold text-muted-foreground">VS</p>
+                                </div>
+                                
+                                <div class="flex-1 text-center">
+                                    ${game.awayLogo ? `<img src="${game.awayLogo}" alt="${game.awayTeam}" class="w-16 h-16 mx-auto mb-2 object-contain">` : ''}
+                                    <p class="font-bold text-sm">${game.awayTeam}</p>
+                                </div>
                             </div>
                             
-                            <div class="flex-1 text-center">
-                                ${result.awayLogo ? `<img src="${result.awayLogo}" alt="${result.awayTeam}" class="w-12 h-12 mx-auto mb-2 object-contain">` : ''}
-                                <p class="font-bold text-sm">${result.awayTeam}</p>
+                            <div class="text-center pt-4 border-t border-border">
+                                <p class="text-xs text-muted-foreground">📍 ${game.location}</p>
                             </div>
                         </div>
-                        
-                        ${result.photo ? `
-                            <div class="mt-4">
-                                <img src="${result.photo}" alt="Foto do jogo" class="w-full h-40 object-cover rounded-lg">
+                    `;
+                }).join('');
+            });
+        }
+
+        async function loadPublicResults() {
+            // Use real-time listener for automatic updates
+            window.firebaseUtils.listenToResults(results => {
+                const container = document.getElementById('recent-results-list');
+                if (!container) return;
+                
+                const recentResults = results.slice(0, 6);
+                
+                if (recentResults.length === 0) {
+                    container.innerHTML = '<p class="text-muted-foreground col-span-full text-center">Nenhum resultado disponível.</p>';
+                    return;
+                }
+                
+                container.innerHTML = recentResults.map(result => {
+                    const resultDate = new Date(result.date);
+                    const dateStr = resultDate.toLocaleDateString('pt-PT', { 
+                        day: 'numeric', 
+                        month: 'long',
+                        year: 'numeric'
+                    });
+                    
+                    const homeScore = parseInt(result.homeScore);
+                    const awayScore = parseInt(result.awayScore);
+                    let resultClass = 'text-muted-foreground';
+                    let resultText = 'Empate';
+                    
+                    // Determine if Armil won (assuming Armil is usually home team or check team name)
+                    // A more robust check might involve checking against a predefined list of "our" teams
+                    const ourTeams = ['Armil', 'GCD Armil']; // Add variations if needed
+                    const isArmilHome = ourTeams.some(team => result.homeTeam.toLowerCase().includes(team.toLowerCase()));
+                    const isArmilAway = ourTeams.some(team => result.awayTeam.toLowerCase().includes(team.toLowerCase()));
+
+                    if (isArmilHome) {
+                        if (homeScore > awayScore) {
+                            resultClass = 'text-green-600';
+                            resultText = 'Vitória';
+                        } else if (homeScore < awayScore) {
+                            resultClass = 'text-red-600';
+                            resultText = 'Derrota';
+                        }
+                    } else if (isArmilAway) {
+                        if (awayScore > homeScore) {
+                            resultClass = 'text-green-600';
+                            resultText = 'Vitória';
+                        } else if (awayScore < homeScore) {
+                            resultClass = 'text-red-600';
+                            resultText = 'Derrota';
+                        }
+                    }
+                    
+                    return `
+                        <div class="bg-card rounded-lg p-6 shadow-lg">
+                            <div class="text-center mb-4">
+                                <p class="text-sm text-primary font-semibold">${result.team}</p>
+                                <p class="text-xs text-muted-foreground mt-1">${dateStr}</p>
+                                <p class="text-xs font-semibold ${resultClass} mt-1">${resultText}</p>
                             </div>
-                        ` : ''}
-                        
-                        <div class="text-center pt-4 border-t border-border mt-4">
-                            <p class="text-xs text-muted-foreground">📍 ${result.location}</p>
+                            
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex-1 text-center">
+                                    ${result.homeLogo ? `<img src="${result.homeLogo}" alt="${result.homeTeam}" class="w-12 h-12 mx-auto mb-2 object-contain">` : ''}
+                                    <p class="font-bold text-sm">${result.homeTeam}</p>
+                                </div>
+                                
+                                <div class="px-4">
+                                    <p class="text-3xl font-black text-foreground">${result.homeScore} - ${result.awayScore}</p>
+                                </div>
+                                
+                                <div class="flex-1 text-center">
+                                    ${result.awayLogo ? `<img src="${result.awayLogo}" alt="${result.awayTeam}" class="w-12 h-12 mx-auto mb-2 object-contain">` : ''}
+                                    <p class="font-bold text-sm">${result.awayTeam}</p>
+                                </div>
+                            </div>
+                            
+                            ${result.photo ? `
+                                <div class="mt-4">
+                                    <img src="${result.photo}" alt="Foto do jogo" class="w-full h-40 object-cover rounded-lg">
+                                </div>
+                            ` : ''}
+                            
+                            <div class="text-center pt-4 border-t border-border mt-4">
+                                <p class="text-xs text-muted-foreground">📍 ${result.location}</p>
+                            </div>
                         </div>
-                    </div>
-                `;
-            }).join('');
+                    `;
+                }).join('');
+            });
         }
 
         // Team players functions
@@ -1253,6 +1253,7 @@
             });
         });
 
+        // Helper function for file to base64
         function fileToBase64(file) {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
@@ -1262,6 +1263,7 @@
             });
         }
 
+        // Helper function to preview images
         function previewImage(input, previewId) {
             const preview = document.getElementById(previewId);
             if (input.files && input.files[0]) {
