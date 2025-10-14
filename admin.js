@@ -105,7 +105,7 @@ function loadGames() {
                 <div class="flex justify-between items-start mb-2">
                     <div>
                         <p class="font-semibold text-foreground">${game.team}</p>
-                        <p class="text-sm text-muted-foreground">${formattedDate} às ${formattedTime}</p>
+                        <p class="text-sm text-muted-foreground">${formattedDate} Ã s ${formattedTime}</p>
                     </div>
                     <button onclick="deleteGame(${game.id})" class="text-destructive hover:text-destructive/80">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -139,7 +139,7 @@ function handleAddResult(e) {
   const game = getGames().find((g) => g.id === gameId)
 
   if (!game) {
-    alert("Jogo não encontrado!")
+    alert("Jogo nÃ£o encontrado!")
     return
   }
 

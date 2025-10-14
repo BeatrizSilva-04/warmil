@@ -281,7 +281,7 @@
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <h2 class="font-montserrat font-black text-4xl text-center mb-12 text-foreground">As Nossas Equipas</h2>
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    
+                     
                     <div class="team-card bg-card rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow cursor-pointer" onclick="toggleTeamPlayers('traquinas')">
                         <img src="/placeholder.svg?height=200&width=400" alt="Equipa Traquinas" class="w-full h-48 object-cover">
                         <div class="p-6">
@@ -294,8 +294,19 @@
                         </div>
                     </div>
 
+               
+                    <div class="team-card bg-card rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow cursor-pointer" onclick="toggleTeamPlayers('benjamins')">
+                        <img src="/placeholder.svg?height=200&width=400" alt="Equipa Benjamins" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <h3 class="font-montserrat font-bold text-xl mb-3 text-card-foreground">Benjamins</h3>
+                            <p class="font-open-sans text-muted-foreground mb-4">Formação base com foco no desenvolvimento técnico</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-muted-foreground">Idades: 8-10 anos</span>
+                                <span class="text-primary hover:text-primary/80 font-semibold">Ver Jogadores</span>
+                            </div>
+                        </div>
+                    </div>
 
-                      
                     <div class="team-card bg-card rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow cursor-pointer" onclick="toggleTeamPlayers('infantis')">
                         <img src="/placeholder.svg?height=200&width=400" alt="Equipa Infantis" class="w-full h-48 object-cover">
                         <div class="p-6">
@@ -308,7 +319,7 @@
                         </div>
                     </div>
 
-                      
+              
                     <div class="team-card bg-card rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow cursor-pointer" onclick="toggleTeamPlayers('juvenis')">
                         <img src="/placeholder.svg?height=200&width=400" alt="Equipa Juvenis" class="w-full h-48 object-cover">
                         <div class="p-6">
@@ -321,7 +332,6 @@
                         </div>
                     </div>
 
-                     
                     <div class="team-card bg-card rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow cursor-pointer" onclick="toggleTeamPlayers('seniores-futsal')">
                         <img src="img/seniores_futsal.jpg" alt="Equipa Séniores Futsal" class="w-full h-48 object-cover">
                         <div class="p-6">
@@ -334,7 +344,7 @@
                         </div>
                     </div>
 
-                 
+                   
                     <div class="team-card bg-card rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow cursor-pointer" onclick="toggleTeamPlayers('seniores-futebol')">
                         <img src="/placeholder.svg?height=200&width=400" alt="Equipa Séniores Futebol" class="w-full h-48 object-cover">
                         <div class="p-6">
@@ -347,7 +357,6 @@
                         </div>
                     </div>
 
-                  
                     <div class="team-card bg-card rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow cursor-pointer" onclick="toggleTeamPlayers('veteranos')">
                         <img src="/placeholder.svg?height=200&width=400" alt="Equipa Veteranos" class="w-full h-48 object-cover">
                         <div class="p-6">
@@ -361,7 +370,7 @@
                     </div>
                 </div>
 
-                  
+           
                 <div id="team-players" class="mt-12 hidden">
                     <div class="bg-card rounded-lg p-6 shadow-lg">
                         <div class="flex justify-between items-center mb-6">
@@ -373,7 +382,7 @@
                             </button>
                         </div>
                         <div id="players-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                             
+                          
                         </div>
                     </div>
                 </div>
@@ -425,6 +434,7 @@
                             <li><a href="#home" class="hover:text-sidebar-primary transition-colors">Início</a></li>
                             <li><a href="#teams" class="hover:text-sidebar-primary transition-colors">Equipas</a></li>
                             <li><a href="#about" class="hover:text-sidebar-primary transition-colors">Sobre Nós</a></li>
+                        
                             <li><a href="#" onclick="showAdminLogin(); return false;" class="hover:text-sidebar-primary transition-colors">Área de Administrador</a></li>
                         </ul>
                     </div>
@@ -684,6 +694,7 @@
             ],
             'juvenis': [
                 { name: 'Tiago Pereira', position: 'Guarda-Redes', number: 9, photo: 'img/tiagogr.jpg' },
+                { name: 'Miguel Oliveira', position: 'Guarda-Redes', number: 9, photo: 'img/miguel.png' },
                 { name: 'Lucas Silva', position: 'Médio', number: 10, photo: 'img/lucas.jpg' },
                 { name: 'Tomás Sousa', position: 'Defesa', number: 3, photo: 'img/tomas.jpg' },
                 { name: 'Afonso Cardoso', position: 'Guarda-Redes', number: 1, photo: 'img/afonso.jpg' },
@@ -708,6 +719,9 @@
                 { name: 'Francisco Liz', position: 'Ala', number: 11, photo: 'img/liz.jpg' },
                 { name: 'Samuel Castro', position: 'Ala', number: 9, photo: 'img/samu.jpg' },
                 { name: 'João Ribeiro', position: 'Ala', number: 9, photo: 'img/ribeiro.jpg' },
+                { name: 'Diogo José', position: 'Ala', number: 9, photo: 'img/diogojose.png' },
+                { name: 'João Lemos', position: 'Ala', number: 9, photo: 'img/lemos.png' },
+                { name: 'João Ribeiro', position: 'Ala', number: 9, photo: 'img/ribeiro.jpg' },
                 { name: 'Pedro', position: 'Ala', number: 8, photo: 'img/players/pedro-machado.jpg' }
             ],
             'seniores-futebol': [
@@ -723,20 +737,22 @@
                 { name: 'José Castro', position: 'Guarda-Redes', number: 13, photo: 'img/zé.jpg' },
                 { name: 'Eugénio Insumbo', position: 'Extremo', number: 7, photo: 'img/eugénio.jpg' },
                 { name: 'Rubén Durães', position: 'Extremo', number: 7, photo: 'img/ruben.jpg' },
-                { name: 'Alexandre Gonçalves', position: 'Extremo', number: 7, photo: 'img/fininho.jpg' },
                 { name: 'Micael Pinto', position: 'Extremo', number: 7, photo: 'img/mica.jpg' },
                 { name: 'Ricardo Sampaio', position: 'Extremo', number: 7, photo: 'img/cajuz.jpg' },
                 { name: 'Aprizio Cá', position: 'Extremo', number: 7, photo: 'img/aprizio.jpg' },
-                { name: 'Alex', position: 'Médio', number: 9, photo: 'img/players/ricardo-pires.jpg' },
+                { name: 'Nelson Campos', position: 'Médio', number: 9, photo: 'img/nelson.png' },
                 { name: 'Jorge Teixeira', role: 'Treinador', photo: 'img/jorge.jpg' },
+                { name: 'Alexandre Gonçalves', role: 'Treinador Adjunto', photo: 'img/fininho.jpg' },
                 { name: 'Mariana Teixeira', role: 'Fisioterapeuta', photo: 'img/mariana.jpg' }
             ],
             'veteranos': [
-                { name: 'Manuel Soares', position: 'Avançado', number: 9, photo: 'img/players/manuel-soares.jpg' },
-                { name: 'António Vieira', position: 'Médio', number: 8, photo: 'img/players/antonio-vieira.jpg' },
-                { name: 'José Reis', position: 'Defesa', number: 5, photo: 'img/players/jose-reis.jpg' },
-                { name: 'Carlos Matos', position: 'Guarda-Redes', number: 1, photo: 'img/players/carlos-matos.jpg' },
-                { name: 'Fernando Costa', position: 'Extremo', number: 11, photo: 'img/players/fernando-costa.jpg' },
+                { name: 'Davide Alves', position: 'Avançado', number: 99, photo: 'img/davide.png' },
+                { name: 'Igor Castro', position: 'Médio', number: 8, photo: 'img/igor.jpeg' },
+                { name: 'Nuno Costa', position: 'Médio', number: 8, photo: 'img/pica.png' },
+                { name: 'Hugo Barroso', position: 'Médio', number: 8, photo: 'img/hugob.png' },
+                { name: 'Manuel Teixeira', position: 'Defesa', number: 5, photo: 'img/teixeira.png' },
+                { name: 'Nestor Cunha', position: 'Guarda-Redes', number: 1, photo: 'img/nestor.png' },
+                { name: 'Sérgio Carvalho', position: 'Extremo', number: 11, photo: 'img/carvalhinho.jpeg' },
                 { name: 'Joaquim Leal', position: 'Defesa', number: 3, photo: 'img/players/joaquim-leal.jpg' }
             ]
         };
