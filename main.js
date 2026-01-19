@@ -1,27 +1,4 @@
-// Loading screen
-<script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-analytics.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
-
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-    apiKey: "AIzaSyDvGvNVo2ai1WGoOIGmmKGCHlZ5bIQ6nIc",
-    authDomain: "cocado-4b965.firebaseapp.com",
-    projectId: "cocado-4b965",
-    storageBucket: "cocado-4b965.firebasestorage.app",
-    messagingSenderId: "631311319676",
-    appId: "1:631311319676:web:e126bb88cda37d0feb3ff9",
-    measurementId: "G-GKWKW8LMHD"
-  };
-
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-</script>
+// General UI and Navigation Logic
 
 
 window.addEventListener("load", () => {
