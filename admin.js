@@ -1,35 +1,27 @@
-
 // Check authentication
 function checkAuth() {
-  const isAuthenticated = localStorage.getItem("adminAuthenticated")
-  const loginTime = localStorage.getItem("adminLoginTime")
-
-  // Session expires after 24 hours
-  const sessionDuration = 24 * 60 * 60 * 1000
-  const currentTime = Date.now()
-
-  if (!isAuthenticated || !loginTime || currentTime - Number.parseInt(loginTime) > sessionDuration) {
-    window.location.href = "admin-login.html"
-    return false
-  }
-
-  return true
+  auth.onAuthStateChanged(user => {
+    if (!user) {
+      window.location.href = "admin-login.html";
+    } else {
+      initializeAdmin();
+    }
+  });
 }
 
 // Initialize
-if (!checkAuth()) {
-  // Will redirect to login
-} else {
-  initializeAdmin()
-}
+checkAuth();
 
 function initializeAdmin() {
   // Logout button
-  document.getElementById("logout-btn").addEventListener("click", () => {
-    localStorage.removeItem("adminAuthenticated")
-    localStorage.removeItem("adminLoginTime")
-    window.location.href = "admin-login.html"
-  })
+  document.getElementById("logout-btn").addEventListener("click", async () => {
+    try {
+      await auth.signOut();
+      window.location.href = "admin-login.html";
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
+  });
 
   // Tab switching
   const tabButtons = document.querySelectorAll(".tab-button")

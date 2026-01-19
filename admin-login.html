@@ -9,6 +9,13 @@
         href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&family=Open+Sans:wght@400;600&display=swap"
         rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script>
+        firebase.initializeApp(window.firebaseConfig);
+        const auth = firebase.auth();
+    </script>
     <script>
         tailwind.config = {
             theme: {
@@ -139,26 +146,20 @@
     </div>
 
     <script>
-        document.getElementById('login-form').addEventListener('submit', function (e) {
+        document.getElementById('login-form').addEventListener('submit', async function (e) {
             e.preventDefault();
 
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             const errorMessage = document.getElementById('error-message');
 
-            // Restricted credentials
-            const correctEmail = 'gcdarmil78@gmail.com';
-            const correctPassword = 'armil2024';
-
-            if (email === correctEmail && password === correctPassword) {
-                // Store authentication in localStorage
-                localStorage.setItem('adminAuthenticated', 'true');
-                localStorage.setItem('adminLoginTime', Date.now().toString());
-                localStorage.setItem('adminEmail', email);
-
+            try {
+                await auth.signInWithEmailAndPassword(email, password);
                 // Redirect to admin panel
                 window.location.href = 'admin.html';
-            } else {
+            } catch (error) {
+                console.error("Login error:", error);
+                errorMessage.textContent = "Email ou palavra-passe incorretos!";
                 errorMessage.classList.remove('hidden');
                 document.getElementById('password').value = '';
                 document.getElementById('password').focus();

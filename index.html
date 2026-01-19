@@ -12,11 +12,13 @@
     <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
     <script src="firebase-config.js"></script>
     <script>
         // Initialize Firebase
         firebase.initializeApp(window.firebaseConfig);
         const db = firebase.firestore();
+        const auth = firebase.auth();
     </script>
     <script>
         tailwind.config = {
@@ -43,67 +45,165 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
-        /* Premium Cards */
+        /* Premium Cards with Enhanced Depth */
         .premium-card {
             background: white;
-            border-radius: 1.5rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            border: 1px solid #e5e7eb;
-            transition: all 0.3s ease;
+            border-radius: 1.75rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .premium-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #000 0%, #374151 100%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
         }
 
         .premium-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            transform: translateY(-6px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15), 0 10px 15px -3px rgba(0, 0, 0, 0.08);
             border-color: rgba(0, 0, 0, 0.1);
         }
 
-        /* Buttons */
+        .premium-card:hover::before {
+            opacity: 1;
+        }
+
+        .match-item {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.75rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+        }
+
+        .match-item:hover {
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.12);
+            transform: translateY(-2px);
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+
         .btn-premium {
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.75rem;
+            background: white;
+            color: #111827;
+            border: 2px solid #e5e7eb;
+            padding: 0.875rem 2rem;
+            border-radius: 1rem;
             font-weight: 700;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             text-transform: uppercase;
             letter-spacing: 0.05em;
+            font-size: 0.875rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-premium::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: #000;
+            transition: width 0.6s, height 0.6s, top 0.6s, left 0.6s;
+            transform: translate(-50%, -50%);
+            z-index: 0;
+        }
+
+        .btn-premium:hover::before {
+            width: 400px;
+            height: 400px;
+        }
+
+        .btn-premium:hover {
+            color: white;
+            border-color: #000;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.20);
+        }
+
+        .btn-premium span {
+            position: relative;
+            z-index: 1;
         }
 
         .btn-primary-premium {
-            background: #000000;
+            background: linear-gradient(135deg, #000 0%, #1f2937 100%);
             color: white;
-            box-shadow: 0 4px 14px 0 rgba(0, 0, 0, 0.2);
-            border-radius: 0.75rem;
-            padding: 0.75rem 1.5rem;
+            box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.25);
+            border-radius: 1rem;
+            padding: 0.875rem 2rem;
             font-weight: 700;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary-premium::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-primary-premium:hover::before {
+            left: 100%;
         }
 
         .btn-primary-premium:hover {
-            background: #374151;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-            transform: translateY(-2px);
+            background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.35);
         }
 
-        /* Section Titles */
         .section-title {
             font-family: 'Montserrat', sans-serif;
             font-weight: 900;
-            font-size: 2.25rem;
-            text-transform: uppercase;
-            letter-spacing: -0.025em;
+            font-size: 2.75rem;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
             position: relative;
-            display: inline-block;
+            padding-bottom: 1.25rem;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, #000 0%, #374151 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .section-title::after {
             content: '';
             position: absolute;
-            bottom: -0.5rem;
+            bottom: 0;
             left: 0;
-            width: 3rem;
-            height: 4px;
-            background: #000000;
-            border-radius: 2px;
+            width: 4rem;
+            height: 5px;
+            background: linear-gradient(90deg, #000 0%, #374151 100%);
+            border-radius: 3px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
         }
 
         .center-title::after {
@@ -111,11 +211,11 @@
             transform: translateX(-50%);
         }
 
-        /* Animations */
+        /* Enhanced Animations */
         @keyframes fadeInUp {
             from {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: translateY(30px);
             }
 
             to {
@@ -124,12 +224,40 @@
             }
         }
 
-        .animate-fade-in-up {
-            animation: fadeInUp 0.6s ease-out forwards;
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
 
-        .text-glow {
-            text-shadow: none;
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .animate-fade-in-up {
+            animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        .animate-slide-in-right {
+            animation: slideInRight 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        .animate-scale-in {
+            animation: scaleIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
         }
 
         /* Added inline CSS for all styles */
@@ -144,21 +272,21 @@
         :root {
             --background: #ffffff;
             --foreground: #111827;
-            --card: #f9fafb;
+            --card: #fafafa;
             --card-foreground: #111827;
             --primary: #000000;
             --primary-foreground: #ffffff;
-            --muted: #f3f4f6;
-            --muted-foreground: #4b5563;
+            --muted: #f5f5f5;
+            --muted-foreground: #6b7280;
             --border: #e5e7eb;
-            --sidebar: #f9fafb;
+            --sidebar: #fafafa;
             --sidebar-foreground: #111827;
             --sidebar-primary: #000000;
             --sidebar-border: #e5e7eb;
         }
 
         body {
-            background-color: var(--background);
+            background: linear-gradient(to bottom, #ffffff 0%, #fafafa 100%);
             color: var(--foreground);
         }
 
@@ -168,12 +296,12 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: #000;
+            background: linear-gradient(135deg, #000 0%, #1f2937 100%);
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 9999;
-            transition: opacity 0.5s ease-out;
+            transition: opacity 0.6s ease-out;
         }
 
         #loading-screen.fade-out {
@@ -182,9 +310,10 @@
         }
 
         .loading-logo {
-            width: 120px;
-            height: 120px;
-            animation: pulse 2s infinite;
+            width: 140px;
+            height: 140px;
+            animation: pulse 2.5s infinite ease-in-out;
+            filter: drop-shadow(0 0 30px rgba(255, 255, 255, 0.3));
         }
 
         @keyframes pulse {
@@ -192,16 +321,27 @@
             0%,
             100% {
                 transform: scale(1);
-                opacity: 0.8;
+                opacity: 0.85;
             }
 
             50% {
-                transform: scale(1.1);
+                transform: scale(1.15);
                 opacity: 1;
             }
         }
 
-        @media (max-width: 640px) {
+        /* Responsive Typography */
+        @media (max-width: 1024px) {
+            .section-title {
+                font-size: 2.25rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .section-title {
+                font-size: 2rem;
+            }
+
             .hero-title {
                 font-size: 2.5rem !important;
             }
@@ -209,26 +349,59 @@
             .hero-subtitle {
                 font-size: 1.25rem !important;
             }
-
-            .loading-logo {
-                width: 80px;
-                height: 80px;
-            }
         }
 
-        @media (max-width: 480px) {
+        @media (max-width: 640px) {
+            .section-title {
+                font-size: 1.75rem;
+            }
+
             .hero-title {
                 font-size: 2rem !important;
             }
 
             .hero-subtitle {
-                font-size: 1.1rem !important;
+                font-size: 1.125rem !important;
+            }
+
+            .loading-logo {
+                width: 100px;
+                height: 100px;
+            }
+
+            .btn-premium,
+            .btn-primary-premium {
+                padding: 0.75rem 1.5rem;
+                font-size: 0.8125rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .hero-title {
+                font-size: 1.75rem !important;
+            }
+
+            .hero-subtitle {
+                font-size: 1rem !important;
+            }
+
+            .premium-card {
+                border-radius: 1.25rem;
+            }
+
+            .match-item {
+                padding: 1.25rem;
             }
         }
 
         .mobile-menu {
             transform: translateX(-100%);
-            transition: transform 0.3s ease-in-out;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 2px 0 15px rgba(0, 0, 0, 0.1);
         }
 
         .mobile-menu.open {
@@ -704,64 +877,63 @@
                 <div class="grid md:grid-cols-4 gap-12 text-center md:text-left">
                     <div class="col-span-1 md:col-span-1">
                         <div class="flex items-center mb-8 justify-center md:justify-start">
-                            <div class="w-12 h-12 bg-primary rounded-full p-1 mr-3">
+                            <div class="w-12 h-12 bg-white rounded-full p-1 mr-3">
                                 <img src="img/simboloarmil.png" alt="GCD Armil"
-                                    class="w-full h-full object-contain filter brightness-0 invert">
+                                    class="w-full h-full object-contain filter brightness-0">
                             </div>
-                            <span class="font-montserrat font-black text-2xl tracking-tighter">GCD ARMIL</span>
+                            <span class="font-montserrat font-black text-2xl tracking-tighter text-white">GCD
+                                ARMIL</span>
                         </div>
-                        <p class="font-open-sans text-gray-400 leading-relaxed mb-6">
+                        <p class="font-open-sans text-gray-300 leading-relaxed mb-6">
                             Paixão, força e tradição desde 1978. Mais que um clube, somos uma família unida pelo amor ao
                             desporto.
                         </p>
                     </div>
 
                     <div>
-                        <h4 class="font-montserrat font-bold text-lg mb-8 uppercase tracking-widest text-primary">
+                        <h4 class="font-montserrat font-bold text-lg mb-8 uppercase tracking-widest text-white">
                             Navegação</h4>
-                        <ul class="space-y-4 font-open-sans text-gray-400">
-                            <li><a href="#home" class="hover:text-primary transition-colors">Início</a></li>
-                            <li><a href="#teams" class="hover:text-primary transition-colors">Equipas</a></li>
-                            <li><a href="#activities" class="hover:text-primary transition-colors">Atividades</a></li>
-                            <li><a href="#matches" class="hover:text-primary transition-colors">Calendário</a></li>
-                            <li><a href="#about" class="hover:text-primary transition-colors">Sobre Nós</a></li>
+                        <ul class="space-y-4 font-open-sans text-gray-300">
+                            <li><a href="#home" class="hover:text-white transition-colors">Início</a></li>
+                            <li><a href="#teams" class="hover:text-white transition-colors">Equipas</a></li>
+                            <li><a href="#activities" class="hover:text-white transition-colors">Atividades</a></li>
+                            <li><a href="#matches" class="hover:text-white transition-colors">Calendário</a></li>
+                            <li><a href="#about" class="hover:text-white transition-colors">Sobre Nós</a></li>
                         </ul>
                     </div>
 
                     <div>
-                        <h4 class="font-montserrat font-bold text-lg mb-8 uppercase tracking-widest text-primary">
+                        <h4 class="font-montserrat font-bold text-lg mb-8 uppercase tracking-widest text-white">
                             Contacto</h4>
-                        <div class="space-y-4 font-open-sans text-gray-400">
+                        <div class="space-y-4 font-open-sans text-gray-300">
                             <p class="flex items-center justify-center md:justify-start">
-                                <span class="text-primary mr-3">📍</span> Rua Campo de Futebol, 4820-010
+                                <span class="text-white mr-3">📍</span> Rua Campo de Futebol, 4820-010
                             </p>
                             <p class="flex items-center justify-center md:justify-start">
-                                <span class="text-primary mr-3">📞</span> 966 368 977
+                                <span class="text-white mr-3">📞</span> 966 368 977
                             </p>
                             <p class="flex items-center justify-center md:justify-start">
-                                <span class="text-primary mr-3">✉️</span> gcdarmil78@gmail.com
+                                <span class="text-white mr-3">✉️</span> gcdarmil78@gmail.com
                             </p>
                         </div>
                     </div>
 
                     <div>
-                        <h4 class="font-montserrat font-bold text-lg mb-8 uppercase tracking-widest text-primary">Admin
-                        </h4>
                         <button onclick="showAdminLogin();"
-                            class="btn-premium border border-primary/30 text-primary hover:bg-primary hover:text-white w-full">
-                            Acesso Restrito
+                            class="bg-foreground/0 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-white/10 transition-all backdrop-blur-sm border border-white/20 w-full mt-12">
+                            Área de Administrador
                         </button>
                     </div>
                 </div>
 
                 <div
-                    class="border-t border-white/10 mt-16 pt-8 flex flex-col md:flex-row justify-between items-center text-gray-500 text-sm">
+                    class="border-t border-white/20 mt-16 pt-8 flex flex-col md:flex-row justify-between items-center text-gray-300 text-sm">
                     <p>© 2024 Grupo Cultural e Desportivo de Armil. Todos os direitos reservados.</p>
                     <div class="flex space-x-6 mt-6 md:mt-0">
                         <a href="https://www.facebook.com/profile.php?id=100054213772626" target="_blank"
-                            class="hover:text-primary transition-colors">Facebook</a>
+                            class="hover:text-white transition-colors">Facebook</a>
                         <a href="https://www.instagram.com/gcdarmil/" target="_blank"
-                            class="hover:text-primary transition-colors">Instagram</a>
+                            class="hover:text-white transition-colors">Instagram</a>
                     </div>
                 </div>
             </div>
@@ -1283,36 +1455,39 @@
 
         // Authentication
         function checkAuth() {
-            const auth = localStorage.getItem('admin_auth');
-            if (auth) {
-                const authData = JSON.parse(auth);
-                const now = new Date().getTime();
-                if (now - authData.timestamp < 24 * 60 * 60 * 1000) {
-                    // Session valid
-                    return;
+            auth.onAuthStateChanged(user => {
+                if (user && user.email === ADMIN_EMAIL) {
+                    // Logged in as admin
+                    if (document.getElementById('admin-login-view').classList.contains('active')) {
+                        showAdminPanel();
+                    }
                 }
-            }
+            });
         }
 
-        function handleLogin(event) {
+        async function handleLogin(event) {
             event.preventDefault();
             const email = document.getElementById('admin-email').value;
             const password = document.getElementById('admin-password').value;
+            const errorDiv = document.getElementById('login-error');
 
-            if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
-                localStorage.setItem('admin_auth', JSON.stringify({
-                    email: email,
-                    timestamp: new Date().getTime()
-                }));
+            try {
+                await auth.signInWithEmailAndPassword(email, password);
                 showAdminPanel();
-            } else {
-                document.getElementById('login-error').classList.remove('hidden');
+            } catch (error) {
+                console.error("Login error:", error);
+                errorDiv.textContent = "Email ou palavra-passe incorretos!";
+                errorDiv.classList.remove('hidden');
             }
         }
 
-        function handleLogout() {
-            localStorage.removeItem('admin_auth');
-            showHome();
+        async function handleLogout() {
+            try {
+                await auth.signOut();
+                showHome();
+            } catch (error) {
+                console.error("Logout error:", error);
+            }
         }
 
         // Admin tabs
@@ -1687,6 +1862,192 @@
                 reader.readAsDataURL(input.files[0]);
             }
         }
+
+        // === MODERN VISUAL ENHANCEMENTS ===
+
+        // Parallax effect on hero
+        let ticking = false;
+        window.addEventListener('scroll', function () {
+            const heroSection = document.querySelector('#home');
+            if (!heroSection) return;
+
+            if (!ticking) {
+                window.requestAnimationFrame(function () {
+                    const scrolled = window.pageYOffset;
+                    const heroImage = heroSection.querySelector('.absolute.inset-0');
+                    if (heroImage && scrolled < heroSection.offsetHeight) {
+                        heroImage.style.transform = `translateY(${scrolled * 0.5}px)`;
+                    }
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        });
+
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observerCallback = (entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-fade-in-up');
+                    observer.unobserve(entry.target);
+                }
+            });
+        };
+
+        const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+        // Observe elements for animation
+        document.addEventListener('DOMContentLoaded', () => {
+            const animateElements = document.querySelectorAll('.premium-card, .match-item, section h2, section h3');
+            animateElements.forEach(el => observer.observe(el));
+        });
+
+        // Enhanced mobile menu with backdrop
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const closeMobileMenu = document.getElementById('close-mobile-menu');
+
+        if (mobileMenuButton && mobileMenu) {
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.add('open');
+                document.body.style.overflow = 'hidden';
+            });
+        }
+
+        if (closeMobileMenu && mobileMenu) {
+            closeMobileMenu.addEventListener('click', () => {
+                mobileMenu.classList.remove('open');
+                document.body.style.overflow = '';
+            });
+
+            // Close on backdrop click
+            mobileMenu.addEventListener('click', (e) => {
+                if (e.target === mobileMenu) {
+                    mobileMenu.classList.remove('open');
+                    document.body.style.overflow = '';
+                }
+            });
+
+            // Close menu when clicking a link
+            const mobileLinks = mobileMenu.querySelectorAll('a');
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    setTimeout(() => {
+                        mobileMenu.classList.remove('open');
+                        document.body.style.overflow = '';
+                    }, 300);
+                });
+            });
+        }
+
+        // Smooth reveal for cards with stagger
+        function revealCards() {
+            const cards = document.querySelectorAll('.premium-card');
+            cards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(30px)';
+                    card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, 50);
+                }, index * 100);
+            });
+        }
+
+        // Call reveal after content loads
+        window.addEventListener('load', () => {
+            setTimeout(revealCards, 500);
+        });
+
+        // Add hover sound effect simulation (visual feedback)
+        document.querySelectorAll('.btn-premium, .btn-primary-premium').forEach(button => {
+            button.addEventListener('mouseenter', function () {
+                this.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+            });
+        });
+
+        // Performance optimization: Throttle scroll events
+        function throttle(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        // Update header on scroll
+        let lastScrollTop = 0;
+        const header = document.querySelector('header');
+
+        window.addEventListener('scroll', throttle(() => {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+            if (scrollTop > 100) {
+                header.style.backdropFilter = 'blur(20px) saturate(180%)';
+                header.style.backgroundColor = 'rgba(255, 255, 255, 0.9)';
+                header.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.08)';
+            } else {
+                header.style.backdropFilter = 'blur(12px)';
+                header.style.backgroundColor = 'rgba(255, 255, 255, 0.75)';
+                header.style.boxShadow = '';
+            }
+
+            lastScrollTop = scrollTop;
+        }, 100));
+
+        // Add touch ripple effect to buttons
+        document.querySelectorAll('button, .btn-premium, .btn-primary-premium').forEach(button => {
+            button.addEventListener('click', function (e) {
+                const ripple = document.createElement('span');
+                const rect = this.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                const x = e.clientX - rect.left - size / 2;
+                const y = e.clientY - rect.top - size / 2;
+
+                ripple.style.width = ripple.style.height = size + 'px';
+                ripple.style.left = x + 'px';
+                ripple.style.top = y + 'px';
+                ripple.classList.add('ripple');
+
+                this.appendChild(ripple);
+
+                setTimeout(() => ripple.remove(), 600);
+            });
+        });
+
+        // Add ripple CSS dynamically
+        const style = document.createElement('style');
+        style.textContent = `
+            .ripple {
+                position: absolute;
+                border-radius: 50%;
+                background: rgba(255, 255, 255, 0.6);
+                transform: scale(0);
+                animation: ripple-animation 0.6s ease-out;
+                pointer-events: none;
+            }
+            
+            @keyframes ripple-animation {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
     </script>
 </body>
 
