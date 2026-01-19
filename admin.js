@@ -78,7 +78,7 @@ async function handleAddGame(e) {
     alert("Jogo adicionado com sucesso!")
   } catch (error) {
     console.error("Error adding game:", error)
-    alert("Erro ao adicionar jogo.")
+    alert("Erro ao adicionar jogo: " + error.message)
   }
 }
 
