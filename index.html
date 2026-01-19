@@ -826,6 +826,10 @@
                             class="px-4 py-2 font-semibold border-b-2 border-transparent text-gray-600 hover:text-primary">
                             Gerir Resultados
                         </button>
+                        <button onclick="showAdminTab('activities')" id="tab-activities"
+                            class="px-4 py-2 font-semibold border-b-2 border-transparent text-gray-600 hover:text-primary">
+                            Gerir Atividades
+                        </button>
                     </div>
                 </div>
 
@@ -993,6 +997,39 @@
                         <div id="results-list"></div>
                     </div>
                 </div>
+
+                <div id="admin-tab-activities" class="admin-tab hidden">
+                    <div class="admin-card">
+                        <h3 class="font-montserrat font-bold text-xl mb-4">Adicionar Atividade</h3>
+                        <form id="add-activity-form" onsubmit="handleAddActivity(event)">
+                            <div class="grid md:grid-cols-2 gap-4">
+                                <div class="form-group">
+                                    <label class="form-label">Nome da Atividade</label>
+                                    <input type="text" id="activity-title-admin" class="form-input" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Descrição</label>
+                                    <textarea id="activity-desc-admin" class="form-input" rows="3" required></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Foto (Ficheiro)</label>
+                                    <input type="file" id="activity-photo-file-admin" class="form-input"
+                                        accept="image/*" onchange="previewImage(this, 'activity-photo-preview-admin')">
+                                    <input type="url" id="activity-photo-url-admin" class="form-input mt-2"
+                                        placeholder="Ou cole URL da imagem">
+                                    <img id="activity-photo-preview-admin"
+                                        class="mt-2 max-w-full max-h-48 object-contain hidden">
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Adicionar Atividade</button>
+                        </form>
+                    </div>
+
+                    <div class="admin-card">
+                        <h3 class="font-montserrat font-bold text-xl mb-4">Atividades Listadas</h3>
+                        <div id="admin-activities-list-inner" class="space-y-4"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -1122,30 +1159,90 @@
         function loadPublicActivities() {
             db.collection('activities').orderBy('order', 'asc').onSnapshot(snapshot => {
                 const activities = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                const container = document.getElementById('activities-container');
-                if (!container) return;
 
-                if (activities.length === 0) {
-                    container.innerHTML = '<p class="text-muted-foreground col-span-full text-center py-12">Brevemente teremos novidades.</p>';
-                    return;
+                // Update public view
+                const container = document.getElementById('activities-container');
+                if (container) {
+                    if (activities.length === 0) {
+                        container.innerHTML = '<p class="text-muted-foreground col-span-full text-center py-12">Brevemente teremos novidades.</p>';
+                    } else {
+                        container.innerHTML = activities.map(activity => `
+                            <div class="premium-card overflow-hidden group">
+                                <div class="relative h-64 overflow-hidden">
+                                    <img src="${activity.photo}" alt="${activity.title}" 
+                                         class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                         onerror="this.src='https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=800&q=80'">
+                                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-end p-8">
+                                        <h3 class="font-montserrat font-black text-3xl text-white uppercase tracking-tighter">${activity.title}</h3>
+                                    </div>
+                                </div>
+                                <div class="p-8">
+                                    <p class="font-open-sans text-muted-foreground text-lg leading-relaxed">${activity.description}</p>
+                                </div>
+                            </div>
+                        `).join('');
+                    }
                 }
 
-                container.innerHTML = activities.map(activity => `
-                    <div class="premium-card overflow-hidden group">
-                        <div class="relative h-64 overflow-hidden">
-                            <img src="${activity.photo}" alt="${activity.title}" 
-                                 class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                                 onerror="this.src='https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=800&q=80'">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-end p-8">
-                                <h3 class="font-montserrat font-black text-3xl text-white uppercase tracking-tighter">${activity.title}</h3>
+                // Update admin list
+                const adminList = document.getElementById('admin-activities-list-inner');
+                if (adminList) {
+                    if (activities.length === 0) {
+                        adminList.innerHTML = '<p class="text-muted-foreground">Nenhuma atividade registada.</p>';
+                    } else {
+                        adminList.innerHTML = activities.map(activity => `
+                            <div class="match-item">
+                                <div class="flex justify-between items-start">
+                                    <div class="flex-1">
+                                        <p class="font-bold text-lg">${activity.title}</p>
+                                        <p class="text-sm text-gray-600 line-clamp-2">${activity.description}</p>
+                                    </div>
+                                    <button onclick="deleteActivity('${activity.id}')" class="btn btn-danger btn-sm">Eliminar</button>
+                                </div>
                             </div>
-                        </div>
-                        <div class="p-8">
-                            <p class="font-open-sans text-muted-foreground text-lg leading-relaxed">${activity.description}</p>
-                        </div>
-                    </div>
-                `).join('');
+                        `).join('');
+                    }
+                }
             });
+        }
+
+        async function handleAddActivity(event) {
+            event.preventDefault();
+
+            const photoFile = document.getElementById('activity-photo-file-admin').files[0];
+            const photoUrl = document.getElementById('activity-photo-url-admin').value;
+
+            const photo = photoFile ? fileToBase64(photoFile) : Promise.resolve(photoUrl);
+
+            photo.then(async (finalPhoto) => {
+                const activity = {
+                    title: document.getElementById('activity-title-admin').value,
+                    description: document.getElementById('activity-desc-admin').value,
+                    photo: finalPhoto,
+                    order: Date.now(),
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                };
+
+                try {
+                    await db.collection('activities').add(activity);
+                    document.getElementById('add-activity-form').reset();
+                    document.getElementById('activity-photo-preview-admin').classList.add('hidden');
+                    alert('Atividade adicionada com sucesso!');
+                } catch (error) {
+                    console.error("Error adding activity: ", error);
+                    alert('Erro ao adicionar atividade: ' + error.message);
+                }
+            });
+        }
+
+        async function deleteActivity(id) {
+            if (confirm('Tem a certeza que deseja eliminar esta atividade?')) {
+                try {
+                    await db.collection('activities').doc(id).delete();
+                } catch (error) {
+                    console.error("Error deleting activity: ", error);
+                }
+            }
         }
 
         // Failsafe: hide loading screen after 3 seconds even if load fails
