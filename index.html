@@ -1,37 +1,167 @@
 <!DOCTYPE html>
 <html lang="pt-BR" class="scroll-smooth">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Grupo Cultural e Desportivo de Armil</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&family=Open+Sans:wght@400;600&display=swap"
+        rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script>
+        // Initialize Firebase
+        firebase.initializeApp(window.firebaseConfig);
+        const db = firebase.firestore();
+    </script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#000000',
+                        background: '#ffffff',
+                        foreground: '#111827',
+                        card: '#f9fafb',
+                        muted: '#f3f4f6',
+                        border: '#e5e7eb',
+                    }
+                }
+            }
+        }
+    </script>
     <style>
+        /* Glassmorphism */
+        .glass {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Premium Cards */
+        .premium-card {
+            background: white;
+            border-radius: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            border: 1px solid #e5e7eb;
+            transition: all 0.3s ease;
+        }
+
+        .premium-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        /* Buttons */
+        .btn-premium {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .btn-primary-premium {
+            background: #000000;
+            color: white;
+            box-shadow: 0 4px 14px 0 rgba(0, 0, 0, 0.2);
+            border-radius: 0.75rem;
+            padding: 0.75rem 1.5rem;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary-premium:hover {
+            background: #374151;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            transform: translateY(-2px);
+        }
+
+        /* Section Titles */
+        .section-title {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            font-size: 2.25rem;
+            text-transform: uppercase;
+            letter-spacing: -0.025em;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -0.5rem;
+            left: 0;
+            width: 3rem;
+            height: 4px;
+            background: #000000;
+            border-radius: 2px;
+        }
+
+        .center-title::after {
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in-up {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        .text-glow {
+            text-shadow: none;
+        }
+
         /* Added inline CSS for all styles */
-        .font-montserrat { font-family: 'Montserrat', sans-serif; }
-        .font-open-sans { font-family: 'Open Sans', sans-serif; }
-        
+        .font-montserrat {
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .font-open-sans {
+            font-family: 'Open Sans', sans-serif;
+        }
+
         :root {
             --background: #ffffff;
-            --foreground: #374151;
-            --card: #fefce8;
-            --card-foreground: #374151;
-            --primary: #d97706;
+            --foreground: #111827;
+            --card: #f9fafb;
+            --card-foreground: #111827;
+            --primary: #000000;
             --primary-foreground: #ffffff;
-            --muted: #fefce8;
-            --muted-foreground: #374151;
+            --muted: #f3f4f6;
+            --muted-foreground: #4b5563;
             --border: #e5e7eb;
-            --sidebar: #fefce8;
-            --sidebar-foreground: #374151;
-            --sidebar-primary: #d97706;
+            --sidebar: #f9fafb;
+            --sidebar-foreground: #111827;
+            --sidebar-primary: #000000;
             --sidebar-border: #e5e7eb;
         }
-        
+
         body {
             background-color: var(--background);
             color: var(--foreground);
         }
-        
+
         #loading-screen {
             position: fixed;
             top: 0;
@@ -45,85 +175,110 @@
             z-index: 9999;
             transition: opacity 0.5s ease-out;
         }
-        
+
         #loading-screen.fade-out {
             opacity: 0;
             pointer-events: none;
         }
-        
+
         .loading-logo {
             width: 120px;
             height: 120px;
             animation: pulse 2s infinite;
         }
-        
+
         @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 0.8; }
-            50% { transform: scale(1.1); opacity: 1; }
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 0.8;
+            }
+
+            50% {
+                transform: scale(1.1);
+                opacity: 1;
+            }
         }
-        
+
         @media (max-width: 640px) {
-            .hero-title { font-size: 2.5rem !important; }
-            .hero-subtitle { font-size: 1.25rem !important; }
-            .loading-logo { width: 80px; height: 80px; }
+            .hero-title {
+                font-size: 2.5rem !important;
+            }
+
+            .hero-subtitle {
+                font-size: 1.25rem !important;
+            }
+
+            .loading-logo {
+                width: 80px;
+                height: 80px;
+            }
         }
-        
+
         @media (max-width: 480px) {
-            .hero-title { font-size: 2rem !important; }
-            .hero-subtitle { font-size: 1.1rem !important; }
+            .hero-title {
+                font-size: 2rem !important;
+            }
+
+            .hero-subtitle {
+                font-size: 1.1rem !important;
+            }
         }
-        
+
         .mobile-menu {
             transform: translateX(-100%);
             transition: transform 0.3s ease-in-out;
         }
-        
+
         .mobile-menu.open {
             transform: translateX(0);
         }
-        
+
         /* Added styles for view switching */
         .view {
             display: none;
         }
-        
+
         .view.active {
             display: block;
         }
-        
+
         /* Added admin panel styles */
         .admin-card {
             background: var(--card);
             border-radius: 0.5rem;
             padding: 1.5rem;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
             margin-bottom: 1.5rem;
         }
-        
+
         .form-group {
             margin-bottom: 1rem;
         }
-        
+
         .form-label {
             display: block;
             font-weight: 600;
             margin-bottom: 0.5rem;
             color: var(--foreground);
         }
-        
-        .form-input, .form-select, .form-textarea {
+
+        .form-input,
+        .form-select,
+        .form-textarea {
             width: 100%;
             padding: 0.5rem;
             border: 1px solid var(--border);
             border-radius: 0.375rem;
             font-size: 1rem;
         }
-        
+
         .form-textarea {
             min-height: 100px;
             resize: vertical;
         }
-        
+
         .btn {
             padding: 0.5rem 1rem;
             border-radius: 0.375rem;
@@ -132,26 +287,26 @@
             transition: all 0.2s;
             border: none;
         }
-        
+
         .btn-primary {
             background: var(--primary);
             color: var(--primary-foreground);
         }
-        
+
         .btn-primary:hover {
             opacity: 0.9;
         }
-        
+
         .btn-secondary {
             background: #6b7280;
             color: white;
         }
-        
+
         .btn-danger {
             background: #dc2626;
             color: white;
         }
-        
+
         .match-item {
             background: white;
             border: 1px solid var(--border);
@@ -159,7 +314,7 @@
             padding: 1rem;
             margin-bottom: 1rem;
         }
-        
+
         .match-item img {
             max-width: 100px;
             max-height: 100px;
@@ -168,302 +323,445 @@
         }
     </style>
 </head>
+
 <body>
-     <div id="loading-screen">
+    <div id="loading-screen">
         <img src="img/simboloarmil.png" alt="GCD Armil" class="loading-logo filter brightness-0 invert">
     </div>
 
     <div id="home-view" class="view active">
-        <header class="bg-black shadow-lg sticky top-0 z-50">
+        <header class="glass shadow-sm sticky top-0 z-50">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex justify-between items-center h-16">
-                    <div class="flex items-center">
-                        <img src="img/simboloarmil.png" alt="Símbolo GCD Armil" class="w-16 h-16 rounded-full object-contain">
-                        <span class="ml-3 font-montserrat font-bold text-xl text-white">GCD Armil</span>
+                <div class="flex justify-between items-center h-20">
+                    <div class="flex items-center group cursor-pointer" onclick="showHome()">
+                        <div class="w-12 h-12 flex items-center justify-center">
+                            <img src="img/simboloarmil.png" alt="Símbolo GCD Armil"
+                                class="w-full h-full object-contain filter brightness-0">
+                        </div>
+                        <span class="ml-3 font-montserrat font-black text-2xl tracking-tighter text-foreground">GCD
+                            ARMIL</span>
                     </div>
 
-                    <nav class="hidden md:flex space-x-8">
-                        <a href="#home" class="text-white hover:text-primary transition-colors font-open-sans font-semibold">Início</a>
-                        <a href="#teams" class="text-white hover:text-primary transition-colors font-open-sans font-semibold">Equipas</a>
-                        <a href="#about" class="text-white hover:text-primary transition-colors font-open-sans font-semibold">Sobre Nós</a>
+                    <nav class="hidden md:flex space-x-10">
+                        <a href="#home"
+                            class="text-foreground/70 hover:text-primary transition-colors font-open-sans font-bold text-sm uppercase tracking-widest">Início</a>
+                        <a href="#teams"
+                            class="text-foreground/70 hover:text-primary transition-colors font-open-sans font-bold text-sm uppercase tracking-widest">Equipas</a>
+                        <a href="#activities"
+                            class="text-foreground/70 hover:text-primary transition-colors font-open-sans font-bold text-sm uppercase tracking-widest">Atividades</a>
+                        <a href="#about"
+                            class="text-foreground/70 hover:text-primary transition-colors font-open-sans font-bold text-sm uppercase tracking-widest">Sobre
+                            Nós</a>
                     </nav>
 
-                    <div class="hidden md:flex items-center space-x-4">
-                        <div class="flex space-x-2">
-                            <a href="https://www.facebook.com/profile.php?id=100054213772626" target="_blank" class="text-white hover:text-primary transition-colors">
-                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                    <div class="hidden md:flex items-center space-x-6">
+                        <div class="flex space-x-4">
+                            <a href="https://www.facebook.com/profile.php?id=100054213772626" target="_blank"
+                                class="text-foreground/40 hover:text-primary transition-colors">
+                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                    <path
+                                        d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
                                 </svg>
                             </a>
-                            <a href="https://www.instagram.com/gcdarmil/" target="_blank" class="text-white hover:text-primary transition-colors">
-                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                            <a href="https://www.instagram.com/gcdarmil/" target="_blank"
+                                class="text-foreground/40 hover:text-primary transition-colors">
+                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                    <path
+                                        d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
                                 </svg>
                             </a>
                         </div>
                     </div>
 
-                    <button class="md:hidden text-white" id="mobile-menu-button">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    <button class="md:hidden text-foreground" id="mobile-menu-button">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16M4 18h16"></path>
                         </svg>
                     </button>
                 </div>
             </div>
 
-            <div class="md:hidden mobile-menu fixed inset-y-0 left-0 w-64 bg-black shadow-lg z-50" id="mobile-menu">
-                <div class="p-4">
-                    <div class="flex items-center justify-between mb-8">
+            <div class="md:hidden mobile-menu fixed inset-y-0 left-0 w-72 glass shadow-2xl z-50 transition-transform duration-500"
+                id="mobile-menu">
+                <div class="p-8">
+                    <div class="flex items-center justify-between mb-12">
                         <div class="flex items-center">
-                            <img src="img/simboloarmil.png" alt="Símbolo GCD Armil" class="w-10 h-10 rounded-full object-contain">
-                            <span class="ml-3 font-montserrat font-bold text-lg text-white">GCD Armil</span>
+                            <img src="img/simboloarmil.png" alt="Símbolo GCD Armil"
+                                class="w-12 h-12 rounded-full object-contain">
+                            <span class="ml-3 font-montserrat font-black text-xl text-foreground">GCD ARMIL</span>
                         </div>
-                        <button class="text-white" id="close-mobile-menu">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        <button class="text-foreground" id="close-mobile-menu">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M6 18L18 6M6 6l12 12"></path>
                             </svg>
                         </button>
                     </div>
-                    <nav class="space-y-4">
-                        <a href="#home" class="block text-white hover:text-primary transition-colors font-open-sans font-semibold py-2">Início</a>
-                        <a href="#teams" class="block text-white hover:text-primary transition-colors font-open-sans font-semibold py-2">Equipas</a>
-                        <a href="#about" class="block text-white hover:text-primary transition-colors font-open-sans font-semibold py-2">Sobre Nós</a>
+                    <nav class="space-y-6">
+                        <a href="#home"
+                            class="block text-2xl font-montserrat font-black text-foreground hover:text-primary transition-colors">Início</a>
+                        <a href="#teams"
+                            class="block text-2xl font-montserrat font-black text-foreground hover:text-primary transition-colors">Equipas</a>
+                        <a href="#activities"
+                            class="block text-2xl font-montserrat font-black text-foreground hover:text-primary transition-colors">Atividades</a>
+                        <a href="#about"
+                            class="block text-2xl font-montserrat font-black text-foreground hover:text-primary transition-colors">Sobre
+                            Nós</a>
                     </nav>
                 </div>
             </div>
         </header>
 
-        <section id="home" class="relative h-screen flex items-center justify-center bg-background">
-            <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image: url('img/fundo.png');">
-                <div class="absolute inset-0 bg-black/60"></div>
+        <section id="home" class="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
+            <div class="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-1000 hover:scale-105"
+                style="background-image: url('img/fundo.png');">
+                <div class="absolute inset-0 bg-gradient-to-b from-black/80 via-black/40 to-background"></div>
             </div>
-            
-            <div class="relative z-10 text-center text-white max-w-4xl mx-auto px-4">
-                <div class="mb-8">
-                    <div class="w-40 h-40 sm:w-48 sm:h-48 md:w-56 md:h-56 mx-auto mb-6 flex items-center justify-center">
-                        <img src="img/simboloarmil.png" alt="Símbolo Grupo Cultural e Desportivo de Armil" class="w-full h-full object-contain filter brightness-0 invert">
+
+            <div class="relative z-10 text-center text-white max-w-5xl mx-auto px-6 animate-fade-in-up">
+                <div class="mb-12">
+                    <div class="w-48 h-48 md:w-64 md:h-64 mx-auto mb-10 flex items-center justify-center relative">
+                        <img src="img/simboloarmil.png" alt="Símbolo GCD Armil"
+                            class="w-full h-full object-contain filter brightness-0 invert relative z-10">
                     </div>
-                    <h1 class="hero-title font-montserrat font-black text-3xl sm:text-4xl md:text-5xl lg:text-6xl mb-2 text-balance">
-                        Grupo Cultural e Desportivo de Armil
+                    <h1
+                        class="font-montserrat font-black text-5xl sm:text-6xl md:text-8xl mb-6 text-glow leading-tight tracking-tighter">
+                        GCD ARMIL
                     </h1>
-                    <p class="hero-subtitle font-montserrat font-semibold text-lg sm:text-xl md:text-2xl mb-8">
-                        Fundado a 6 de junho de 1978
+                    <p
+                        class="font-montserrat font-bold text-xl sm:text-2xl md:text-3xl mb-12 text-primary tracking-widest uppercase">
+                        Fundado a 6 de Junho de 1978
                     </p>
+                    <div class="flex flex-col sm:flex-row items-center justify-center gap-6">
+                        <button class="btn-primary-premium w-full sm:w-auto text-lg px-12 group">
+                            Junta-te a Nós
+                            <svg class="w-5 h-5 inline-block ml-2 transition-transform group-hover:translate-x-1"
+                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                            </svg>
+                        </button>
+                        <a href="#about"
+                            class="btn-premium bg-white/10 backdrop-blur-md text-white border border-white/20 hover:bg-white/20 w-full sm:w-auto text-lg px-12">
+                            Saiba Mais
+                        </a>
+                    </div>
                 </div>
-                <button class="bg-primary hover:bg-primary/90 text-primary-foreground font-open-sans font-semibold px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-base sm:text-lg transition-colors">
-                    Junta-te ao Nosso Clube
-                </button>
             </div>
         </section>
 
         <!-- Moved matches and results section to hero area for prominence -->
-        <section id="matches" class="py-12 bg-white border-b-4 border-primary">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <h2 class="font-montserrat font-black text-3xl md:text-4xl text-center mb-10 text-foreground">Jogos e Resultados</h2>
-                
-                <div class="mb-10">
-                    <h3 class="font-montserrat font-bold text-xl md:text-2xl mb-6 text-foreground">Próximos Jogos</h3>
-                    <div id="upcoming-matches-list" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        <!-- Matches will be loaded here -->
-                    </div>
-                </div>
+        <section id="matches" class="py-24 bg-background relative overflow-hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <h2 class="section-title center-title block w-full text-center mb-16">Jogos e Resultados</h2>
 
-                <div>
-                    <h3 class="font-montserrat font-bold text-xl md:text-2xl mb-6 text-foreground">Últimos Resultados</h3>
-                    <div id="recent-results-list" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        <!-- Results will be loaded here -->
+                <div class="grid lg:grid-cols-2 gap-16">
+                    <div class="space-y-8">
+                        <h3
+                            class="font-montserrat font-black text-2xl uppercase tracking-widest text-primary flex items-center">
+                            <span class="w-8 h-1 bg-primary mr-4 rounded-full"></span>
+                            Próximos Jogos
+                        </h3>
+                        <div id="upcoming-matches-list" class="grid gap-6">
+                            <!-- Matches will be loaded here -->
+                        </div>
+                    </div>
+
+                    <div class="space-y-8">
+                        <h3
+                            class="font-montserrat font-black text-2xl uppercase tracking-widest text-primary flex items-center">
+                            <span class="w-8 h-1 bg-primary mr-4 rounded-full"></span>
+                            Últimos Resultados
+                        </h3>
+                        <div id="recent-results-list" class="grid gap-6">
+                            <!-- Results will be loaded here -->
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="teams" class="py-16 bg-background">
+        <section id="teams" class="py-24 bg-muted/30">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <h2 class="font-montserrat font-black text-4xl text-center mb-12 text-foreground">As Nossas Equipas</h2>
-                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                     
-                    <div class="team-card bg-card rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow cursor-pointer" onclick="toggleTeamPlayers('traquinas')">
-                        <img src="/placeholder.svg?height=200&width=400" alt="Equipa Traquinas" class="w-full h-48 object-cover">
+                <h2 class="section-title center-title block w-full text-center mb-16">As Nossas Equipas</h2>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
+                    <!-- Team Card Template -->
+                    <div class="premium-card overflow-hidden group cursor-pointer"
+                        onclick="toggleTeamPlayers('traquinas')">
+                        <div class="relative h-56 overflow-hidden">
+                            <img src="img/traquinas.jpg" alt="Equipa Traquinas"
+                                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                onerror="this.src='https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=800&q=80'">
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-6">
+                                <h3 class="font-montserrat font-black text-2xl text-white">Traquinas</h3>
+                            </div>
+                        </div>
                         <div class="p-6">
-                            <h3 class="font-montserrat font-bold text-xl mb-3 text-card-foreground">Traquinas</h3>
-                            <p class="font-open-sans text-muted-foreground mb-4">Escalão de formação mais jovem do clube</p>
-                            <div class="flex justify-between items-center">
-                                <span class="text-sm text-muted-foreground">Idades: 6-8 anos</span>
-                                <span class="text-primary hover:text-primary/80 font-semibold">Ver Jogadores</span>
+                            <p class="font-open-sans text-muted-foreground mb-6 leading-relaxed">Escalão de formação
+                                mais jovem do clube. Onde o sonho começa.</p>
+                            <div class="flex justify-between items-center pt-4 border-t border-border">
+                                <span class="text-sm font-bold text-primary uppercase tracking-tighter">6-8 anos</span>
+                                <span class="bg-primary/10 text-primary px-4 py-1 rounded-full text-sm font-bold">Ver
+                                    Jogadores</span>
                             </div>
                         </div>
                     </div>
 
-               
-                    <div class="team-card bg-card rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow cursor-pointer" onclick="toggleTeamPlayers('benjamins')">
-                        <img src="/placeholder.svg?height=200&width=400" alt="Equipa Benjamins" class="w-full h-48 object-cover">
+                    <div class="premium-card overflow-hidden group cursor-pointer"
+                        onclick="toggleTeamPlayers('benjamins')">
+                        <div class="relative h-56 overflow-hidden">
+                            <img src="img/benjamins.jpg" alt="Equipa Benjamins"
+                                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                onerror="this.src='https://images.unsplash.com/photo-1517466787929-bc942639189b?auto=format&fit=crop&w=800&q=80'">
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-6">
+                                <h3 class="font-montserrat font-black text-2xl text-white">Benjamins</h3>
+                            </div>
+                        </div>
                         <div class="p-6">
-                            <h3 class="font-montserrat font-bold text-xl mb-3 text-card-foreground">Benjamins</h3>
-                            <p class="font-open-sans text-muted-foreground mb-4">Formação base com foco no desenvolvimento técnico</p>
-                            <div class="flex justify-between items-center">
-                                <span class="text-sm text-muted-foreground">Idades: 8-10 anos</span>
-                                <span class="text-primary hover:text-primary/80 font-semibold">Ver Jogadores</span>
+                            <p class="font-open-sans text-muted-foreground mb-6 leading-relaxed">Formação base com foco
+                                no desenvolvimento técnico e diversão.</p>
+                            <div class="flex justify-between items-center pt-4 border-t border-border">
+                                <span class="text-sm font-bold text-primary uppercase tracking-tighter">8-10 anos</span>
+                                <span class="bg-primary/10 text-primary px-4 py-1 rounded-full text-sm font-bold">Ver
+                                    Jogadores</span>
                             </div>
                         </div>
                     </div>
 
-                    <div class="team-card bg-card rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow cursor-pointer" onclick="toggleTeamPlayers('infantis')">
-                        <img src="/placeholder.svg?height=200&width=400" alt="Equipa Infantis" class="w-full h-48 object-cover">
+                    <div class="premium-card overflow-hidden group cursor-pointer"
+                        onclick="toggleTeamPlayers('infantis')">
+                        <div class="relative h-56 overflow-hidden">
+                            <img src="img/infantis.jpg" alt="Equipa Infantis"
+                                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                onerror="this.src='https://images.unsplash.com/photo-1526232759583-26f1fa14fbe1?auto=format&fit=crop&w=800&q=80'">
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-6">
+                                <h3 class="font-montserrat font-black text-2xl text-white">Infantis</h3>
+                            </div>
+                        </div>
                         <div class="p-6">
-                            <h3 class="font-montserrat font-bold text-xl mb-3 text-card-foreground">Infantis</h3>
-                            <p class="font-open-sans text-muted-foreground mb-4">Desenvolvimento tático e técnico avançado</p>
-                            <div class="flex justify-between items-center">
-                                <span class="text-sm text-muted-foreground">Idades: 10-12 anos</span>
-                                <span class="text-primary hover:text-primary/80 font-semibold">Ver Jogadores</span>
+                            <p class="font-open-sans text-muted-foreground mb-6 leading-relaxed">Desenvolvimento tático
+                                e técnico avançado para jovens talentos.</p>
+                            <div class="flex justify-between items-center pt-4 border-t border-border">
+                                <span class="text-sm font-bold text-primary uppercase tracking-tighter">10-12
+                                    anos</span>
+                                <span class="bg-primary/10 text-primary px-4 py-1 rounded-full text-sm font-bold">Ver
+                                    Jogadores</span>
                             </div>
                         </div>
                     </div>
 
-              
-                    <div class="team-card bg-card rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow cursor-pointer" onclick="toggleTeamPlayers('juvenis')">
-                        <img src="/placeholder.svg?height=200&width=400" alt="Equipa Juvenis" class="w-full h-48 object-cover">
+                    <div class="premium-card overflow-hidden group cursor-pointer"
+                        onclick="toggleTeamPlayers('juvenis')">
+                        <div class="relative h-56 overflow-hidden">
+                            <img src="img/juvenis.jpg" alt="Equipa Juvenis"
+                                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                onerror="this.src='https://images.unsplash.com/photo-1543326727-cf6c39e8f84c?auto=format&fit=crop&w=800&q=80'">
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-6">
+                                <h3 class="font-montserrat font-black text-2xl text-white">Juvenis</h3>
+                            </div>
+                        </div>
                         <div class="p-6">
-                            <h3 class="font-montserrat font-bold text-xl mb-3 text-card-foreground">Juvenis</h3>
-                            <p class="font-open-sans text-muted-foreground mb-4">Preparação para o futebol sénior</p>
-                            <div class="flex justify-between items-center">
-                                <span class="text-sm text-muted-foreground">Idades: 16-18 anos</span>
-                                <span class="text-primary hover:text-primary/80 font-semibold">Ver Jogadores</span>
+                            <p class="font-open-sans text-muted-foreground mb-6 leading-relaxed">Preparação intensiva
+                                para o futebol sénior competitivo.</p>
+                            <div class="flex justify-between items-center pt-4 border-t border-border">
+                                <span class="text-sm font-bold text-primary uppercase tracking-tighter">15-17
+                                    anos</span>
+                                <span class="bg-primary/10 text-primary px-4 py-1 rounded-full text-sm font-bold">Ver
+                                    Jogadores</span>
                             </div>
                         </div>
                     </div>
 
-                    <div class="team-card bg-card rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow cursor-pointer" onclick="toggleTeamPlayers('seniores-futsal')">
-                        <img src="img/seniores_futsal.jpg" alt="Equipa Séniores Futsal" class="w-full h-48 object-cover">
+                    <div class="premium-card overflow-hidden group cursor-pointer"
+                        onclick="toggleTeamPlayers('seniores-futsal')">
+                        <div class="relative h-56 overflow-hidden">
+                            <img src="img/seniores_futsal.jpg" alt="Equipa Séniores Futsal"
+                                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                onerror="this.src='https://images.unsplash.com/photo-1575361204480-aadea25e6e68?auto=format&fit=crop&w=800&q=80'">
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-6">
+                                <h3 class="font-montserrat font-black text-2xl text-white">Séniores Futsal</h3>
+                            </div>
+                        </div>
                         <div class="p-6">
-                            <h3 class="font-montserrat font-bold text-xl mb-3 text-card-foreground">Séniores Futsal</h3>
-                            <p class="font-open-sans text-muted-foreground mb-4">Equipa principal de futsal do clube</p>
-                            <div class="flex justify-between items-center">
-                                <span class="text-sm text-muted-foreground">Competição Principal</span>
-                                <span class="text-primary hover:text-primary/80 font-semibold">Ver Jogadores</span>
+                            <p class="font-open-sans text-muted-foreground mb-6 leading-relaxed">Equipa principal de
+                                futsal, símbolo de garra e união.</p>
+                            <div class="flex justify-between items-center pt-4 border-t border-border">
+                                <span class="text-sm font-bold text-primary uppercase tracking-tighter">Elite</span>
+                                <span class="bg-primary/10 text-primary px-4 py-1 rounded-full text-sm font-bold">Ver
+                                    Jogadores</span>
                             </div>
                         </div>
                     </div>
 
-                   
-                    <div class="team-card bg-card rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow cursor-pointer" onclick="toggleTeamPlayers('seniores-futebol')">
-                        <img src="/placeholder.svg?height=200&width=400" alt="Equipa Séniores Futebol" class="w-full h-48 object-cover">
-                        <div class="p-6">
-                            <h3 class="font-montserrat font-bold text-xl mb-3 text-card-foreground">Séniores Futebol</h3>
-                            <p class="font-open-sans text-muted-foreground mb-4">Equipa principal de futebol do clube</p>
-                            <div class="flex justify-between items-center">
-                                <span class="text-sm text-muted-foreground">Competição Principal</span>
-                                <span class="text-primary hover:text-primary/80 font-semibold">Ver Jogadores</span>
+                    <div class="premium-card overflow-hidden group cursor-pointer"
+                        onclick="toggleTeamPlayers('seniores-futebol')">
+                        <div class="relative h-56 overflow-hidden">
+                            <img src="img/seniores_futebol.jpg" alt="Equipa Séniores Futebol"
+                                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                onerror="this.src='https://images.unsplash.com/photo-1431324155629-1a6eda1eed2d?auto=format&fit=crop&w=800&q=80'">
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-6">
+                                <h3 class="font-montserrat font-black text-2xl text-white">Séniores Futebol</h3>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="team-card bg-card rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow cursor-pointer" onclick="toggleTeamPlayers('veteranos')">
-                        <img src="/placeholder.svg?height=200&width=400" alt="Equipa Veteranos" class="w-full h-48 object-cover">
                         <div class="p-6">
-                            <h3 class="font-montserrat font-bold text-xl mb-3 text-card-foreground">Veteranos</h3>
-                            <p class="font-open-sans text-muted-foreground mb-4">Futebol recreativo para os mais experientes</p>
-                            <div class="flex justify-between items-center">
-                                <span class="text-sm text-muted-foreground">Idades: 35+ anos</span>
-                                <span class="text-primary hover:text-primary/80 font-semibold">Ver Jogadores</span>
+                            <p class="font-open-sans text-muted-foreground mb-6 leading-relaxed">Equipa principal de
+                                futebol 11, o coração do clube.</p>
+                            <div class="flex justify-between items-center pt-4 border-t border-border">
+                                <span class="text-sm font-bold text-primary uppercase tracking-tighter">Elite</span>
+                                <span class="bg-primary/10 text-primary px-4 py-1 rounded-full text-sm font-bold">Ver
+                                    Jogadores</span>
                             </div>
                         </div>
                     </div>
                 </div>
 
-           
+
                 <div id="team-players" class="mt-12 hidden">
                     <div class="bg-card rounded-lg p-6 shadow-lg">
                         <div class="flex justify-between items-center mb-6">
                             <h3 id="team-title" class="font-montserrat font-bold text-2xl text-card-foreground"></h3>
                             <button onclick="hideTeamPlayers()" class="text-muted-foreground hover:text-foreground">
                                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M6 18L18 6M6 6l12 12"></path>
                                 </svg>
                             </button>
                         </div>
                         <div id="players-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                          
+
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="about" class="py-16 bg-muted">
-            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-                <h2 class="font-montserrat font-black text-4xl md:text-5xl text-center mb-12 text-primary">
-                    Sobre Nós
-                </h2>
-                
-                <div class="space-y-6 font-open-sans text-muted-foreground text-lg leading-relaxed">
-                    <p>
-                        O Grupo Cultural e Desportivo de Armil foi fundado a 6 de junho de 1978, fruto da paixão e do empenho de um grupo de amigos e habitantes da freguesia que acreditavam no poder do desporto e da cultura como motores de união comunitária. Desde então, o clube tornou-se uma referência local, não só pela sua vertente competitiva, mas também pela sua forte ligação social e cultural à população.
-                    </p>
-                    
-                    <p>
-                        Ao longo das décadas, o clube cresceu e consolidou-se, sendo reconhecido pela sua aposta nas modalidades de futsal e futebol, oferecendo oportunidades de prática desportiva em diversos escalões de formação, desde os mais jovens até aos seniores e veteranos.
-                    </p>
-                    
-                    <p>
-                        O clube tem participado regularmente em campeonatos locais e distritais, conquistando títulos e distinções que enchem de orgulho toda a comunidade de Armil. Mas mais do que os troféus, o que distingue esta coletividade é a capacidade de formar jovens atletas, transmitindo valores de disciplina, respeito, solidariedade e espírito de equipa.
-                    </p>
-                    
-                    <p>
-                        Paralelamente à vertente desportiva, o Grupo Cultural e Desportivo de Armil promove também initiatives de carácter cultural e social, reforçando assim a sua identidade como verdadeiro ponto de encontro da freguesia.
-                    </p>
+        <section id="activities" class="py-24 bg-card/10 relative overflow-hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="section-title center-title block w-full text-center mb-16">Atividades do Clube</h2>
+                <div id="activities-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Atividades serÃ£o carregadas via JS -->
                 </div>
             </div>
         </section>
 
-        <footer class="bg-sidebar text-sidebar-foreground py-12">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="grid md:grid-cols-3 gap-8 justify-items-center text-center md:text-left">
-                    <div>
-                        <div class="flex items-center mb-4 justify-center md:justify-start">
-                            <img src="img/simboloarmil.png" alt="Símbolo GCD Armil" class="w-12 h-12 rounded-full object-contain">
-                            <span class="ml-3 font-montserrat font-bold text-xl">GCD Armil</span>
+        <section id="about" class="py-24 bg-background relative">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col lg:flex-row items-center gap-16">
+                    <div class="lg:w-1/2">
+                        <h2 class="section-title mb-8">Nossa História</h2>
+                        <div class="space-y-6 font-open-sans text-muted-foreground text-lg leading-relaxed">
+                            <p>
+                                O <span class="text-primary font-bold">Grupo Cultural e Desportivo de Armil</span> foi
+                                fundado a 6 de junho de 1978, fruto da paixão de um grupo de amigos que acreditavam no
+                                desporto como motor de união.
+                            </p>
+                            <p>
+                                Ao longo das décadas, o clube consolidou-se como uma referência no futsal e futebol
+                                distrital, formando não apenas atletas, mas cidadãos com valores de disciplina e
+                                respeito.
+                            </p>
+                            <p>
+                                Mais do que troféus, o nosso maior orgulho é a nossa comunidade. Somos uma família que
+                                preserva tradições enquanto olha para o futuro com ambição.
+                            </p>
                         </div>
-                        <p class="font-open-sans text-sm text-sidebar-foreground/80">
-                        Paixão, força e tradição desde 1978. Mais que um clube, uma família.
+                    </div>
+                    <div class="lg:w-1/2 grid grid-cols-2 gap-4">
+                        <div class="premium-card p-8 text-center bg-primary text-white">
+                            <span class="block text-4xl font-black mb-2">45+</span>
+                            <span class="text-sm uppercase font-bold tracking-tighter">Anos de História</span>
+                        </div>
+                        <div class="premium-card p-8 text-center border-2 border-primary/20">
+                            <span class="block text-4xl font-black text-primary mb-2">100+</span>
+                            <span
+                                class="text-sm uppercase font-bold text-muted-foreground tracking-tighter">Atletas</span>
+                        </div>
+                        <div class="premium-card p-8 text-center border-2 border-primary/20">
+                            <span class="block text-4xl font-black text-primary mb-2">7</span>
+                            <span
+                                class="text-sm uppercase font-bold text-muted-foreground tracking-tighter">Escalões</span>
+                        </div>
+                        <div class="premium-card p-8 text-center bg-foreground text-white">
+                            <span class="block text-4xl font-black mb-2">1978</span>
+                            <span class="text-sm uppercase font-bold tracking-tighter">Fundação</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="bg-foreground text-white py-24 relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary/50 via-primary to-primary/50">
+            </div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div class="grid md:grid-cols-4 gap-12 text-center md:text-left">
+                    <div class="col-span-1 md:col-span-1">
+                        <div class="flex items-center mb-8 justify-center md:justify-start">
+                            <div class="w-12 h-12 bg-primary rounded-full p-1 mr-3">
+                                <img src="img/simboloarmil.png" alt="GCD Armil"
+                                    class="w-full h-full object-contain filter brightness-0 invert">
+                            </div>
+                            <span class="font-montserrat font-black text-2xl tracking-tighter">GCD ARMIL</span>
+                        </div>
+                        <p class="font-open-sans text-gray-400 leading-relaxed mb-6">
+                            Paixão, força e tradição desde 1978. Mais que um clube, somos uma família unida pelo amor ao
+                            desporto.
                         </p>
                     </div>
 
                     <div>
-                        <h4 class="font-montserrat font-bold text-lg mb-4">Links Rápidos</h4>
-                        <ul class="space-y-2 font-open-sans text-sm">
-                            <li><a href="#home" class="hover:text-sidebar-primary transition-colors">Início</a></li>
-                            <li><a href="#teams" class="hover:text-sidebar-primary transition-colors">Equipas</a></li>
-                            <li><a href="#about" class="hover:text-sidebar-primary transition-colors">Sobre Nós</a></li>
-                        
-                            <li><a href="#" onclick="showAdminLogin(); return false;" class="hover:text-sidebar-primary transition-colors">Área de Administrador</a></li>
+                        <h4 class="font-montserrat font-bold text-lg mb-8 uppercase tracking-widest text-primary">
+                            Navegação</h4>
+                        <ul class="space-y-4 font-open-sans text-gray-400">
+                            <li><a href="#home" class="hover:text-primary transition-colors">Início</a></li>
+                            <li><a href="#teams" class="hover:text-primary transition-colors">Equipas</a></li>
+                            <li><a href="#activities" class="hover:text-primary transition-colors">Atividades</a></li>
+                            <li><a href="#matches" class="hover:text-primary transition-colors">Calendário</a></li>
+                            <li><a href="#about" class="hover:text-primary transition-colors">Sobre Nós</a></li>
                         </ul>
                     </div>
 
                     <div>
-                        <h4 class="font-montserrat font-bold text-lg mb-4">Contacto</h4>
-                        <div class="space-y-2 font-open-sans text-sm">
-                            <p>📍 Rua Campo de Futebol, 4820-010</p>
-                            <p>📞 966368977</p>
-                            <p>✉️ gcdarmil78@gmail.com</p>
+                        <h4 class="font-montserrat font-bold text-lg mb-8 uppercase tracking-widest text-primary">
+                            Contacto</h4>
+                        <div class="space-y-4 font-open-sans text-gray-400">
+                            <p class="flex items-center justify-center md:justify-start">
+                                <span class="text-primary mr-3">📍</span> Rua Campo de Futebol, 4820-010
+                            </p>
+                            <p class="flex items-center justify-center md:justify-start">
+                                <span class="text-primary mr-3">📞</span> 966 368 977
+                            </p>
+                            <p class="flex items-center justify-center md:justify-start">
+                                <span class="text-primary mr-3">✉️</span> gcdarmil78@gmail.com
+                            </p>
                         </div>
+                    </div>
+
+                    <div>
+                        <h4 class="font-montserrat font-bold text-lg mb-8 uppercase tracking-widest text-primary">Admin
+                        </h4>
+                        <button onclick="showAdminLogin();"
+                            class="btn-premium border border-primary/30 text-primary hover:bg-primary hover:text-white w-full">
+                            Acesso Restrito
+                        </button>
                     </div>
                 </div>
 
-                <div class="border-t border-sidebar-border mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
-                    <p class="font-open-sans text-sm text-sidebar-foreground/60">
-                        © 2025 Grupo Cultural e Desportivo de Armil. Todos os direitos reservados.
-                    </p>
-                    <div class="flex space-x-4 mt-4 md:mt-0">
-                        <a href="https://www.facebook.com/profile.php?id=100054213772626" target="_blank" class="text-sidebar-foreground/60 hover:text-sidebar-primary transition-colors">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                            </svg>
-                        </a>
-                        <a href="https://www.instagram.com/gcdarmil/" target="_blank" class="text-sidebar-foreground/60 hover:text-sidebar-primary transition-colors">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                            </svg>
-                        </a>
+                <div
+                    class="border-t border-white/10 mt-16 pt-8 flex flex-col md:flex-row justify-between items-center text-gray-500 text-sm">
+                    <p>© 2024 Grupo Cultural e Desportivo de Armil. Todos os direitos reservados.</p>
+                    <div class="flex space-x-6 mt-6 md:mt-0">
+                        <a href="https://www.facebook.com/profile.php?id=100054213772626" target="_blank"
+                            class="hover:text-primary transition-colors">Facebook</a>
+                        <a href="https://www.instagram.com/gcdarmil/" target="_blank"
+                            class="hover:text-primary transition-colors">Instagram</a>
                     </div>
                 </div>
             </div>
@@ -478,15 +776,23 @@
                     <h2 class="font-montserrat font-bold text-2xl text-foreground">Área de Administrador</h2>
                     <p class="text-muted-foreground mt-2">Faça login para gerir jogos e resultados</p>
                 </div>
-                
+
                 <form id="login-form" onsubmit="handleLogin(event)">
                     <div class="form-group">
-                        <label class="form-label">Palavra-passe</label>
-                        <input type="password" id="admin-password" class="form-input" required placeholder="Digite a palavra-passe">
+                        <label class="form-label">Email</label>
+                        <input type="email" id="admin-email" class="form-input" required
+                            placeholder="exemplo@gmail.com">
                     </div>
-                    
-                    <div id="login-error" class="text-red-600 text-sm mb-4 hidden">Palavra-passe incorreta!</div>
-                    
+
+                    <div class="form-group">
+                        <label class="form-label">Palavra-passe</label>
+                        <input type="password" id="admin-password" class="form-input" required
+                            placeholder="Digite a palavra-passe">
+                    </div>
+
+                    <div id="login-error" class="text-red-600 text-sm mb-4 hidden">Email ou palavra-passe incorretos!
+                    </div>
+
                     <button type="submit" class="btn btn-primary w-full mb-4">Entrar</button>
                     <button type="button" onclick="showHome()" class="btn btn-secondary w-full">Voltar ao Site</button>
                 </form>
@@ -500,7 +806,8 @@
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
                     <div class="flex justify-between items-center">
                         <div class="flex items-center">
-                            <img src="img/simboloarmil.png" alt="GCD Armil" class="w-12 h-12 rounded-full object-contain">
+                            <img src="img/simboloarmil.png" alt="GCD Armil"
+                                class="w-12 h-12 rounded-full object-contain">
                             <span class="ml-3 font-montserrat font-bold text-xl">Painel de Administração</span>
                         </div>
                         <button onclick="handleLogout()" class="btn btn-danger">Sair</button>
@@ -511,10 +818,12 @@
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                 <div class="mb-6 border-b border-gray-300">
                     <div class="flex space-x-4">
-                        <button onclick="showAdminTab('games')" id="tab-games" class="px-4 py-2 font-semibold border-b-2 border-primary text-primary">
+                        <button onclick="showAdminTab('games')" id="tab-games"
+                            class="px-4 py-2 font-semibold border-b-2 border-primary text-primary">
                             Gerir Jogos
                         </button>
-                        <button onclick="showAdminTab('results')" id="tab-results" class="px-4 py-2 font-semibold border-b-2 border-transparent text-gray-600 hover:text-primary">
+                        <button onclick="showAdminTab('results')" id="tab-results"
+                            class="px-4 py-2 font-semibold border-b-2 border-transparent text-gray-600 hover:text-primary">
                             Gerir Resultados
                         </button>
                     </div>
@@ -529,7 +838,7 @@
                                     <label class="form-label">Data e Hora</label>
                                     <input type="datetime-local" id="game-date" class="form-input" required>
                                 </div>
-                                
+
                                 <div class="form-group">
                                     <label class="form-label">Escalão</label>
                                     <select id="game-team" class="form-select" required>
@@ -543,39 +852,45 @@
                                         <option value="Veteranos">Veteranos</option>
                                     </select>
                                 </div>
-                                
+
                                 <div class="form-group">
                                     <label class="form-label">Equipa Casa</label>
                                     <input type="text" id="game-home-team" class="form-input" required>
                                 </div>
-                                
+
                                 <div class="form-group">
                                     <label class="form-label">Equipa Fora</label>
                                     <input type="text" id="game-away-team" class="form-input" required>
                                 </div>
-                                
+
                                 <div class="form-group">
                                     <label class="form-label">Local</label>
                                     <input type="text" id="game-location" class="form-input" required>
                                 </div>
-                                
+
                                 <!-- Added file upload for home team logo -->
                                 <div class="form-group">
                                     <label class="form-label">Logo Equipa Casa</label>
-                                    <input type="file" id="game-home-logo-file" class="form-input" accept="image/*" onchange="previewImage(this, 'game-home-logo-preview')">
-                                    <input type="url" id="game-home-logo" class="form-input mt-2" placeholder="Ou cole URL da imagem">
-                                    <img id="game-home-logo-preview" class="mt-2 max-w-xs max-h-24 object-contain hidden">
+                                    <input type="file" id="game-home-logo-file" class="form-input" accept="image/*"
+                                        onchange="previewImage(this, 'game-home-logo-preview')">
+                                    <input type="url" id="game-home-logo" class="form-input mt-2"
+                                        placeholder="Ou cole URL da imagem">
+                                    <img id="game-home-logo-preview"
+                                        class="mt-2 max-w-xs max-h-24 object-contain hidden">
                                 </div>
-                                
+
                                 <!-- Added file upload for away team logo -->
                                 <div class="form-group">
                                     <label class="form-label">Logo Equipa Fora</label>
-                                    <input type="file" id="game-away-logo-file" class="form-input" accept="image/*" onchange="previewImage(this, 'game-away-logo-preview')">
-                                    <input type="url" id="game-away-logo" class="form-input mt-2" placeholder="Ou cole URL da imagem">
-                                    <img id="game-away-logo-preview" class="mt-2 max-w-xs max-h-24 object-contain hidden">
+                                    <input type="file" id="game-away-logo-file" class="form-input" accept="image/*"
+                                        onchange="previewImage(this, 'game-away-logo-preview')">
+                                    <input type="url" id="game-away-logo" class="form-input mt-2"
+                                        placeholder="Ou cole URL da imagem">
+                                    <img id="game-away-logo-preview"
+                                        class="mt-2 max-w-xs max-h-24 object-contain hidden">
                                 </div>
                             </div>
-                            
+
                             <button type="submit" class="btn btn-primary">Adicionar Jogo</button>
                         </form>
                     </div>
@@ -595,7 +910,7 @@
                                     <label class="form-label">Data</label>
                                     <input type="date" id="result-date" class="form-input" required>
                                 </div>
-                                
+
                                 <div class="form-group">
                                     <label class="form-label">Escalão</label>
                                     <select id="result-team" class="form-select" required>
@@ -609,57 +924,66 @@
                                         <option value="Veteranos">Veteranos</option>
                                     </select>
                                 </div>
-                                
+
                                 <div class="form-group">
                                     <label class="form-label">Equipa Casa</label>
                                     <input type="text" id="result-home-team" class="form-input" required>
                                 </div>
-                                
+
                                 <div class="form-group">
                                     <label class="form-label">Golos Casa</label>
                                     <input type="number" id="result-home-score" class="form-input" min="0" required>
                                 </div>
-                                
+
                                 <div class="form-group">
                                     <label class="form-label">Equipa Fora</label>
                                     <input type="text" id="result-away-team" class="form-input" required>
                                 </div>
-                                
+
                                 <div class="form-group">
                                     <label class="form-label">Golos Fora</label>
                                     <input type="number" id="result-away-score" class="form-input" min="0" required>
                                 </div>
-                                
+
                                 <div class="form-group">
                                     <label class="form-label">Local</label>
                                     <input type="text" id="result-location" class="form-input" required>
                                 </div>
-                                
+
                                 <!-- Added file upload for home team logo -->
                                 <div class="form-group">
                                     <label class="form-label">Logo Equipa Casa</label>
-                                    <input type="file" id="result-home-logo-file" class="form-input" accept="image/*" onchange="previewImage(this, 'result-home-logo-preview')">
-                                    <input type="url" id="result-home-logo" class="form-input mt-2" placeholder="Ou cole URL da imagem">
-                                    <img id="result-home-logo-preview" class="mt-2 max-w-xs max-h-24 object-contain hidden">
+                                    <input type="file" id="result-home-logo-file" class="form-input" accept="image/*"
+                                        onchange="previewImage(this, 'result-home-logo-preview')">
+                                    <input type="url" id="result-home-logo" class="form-input mt-2"
+                                        placeholder="Ou cole URL da imagem">
+                                    <img id="result-home-logo-preview"
+                                        class="mt-2 max-w-xs max-h-24 object-contain hidden">
                                 </div>
-                                
+
                                 <!-- Added file upload for away team logo -->
                                 <div class="form-group">
                                     <label class="form-label">Logo Equipa Fora</label>
-                                    <input type="file" id="result-away-logo-file" class="form-input" accept="image/*" onchange="previewImage(this, 'result-away-logo-preview')">
-                                    <input type="url" id="result-away-logo" class="form-input mt-2" placeholder="Ou cole URL da imagem">
-                                    <img id="result-away-logo-preview" class="mt-2 max-w-xs max-h-24 object-contain hidden">
+                                    <input type="file" id="result-away-logo-file" class="form-input" accept="image/*"
+                                        onchange="previewImage(this, 'result-away-logo-preview')">
+                                    <input type="url" id="result-away-logo" class="form-input mt-2"
+                                        placeholder="Ou cole URL da imagem">
+                                    <img id="result-away-logo-preview"
+                                        class="mt-2 max-w-xs max-h-24 object-contain hidden">
                                 </div>
-                                
+
                                 <!-- Added file upload for match photo -->
                                 <div class="form-group md:col-span-2">
                                     <label class="form-label">Foto do Jogo</label>
-                                    <input type="file" id="result-photo-file" class="form-input" accept="image/*" onchange="previewImage(this, 'result-photo-preview')">
-                                    <input type="url" id="result-photo" class="form-input mt-2" placeholder="Ou cole URL da imagem">
-                                    <img id="result-photo-preview" class="mt-2 max-w-full max-h-48 object-contain hidden">
+                                    <input type="file" id="result-photo-file" class="form-input" accept="image/*"
+                                        onchange="previewImage(this, 'result-photo-preview')">
+                                    <input type="url" id="result-photo" class="form-input mt-2"
+                                        placeholder="Ou cole URL da imagem">
+                                    <img id="result-photo-preview"
+                                        class="mt-2 max-w-full max-h-48 object-contain hidden">
                                 </div>
                             </div>
-                            
+
                             <button type="submit" class="btn btn-primary">Adicionar Resultado</button>
                         </form>
                     </div>
@@ -677,70 +1001,81 @@
         // Team players data
         const teamPlayers = {
             'traquinas': [
-                { name: 'João Silva', position: 'Avançado', number: 9, photo: 'img/players/joao-silva.jpg' },
-                { name: 'Pedro Santos', position: 'Médio', number: 10, photo: 'img/players/pedro-santos.jpg' },
-                { name: 'Miguel Costa', position: 'Defesa', number: 4, photo: 'img/players/miguel-costa.jpg' },
-                { name: 'Tiago Oliveira', position: 'Guarda-Redes', number: 1, photo: 'img/players/tiago-oliveira.jpg' },
-                { name: 'André Ferreira', position: 'Extremo', number: 7, photo: 'img/players/andre-ferreira.jpg' },
+                { name: 'Santiago', position: 'Avançado', number: 9, photo: 'img/players/joao-silva.jpg' },
+                { name: 'Salvador', position: 'Médio', number: 10, photo: 'img/players/pedro-santos.jpg' },
+                { name: 'Matias', position: 'Defesa', number: 4, photo: 'img/players/miguel-costa.jpg' },
+                { name: 'Gonçalo Alves', position: 'Guarda-Redes', number: 1, photo: 'img/players/tiago-oliveira.jpg' },
+                { name: 'Martim Ribeiro', position: 'Extremo', number: 7, photo: 'img/players/andre-ferreira.jpg' },
+                { name: 'Pedro', position: 'Extremo', number: 7, photo: 'img/players/andre-ferreira.jpg' },
+                { name: 'Valter', position: 'Extremo', number: 7, photo: 'img/players/andre-ferreira.jpg' },
+                { name: 'Tomás Páris', position: 'Extremo', number: 7, photo: 'img/players/andre-ferreira.jpg' },
+                { name: 'Jordan', position: 'Extremo', number: 7, photo: 'img/players/andre-ferreira.jpg' },
+                { name: 'Tomás Páris', position: 'Extremo', number: 7, photo: 'img/players/andre-ferreira.jpg' },
                 { name: 'Bruno Almeida', position: 'Defesa', number: 3, photo: 'img/players/bruno-almeida.jpg' }
             ],
             'infantis': [
-                { name: 'Francisco Dias', position: 'Avançado', number: 10, photo: 'img/players/francisco-dias.jpg' },
+                { name: 'Alexandre', position: 'Avançado', number: 10, photo: 'img/players/francisco-dias.jpg' },
                 { name: 'Gonçalo Ribeiro', position: 'Médio', number: 8, photo: 'img/players/goncalo-ribeiro.jpg' },
                 { name: 'Tomás Carvalho', position: 'Defesa', number: 4, photo: 'img/players/tomas-carvalho.jpg' },
                 { name: 'Afonso Pinto', position: 'Guarda-Redes', number: 1, photo: 'img/players/afonso-pinto.jpg' },
                 { name: 'Bernardo Lima', position: 'Extremo', number: 11, photo: 'img/players/bernardo-lima.jpg' },
-                { name: 'Rodrigo Neves', position: 'Defesa', number: 3, photo: 'img/players/rodrigo-neves.jpg' }
+                { name: 'Rodrigo Neves', position: 'Defesa', number: 3, photo: 'img/players/rodrigo-neves.jpg' },
+                { name: 'Equipa Técnica', role: 'Equipa Técnica', nameList: ['Paulo Gonçalves', 'Paulo Cardoso', 'Joel Pião', 'Duarte Ferreira'], photo: 'img/eq.tecnicaa.png' }
             ],
             'juvenis': [
-                { name: 'Tiago Pereira', position: 'Guarda-Redes', number: 9, photo: 'img/tiagogr.jpg' },
-                { name: 'Miguel Oliveira', position: 'Guarda-Redes', number: 9, photo: 'img/miguel.png' },
-                { name: 'Lucas Silva', position: 'Médio', number: 10, photo: 'img/lucas.jpg' },
-                { name: 'Tomás Sousa', position: 'Defesa', number: 3, photo: 'img/tomas.jpg' },
-                { name: 'Afonso Cardoso', position: 'Guarda-Redes', number: 1, photo: 'img/afonso.jpg' },
-                { name: 'David Pinto', position: 'Extremo', number: 11, photo: 'img/pinto.jpg' },
-                { name: 'Rui', position: 'Médio', number: 6, photo: 'img/rui.jpg' },
-                { name: 'Henrique Alves', position: 'Médio', number: 6, photo: 'img/henrique.jpg' },
-                { name: 'Tomás Vieira', position: 'Médio', number: 6, photo: 'img/tomasv.jpg' },
-                { name: 'Alexandre Peixoto', position: 'Médio', number: 6, photo: 'img/alex.jpg' },
-                { name: 'Afonso Pião', position: 'Médio', number: 6, photo: 'img/piao.jpg' },
-                { name: 'Gonçalo', position: 'Médio', number: 6, photo: 'img/goncalo.jpg' },
-                { name: 'Ricardo Cunha', position: 'Médio', number: 6, photo: 'img/ricardo.jpg' },
-                { name: 'David Ferreira', position: 'Médio', number: 6, photo: 'img/ferreira.jpg' },
-                { name: 'Bruno', position: 'Médio', number: 6, photo: 'img/bruno.jpg' },
-                { name: 'João Sampaio', position: 'Médio', number: 6, photo: 'img/sampaio.jpg' },
-                { name: 'Equipa Técnica', role: 'Equipa Técnica', nameList: ['Paulo Gonçalves','Paulo Cardoso','Joel Pião','Duarte Ferreira'], photo: 'img/eq.tecnicaa.png' }
+                { name: 'Tiago Pereira', position: 'Guarda-Redes', number: 1, photo: 'img/tiagogr.jpg' },
+                { name: 'Miguel Oliveira', position: 'Guarda-Redes', number: 99, photo: 'img/miguel.png' },
+                { name: 'Lucas Silva', position: 'Médio', number: 17, photo: 'img/lucas.jpg' },
+                { name: 'Tomás Sousa', position: 'Defesa', number: 86, photo: 'img/tomas.jpg' },
+                { name: 'Afonso Cardoso', position: 'Guarda-Redes', number: 19, photo: 'img/afonso.jpg' },
+                { name: 'David Pinto', position: 'Extremo', number: 10, photo: 'img/pinto.jpg' },
+                { name: 'Rui', position: 'Médio', number: 7, photo: 'img/rui.jpg' },
+                { name: 'Henrique Alves', position: 'Médio', number: 23, photo: 'img/henrique.jpg' },
+                { name: 'Tomás Vieira', position: 'Médio', number: 15, photo: 'img/tomasv.jpg' },
+                { name: 'Alexandre Peixoto', position: 'Médio', number: 4, photo: 'img/alex.jpg' },
+                { name: 'Afonso Pião', position: 'Médio', number: 33, photo: 'img/piao.jpg' },
+                { name: 'Gonçalo', position: 'Médio', number: 47, photo: 'img/goncalo.jpg' },
+                { name: 'Ricardo Cunha', position: 'Médio', number: 3, photo: 'img/ricardo.jpg' },
+                { name: 'David Ferreira', position: 'Médio', number: 8, photo: 'img/ferreira.jpg' },
+                { name: 'Bruno', position: 'Médio', number: 11, photo: 'img/bruno.jpg' },
+                { name: 'João Sampaio', position: 'Médio', number: 9, photo: 'img/sampaio.jpg' },
+                { name: 'Equipa Técnica', role: 'Equipa Técnica', nameList: ['Paulo Gonçalves', 'Paulo Cardoso', 'Joel Pião', 'Duarte Ferreira'], photo: 'img/eq.tecnicaa.png' }
             ],
             'seniores-futsal': [
-                { name: 'Tiago Cruz', position: 'Guarda-Redes', number: 9, photo: 'img/cruz.jpg' },
-                { name: 'Sebastian Tedesco', position: 'Ala', number: 7, photo: 'img/tedesco.jpg' },
-                { name: 'Cláudio Carneiro', position: 'Fixo', number: 4, photo: 'img/claudio.jpg' },
-                { name: 'Jorge Lameiras', position: 'Ala', number: 1, photo: 'img/ginho.jpg' },
-                { name: 'Francisco Liz', position: 'Ala', number: 11, photo: 'img/liz.jpg' },
-                { name: 'Samuel Castro', position: 'Ala', number: 9, photo: 'img/samu.jpg' },
-                { name: 'João Ribeiro', position: 'Ala', number: 9, photo: 'img/ribeiro.jpg' },
-                { name: 'Diogo José', position: 'Ala', number: 9, photo: 'img/diogojose.png' },
-                { name: 'João Lemos', position: 'Ala', number: 9, photo: 'img/lemos.png' },
+                { name: 'Tiago Cruz', position: 'Guarda-Redes', number: 21, photo: 'img/cruz.jpg' },
+                { name: 'Sebastian Tedesco', position: 'Ala', number: 5, photo: 'img/tedesco.jpg' },
+                { name: 'Cláudio Carneiro', position: 'Fixo', number: 11, photo: 'img/claudio.jpg' },
+                { name: 'Jorge Lameiras', position: 'Ala', number: 17, photo: 'img/ginho.jpg' },
+                { name: 'Francisco Liz', position: 'Ala', number: 20, photo: 'img/liz.jpg' },
+                { name: 'Samuel Castro', position: 'Ala', number: 8, photo: 'img/samu.jpg' },
+                { name: 'João Ribeiro', position: 'Ala', number: 22, photo: 'img/ribeiro.jpg' },
+                { name: 'Diogo José', position: 'Ala', number: 28, photo: 'img/diogojose.png' },
+                { name: 'João Lemos', position: 'Ala', number: 12, photo: 'img/lemos.png' },
+                { name: 'Anderson Villamizar', position: 'Ala', number: 27, photo: 'img/foto.png' },
                 { name: 'João Ribeiro', position: 'Ala', number: 9, photo: 'img/ribeiro.jpg' },
                 { name: 'Pedro', position: 'Ala', number: 8, photo: 'img/players/pedro-machado.jpg' }
             ],
             'seniores-futebol': [
-                { name: 'Francisco Ferreira', position: 'Guarda Redes', number: 1, photo: 'img/chico.jpg' },
-                { name: 'Diogo Alves', position: 'Guarda Redes', number: 12, photo: 'img/jdiogo.jpg' },
-                { name: 'Bruno Salgado', position: 'Guarda Redes', number: 12, photo: 'img/rato.jpg' },
-                { name: 'Moisés Quintino', position: 'Extremo', number: 7, photo: 'img/moises.jpg' },
-                { name: 'Pedro Lemos', position: 'Médio', number: 8, photo: 'img/pedro_lemos.jpg' },
-                { name: 'Nivaldo Cá', position: 'Médio', number: 6, photo: 'img/nivaldo.jpg' },
-                { name: 'Luís Sousa', position: 'Médio', number: 10, photo: 'img/luis_sousa.jpg' },
-                { name: 'Suleimane Baio', position: 'Médio', number: 11, photo: 'img/suleimane.jpg' },
-                { name: 'Tiago Rodrigues', position: 'Defesa', number: 4, photo: 'img/tiago.jpg' },
-                { name: 'José Castro', position: 'Guarda-Redes', number: 13, photo: 'img/zé.jpg' },
-                { name: 'Eugénio Insumbo', position: 'Extremo', number: 7, photo: 'img/eugénio.jpg' },
+                { name: 'Francisco Ferreira', position: 'Guarda Redes', number: 99, photo: 'img/chico.jpg' },
+                { name: 'Diogo Alves', position: 'Guarda Redes', number: 21, photo: 'img/jdiogo.jpg' },
+                { name: 'Bruno Salgado', position: 'Guarda Redes', number: 1, photo: 'img/rato.jpg' },
+                { name: 'Moisés Quintino', position: 'Extremo', number: 66, photo: 'img/moises.jpg' },
+                { name: 'Pedro Lemos', position: 'Médio', number: 18, photo: 'img/pedro_lemos.jpg' },
+                { name: 'Nivaldo Cá', position: 'Médio', number: 11, photo: 'img/nivaldo.jpg' },
+                { name: 'João Silva', position: 'Extremo', number: 27, photo: 'img/jota.png' },
+                { name: 'Luís Sousa', position: 'Médio', number: 9, photo: 'img/luis_sousa.jpg' },
+                { name: 'Suleimane Baio', position: 'Médio', number: 4, photo: 'img/suleimane.jpg' },
+                { name: 'Tiago Rodrigues', position: 'Defesa', number: 13, photo: 'img/tiago.jpg' },
+                { name: 'José Castro', position: 'Guarda-Redes', number: 22, photo: 'img/zé.jpg' },
+                { name: 'Eugénio Insumbo', position: 'Extremo', number: 3, photo: 'img/eugénio.jpg' },
                 { name: 'Rubén Durães', position: 'Extremo', number: 7, photo: 'img/ruben.jpg' },
-                { name: 'Micael Pinto', position: 'Extremo', number: 7, photo: 'img/mica.jpg' },
+                { name: 'Micael Pinto', position: 'Extremo', number: 27, photo: 'img/mica.jpg' },
+                { name: 'Diogo Silva', position: 'Extremo', number: 80, photo: 'img/diogosilva.png' },
                 { name: 'Ricardo Sampaio', position: 'Extremo', number: 7, photo: 'img/cajuz.jpg' },
-                { name: 'Aprizio Cá', position: 'Extremo', number: 7, photo: 'img/aprizio.jpg' },
-                { name: 'Nelson Campos', position: 'Médio', number: 9, photo: 'img/nelson.png' },
+                { name: 'João Esteves', position: 'Extremo', number: 7, photo: 'img/esteves.png' },
+                { name: 'Midana Quintino', position: 'Extremo', number: 7, photo: 'img/irmaomoises.png' },
+                { name: 'Nelson Campos', position: 'Médio', number: 8, photo: 'img/nelson.png' },
+                { name: 'Augusto Rossio', position: 'Extremo', number: 7, photo: 'img/gusto.png' },
                 { name: 'Jorge Teixeira', role: 'Treinador', photo: 'img/jorge.jpg' },
                 { name: 'Alexandre Gonçalves', role: 'Treinador Adjunto', photo: 'img/fininho.jpg' },
                 { name: 'Mariana Teixeira', role: 'Fisioterapeuta', photo: 'img/mariana.jpg' }
@@ -753,33 +1088,79 @@
                 { name: 'Manuel Teixeira', position: 'Defesa', number: 5, photo: 'img/teixeira.png' },
                 { name: 'Nestor Cunha', position: 'Guarda-Redes', number: 1, photo: 'img/nestor.png' },
                 { name: 'Sérgio Carvalho', position: 'Extremo', number: 11, photo: 'img/carvalhinho.jpeg' },
+                { name: 'Fernando Teixeira', position: 'Extremo', number: 11, photo: 'img/nando.png' },
+                { name: 'Sérgio Carvalho', position: 'Extremo', number: 11, photo: 'img/carvalhinho.jpeg' },
                 { name: 'Joaquim Leal', position: 'Defesa', number: 3, photo: 'img/players/joaquim-leal.jpg' }
             ]
         };
 
-        // Admin password (change this!)
+        // Admin credentials
+        const ADMIN_EMAIL = 'gcdarmil78@gmail.com';
         const ADMIN_PASSWORD = 'armil2024';
-        
+
         // Initialize
-        window.addEventListener('load', function() {
+        window.addEventListener('load', function () {
             hideLoadingScreen();
             checkAuth();
             loadGames();
             loadResults();
             loadPublicMatches();
             loadPublicResults();
+            loadPublicActivities();
         });
 
-        function hideLoadingScreen() {
-            setTimeout(function() {
-                const loadingScreen = document.getElementById('loading-screen');
-                if (loadingScreen) {
-                    loadingScreen.classList.add('fade-out');
-                    setTimeout(function() {
-                        loadingScreen.style.display = 'none';
-                    }, 500);
+        // Initialize default activities if empty
+        if (!localStorage.getItem('gcdArmilActivities')) {
+            const defaultActivities = [
+                { id: 1, title: 'Reis', description: 'CelebraÃ§Ã£o tradicional de Reis com a comunidade.', photo: 'https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&w=800&q=80' },
+                { id: 2, title: 'Torneio Armil Cup', description: 'O nosso grande torneio anual que reÃºne equipas de toda a regiÃ£o.', photo: 'img/armilcup.jpg' },
+                { id: 3, title: 'Magusto', description: 'Pista de castanhas e convÃvio tradicional de SÃ£o Martinho.', photo: 'https://images.unsplash.com/photo-1541854615901-93c354197834?auto=format&fit=crop&w=800&q=80' },
+                { id: 4, title: 'Caminhadas', description: 'Atividades ao ar livre promovendo a saÃºde e o contacto com a natureza.', photo: 'https://images.unsplash.com/photo-1551632432-c7288d7439a7?auto=format&fit=crop&w=800&q=80' },
+                { id: 5, title: 'Capoeira', description: 'Aulas de capoeira integrando cultura e desporto para todas as idades.', photo: 'https://images.unsplash.com/photo-1574676403204-61c0d8328224?auto=format&fit=crop&w=800&q=80' }
+            ];
+            localStorage.setItem('gcdArmilActivities', JSON.stringify(defaultActivities));
+        }
+
+        function loadPublicActivities() {
+            db.collection('activities').orderBy('order', 'asc').onSnapshot(snapshot => {
+                const activities = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                const container = document.getElementById('activities-container');
+                if (!container) return;
+
+                if (activities.length === 0) {
+                    container.innerHTML = '<p class="text-muted-foreground col-span-full text-center py-12">Brevemente teremos novidades.</p>';
+                    return;
                 }
-            }, 800);
+
+                container.innerHTML = activities.map(activity => `
+                    <div class="premium-card overflow-hidden group">
+                        <div class="relative h-64 overflow-hidden">
+                            <img src="${activity.photo}" alt="${activity.title}" 
+                                 class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                 onerror="this.src='https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=800&q=80'">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-end p-8">
+                                <h3 class="font-montserrat font-black text-3xl text-white uppercase tracking-tighter">${activity.title}</h3>
+                            </div>
+                        </div>
+                        <div class="p-8">
+                            <p class="font-open-sans text-muted-foreground text-lg leading-relaxed">${activity.description}</p>
+                        </div>
+                    </div>
+                `).join('');
+            });
+        }
+
+        // Failsafe: hide loading screen after 3 seconds even if load fails
+        setTimeout(hideLoadingScreen, 3000);
+
+        function hideLoadingScreen() {
+            const loadingScreen = document.getElementById('loading-screen');
+            if (loadingScreen && loadingScreen.style.display !== 'none') {
+                loadingScreen.classList.add('fade-out');
+                setTimeout(function () {
+                    loadingScreen.style.display = 'none';
+                }, 500);
+            }
         }
 
         // View switching
@@ -820,10 +1201,12 @@
 
         function handleLogin(event) {
             event.preventDefault();
+            const email = document.getElementById('admin-email').value;
             const password = document.getElementById('admin-password').value;
-            
-            if (password === ADMIN_PASSWORD) {
+
+            if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
                 localStorage.setItem('admin_auth', JSON.stringify({
+                    email: email,
                     timestamp: new Date().getTime()
                 }));
                 showAdminPanel();
@@ -841,110 +1224,108 @@
         function showAdminTab(tab) {
             document.querySelectorAll('.admin-tab').forEach(t => t.classList.add('hidden'));
             document.getElementById('admin-tab-' + tab).classList.remove('hidden');
-            
+
             document.querySelectorAll('[id^="tab-"]').forEach(btn => {
                 btn.classList.remove('border-primary', 'text-primary');
                 btn.classList.add('border-transparent', 'text-gray-600');
             });
-            
+
             const activeBtn = document.getElementById('tab-' + tab);
             activeBtn.classList.add('border-primary', 'text-primary');
             activeBtn.classList.remove('border-transparent', 'text-gray-600');
         }
 
         // Games management
-        function handleAddGame(event) {
+        async function handleAddGame(event) {
             event.preventDefault();
-            
+
             // Get file inputs
             const homeLogoFile = document.getElementById('game-home-logo-file').files[0];
             const awayLogoFile = document.getElementById('game-away-logo-file').files[0];
-            
+
             // Convert files to base64 if uploaded, otherwise use URL
             const homeLogo = homeLogoFile ? fileToBase64(homeLogoFile) : Promise.resolve(document.getElementById('game-home-logo').value);
             const awayLogo = awayLogoFile ? fileToBase64(awayLogoFile) : Promise.resolve(document.getElementById('game-away-logo').value);
-            
-            Promise.all([homeLogo, awayLogo]).then(([finalHomeLogo, finalAwayLogo]) => {
+
+            Promise.all([homeLogo, awayLogo]).then(async ([finalHomeLogo, finalAwayLogo]) => {
                 const game = {
-                    id: Date.now(),
                     date: document.getElementById('game-date').value,
                     team: document.getElementById('game-team').value,
                     homeTeam: document.getElementById('game-home-team').value,
                     awayTeam: document.getElementById('game-away-team').value,
                     location: document.getElementById('game-location').value,
                     homeLogo: finalHomeLogo,
-                    awayLogo: finalAwayLogo
+                    awayLogo: finalAwayLogo,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
                 };
-                
-                const games = getGames();
-                games.push(game);
-                localStorage.setItem('games', JSON.stringify(games));
-                
-                document.getElementById('add-game-form').reset();
-                document.getElementById('game-home-logo-preview').classList.add('hidden');
-                document.getElementById('game-away-logo-preview').classList.add('hidden');
-                loadGames();
-                loadPublicMatches(); // Update public view as well
-                alert('Jogo adicionado com sucesso!');
+
+                try {
+                    await db.collection('games').add(game);
+                    document.getElementById('add-game-form').reset();
+                    document.getElementById('game-home-logo-preview').classList.add('hidden');
+                    document.getElementById('game-away-logo-preview').classList.add('hidden');
+                    alert('Jogo adicionado com sucesso!');
+                } catch (error) {
+                    console.error("Error adding game: ", error);
+                    alert('Erro ao adicionar jogo.');
+                }
             });
         }
 
-        function getGames() {
-            return JSON.parse(localStorage.getItem('games') || '[]');
-        }
-
         function loadGames() {
-            const games = getGames();
-            const container = document.getElementById('games-list');
-            
-            if (!container) return;
+            db.collection('games').orderBy('date', 'asc').onSnapshot(snapshot => {
+                const games = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                const container = document.getElementById('games-list');
+                if (!container) return;
 
-            if (games.length === 0) {
-                container.innerHTML = '<p class="text-muted-foreground">Nenhum jogo agendado.</p>';
-                return;
-            }
-            
-            container.innerHTML = games.map(game => `
-                <div class="match-item">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <p class="font-bold">${new Date(game.date).toLocaleString('pt-PT')}</p>
-                            <p class="text-sm text-gray-600">${game.team}</p>
-                            <p class="mt-2">${game.homeTeam} vs ${game.awayTeam}</p>
-                            <p class="text-sm text-gray-600">${game.location}</p>
+                if (games.length === 0) {
+                    container.innerHTML = '<p class="text-muted-foreground">Nenhum jogo agendado.</p>';
+                    return;
+                }
+
+                container.innerHTML = games.map(game => `
+                    <div class="match-item">
+                        <div class="flex justify-between items-start">
+                            <div class="flex-1">
+                                <p class="font-bold">${new Date(game.date).toLocaleString('pt-PT')}</p>
+                                <p class="text-sm text-gray-600">${game.team}</p>
+                                <p class="mt-2">${game.homeTeam} vs ${game.awayTeam}</p>
+                                <p class="text-sm text-gray-600">${game.location}</p>
+                            </div>
+                            <button onclick="deleteGame('${game.id}')" class="btn btn-danger btn-sm">Eliminar</button>
                         </div>
-                        <button onclick="deleteGame(${game.id})" class="btn btn-danger btn-sm">Eliminar</button>
                     </div>
-                </div>
-            `).join('');
+                `).join('');
+
+                // Also update the public view
+                updatePublicMatches(games);
+            });
         }
 
-        function deleteGame(id) {
+        async function deleteGame(id) {
             if (confirm('Tem a certeza que deseja eliminar este jogo?')) {
-                const games = getGames().filter(g => g.id !== id);
-                localStorage.setItem('games', JSON.stringify(games));
-                loadGames();
-                loadPublicMatches(); // Update public view as well
+                try {
+                    await db.collection('games').doc(id).delete();
+                } catch (error) {
+                    console.error("Error deleting game: ", error);
+                }
             }
         }
 
         // Results management
         async function handleAddResult(event) {
             event.preventDefault();
-            
-            // Get file inputs
+
             const homeLogoFile = document.getElementById('result-home-logo-file').files[0];
             const awayLogoFile = document.getElementById('result-away-logo-file').files[0];
             const photoFile = document.getElementById('result-photo-file').files[0];
-            
-            // Convert files to base64 if uploaded, otherwise use URL
+
             const homeLogo = homeLogoFile ? fileToBase64(homeLogoFile) : Promise.resolve(document.getElementById('result-home-logo').value);
             const awayLogo = awayLogoFile ? fileToBase64(awayLogoFile) : Promise.resolve(document.getElementById('result-away-logo').value);
             const photo = photoFile ? fileToBase64(photoFile) : Promise.resolve(document.getElementById('result-photo').value);
-            
-            Promise.all([homeLogo, awayLogo, photo]).then(([finalHomeLogo, finalAwayLogo, finalPhoto]) => {
+
+            Promise.all([homeLogo, awayLogo, photo]).then(async ([finalHomeLogo, finalAwayLogo, finalPhoto]) => {
                 const result = {
-                    id: Date.now(),
                     date: document.getElementById('result-date').value,
                     team: document.getElementById('result-team').value,
                     homeTeam: document.getElementById('result-home-team').value,
@@ -954,213 +1335,152 @@
                     location: document.getElementById('result-location').value,
                     homeLogo: finalHomeLogo,
                     awayLogo: finalAwayLogo,
-                    photo: finalPhoto
+                    photo: finalPhoto,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
                 };
-                
-                const results = getResults();
-                results.push(result);
-                localStorage.setItem('results', JSON.stringify(results));
-                
-                document.getElementById('add-result-form').reset();
-                document.getElementById('result-home-logo-preview').classList.add('hidden');
-                document.getElementById('result-away-logo-preview').classList.add('hidden');
-                document.getElementById('result-photo-preview').classList.add('hidden');
-                loadResults();
-                loadPublicResults();
-                alert('Resultado adicionado com sucesso!');
+
+                try {
+                    await db.collection('results').add(result);
+                    document.getElementById('add-result-form').reset();
+                    document.getElementById('result-home-logo-preview').classList.add('hidden');
+                    document.getElementById('result-away-logo-preview').classList.add('hidden');
+                    document.getElementById('result-photo-preview').classList.add('hidden');
+                    alert('Resultado adicionado com sucesso!');
+                } catch (error) {
+                    console.error("Error adding result: ", error);
+                }
             });
         }
 
-        function getResults() {
-            return JSON.parse(localStorage.getItem('results') || '[]');
+        function loadResults() {
+            db.collection('results').orderBy('date', 'desc').onSnapshot(snapshot => {
+                const results = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                const container = document.getElementById('results-list');
+                if (!container) return;
+
+                if (results.length === 0) {
+                    container.innerHTML = '<p class="text-muted-foreground">Nenhum resultado registado.</p>';
+                    return;
+                }
+
+                container.innerHTML = results.map(result => `
+                    <div class="match-item">
+                        <div class="flex justify-between items-start">
+                            <div class="flex-1">
+                                <p class="font-bold">${new Date(result.date).toLocaleDateString('pt-PT')}</p>
+                                <p class="text-sm text-gray-600">${result.team}</p>
+                                <p class="mt-2 text-lg">${result.homeTeam} <span class="font-bold">${result.homeScore} - ${result.awayScore}</span> ${result.awayTeam}</p>
+                                <p class="text-sm text-gray-600">${result.location}</p>
+                                ${result.photo ? `<img src="${result.photo}" alt="Foto do jogo" class="mt-2">` : ''}
+                            </div>
+                            <button onclick="deleteResult('${result.id}')" class="btn btn-danger btn-sm">Eliminar</button>
+                        </div>
+                    </div>
+                `).join('');
+
+                updatePublicResults(results);
+            });
         }
 
-        function loadResults() {
-            const results = getResults();
-            const container = document.getElementById('results-list');
-            
+        async function deleteResult(id) {
+            if (confirm('Tem a certeza que deseja eliminar este resultado?')) {
+                try {
+                    await db.collection('results').doc(id).delete();
+                } catch (error) {
+                    console.error("Error deleting result: ", error);
+                }
+            }
+        }
+
+        function updatePublicMatches(games) {
+            const container = document.getElementById('upcoming-matches-list');
             if (!container) return;
 
-            if (results.length === 0) {
-                container.innerHTML = '<p class="text-muted-foreground">Nenhum resultado registado.</p>';
+            const now = new Date();
+            const upcomingGames = games
+                .filter(game => new Date(game.date) >= now)
+                .sort((a, b) => new Date(a.date) - new Date(b.date))
+                .slice(0, 6);
+
+            if (upcomingGames.length === 0) {
+                container.innerHTML = '<p class="text-muted-foreground col-span-full text-center py-12">Nenhum jogo agendado no momento.</p>';
                 return;
             }
-            
-            container.innerHTML = results.map(result => `
-                <div class="match-item">
-                    <div class="flex justify-between items-start">
-                        <div class="flex-1">
-                            <p class="font-bold">${new Date(result.date).toLocaleDateString('pt-PT')}</p>
-                            <p class="text-sm text-gray-600">${result.team}</p>
-                            <p class="mt-2 text-lg">${result.homeTeam} <span class="font-bold">${result.homeScore} - ${result.awayScore}</span> ${result.awayTeam}</p>
-                            <p class="text-sm text-gray-600">${result.location}</p>
-                            ${result.photo ? `<img src="${result.photo}" alt="Foto do jogo" class="mt-2">` : ''}
+
+            container.innerHTML = upcomingGames.map(game => `
+                <div class="premium-card p-8 animate-fade-in-up">
+                    <div class="flex flex-col items-center">
+                        <div class="flex items-center justify-between w-full mb-8">
+                            <div class="flex flex-col items-center flex-1">
+                                <img src="img/simboloarmil.png" alt="GCD Armil" class="w-20 h-20 object-contain mb-4">
+                                <span class="font-bold text-center text-sm uppercase tracking-tighter">${game.homeTeam}</span>
+                            </div>
+                            <div class="px-6">
+                                <span class="font-black text-3xl text-primary italic">VS</span>
+                            </div>
+                            <div class="flex flex-col items-center flex-1">
+                                <img src="${game.awayLogo || 'img/simboloarmil.png'}" alt="Adversário" class="w-20 h-20 object-contain mb-4" onerror="this.src='img/simboloarmil.png'">
+                                <span class="font-bold text-center text-sm uppercase tracking-tighter">${game.awayTeam}</span>
+                            </div>
                         </div>
-                        <button onclick="deleteResult(${result.id})" class="btn btn-danger btn-sm">Eliminar</button>
+                        <div class="text-center bg-muted w-full py-4 rounded-xl">
+                            <p class="font-black text-lg uppercase tracking-widest">${new Date(game.date).toLocaleDateString('pt-PT', { day: 'numeric', month: 'long' })}</p>
+                            <p class="text-primary font-bold text-xl">${new Date(game.date).toLocaleTimeString('pt-PT', { hour: '2-digit', minute: '2-digit' })}h</p>
+                            <p class="text-muted-foreground text-xs mt-2 uppercase font-bold tracking-widest">${game.location}</p>
+                            <p class="text-primary font-black mt-2 text-sm uppercase">${game.team}</p>
+                        </div>
                     </div>
                 </div>
             `).join('');
         }
 
-        function deleteResult(id) {
-            if (confirm('Tem a certeza que deseja eliminar este resultado?')) {
-                const results = getResults().filter(r => r.id !== id);
-                localStorage.setItem('results', JSON.stringify(results));
-                loadResults();
-                loadPublicResults();
-            }
-        }
-
-        function loadPublicMatches() {
-            const games = getGames();
-            const container = document.getElementById('upcoming-matches-list');
-            
+        function updatePublicResults(results) {
+            const container = document.getElementById('results-grid');
             if (!container) return;
-            
-            // Filter future games and sort by date
-            const now = new Date();
-            const upcomingGames = games
-                .filter(game => new Date(game.date) >= now)
-                .sort((a, b) => new Date(a.date) - new Date(b.date))
-                .slice(0, 6); // Show max 6 upcoming games
-            
-            if (upcomingGames.length === 0) {
-                container.innerHTML = '<p class="text-muted-foreground col-span-full text-center">Nenhum jogo agendado no momento.</p>';
+
+            if (results.length === 0) {
+                container.innerHTML = '<p class="text-muted-foreground col-span-full text-center py-12">Nenhum resultado registado.</p>';
                 return;
             }
-            
-            container.innerHTML = upcomingGames.map(game => {
-                const gameDate = new Date(game.date);
-                const dateStr = gameDate.toLocaleDateString('pt-PT', { 
-                    day: 'numeric', 
-                    month: 'long',
-                    year: 'numeric'
-                });
-                const timeStr = gameDate.toLocaleTimeString('pt-PT', { 
-                    hour: '2-digit', 
-                    minute: '2-digit' 
-                });
-                
+
+            container.innerHTML = results.slice(0, 4).map(result => {
+                const isWin = parseInt(result.homeScore) > parseInt(result.awayScore);
+                const isDraw = parseInt(result.homeScore) === parseInt(result.awayScore);
+                const statusColor = isWin ? 'bg-green-500' : (isDraw ? 'bg-yellow-500' : 'bg-red-500');
+                const statusText = isWin ? 'Vitória' : (isDraw ? 'Empate' : 'Derrota');
+
                 return `
-                    <div class="bg-card rounded-lg p-6 shadow-lg">
-                        <div class="text-center mb-4">
-                            <p class="text-sm text-primary font-semibold">${game.team}</p>
-                            <p class="text-xs text-muted-foreground mt-1">${dateStr} às ${timeStr}</p>
-                        </div>
-                        
-                        <div class="flex items-center justify-between mb-4">
-                            <div class="flex-1 text-center">
-                                ${game.homeLogo ? `<img src="${game.homeLogo}" alt="${game.homeTeam}" class="w-16 h-16 mx-auto mb-2 object-contain">` : ''}
-                                <p class="font-bold text-sm">${game.homeTeam}</p>
-                            </div>
-                            
-                            <div class="px-4">
-                                <p class="text-2xl font-bold text-muted-foreground">VS</p>
-                            </div>
-                            
-                            <div class="flex-1 text-center">
-                                ${game.awayLogo ? `<img src="${game.awayLogo}" alt="${game.awayTeam}" class="w-16 h-16 mx-auto mb-2 object-contain">` : ''}
-                                <p class="font-bold text-sm">${game.awayTeam}</p>
-                            </div>
-                        </div>
-                        
-                        <div class="text-center pt-4 border-t border-border">
-                            <p class="text-xs text-muted-foreground">📍 ${game.location}</p>
+                <div class="premium-card overflow-hidden group">
+                    <div class="relative h-48">
+                        <img src="${result.photo || 'img/fundo.png'}" alt="Foto do Jogo" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" onerror="this.src='img/fundo.png'">
+                        <div class="absolute top-4 left-4">
+                            <span class="${statusColor} text-white px-4 py-1 rounded-full text-xs font-black uppercase tracking-widest shadow-lg">${statusText}</span>
                         </div>
                     </div>
-                `;
-            }).join('');
+                    <div class="p-8">
+                        <div class="flex items-center justify-between mb-6">
+                            <div class="flex flex-col items-center">
+                                <img src="img/simboloarmil.png" class="w-12 h-12 object-contain mb-2">
+                                <span class="text-[10px] font-black uppercase max-w-[60px] text-center">${result.homeTeam || ''}</span>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <span class="font-black text-3xl">${result.homeScore}</span>
+                                <span class="text-gray-300">-</span>
+                                <span class="font-black text-3xl">${result.awayScore}</span>
+                            </div>
+                            <div class="flex flex-col items-center">
+                                <img src="${result.awayLogo || 'img/simboloarmil.png'}" class="w-12 h-12 object-contain mb-2" onerror="this.src='img/simboloarmil.png'">
+                                <span class="text-[10px] font-black uppercase max-w-[60px] text-center">${result.awayTeam || ''}</span>
+                            </div>
+                        </div>
+                        <div class="pt-4 border-t border-border flex justify-between items-center">
+                            <span class="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">${result.team}</span>
+                            <span class="text-[10px] font-bold text-primary uppercase tracking-widest">${new Date(result.date).toLocaleDateString('pt-PT')}</span>
+                        </div>
+                    </div>
+                </div>
+            `}).join('');
         }
-
-        function loadPublicResults() {
-            const results = getResults();
-            const container = document.getElementById('recent-results-list');
-            
-            if (!container) return;
-            
-            // Sort by date (most recent first) and show max 6
-            const recentResults = results
-                .sort((a, b) => new Date(b.date) - new Date(a.date))
-                .slice(0, 6);
-            
-            if (recentResults.length === 0) {
-                container.innerHTML = '<p class="text-muted-foreground col-span-full text-center">Nenhum resultado disponível.</p>';
-                return;
-            }
-            
-            container.innerHTML = recentResults.map(result => {
-                const resultDate = new Date(result.date);
-                const dateStr = resultDate.toLocaleDateString('pt-PT', { 
-                    day: 'numeric', 
-                    month: 'long',
-                    year: 'numeric'
-                });
-                
-                const homeScore = parseInt(result.homeScore);
-                const awayScore = parseInt(result.awayScore);
-                let resultClass = 'text-muted-foreground';
-                let resultText = 'Empate';
-                
-                // Determine if Armil won (assuming Armil is usually home team or check team name)
-                // A more robust check might involve checking against a predefined list of "our" teams
-                const ourTeams = ['Armil', 'GCD Armil']; // Add variations if needed
-                const isArmilHome = ourTeams.some(team => result.homeTeam.toLowerCase().includes(team.toLowerCase()));
-                const isArmilAway = ourTeams.some(team => result.awayTeam.toLowerCase().includes(team.toLowerCase()));
-
-                if (isArmilHome) {
-                    if (homeScore > awayScore) {
-                        resultClass = 'text-green-600';
-                        resultText = 'Vitória';
-                    } else if (homeScore < awayScore) {
-                        resultClass = 'text-red-600';
-                        resultText = 'Derrota';
-                    }
-                } else if (isArmilAway) {
-                    if (awayScore > homeScore) {
-                        resultClass = 'text-green-600';
-                        resultText = 'Vitória';
-                    } else if (awayScore < homeScore) {
-                        resultClass = 'text-red-600';
-                        resultText = 'Derrota';
-                    }
-                }
-                
-                return `
-                    <div class="bg-card rounded-lg p-6 shadow-lg">
-                        <div class="text-center mb-4">
-                            <p class="text-sm text-primary font-semibold">${result.team}</p>
-                            <p class="text-xs text-muted-foreground mt-1">${dateStr}</p>
-                            <p class="text-xs font-semibold ${resultClass} mt-1">${resultText}</p>
-                        </div>
-                        
-                        <div class="flex items-center justify-between mb-4">
-                            <div class="flex-1 text-center">
-                                ${result.homeLogo ? `<img src="${result.homeLogo}" alt="${result.homeTeam}" class="w-12 h-12 mx-auto mb-2 object-contain">` : ''}
-                                <p class="font-bold text-sm">${result.homeTeam}</p>
-                            </div>
-                            
-                            <div class="px-4">
-                                <p class="text-3xl font-black text-foreground">${result.homeScore} - ${result.awayScore}</p>
-                            </div>
-                            
-                            <div class="flex-1 text-center">
-                                ${result.awayLogo ? `<img src="${result.awayLogo}" alt="${result.awayTeam}" class="w-12 h-12 mx-auto mb-2 object-contain">` : ''}
-                                <p class="font-bold text-sm">${result.awayTeam}</p>
-                            </div>
-                        </div>
-                        
-                        ${result.photo ? `
-                            <div class="mt-4">
-                                <img src="${result.photo}" alt="Foto do jogo" class="w-full h-40 object-cover rounded-lg">
-                            </div>
-                        ` : ''}
-                        
-                        <div class="text-center pt-4 border-t border-border mt-4">
-                            <p class="text-xs text-muted-foreground">📍 ${result.location}</p>
-                        </div>
-                    </div>
-                `;
-            }).join('');
         }
 
         // Team players functions
@@ -1179,7 +1499,7 @@
                 'veteranos': 'Veteranos'
             };
 
-            teamTitle.textContent = `Equipa - ${teamNames[teamId]}`;
+            teamTitle.textContent = `Equipa - ${teamNames[teamId]} `;
             playersGrid.innerHTML = '';
 
             const players = teamPlayers[teamId] || [];
@@ -1266,7 +1586,7 @@
             const preview = document.getElementById(previewId);
             if (input.files && input.files[0]) {
                 const reader = new FileReader();
-                reader.onload = function(e) {
+                reader.onload = function (e) {
                     preview.src = e.target.result;
                     preview.classList.remove('hidden');
                 };
@@ -1275,4 +1595,5 @@
         }
     </script>
 </body>
+
 </html>

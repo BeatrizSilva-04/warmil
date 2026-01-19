@@ -1,4 +1,29 @@
 // Loading screen
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyDvGvNVo2ai1WGoOIGmmKGCHlZ5bIQ6nIc",
+    authDomain: "cocado-4b965.firebaseapp.com",
+    projectId: "cocado-4b965",
+    storageBucket: "cocado-4b965.firebasestorage.app",
+    messagingSenderId: "631311319676",
+    appId: "1:631311319676:web:e126bb88cda37d0feb3ff9",
+    measurementId: "G-GKWKW8LMHD"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+</script>
+
+
 window.addEventListener("load", () => {
   const criticalImages = document.querySelectorAll('img[src*="simboloarmil"]')
   let imagesLoaded = 0
@@ -140,24 +165,25 @@ const teamPlayers = {
     { name: "Jorge Lameiras", position: "Ala", number: 1, photo: "img/ginho.jpg" },
     { name: "Francisco Liz", position: "Ala", number: 11, photo: "img/liz.jpg" },
     { name: "Samuel Castro", position: "Ala", number: 9, photo: "img/samu.jpg" },
+    { name: "Diogo José", position: "Ala", number: 9, photo: "img/ribeiro.jpg" },
+    { name: "João Lemmos", position: "Ala", number: 9, photo: "img/ribeiro.jpg" },
     { name: "João Ribeiro", position: "Ala", number: 9, photo: "img/ribeiro.jpg" },
     { name: "Pedro", position: "Ala", number: 8, photo: "img/players/pedro-machado.jpg" },
   ],
   "seniores-futebol": [
-    { name: "Francisco Ferreira", position: "Guarda Redes", number: 1, photo: "img/chico.jpg" },
-    { name: "Diogo Alves", position: "Guarda Redes", number: 12, photo: "img/jdiogo.jpg" },
-    { name: "Bruno Salgado", position: "Guarda Redes", number: 12, photo: "img/rato.jpg" },
-    { name: "Moisés Quintino", position: "Extremo", number: 7, photo: "img/moises.jpg" },
-    { name: "Pedro Lemos", position: "Médio", number: 8, photo: "img/pedro_lemos.jpg" },
-    { name: "Nivaldo Cá", position: "Médio", number: 6, photo: "img/nivaldo.jpg" },
-    { name: "Luís Sousa", position: "Médio", number: 10, photo: "img/luis_sousa.jpg" },
-    { name: "Suleimane Baio", position: "Médio", number: 11, photo: "img/suleimane.jpg" },
-    { name: "Tiago Rodrigues", position: "Defesa", number: 4, photo: "img/tiago.jpg" },
-    { name: "José Castro", position: "Guarda-Redes", number: 13, photo: "img/zé.jpg" },
-    { name: "Eugénio Insumbo", position: "Extremo", number: 7, photo: "img/eugénio.jpg" },
+    { name: "Francisco Ferreira", position: "Guarda Redes", number: 99, photo: "img/jdiogo.jpg" },
+    { name: "Bruno Salgado", position: "Guarda Redes", number: 21, photo: "img/rato.jpg" },
+    { name: "Moisés Quintino", position: "Extremo", number: 66, photo: "img/moises.jpg" },
+    { name: "Pedro Lemos", position: "Médio", number: 18, photo: "img/pedro_lemos.jpg" },
+    { name: "Nivaldo Cá", position: "Médio", number: 11, photo: "img/nivaldo.jpg" },
+    { name: "Luís Sousa", position: "Médio", number: 8, photo: "img/luis_sousa.jpg" },
+    { name: "Suleimane Baio", position: "Médio", number: 4, photo: "img/suleimane.jpg" },
+    { name: "Tiago Rodrigues", position: "Defesa", number: 13, photo: "img/tiago.jpg" },
+    { name: "José Castro", position: "Guarda-Redes", number: 22, photo: "img/zé.jpg" },
+    { name: "Eugénio Insumbo", position: "Extremo", number: 3, photo: "img/eugénio.jpg" },
     { name: "Rubén Durães", position: "Extremo", number: 7, photo: "img/ruben.jpg" },
     { name: "Alexandre Gonçalves", position: "Extremo", number: 7, photo: "img/fininho.jpg" },
-    { name: "Micael Pinto", position: "Extremo", number: 7, photo: "img/mica.jpg" },
+    { name: "Micael Pinto", position: "Extremo", number: 27, photo: "img/mica.jpg" },
     { name: "Ricardo Sampaio", position: "Extremo", number: 7, photo: "img/cajuz.jpg" },
     { name: "Aprizio Cá", position: "Extremo", number: 7, photo: "img/aprizio.jpg" },
     { name: "Alex", position: "Médio", number: 9, photo: "img/players/ricardo-pires.jpg" },

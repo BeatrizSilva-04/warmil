@@ -1,77 +1,161 @@
 <!DOCTYPE html>
 <html lang="pt-BR" class="scroll-smooth">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Administrador - GCD Armil</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&family=Open+Sans:wght@400;600&display=swap"
+        rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="app/globals.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#d97706',
+                        background: '#ffffff',
+                        foreground: '#374151',
+                        card: '#fefce8',
+                        muted: '#fefce8',
+                        border: '#e5e7eb',
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        .font-montserrat { font-family: 'Montserrat', sans-serif; }
-        .font-open-sans { font-family: 'Open Sans', sans-serif; }
+        .glass {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .premium-card {
+            background: white;
+            border-radius: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            border: 1px solid #e5e7eb;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary-premium {
+            background: #d97706;
+            color: white;
+            box-shadow: 0 4px 14px 0 rgba(217, 119, 6, 0.39);
+            border-radius: 0.75rem;
+            padding: 0.75rem 1.5rem;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in-up {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+    </style>
+    <style>
+        .font-montserrat {
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .font-open-sans {
+            font-family: 'Open Sans', sans-serif;
+        }
     </style>
 </head>
-<body class="bg-background text-foreground">
-    <div class="min-h-screen flex items-center justify-center px-4" style="background-image: url('img/fundo.png'); background-size: cover; background-position: center;">
-        <div class="absolute inset-0 bg-black/70"></div>
-        
-        <div class="relative z-10 max-w-md w-full">
-            <div class="bg-card rounded-lg shadow-2xl p-8">
-                <div class="text-center mb-8">
-                    <img src="img/simboloarmil.png" alt="GCD Armil" class="w-24 h-24 mx-auto mb-4 object-contain">
-                    <h1 class="font-montserrat font-black text-3xl text-card-foreground mb-2">Área de Administrador</h1>
-                    <p class="font-open-sans text-muted-foreground">Insira a palavra-passe para aceder</p>
+
+<body class="bg-background text-foreground flex items-center justify-center min-h-screen">
+    <div class="absolute inset-0 bg-cover bg-center brightness-[0.3]" style="background-image: url('img/fundo.png');">
+    </div>
+
+    <div class="relative z-10 w-full max-w-md px-6">
+        <div class="glass p-10 rounded-[2rem] shadow-2xl border border-white/20 animate-fade-in-up">
+            <div class="text-center mb-10">
+                <div
+                    class="w-24 h-24 bg-primary rounded-full mx-auto mb-6 flex items-center justify-center p-2 shadow-lg shadow-primary/30">
+                    <img src="img/simboloarmil.png" alt="GCD Armil"
+                        class="w-full h-full object-contain filter brightness-0 invert">
+                </div>
+                <h1 class="font-montserrat font-black text-3xl uppercase tracking-tighter text-foreground mb-2">Área
+                    Administrativa</h1>
+                <p class="font-open-sans text-muted-foreground font-semibold">Acesso exclusivo para administradores</p>
+            </div>
+
+            <form id="login-form" class="space-y-6">
+                <div class="space-y-2">
+                    <label for="email"
+                        class="block font-open-sans font-bold text-xs uppercase tracking-widest text-muted-foreground">Email</label>
+                    <input type="email" id="email"
+                        class="w-full px-5 py-4 rounded-2xl border border-border bg-background focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all outline-none"
+                        placeholder="exemplo@gmail.com" required>
                 </div>
 
-                <form id="login-form" class="space-y-6">
-                    <div>
-                        <label for="password" class="block font-open-sans font-semibold text-card-foreground mb-2">Palavra-passe</label>
-                        <input 
-                            type="password" 
-                            id="password" 
-                            class="w-full px-4 py-3 rounded-lg border-2 border-border bg-input text-foreground focus:border-primary focus:outline-none transition-colors"
-                            placeholder="Digite a palavra-passe"
-                            required
-                        >
-                    </div>
-
-                    <div id="error-message" class="hidden bg-destructive/10 border border-destructive text-destructive px-4 py-3 rounded-lg text-sm">
-                        Palavra-passe incorreta. Tente novamente.
-                    </div>
-
-                    <button 
-                        type="submit" 
-                        class="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-open-sans font-semibold px-6 py-3 rounded-lg transition-colors"
-                    >
-                        Entrar
-                    </button>
-                </form>
-
-                <div class="mt-6 text-center">
-                    <a href="index.html" class="font-open-sans text-sm text-muted-foreground hover:text-primary transition-colors">
-                        ← Voltar ao site
-                    </a>
+                <div class="space-y-2">
+                    <label for="password"
+                        class="block font-open-sans font-bold text-xs uppercase tracking-widest text-muted-foreground">Palavra-passe</label>
+                    <input type="password" id="password"
+                        class="w-full px-5 py-4 rounded-2xl border border-border bg-background focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all outline-none"
+                        placeholder="••••••••" required>
                 </div>
+
+                <div id="error-message"
+                    class="hidden animate-shake bg-destructive/10 border border-destructive/20 text-destructive px-4 py-3 rounded-xl text-sm font-semibold text-center">
+                    Credenciais inválidas. Tente novamente.
+                </div>
+
+                <button type="submit" class="btn-primary-premium w-full text-lg py-4 shadow-xl">
+                    Entrar no Painel
+                </button>
+            </form>
+
+            <div class="mt-10 text-center">
+                <a href="index.html"
+                    class="text-sm font-bold text-muted-foreground hover:text-primary transition-colors flex items-center justify-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                    </svg>
+                    Voltar ao Site Público
+                </a>
             </div>
         </div>
     </div>
 
     <script>
-        document.getElementById('login-form').addEventListener('submit', function(e) {
+        document.getElementById('login-form').addEventListener('submit', function (e) {
             e.preventDefault();
-            
+
+            const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             const errorMessage = document.getElementById('error-message');
-            
-            // Default password: "armil2024" (you can change this)
+
+            // Restricted credentials
+            const correctEmail = 'gcdarmil78@gmail.com';
             const correctPassword = 'armil2024';
-            
-            if (password === correctPassword) {
+
+            if (email === correctEmail && password === correctPassword) {
                 // Store authentication in localStorage
                 localStorage.setItem('adminAuthenticated', 'true');
                 localStorage.setItem('adminLoginTime', Date.now().toString());
-                
+                localStorage.setItem('adminEmail', email);
+
                 // Redirect to admin panel
                 window.location.href = 'admin.html';
             } else {
@@ -82,4 +166,5 @@
         });
     </script>
 </body>
+
 </html>
