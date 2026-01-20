@@ -602,10 +602,20 @@
                         class="font-montserrat font-black text-5xl sm:text-6xl md:text-8xl mb-6 text-glow leading-tight tracking-tighter">
                         GCD ARMIL
                     </h1>
-                    <p
-                        class="font-montserrat font-bold text-xl sm:text-2xl md:text-3xl mb-12 text-primary tracking-widest uppercase">
-                        Fundado a 6 de Junho de 1978
-                    </p>
+                    <div class="inline-flex items-center justify-center mb-12">
+                        <div
+                            class="bg-white/95 backdrop-blur-sm px-6 py-3 rounded-full shadow-2xl border-2 border-white">
+                            <p
+                                class="font-montserrat font-black text-base sm:text-lg md:text-xl text-foreground tracking-wider uppercase flex items-center gap-3">
+                                <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
+                                    </path>
+                                </svg>
+                                <span>Fundado a 6 de Junho de 1978</span>
+                            </p>
+                        </div>
+                    </div>
                     <div class="flex flex-col sm:flex-row items-center justify-center gap-6">
                         <button class="btn-primary-premium w-full sm:w-auto text-lg px-12 group">
                             Junta-te a Nós
@@ -819,10 +829,49 @@
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <h2 class="section-title center-title block w-full text-center mb-16">Atividades do Clube</h2>
                 <div id="activities-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <!-- Atividades serÃ£o carregadas via JS -->
+                    <!-- Atividades serão carregadas via JS -->
                 </div>
             </div>
         </section>
+
+        <!-- Activity Detail Modal -->
+        <div id="activity-modal"
+            class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden items-center justify-center p-4">
+            <div class="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl">
+                <div class="sticky top-0 bg-white border-b border-border p-6 flex justify-between items-center z-10">
+                    <h3 id="modal-title" class="font-montserrat font-black text-3xl text-foreground"></h3>
+                    <button onclick="closeActivityModal()"
+                        class="text-muted-foreground hover:text-foreground transition-colors">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="p-6">
+                    <!-- Main Photo -->
+                    <div id="modal-main-photo" class="w-full h-96 rounded-xl overflow-hidden mb-6">
+                        <img id="modal-main-img" src="" alt="" class="w-full h-full object-cover">
+                    </div>
+
+                    <!-- Description -->
+                    <div class="mb-8">
+                        <h4 class="font-montserrat font-bold text-xl mb-4 text-foreground">Descrição</h4>
+                        <p id="modal-description" class="font-open-sans text-muted-foreground text-lg leading-relaxed">
+                        </p>
+                    </div>
+
+                    <!-- Photo Gallery -->
+                    <div id="modal-gallery" class="hidden">
+                        <h4 class="font-montserrat font-bold text-xl mb-4 text-foreground">Galeria de Fotos</h4>
+                        <div id="modal-gallery-grid" class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                            <!-- Gallery photos will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <section id="about" class="py-24 bg-background relative">
             <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -1332,6 +1381,9 @@
             db.collection('activities').orderBy('order', 'asc').onSnapshot(snapshot => {
                 const activities = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
+                // Store activities globally for modal access
+                window.publicActivities = activities;
+
                 // Update public view
                 const container = document.getElementById('activities-container');
                 if (container) {
@@ -1339,7 +1391,7 @@
                         container.innerHTML = '<p class="text-muted-foreground col-span-full text-center py-12">Brevemente teremos novidades.</p>';
                     } else {
                         container.innerHTML = activities.map(activity => `
-                            <div class="premium-card overflow-hidden group">
+                            <div class="premium-card overflow-hidden group cursor-pointer hover:ring-2 hover:ring-primary/50 transition-all" onclick="openActivityModal('${activity.id}')">
                                 <div class="relative h-64 overflow-hidden">
                                     <img src="${activity.photo}" alt="${activity.title}" 
                                          class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
@@ -1347,9 +1399,20 @@
                                     <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-end p-8">
                                         <h3 class="font-montserrat font-black text-3xl text-white uppercase tracking-tighter">${activity.title}</h3>
                                     </div>
+                                    <div class="absolute top-4 right-4 bg-white/20 backdrop-blur-md p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path>
+                                        </svg>
+                                    </div>
                                 </div>
                                 <div class="p-8">
-                                    <p class="font-open-sans text-muted-foreground text-lg leading-relaxed">${activity.description}</p>
+                                    <p class="font-open-sans text-muted-foreground text-lg leading-relaxed line-clamp-3">${activity.description}</p>
+                                    <div class="mt-4 flex items-center text-primary font-bold text-sm uppercase tracking-wider group-hover:translate-x-2 transition-transform">
+                                        Ver mais detalhes
+                                        <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                                        </svg>
+                                    </div>
                                 </div>
                             </div>
                         `).join('');
@@ -2043,11 +2106,77 @@
             @keyframes ripple-animation {
                 to {
                     transform: scale(4);
-                    opacity: 0;
+            opacity: 0;
                 }
             }
         `;
         document.head.appendChild(style);
+        function openActivityModal(id) {
+            const activity = window.publicActivities.find(a => a.id === id);
+            if (!activity) return;
+
+            const modal = document.getElementById('activity-modal');
+            const title = document.getElementById('modal-title');
+            const mainImg = document.getElementById('modal-main-img');
+            const desc = document.getElementById('modal-description');
+            const gallery = document.getElementById('modal-gallery');
+            const galleryGrid = document.getElementById('modal-gallery-grid');
+
+            // Populate content
+            title.textContent = activity.title;
+            mainImg.src = activity.photo;
+            mainImg.alt = activity.title;
+
+            // Handle description with fallback
+            desc.innerHTML = activity.description ? activity.description.replace(/\n/g, '<br>') : 'Sem descrição disponível.';
+
+            // Handle gallery
+            galleryGrid.innerHTML = '';
+
+            // Check if gallery exists (in case we add support for multiple photos in admin later)
+            // For now, if we don't have gallery array, we could just show the main photo again or nothing
+            // Let's assume for future: activity.gallery is an array of image URLs
+            if (activity.gallery && activity.gallery.length > 0) {
+                gallery.classList.remove('hidden');
+                activity.gallery.forEach(photoUrl => {
+                    const imgDiv = document.createElement('div');
+                    imgDiv.className = 'h-48 rounded-lg overflow-hidden cursor-pointer hover:opacity-90 transition-opacity';
+                    imgDiv.onclick = () => { mainImg.src = photoUrl; }; // Click gallery to swap main image
+                    imgDiv.innerHTML = `<img src="${photoUrl}" class="w-full h-full object-cover">`;
+                    galleryGrid.appendChild(imgDiv);
+                });
+            } else {
+                // If no extra gallery, we hide the section or we could show placeholders if requested
+                // For now, hiding gallery section if no extra photos
+                gallery.classList.add('hidden');
+            }
+
+            // Show modal with animation
+            modal.classList.remove('hidden');
+            modal.classList.add('flex', 'animate-fade-in');
+            document.body.style.overflow = 'hidden'; // Prevent scrolling
+        }
+
+        function closeActivityModal() {
+            const modal = document.getElementById('activity-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex', 'animate-fade-in');
+            document.body.style.overflow = ''; // Restore scrolling
+        }
+
+        // Close modal on outside click
+        document.getElementById('activity-modal').addEventListener('click', (e) => {
+            if (e.target.id === 'activity-modal') {
+                closeActivityModal();
+            }
+        });
+
+        // Close on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !document.getElementById('activity-modal').classList.contains('hidden')) {
+                closeActivityModal();
+            }
+        });
     </script>
 </body>
 
