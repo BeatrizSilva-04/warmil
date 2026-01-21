@@ -83,13 +83,35 @@ document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
   })
 })
 
-// Header scroll effect
+// Header, Scroll Progress and Back to Top scroll effect
 window.addEventListener("scroll", () => {
   const header = document.querySelector("header")
+  const scrollProgress = document.getElementById("scroll-progress")
+  const backToTop = document.getElementById("back-to-top")
+
+  // Header blur
   if (window.scrollY > 100) {
     header?.classList.add("backdrop-blur-sm")
   } else {
     header?.classList.remove("backdrop-blur-sm")
+  }
+
+  // Scroll Progress
+  const scrollHeight = document.documentElement.scrollHeight - window.innerHeight
+  const scrolled = (window.scrollY / scrollHeight) * 100
+  if (scrollProgress) {
+    scrollProgress.style.width = scrolled + "%"
+  }
+
+  // Back to Top Visibility
+  if (backToTop) {
+    if (window.scrollY > 500) {
+      backToTop.classList.remove("opacity-0", "translate-y-10", "pointer-events-none")
+      backToTop.classList.add("opacity-100", "translate-y-0")
+    } else {
+      backToTop.classList.add("opacity-0", "translate-y-10", "pointer-events-none")
+      backToTop.classList.remove("opacity-100", "translate-y-0")
+    }
   }
 })
 
@@ -242,3 +264,168 @@ function toggleTeamPlayers(teamId) {
 function hideTeamPlayers() {
   document.getElementById("team-players")?.classList.add("hidden")
 }
+
+// Search Functionality
+function toggleSearch() {
+  const overlay = document.getElementById('search-overlay');
+  const input = document.getElementById('search-input');
+
+  if (overlay.classList.contains('hidden')) {
+    overlay.classList.remove('hidden');
+    // small delay to allow display:flex to apply before opacity transition
+    setTimeout(() => {
+      overlay.classList.remove('opacity-0');
+      overlay.classList.add('flex');
+      input.focus();
+    }, 10);
+    document.body.style.overflow = 'hidden';
+  } else {
+    overlay.classList.add('opacity-0');
+    setTimeout(() => {
+      overlay.classList.add('hidden');
+      overlay.classList.remove('flex');
+    }, 300);
+    document.body.style.overflow = '';
+  }
+}
+
+function handleSearch(e) {
+  const query = e.target.value.toLowerCase();
+  const resultsContainer = document.getElementById('search-results');
+  resultsContainer.innerHTML = '';
+
+  if (query.length < 2) {
+    // Show Quick Links / suggestions
+    resultsContainer.innerHTML = `
+        <div class="text-center py-8">
+            <h5 class="text-sm font-bold text-muted-foreground uppercase tracking-widest mb-4">Sugestões de Pesquisa</h5>
+            <div class="flex flex-wrap justify-center gap-3">
+                <button onclick="document.getElementById('search-input').value='Séniores'; handleSearch({target: {value:'Séniores'}})" class="px-4 py-2 bg-gray-100 rounded-full hover:bg-primary/10 hover:text-primary transition-colors text-sm font-semibold">Séniores</button>
+                <button onclick="document.getElementById('search-input').value='Traquinas'; handleSearch({target: {value:'Traquinas'}})" class="px-4 py-2 bg-gray-100 rounded-full hover:bg-primary/10 hover:text-primary transition-colors text-sm font-semibold">Traquinas</button>
+                <button onclick="document.getElementById('search-input').value='Atividades'; handleSearch({target: {value:'Atividades'}})" class="px-4 py-2 bg-gray-100 rounded-full hover:bg-primary/10 hover:text-primary transition-colors text-sm font-semibold">Atividades</button>
+                <button onclick="document.getElementById('search-input').value='Próximos Jogos'; handleSearch({target: {value:'Jogos'}})" class="px-4 py-2 bg-gray-100 rounded-full hover:bg-primary/10 hover:text-primary transition-colors text-sm font-semibold">Próximos Jogos</button>
+            </div>
+        </div>
+      `;
+    return;
+  }
+
+  const results = [];
+
+  // Search in players
+  const teamNames = {
+    traquinas: "Traquinas",
+    benjamins: "Benjamins",
+    infantis: "Infantis",
+    juvenis: "Juvenis",
+    "seniores-futsal": "Séniores Futsal",
+    "seniores-futebol": "Séniores Futebol",
+    veteranos: "Veteranos",
+  }
+
+  Object.keys(teamPlayers).forEach(teamKey => {
+    const players = teamPlayers[teamKey];
+    if (players) {
+      players.forEach(player => {
+        const pName = player.name || (player.nameList ? player.nameList.join(', ') : 'Desconhecido');
+        if (pName.toLowerCase().includes(query)) {
+          results.push({
+            type: 'player',
+            title: pName,
+            subtitle: `${player.position || player.role || ''} - ${teamNames[teamKey]}`,
+            image: player.photo,
+            action: `toggleTeamPlayers('${teamKey}'); toggleSearch();`
+          });
+        }
+      });
+    }
+  });
+
+  // Search in sections
+  const sections = [
+    { id: 'home', title: 'Início' },
+    { id: 'teams', title: 'Equipas' },
+    { id: 'activities', title: 'Atividades' },
+    { id: 'about', title: 'Sobre Nós' },
+    { id: 'matches', title: 'Jogos e Resultados' }
+  ];
+
+  sections.forEach(sec => {
+    if (sec.title.toLowerCase().includes(query)) {
+      results.push({
+        type: 'section',
+        title: sec.title,
+        subtitle: 'Secção',
+        image: null,
+        action: `window.location.href='#${sec.id}'; toggleSearch();`
+      });
+    }
+  });
+
+  // Render results
+  if (results.length === 0) {
+    resultsContainer.innerHTML = '<p class="text-center text-muted-foreground font-open-sans">Sem resultados encontrados.</p>';
+    return;
+  }
+
+  results.forEach(res => {
+    const el = document.createElement('div');
+    el.className = 'flex items-center p-4 bg-gray-50 rounded-xl hover:bg-white hover:shadow-md cursor-pointer transition-all border border-gray-100 group';
+    el.onclick = () => { eval(res.action); };
+
+    let imgHtml = '';
+    if (res.image) {
+      imgHtml = `<img src="${res.image}" class="w-12 h-12 rounded-full object-cover mr-4 shadow-sm border border-gray-200">`;
+    } else {
+      imgHtml = `<div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mr-4 text-primary font-bold shadow-sm">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                      </div>`;
+    }
+
+    el.innerHTML = `
+        ${imgHtml}
+        <div>
+            <h4 class="font-bold text-lg text-foreground group-hover:text-primary transition-colors">${res.title}</h4>
+            <p class="text-sm text-muted-foreground">${res.subtitle}</p>
+        </div>
+      `;
+    resultsContainer.appendChild(el);
+  });
+}
+
+// Close search on ESC
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    const overlay = document.getElementById('search-overlay');
+    if (!overlay.classList.contains('hidden')) {
+      toggleSearch();
+    }
+  }
+});
+
+// Spotlight Effect
+document.addEventListener('mousemove', e => {
+  document.querySelectorAll('.premium-card').forEach(card => {
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    card.style.setProperty('--mouse-x', `${x}px`);
+    card.style.setProperty('--mouse-y', `${y}px`);
+  });
+});
+
+// Reveal on Scroll Observer
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('active');
+    }
+  });
+}, { threshold: 0.1 });
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.premium-card, .section-title, .match-item').forEach(el => {
+    el.classList.add('reveal-on-scroll');
+    revealObserver.observe(el);
+  });
+});

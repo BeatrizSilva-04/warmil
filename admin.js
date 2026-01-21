@@ -55,12 +55,16 @@ async function handleAddGame(e) {
   e.preventDefault()
 
   const game = {
-    datetime: document.getElementById("game-datetime").value,
+    date: document.getElementById("game-datetime").value,
     team: document.getElementById("game-team").value,
     opponent: document.getElementById("game-opponent").value,
     opponentLogo: document.getElementById("game-opponent-logo").value || "img/sporting.png",
     location: document.getElementById("game-location").value,
     homeAway: document.getElementById("game-home-away").value,
+    homeTeam: document.getElementById("game-home-away").value === "home" ? "GCD Armil" : document.getElementById("game-opponent").value,
+    awayTeam: document.getElementById("game-home-away").value === "home" ? document.getElementById("game-opponent").value : "GCD Armil",
+    homeLogo: document.getElementById("game-home-away").value === "home" ? "img/simboloarmil.png" : (document.getElementById("game-opponent-logo").value || "img/sporting.png"),
+    awayLogo: document.getElementById("game-home-away").value === "home" ? (document.getElementById("game-opponent-logo").value || "img/sporting.png") : "img/simboloarmil.png",
     createdAt: firebase.firestore.FieldValue.serverTimestamp()
   }
 
@@ -75,7 +79,7 @@ async function handleAddGame(e) {
 }
 
 function loadGames() {
-  db.collection('games').orderBy('datetime', 'asc').onSnapshot(snapshot => {
+  db.collection('games').orderBy('date', 'asc').onSnapshot(snapshot => {
     const games = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))
     const gamesList = document.getElementById("games-list")
     if (!gamesList) return
@@ -88,7 +92,7 @@ function loadGames() {
 
     gamesList.innerHTML = games
       .map((game) => {
-        const date = new Date(game.datetime)
+        const date = new Date(game.date)
         const formattedDate = date.toLocaleDateString("pt-PT", { day: "numeric", month: "long", year: "numeric" })
         const formattedTime = date.toLocaleTimeString("pt-PT", { hour: "2-digit", minute: "2-digit" })
 
@@ -211,7 +215,7 @@ function updateResultGameSelect(games) {
     '<option value="">Selecione um jogo</option>' +
     games
       .map((game) => {
-        const date = new Date(game.datetime)
+        const date = new Date(game.date)
         const formattedDate = date.toLocaleDateString("pt-PT", { day: "numeric", month: "short" })
         return `<option value="${game.id}">${game.team} vs ${game.opponent} - ${formattedDate}</option>`
       })
