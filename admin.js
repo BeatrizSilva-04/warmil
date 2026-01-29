@@ -226,19 +226,37 @@ function updateResultGameSelect(games) {
 async function handleAddActivity(e) {
   e.preventDefault()
 
-  const activity = {
-    title: document.getElementById("activity-title").value,
-    description: document.getElementById("activity-desc").value,
-    photo: document.getElementById("activity-photo").value,
-    order: Date.now()
+  const photoFile = document.getElementById('activity-photo-file').files[0];
+  const photoUrl = document.getElementById('activity-photo').value;
+  const galleryFiles = document.getElementById('activity-gallery-files').files;
+
+  if (!photoFile && !photoUrl) {
+    alert('Por favor, adicione uma foto principal.');
+    return;
   }
 
+  const photoPromise = photoFile ? compressImage(photoFile) : Promise.resolve(photoUrl);
+  const galleryPromises = Array.from(galleryFiles).map(file => compressImage(file));
+
   try {
+    const [finalPhoto, finalGallery] = await Promise.all([photoPromise, Promise.all(galleryPromises)]);
+
+    const activity = {
+      title: document.getElementById("activity-title").value,
+      description: document.getElementById("activity-desc").value,
+      photo: finalPhoto,
+      gallery: finalGallery,
+      order: Date.now()
+    }
+
     await db.collection('activities').add(activity)
     e.target.reset()
+    document.getElementById('activity-photo-preview').classList.add('hidden');
+    document.getElementById('activity-gallery-preview').innerHTML = '';
     alert("Atividade adicionada com sucesso!")
   } catch (error) {
     console.error("Error adding activity:", error)
+    alert("Erro ao adicionar atividade.")
   }
 }
 
@@ -285,3 +303,73 @@ async function deleteActivity(id) {
 window.deleteGame = deleteGame
 window.deleteResult = deleteResult
 window.deleteActivity = deleteActivity
+window.previewImage = previewImage
+window.previewMultipleImages = previewMultipleImages
+
+function compressImage(file, maxWidth = 1200, quality = 0.7) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = event => {
+      const img = new Image();
+      img.src = event.target.result;
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        let width = img.width;
+        let height = img.height;
+
+        if (width > height) {
+          if (width > maxWidth) {
+            height *= maxWidth / width;
+            width = maxWidth;
+          }
+        } else {
+          if (height > maxWidth) {
+            width *= maxWidth / height;
+            height = maxWidth;
+          }
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+
+        // Convert to JPEG with compression
+        const dataUrl = canvas.toDataURL('image/jpeg', quality);
+        resolve(dataUrl);
+      };
+      img.onerror = reject;
+    };
+    reader.onerror = reject;
+  });
+}
+
+function previewImage(input, previewId) {
+  const preview = document.getElementById(previewId);
+  if (input.files && input.files[0]) {
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      preview.src = e.target.result;
+      preview.classList.remove('hidden');
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+
+function previewMultipleImages(input, previewContainerId) {
+  const container = document.getElementById(previewContainerId);
+  container.innerHTML = '';
+  if (input.files) {
+    Array.from(input.files).forEach(file => {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const img = document.createElement('img');
+        img.src = e.target.result;
+        img.className = 'w-full h-16 object-cover rounded-lg border border-gray-200';
+        container.appendChild(img);
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+}

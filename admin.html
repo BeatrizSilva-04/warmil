@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel de Administração - GCD Armil</title>
+    <link rel="icon" type="image/png" href="img/simboloarmil.png">
     <link
         href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&family=Open+Sans:wght@400;600&display=swap"
         rel="stylesheet">
@@ -316,10 +317,27 @@
                             <div class="space-y-2">
                                 <label
                                     class="block font-open-sans font-bold text-sm uppercase tracking-widest text-muted-foreground">Foto
-                                    (URL)</label>
+                                    Principal</label>
+                                <input type="file" id="activity-photo-file"
+                                    class="w-full px-5 py-3 rounded-xl border border-border bg-background outline-none transition-all"
+                                    accept="image/*" onchange="previewImage(this, 'activity-photo-preview')">
                                 <input type="url" id="activity-photo"
                                     class="w-full px-5 py-3 rounded-xl border border-border bg-background focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
-                                    placeholder="https://exemplo.com/foto.jpg" required>
+                                    placeholder="Ou cole URL da imagem principal">
+                                <img id="activity-photo-preview"
+                                    class="mt-2 max-w-full max-h-40 object-contain hidden border rounded-lg">
+                            </div>
+
+                            <div class="space-y-2">
+                                <label
+                                    class="block font-open-sans font-bold text-sm uppercase tracking-widest text-muted-foreground">Galeria
+                                    de Fotos (Opcional - Múltiplas)</label>
+                                <input type="file" id="activity-gallery-files"
+                                    class="w-full px-5 py-3 rounded-xl border border-border bg-background outline-none transition-all"
+                                    accept="image/*" multiple
+                                    onchange="previewMultipleImages(this, 'activity-gallery-preview')">
+                                <div id="activity-gallery-preview" class="grid grid-cols-4 md:grid-cols-6 gap-2 mt-2">
+                                </div>
                             </div>
 
                             <button type="submit" class="btn-primary-premium w-full text-lg mt-4">
