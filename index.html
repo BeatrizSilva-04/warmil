@@ -654,11 +654,11 @@
         </section>
 
         <!-- Moved matches and results section to hero area for prominence -->
-        <section id="matches" class="py-24 bg-background relative overflow-hidden">
+        <section id="matches" class="py-16 bg-background relative overflow-hidden">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                <h2 class="section-title center-title block w-full text-center mb-16">Jogos e Resultados</h2>
+                <h2 class="section-title center-title block w-full text-center mb-12">Jogos e Resultados</h2>
 
-                <div class="grid lg:grid-cols-2 gap-16">
+                <div class="grid lg:grid-cols-2 gap-8">
                     <div class="space-y-8">
                         <h3
                             class="font-montserrat font-black text-2xl uppercase tracking-widest text-primary flex items-center">
@@ -919,7 +919,7 @@
             <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex flex-col lg:flex-row items-center gap-16">
                     <div class="lg:w-1/2">
-                        <h2 class="section-title mb-8">Nossa História</h2>
+                        <h2 class="section-title mb-8">A Nossa História</h2>
                         <div class="space-y-6 font-open-sans text-muted-foreground text-lg leading-relaxed">
                             <p>
                                 O <span class="text-primary font-bold">Grupo Cultural e Desportivo de Armil</span> foi
@@ -1119,6 +1119,10 @@
                         <button onclick="showAdminTab('activities')" id="tab-activities"
                             class="px-4 py-2 font-semibold border-b-2 border-transparent text-gray-600 hover:text-primary">
                             Gerir Atividades
+                        </button>
+                        <button onclick="showAdminTab('players')" id="tab-players"
+                            class="px-4 py-2 font-semibold border-b-2 border-transparent text-gray-600 hover:text-primary">
+                            Gerir Jogadores
                         </button>
                     </div>
                 </div>
@@ -1330,33 +1334,124 @@
                         <div id="admin-activities-list-inner" class="space-y-4"></div>
                     </div>
                 </div>
+
+                <div id="admin-tab-players" class="admin-tab hidden">
+                    <div class="grid lg:grid-cols-2 gap-12">
+                        <!-- Add Player Form -->
+                        <div class="admin-card">
+                            <h3 class="font-montserrat font-bold text-xl mb-6">Adicionar Jogador</h3>
+                            <form id="add-player-form" onsubmit="handleAddPlayer(event)" class="space-y-4">
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div class="form-group">
+                                        <label
+                                            class="form-label text-[10px] uppercase font-bold tracking-widest text-gray-400">Escalão</label>
+                                        <select id="player-team" class="form-select" required>
+                                            <option value="">Selecione...</option>
+                                            <option value="traquinas">Traquinas</option>
+                                            <option value="benjamins">Benjamins</option>
+                                            <option value="infantis">Infantis</option>
+                                            <option value="juvenis">Juvenis</option>
+                                            <option value="seniores-futsal">Séniores Futsal</option>
+                                            <option value="seniores-futebol">Séniores Futebol</option>
+                                            <option value="veteranos">Veteranos</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label
+                                            class="form-label text-[10px] uppercase font-bold tracking-widest text-gray-400">Número</label>
+                                        <input type="number" id="player-number" class="form-input" min="1" max="99">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label
+                                        class="form-label text-[10px] uppercase font-bold tracking-widest text-gray-400">Nome
+                                        Completo</label>
+                                    <input type="text" id="player-name" class="form-input" required
+                                        placeholder="Ex: João Silva">
+                                </div>
+                                <div class="form-group">
+                                    <label
+                                        class="form-label text-[10px] uppercase font-bold tracking-widest text-gray-400">Posição
+                                        / Cargo</label>
+                                    <input type="text" id="player-position" class="form-input" required
+                                        placeholder="Ex: Guarda-Redes ou Treinador">
+                                </div>
+                                <div class="form-group">
+                                    <label
+                                        class="form-label text-[10px] uppercase font-bold tracking-widest text-gray-400">Foto
+                                        do Jogador</label>
+                                    <input type="file" id="player-photo-file" class="form-input" accept="image/*"
+                                        onchange="previewImage(this, 'player-photo-preview')">
+                                    <img id="player-photo-preview"
+                                        class="mt-2 w-24 h-24 rounded-full object-cover hidden border-2 border-primary/20">
+                                </div>
+                                <button type="submit"
+                                    class="w-full bg-primary text-white font-bold py-3 rounded-xl hover:shadow-lg transition-all">Guardar
+                                    Jogador</button>
+                            </form>
+                        </div>
+
+                        <!-- Players List -->
+                        <div class="admin-card">
+                            <h3 class="font-montserrat font-bold text-xl mb-6">Jogadores Registados</h3>
+                            <div class="mb-4">
+                                <select id="filter-players-team" onchange="loadAdminPlayers()" class="form-select">
+                                    <option value="all">Todos os Escalões</option>
+                                    <option value="traquinas">Traquinas</option>
+                                    <option value="benjamins">Benjamins</option>
+                                    <option value="infantis">Infantis</option>
+                                    <option value="juvenis">Juvenis</option>
+                                    <option value="seniores-futsal">Séniores Futsal</option>
+                                    <option value="seniores-futebol">Séniores Futebol</option>
+                                    <option value="veteranos">Veteranos</option>
+                                </select>
+                            </div>
+                            <div id="admin-players-list" class="space-y-3 max-h-[600px] overflow-y-auto pr-2">
+                                <!-- Players list -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+    </div>
+    </div>
+    </div>
     </div>
 
     <script>
         // Team players data
         const teamPlayers = {
             'traquinas': [
-                { name: 'Santiago', position: 'Avançado', number: 9, photo: 'img/players/joao-silva.jpg' },
-                { name: 'Salvador', position: 'Médio', number: 10, photo: 'img/players/pedro-santos.jpg' },
-                { name: 'Matias', position: 'Defesa', number: 4, photo: 'img/players/miguel-costa.jpg' },
-                { name: 'Gonçalo Alves', position: 'Guarda-Redes', number: 1, photo: 'img/players/tiago-oliveira.jpg' },
-                { name: 'Martim Ribeiro', position: 'Extremo', number: 7, photo: 'img/players/andre-ferreira.jpg' },
-                { name: 'Pedro', position: 'Extremo', number: 7, photo: 'img/players/andre-ferreira.jpg' },
-                { name: 'Valter', position: 'Extremo', number: 7, photo: 'img/players/andre-ferreira.jpg' },
-                { name: 'Tomás Páris', position: 'Extremo', number: 7, photo: 'img/players/andre-ferreira.jpg' },
-                { name: 'Jordan', position: 'Extremo', number: 7, photo: 'img/players/andre-ferreira.jpg' },
-                { name: 'Tomás Páris', position: 'Extremo', number: 7, photo: 'img/players/andre-ferreira.jpg' },
-                { name: 'Bruno Almeida', position: 'Defesa', number: 3, photo: 'img/players/bruno-almeida.jpg' }
+                { name: "Salvador Nunes", position: "Avançado", number: 9, photo: "img/players/joao-silva.jpg" },
+                { name: "Santiago Nunes", position: "Médio", number: 10, photo: "img/players/pedro-santos.jpg" },
+                { name: "Matias Silva", position: "Defesa", number: 4, photo: "img/players/miguel-costa.jpg" },
+                { name: "Tomás Páris", position: "Guarda-Redes", number: 1, photo: "img/players/tiago-oliveira.jpg" },
+                { name: "António Sampaio", position: "Extremo", number: 7, photo: "img/players/antoniot.png" },
+                { name: "Martim Ribeiro", position: "Extremo", number: 7, photo: "img/players/martim" },
+                { name: "Pedro Siebre", position: "Extremo", number: 7, photo: "img/players/andre-ferreira.jpg" },
+                { name: "Jordan Afonso", position: "Extremo", number: 7, photo: "img/players/andre-ferreira.jpg" },
+                { name: "Pedro Fernandes", position: "Extremo", number: 7, photo: "img/players/andre-ferreira.jpg" },
+                { name: "Valter Barros", position: "Extremo", number: 7, photo: "img/players/andre-ferreira.jpg" },
+                { name: "Gonçalo Alves", position: "Defesa", number: 3, photo: "img/players/bruno-almeida.jpg" },
+                {
+                    name: "Equipa Técnica",
+                    role: "Equipa Técnica",
+                    nameList: ["Simão Gonçalves", "Filipe Cunha"],
+                    photo: "img/eq.tecnicaa.png",
+                },
             ],
             'infantis': [
-                { name: 'Alexandre', position: 'Avançado', number: 10, photo: 'img/players/francisco-dias.jpg' },
-                { name: 'Gonçalo Ribeiro', position: 'Médio', number: 8, photo: 'img/players/goncalo-ribeiro.jpg' },
-                { name: 'Tomás Carvalho', position: 'Defesa', number: 4, photo: 'img/players/tomas-carvalho.jpg' },
-                { name: 'Afonso Pinto', position: 'Guarda-Redes', number: 1, photo: 'img/players/afonso-pinto.jpg' },
-                { name: 'Bernardo Lima', position: 'Extremo', number: 11, photo: 'img/players/bernardo-lima.jpg' },
-                { name: 'Rodrigo Neves', position: 'Defesa', number: 3, photo: 'img/players/rodrigo-neves.jpg' },
+                { name: 'Alexandre Pinto', position: 'Avançado', number: 10, photo: 'img/players/francisco-dias.jpg' },
+                { name: 'Gonçalo Durães', position: 'Médio', number: 8, photo: 'img/players/goncalo-ribeiro.jpg' },
+                { name: 'Matilde Soares', position: 'Defesa', number: 4, photo: 'img/players/tomas-carvalho.jpg' },
+                { name: 'Martim Magalhães', position: 'Guarda-Redes', number: 1, photo: 'img/players/afonso-pinto.jpg' },
+                { name: 'Martim Silva', position: 'Extremo', number: 11, photo: 'img/players/bernardo-lima.jpg' },
+                { name: 'Ricardo Cunha', position: 'Extremo', number: 11, photo: 'img/players/bernardo-lima.jpg' },
+                { name: 'Iara Pinto', position: 'Extremo', number: 11, photo: 'img/players/bernardo-lima.jpg' },
+                { name: 'Gabriel', position: 'Extremo', number: 11, photo: 'img/players/bernardo-lima.jpg' },
+                { name: 'Pedro', position: 'Extremo', number: 11, photo: 'img/players/bernardo-lima.jpg' },
+                { name: 'Helena Dias', position: 'Defesa', number: 3, photo: 'img/players/rodrigo-neves.jpg' },
                 { name: 'Equipa Técnica', role: 'Equipa Técnica', nameList: ['Paulo Gonçalves', 'Paulo Cardoso', 'Joel Pião', 'Duarte Ferreira'], photo: 'img/eq.tecnicaa.png' }
             ],
             'juvenis': [
@@ -1602,6 +1697,7 @@
             showView('admin-panel-view');
             loadGames();
             loadResults();
+            loadAdminPlayers();
         }
 
         // Authentication
@@ -1813,6 +1909,84 @@
             }
         }
 
+        // Players management
+        async function handleAddPlayer(event) {
+            event.preventDefault();
+            const photoFile = document.getElementById('player-photo-file').files[0];
+
+            let photoUrl = "img/players/default.jpg";
+            if (photoFile) {
+                photoUrl = await compressImage(photoFile, 300);
+            }
+
+            const player = {
+                team: document.getElementById('player-team').value,
+                name: document.getElementById('player-name').value,
+                position: document.getElementById('player-position').value,
+                number: document.getElementById('player-number').value || null,
+                photo: photoUrl,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            };
+
+            try {
+                await db.collection('players').add(player);
+                document.getElementById('add-player-form').reset();
+                document.getElementById('player-photo-preview').classList.add('hidden');
+                alert('Jogador adicionado com sucesso!');
+            } catch (error) {
+                console.error("Error adding player: ", error);
+                alert('Erro ao adicionar jogador.');
+            }
+        }
+
+        function loadAdminPlayers() {
+            const filterTeam = document.getElementById('filter-players-team').value;
+            let query = db.collection('players').orderBy('name', 'asc');
+
+            if (filterTeam !== 'all') {
+                query = query.where('team', '==', filterTeam);
+            }
+
+            query.onSnapshot(snapshot => {
+                const players = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                const container = document.getElementById('admin-players-list');
+                if (!container) return;
+
+                if (players.length === 0) {
+                    container.innerHTML = '<p class="text-muted-foreground">Nenhum jogador encontrado.</p>';
+                    return;
+                }
+
+                container.innerHTML = players.map(p => `
+                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-xl border border-gray-100">
+                        <div class="flex items-center gap-4">
+                            <img src="${p.photo}" class="w-12 h-12 rounded-full object-cover">
+                            <div>
+                                <p class="font-black text-sm uppercase">${p.name}</p>
+                            </div>
+                        </div>
+                        <button onclick="deletePlayer('${p.id}')" class="text-red-500 hover:bg-red-50 p-2 rounded-lg transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                            </svg>
+                        </button>
+                    </div>
+                `).join('');
+            });
+        }
+
+        async function deletePlayer(id) {
+            if (confirm('Eliminar este jogador?')) {
+                try {
+                    await db.collection('players').doc(id).delete();
+                } catch (error) {
+                    console.error("Error deleting player: ", error);
+                }
+            }
+        }
+
+        window.deletePlayer = deletePlayer;
+
         function updatePublicMatches(games) {
             const container = document.getElementById('upcoming-matches-list');
             if (!container) return;
@@ -1829,48 +2003,61 @@
                 return;
             }
 
-            container.innerHTML = upcomingGames.map(game => `
-                <div class="match-card-premium group">
-                    <div class="flex flex-col gap-6">
-                        <div class="flex items-center justify-between">
-                            <span class="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest">${game.team}</span>
-                            <span class="text-primary font-black text-[10px] uppercase tracking-widest">${game.location}</span>
-                        </div>
-                        
-                        <div class="flex items-center justify-center gap-8">
-                            <div class="flex flex-col items-center flex-1">
-                                <div class="team-logo-container">
-                                    <img src="img/simboloarmil.png" alt="GCD Armil" class="w-full h-full object-contain filter brightness-0">
-                                </div>
-                                <span class="font-bold text-center text-xs uppercase tracking-tighter">${game.homeTeam}</span>
-                            </div>
-                            
-                            <div class="flex flex-col items-center">
-                                <div class="text-2xl font-black italic text-gray-200">VS</div>
-                            </div>
-                            
-                            <div class="flex flex-col items-center flex-1">
-                                <div class="team-logo-container">
-                                    <img src="${game.awayLogo || 'img/simboloarmil.png'}" alt="Adversário" class="w-full h-full object-contain" onerror="this.src='img/simboloarmil.png'">
-                                </div>
-                                <span class="font-bold text-center text-xs uppercase tracking-tighter">${game.awayTeam}</span>
-                            </div>
-                        </div>
+            container.innerHTML = upcomingGames.map(game => {
+                const gameDate = new Date(game.date);
+                const day = gameDate.toLocaleDateString('pt-PT', { day: '2-digit', month: '2-digit' });
+                const time = gameDate.toLocaleTimeString('pt-PT', { hour: '2-digit', minute: '2-digit' });
+                const weekday = gameDate.toLocaleDateString('pt-PT', { weekday: 'short' });
 
-                        <div class="flex items-center justify-center gap-4 pt-4 border-t border-dashed border-gray-100">
-                             <div class="flex items-center gap-2">
-                                <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                                <span class="font-bold text-sm">${new Date(game.date).toLocaleDateString('pt-PT', { day: 'numeric', month: 'short' })}</span>
-                             </div>
-                             <div class="w-1 h-1 bg-gray-300 rounded-full"></div>
-                             <div class="flex items-center gap-2">
-                                <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                                <span class="font-bold text-sm">${new Date(game.date).toLocaleTimeString('pt-PT', { hour: '2-digit', minute: '2-digit' })}</span>
-                             </div>
+                return `
+                <div class="match-card-premium group !p-0 overflow-hidden flex flex-col border-none shadow-md hover:shadow-2xl transition-all duration-500">
+                    <!-- Card Top Info -->
+                    <div class="bg-gray-50/80 px-4 py-2 flex justify-between items-center border-b border-gray-100/50">
+                        <span class="bg-primary/10 text-primary px-2 py-0.5 rounded text-[8px] font-black uppercase tracking-widest">${game.team}</span>
+                        <div class="flex items-center gap-2">
+                            <span class="text-gray-400 font-bold text-[9px] uppercase">${weekday}</span>
+                            <span class="text-gray-900 font-black text-[10px]">${day}</span>
                         </div>
                     </div>
+
+                    <!-- Main Match Area -->
+                    <div class="p-5 flex items-center justify-between gap-4 bg-white relative">
+                        <!-- Home Team -->
+                        <div class="flex flex-col items-center flex-1 min-w-0">
+                            <div class="w-14 h-14 bg-gray-50 rounded-2xl flex items-center justify-center p-2 mb-3 shadow-inner group-hover:scale-105 transition-transform duration-500 border border-gray-100">
+                                <img src="img/simboloarmil.png" class="w-full h-full object-contain filter brightness-0">
+                            </div>
+                            <span class="font-black text-[10px] uppercase text-center leading-tight h-7 flex items-center px-1">${game.homeTeam}</span>
+                        </div>
+
+                        <!-- VS Divider -->
+                        <div class="flex flex-col items-center gap-2 shrink-0">
+                            <div class="bg-gray-900 text-white w-12 h-8 rounded-lg flex items-center justify-center shadow-lg transform group-hover:rotate-3 transition-transform">
+                                <span class="font-black text-xs font-montserrat">${time}</span>
+                            </div>
+                            <span class="text-[8px] font-black text-gray-200 tracking-[0.2em] uppercase">VS</span>
+                        </div>
+
+                        <!-- Away Team -->
+                        <div class="flex flex-col items-center flex-1 min-w-0">
+                            <div class="w-14 h-14 bg-gray-50 rounded-2xl flex items-center justify-center p-2 mb-3 shadow-inner group-hover:scale-105 transition-transform duration-500 border border-gray-100">
+                                <img src="${game.awayLogo || 'img/simboloarmil.png'}" class="w-full h-full object-contain" onerror="this.src='img/simboloarmil.png'">
+                            </div>
+                            <span class="font-black text-[10px] uppercase text-center leading-tight h-7 flex items-center px-1">${game.awayTeam}</span>
+                        </div>
+                    </div>
+
+                    <!-- Footer Info -->
+                    <div class="bg-gray-50/30 px-4 py-2 border-t border-gray-100/50 flex justify-center items-center gap-2">
+                        <svg class="w-3 h-3 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                        </svg>
+                        <span class="text-[9px] font-bold text-gray-400 uppercase tracking-wider text-center">${game.location}</span>
+                    </div>
                 </div>
-            `).join('');
+            `;
+            }).join('');
         }
 
         function updatePublicResults(results) {
@@ -1882,57 +2069,65 @@
                 return;
             }
 
-            container.innerHTML = results.slice(0, 4).map(result => {
+            container.innerHTML = results.slice(0, 6).map(result => {
                 const isWin = parseInt(result.homeScore) > parseInt(result.awayScore);
                 const isDraw = parseInt(result.homeScore) === parseInt(result.awayScore);
                 const statusColor = isWin ? 'text-green-600' : (isDraw ? 'text-yellow-600' : 'text-red-600');
                 const statusBg = isWin ? 'bg-green-50' : (isDraw ? 'bg-yellow-50' : 'bg-red-50');
                 const statusText = isWin ? 'Vitória' : (isDraw ? 'Empate' : 'Derrota');
+                const gameDate = new Date(result.date);
+                const day = gameDate.toLocaleDateString('pt-PT', { day: '2-digit', month: '2-digit' });
 
                 return `
-                <div class="match-card-premium flex !p-0">
-                    <div class="w-20 shrink-0 bg-gray-50 flex flex-col items-center justify-center p-4 gap-2 border-r border-gray-100">
-                         <img src="img/simboloarmil.png" class="w-8 h-8 object-contain filter brightness-0 opacity-10">
-                         <div class="text-[9px] font-black uppercase text-gray-400 rotate-90 whitespace-nowrap tracking-widest">${result.team}</div>
-                    </div>
-
-                    <div class="flex-1 p-6">
-                        <div class="flex justify-between items-center mb-6">
-                            <div class="flex items-center gap-3">
-                                 <div class="status-pill ${statusBg} ${statusColor}">${statusText}</div>
-                                 <span class="text-gray-300 text-[10px] font-bold">${new Date(result.date).toLocaleDateString('pt-PT')}</span>
-                            </div>
-                            <div class="text-[9px] font-bold text-gray-400 uppercase tracking-widest">${result.location}</div>
-                        </div>
-
-                        <div class="flex items-center justify-between gap-4">
-                            <div class="flex items-center gap-4 flex-1">
-                                <div class="w-12 h-12 bg-gray-50 rounded-xl p-2 flex items-center justify-center shadow-sm">
-                                    <img src="img/simboloarmil.png" class="w-full h-full object-contain filter brightness-0">
-                                </div>
-                                <span class="font-black text-xs uppercase tracking-tighter truncate">${result.homeTeam}</span>
-                            </div>
-
-                            <div class="scoreboard-badge">
-                                <span class="font-black text-2xl tabular-nums">${result.homeScore}</span>
-                                <span class="text-white/20 text-[10px] font-bold">FT</span>
-                                <span class="font-black text-2xl tabular-nums">${result.awayScore}</span>
-                            </div>
-
-                            <div class="flex items-center gap-4 flex-1 justify-end">
-                                <span class="font-black text-xs uppercase tracking-tighter truncate text-right">${result.awayTeam}</span>
-                                <div class="w-12 h-12 bg-gray-50 rounded-xl p-2 flex items-center justify-center border border-gray-100 shadow-sm">
-                                    <img src="${result.awayLogo || 'img/simboloarmil.png'}" class="w-full h-full object-contain" onerror="this.src='img/simboloarmil.png'">
-                                </div>
-                            </div>
+                <div class="match-card-premium group !p-0 overflow-hidden flex flex-col border-none shadow-md hover:shadow-2xl transition-all duration-500">
+                    <!-- Result Status Header -->
+                    <div class="${statusBg} px-4 py-2 flex justify-between items-center border-b border-gray-100/50">
+                        <span class="${statusColor} text-[8px] font-black uppercase tracking-[0.2em]">${statusText}</span>
+                        <div class="flex items-center gap-2">
+                             <span class="text-gray-400 font-bold text-[9px] uppercase">${result.team}</span>
+                             <span class="text-gray-900 font-black text-[10px] ml-2">${day}</span>
                         </div>
                     </div>
-                </div>
-            `}).join('');
+
+                    <!-- Main Result Area -->
+                    <div class="p-5 flex items-center justify-between gap-4 bg-white relative">
+                        <!-- Home Team -->
+                        <div class="flex flex-col items-center flex-1 min-w-0">
+                            <div class="w-14 h-14 bg-gray-50 rounded-2xl flex items-center justify-center p-2 mb-3 shadow-inner group-hover:scale-105 transition-transform duration-500 border border-gray-100">
+                                <img src="img/simboloarmil.png" class="w-full h-full object-contain filter brightness-0">
+                            </div>
+                            <span class="font-black text-[10px] uppercase text-center leading-tight h-7 flex items-center px-1">${result.homeTeam}</span>
+                        </div>
+
+                        <!-- Score Badge -->
+                        <div class="flex flex-col items-center gap-2 shrink-0">
+                            <div class="bg-gray-900 text-white px-4 py-2 rounded-xl shadow-xl flex items-center gap-3 border border-gray-800 transform group-hover:scale-110 transition-transform">
+                                <span class="text-xl font-black font-montserrat tabular-nums">${result.homeScore}</span>
+                                <span class="w-px h-4 bg-white/20"></span>
+                                <span class="text-xl font-black font-montserrat tabular-nums">${result.awayScore}</span>
+                            </div>
+                            <span class="text-[8px] font-black text-gray-300 tracking-[0.3em] uppercase">FINAL</span>
+                        </div>
+
+                        <!-- Away Team -->
+                        <div class="flex flex-col items-center flex-1 min-w-0">
+                            <div class="w-14 h-14 bg-gray-50 rounded-2xl flex items-center justify-center p-2 mb-3 shadow-inner group-hover:scale-105 transition-transform duration-500 border border-gray-100">
+                                <img src="${result.awayLogo || 'img/simboloarmil.png'}" class="w-full h-full object-contain" onerror="this.src='img/simboloarmil.png'">
+                            </div>
+                            <span class="font-black text-[10px] uppercase text-center leading-tight h-7 flex items-center px-1">${result.awayTeam}</span>
+                        </div>
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="bg-gray-50/30 px-4 py-2 border-t border-gray-100/50 flex justify-center items-center">
+                        <span class="text-[9px] font-bold text-gray-400 uppercase tracking-widest text-center">${result.location}</span>
+                    </div>
+                </div>`;
+            }).join('');
         }
 
         // Team players functions
-        function toggleTeamPlayers(teamId) {
+        async function toggleTeamPlayers(teamId) {
             const playersSection = document.getElementById('team-players');
             const teamTitle = document.getElementById('team-title');
             const playersGrid = document.getElementById('players-grid');
@@ -1948,47 +2143,52 @@
             };
 
             teamTitle.textContent = `Equipa - ${teamNames[teamId]} `;
-            playersGrid.innerHTML = '';
+            playersGrid.innerHTML = '<div class="col-span-full text-center py-8"><div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div></div>';
 
-            const players = teamPlayers[teamId] || [];
-            players.forEach(player => {
-                const playerCard = document.createElement('div');
-                playerCard.className = 'bg-muted rounded-lg p-4 text-center';
+            try {
+                // Try to load from Database first
+                const snapshot = await db.collection('players').where('team', '==', teamId).orderBy('createdAt', 'asc').get();
+                let players = snapshot.docs.map(doc => doc.data());
 
-                if (player.role && player.nameList) {
-                    const namesHtml = player.nameList.map(n => `<div>${n}</div>`).join('');
-                    playerCard.innerHTML = `
-                        <div class="w-20 h-20 mx-auto mb-3">
-                            <img src="${player.photo}" alt="Equipa Técnica" class="w-full h-full rounded-full object-cover border-2 border-primary">
-                        </div>
-                        <h4 class="font-bold text-lg text-foreground">${player.role}</h4>
-                        <div class="text-muted-foreground mt-1">${namesHtml}</div>
-                    `;
-                } else if (player.role) {
-                    playerCard.innerHTML = `
-                        <div class="w-20 h-20 mx-auto mb-3">
-                            <img src="${player.photo}" alt="${player.name}" class="w-full h-full rounded-full object-cover border-2 border-primary">
-                        </div>
-                        <h4 class="font-bold text-lg text-foreground">${player.name}</h4>
-                        <p class="text-muted-foreground">${player.role}</p>
-                    `;
-                } else {
-                    playerCard.innerHTML = `
-                        <div class="w-20 h-20 mx-auto mb-3 relative">
-                            <img src="${player.photo}" alt="${player.name}" class="w-full h-full rounded-full object-cover border-2 border-primary" 
-                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                            <div class="w-full h-full bg-primary rounded-full flex items-center justify-center 
-                                        text-primary-foreground font-bold text-xl absolute top-0 left-0" style="display: none;">
-                                ${player.number}
-                            </div>
-                        </div>
-                        <h4 class="font-bold text-lg text-foreground">${player.name}</h4>
-                        <p class="text-muted-foreground">Nº ${player.number}</p>
-                    `;
+                // If no players in DB, fallback to hardcoded data
+                if (players.length === 0) {
+                    players = teamPlayers[teamId] || [];
                 }
 
-                playersGrid.appendChild(playerCard);
-            });
+                playersGrid.innerHTML = '';
+
+                if (players.length === 0) {
+                    playersGrid.innerHTML = '<p class="col-span-full text-center text-muted-foreground py-8">Nenhum jogador registado neste escalão.</p>';
+                }
+
+                players.forEach(player => {
+                    const playerCard = document.createElement('div');
+                    playerCard.className = 'bg-muted rounded-lg p-4 text-center';
+
+                    if (player.role && player.nameList) {
+                        const namesHtml = player.nameList.map(n => `<div>${n}</div>`).join('');
+                        playerCard.innerHTML = `
+                            <div class="w-20 h-20 mx-auto mb-3">
+                                <img src="${player.photo}" alt="Equipa Técnica" class="w-full h-full rounded-full object-cover border-2 border-primary">
+                            </div>
+                            <h4 class="font-bold text-lg text-foreground">${player.role}</h4>
+                            <div class="text-muted-foreground mt-1">${namesHtml}</div>
+                        `;
+                    } else {
+                        playerCard.innerHTML = `
+                            <div class="w-20 h-20 mx-auto mb-3 relative">
+                                <img src="${player.photo || 'img/players/default.jpg'}" alt="${player.name}" class="w-full h-full rounded-full object-cover border-2 border-primary">
+                            </div>
+                            <h4 class="font-bold text-lg text-foreground">${player.name}</h4>
+                        `;
+                    }
+
+                    playersGrid.appendChild(playerCard);
+                });
+            } catch (error) {
+                console.error("Error loading players:", error);
+                playersGrid.innerHTML = '<p class="col-span-full text-center text-red-500 py-8">Erro ao carregar jogadores.</p>';
+            }
 
             playersSection.classList.remove('hidden');
             playersSection.scrollIntoView({ behavior: 'smooth' });
