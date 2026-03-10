@@ -2147,7 +2147,7 @@
 
             try {
                 // Try to load from Database first
-                const snapshot = await db.collection('players').where('team', '==', teamId).orderBy('createdAt', 'asc').get();
+                const snapshot = await db.collection('players').where('team', '==', teamId).get();
                 let players = snapshot.docs.map(doc => doc.data());
 
                 // If no players in DB, fallback to hardcoded data
@@ -2163,23 +2163,23 @@
 
                 players.forEach(player => {
                     const playerCard = document.createElement('div');
-                    playerCard.className = 'bg-muted rounded-lg p-4 text-center';
+                    playerCard.className = 'bg-white rounded-2xl p-6 text-center shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300';
 
                     if (player.role && player.nameList) {
                         const namesHtml = player.nameList.map(n => `<div>${n}</div>`).join('');
                         playerCard.innerHTML = `
-                            <div class="w-20 h-20 mx-auto mb-3">
-                                <img src="${player.photo}" alt="Equipa Técnica" class="w-full h-full rounded-full object-cover border-2 border-primary">
+                            <div class="w-24 h-24 mx-auto mb-4 relative">
+                                <img src="${player.photo}" alt="Equipa Técnica" class="w-full h-full rounded-full object-cover border-4 border-primary/10">
                             </div>
-                            <h4 class="font-bold text-lg text-foreground">${player.role}</h4>
-                            <div class="text-muted-foreground mt-1">${namesHtml}</div>
+                            <h4 class="font-montserrat font-black text-lg text-foreground uppercase tracking-tighter">${player.role}</h4>
+                            <div class="text-muted-foreground mt-2 font-bold text-sm">${namesHtml}</div>
                         `;
                     } else {
                         playerCard.innerHTML = `
-                            <div class="w-20 h-20 mx-auto mb-3 relative">
-                                <img src="${player.photo || 'img/players/default.jpg'}" alt="${player.name}" class="w-full h-full rounded-full object-cover border-2 border-primary">
+                            <div class="w-24 h-24 mx-auto mb-4 relative group">
+                                <img src="${player.photo || 'img/players/default.jpg'}" alt="${player.name}" class="w-full h-full rounded-full object-cover border-4 border-primary/10 transition-transform group-hover:scale-105">
                             </div>
-                            <h4 class="font-bold text-lg text-foreground">${player.name}</h4>
+                            <h4 class="font-montserrat font-black text-lg text-foreground uppercase tracking-tighter">${player.name}</h4>
                         `;
                     }
 
