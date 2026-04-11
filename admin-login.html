@@ -1,172 +1,63 @@
 <!DOCTYPE html>
-<html lang="pt-BR" class="scroll-smooth">
-
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Administrador - GCD Armil</title>
-    <link rel="icon" type="image/png" href="img/simboloarmil.png">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&family=Open+Sans:wght@400;600&display=swap"
-        rel="stylesheet">
+    <title>Login Admin - GCD Armil</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
     <script src="firebase-config.js"></script>
+    <style>
+        body { font-family: 'Montserrat', sans-serif; background: #000; }
+        .login-card { background: #fff; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-6">
+    <div class="login-card w-full max-w-md p-10 text-center">
+        <img src="img/simboloarmil.png" class="w-20 mx-auto mb-6">
+        <h1 class="text-2xl font-black mb-2 uppercase tracking-tighter">Área Administrativa</h1>
+        <p class="text-gray-500 mb-8 text-sm">Insira as suas credenciais para continuar</p>
+        
+        <form id="login-form" class="space-y-4 text-left">
+            <div>
+                <label class="block text-xs font-bold uppercase mb-1">Email</label>
+                <input type="email" id="email" class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-black outline-none" required>
+            </div>
+            <div>
+                <label class="block text-xs font-bold uppercase mb-1">Palavra-passe</label>
+                <input type="password" id="password" class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-black outline-none" required>
+            </div>
+            <div id="error-msg" class="text-red-600 text-xs hidden">Credenciais incorretas!</div>
+            <button type="submit" class="w-full bg-black text-white py-4 rounded-lg font-black uppercase tracking-widest hover:bg-gray-900 transition-all mt-4">Entrar</button>
+            <a href="index.html" class="block text-center text-xs text-gray-500 mt-4 hover:underline">Voltar ao site</a>
+        </form>
+    </div>
+
     <script>
         firebase.initializeApp(window.firebaseConfig);
         const auth = firebase.auth();
-    </script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#d97706',
-                        background: '#ffffff',
-                        foreground: '#374151',
-                        card: '#fefce8',
-                        muted: '#fefce8',
-                        border: '#e5e7eb',
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        .glass {
-            background: rgba(255, 255, 255, 0.75);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
 
-        .premium-card {
-            background: white;
-            border-radius: 1.5rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            border: 1px solid #e5e7eb;
-            transition: all 0.3s ease;
-        }
-
-        .btn-primary-premium {
-            background: #d97706;
-            color: white;
-            box-shadow: 0 4px 14px 0 rgba(217, 119, 6, 0.39);
-            border-radius: 0.75rem;
-            padding: 0.75rem 1.5rem;
-            font-weight: 700;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .animate-fade-in-up {
-            animation: fadeInUp 0.6s ease-out forwards;
-        }
-    </style>
-    <style>
-        .font-montserrat {
-            font-family: 'Montserrat', sans-serif;
-        }
-
-        .font-open-sans {
-            font-family: 'Open Sans', sans-serif;
-        }
-    </style>
-</head>
-
-<body class="bg-background text-foreground flex items-center justify-center min-h-screen">
-    <div class="absolute inset-0 bg-cover bg-center brightness-[0.3]" style="background-image: url('img/fundo.png');">
-    </div>
-
-    <div class="relative z-10 w-full max-w-md px-6">
-        <div class="glass p-10 rounded-[2rem] shadow-2xl border border-white/20 animate-fade-in-up">
-            <div class="text-center mb-10">
-                <div
-                    class="w-24 h-24 bg-primary rounded-full mx-auto mb-6 flex items-center justify-center p-2 shadow-lg shadow-primary/30">
-                    <img src="img/simboloarmil.png" alt="GCD Armil"
-                        class="w-full h-full object-contain filter brightness-0 invert">
-                </div>
-                <h1 class="font-montserrat font-black text-3xl uppercase tracking-tighter text-foreground mb-2">Área
-                    Administrativa</h1>
-                <p class="font-open-sans text-muted-foreground font-semibold">Acesso exclusivo para administradores</p>
-            </div>
-
-            <form id="login-form" class="space-y-6">
-                <div class="space-y-2">
-                    <label for="email"
-                        class="block font-open-sans font-bold text-xs uppercase tracking-widest text-muted-foreground">Email</label>
-                    <input type="email" id="email"
-                        class="w-full px-5 py-4 rounded-2xl border border-border bg-background focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all outline-none"
-                        placeholder="exemplo@gmail.com" required>
-                </div>
-
-                <div class="space-y-2">
-                    <label for="password"
-                        class="block font-open-sans font-bold text-xs uppercase tracking-widest text-muted-foreground">Palavra-passe</label>
-                    <input type="password" id="password"
-                        class="w-full px-5 py-4 rounded-2xl border border-border bg-background focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all outline-none"
-                        placeholder="••••••••" required>
-                </div>
-
-                <div id="error-message"
-                    class="hidden animate-shake bg-destructive/10 border border-destructive/20 text-destructive px-4 py-3 rounded-xl text-sm font-semibold text-center">
-                    Credenciais inválidas. Tente novamente.
-                </div>
-
-                <button type="submit" class="btn-primary-premium w-full text-lg py-4 shadow-xl">
-                    Entrar no Painel
-                </button>
-            </form>
-
-            <div class="mt-10 text-center">
-                <a href="index.html"
-                    class="text-sm font-bold text-muted-foreground hover:text-primary transition-colors flex items-center justify-center gap-2">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
-                    </svg>
-                    Voltar ao Site Público
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        document.getElementById('login-form').addEventListener('submit', async function (e) {
+        document.getElementById('login-form').onsubmit = async (e) => {
             e.preventDefault();
-
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
-            const errorMessage = document.getElementById('error-message');
+            const error = document.getElementById('error-msg');
 
             try {
                 await auth.signInWithEmailAndPassword(email, password);
-                // Redirect to admin panel
-                window.location.href = 'admin.html';
-            } catch (error) {
-                console.error("Login error:", error);
-                errorMessage.textContent = "Email ou palavra-passe incorretos!";
-                errorMessage.classList.remove('hidden');
-                document.getElementById('password').value = '';
-                document.getElementById('password').focus();
+                window.location.href = 'admin-dashboard.html';
+            } catch (err) {
+                console.error(err);
+                error.classList.remove('hidden');
             }
+        };
+
+        // Redirect if already logged in
+        auth.onAuthStateChanged(user => {
+            if (user) window.location.href = 'admin-dashboard.html';
         });
     </script>
 </body>
-
 </html>

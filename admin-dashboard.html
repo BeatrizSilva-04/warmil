@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Admin - GCD Armil</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <style>
+        body { font-family: 'Montserrat', sans-serif; background: #f9fafb; color: #000; }
+        .tab-btn.active { background: #000; color: #fff; }
+        .card { background: #fff; border-radius: 20px; border: 1px solid #eee; }
+        .form-input { width: 100%; px: 4; py: 3; border: 1px solid #e5e7eb; border-radius: 12px; outline: none; transition: border 0.3s; }
+        .form-input:focus { border-color: #000; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-thumb { background: #000; border-radius: 10px; }
+    </style>
+</head>
+<body class="min-h-screen">
+    <nav class="bg-black text-white p-6 shadow-xl sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center cursor-pointer" onclick="window.location.href='index.html'">
+                <img src="img/simboloarmil.png" class="w-10 brightness-0 invert">
+                <span class="ml-3 font-black text-xl tracking-tighter uppercase">Painel Admin</span>
+            </div>
+            <button id="logout-btn" class="bg-red-600 px-6 py-2 rounded-full font-bold text-sm hover:scale-105 transition-all">Sair</button>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto p-6 md:p-10">
+        <!-- Dashboard Tabs -->
+        <div class="flex flex-wrap gap-2 mb-10 border-b pb-4">
+            <button onclick="switchTab('games')" id="btn-games" class="tab-btn active px-8 py-2 rounded-full font-bold text-sm transition-all">Jogos</button>
+            <button onclick="switchTab('results')" id="btn-results" class="tab-btn px-8 py-2 rounded-full font-bold text-sm transition-all">Resultados</button>
+            <button onclick="switchTab('activities')" id="btn-activities" class="tab-btn px-8 py-2 rounded-full font-bold text-sm transition-all">Atividades</button>
+            <button onclick="switchTab('players')" id="btn-players" class="tab-btn px-8 py-2 rounded-full font-bold text-sm transition-all">Jogadores</button>
+        </div>
+
+        <!-- Games Section -->
+        <div id="section-games" class="tab-section grid lg:grid-cols-2 gap-10">
+            <div class="card p-8">
+                <h2 class="text-2xl font-black mb-6 uppercase">Adicionar Jogo</h2>
+                <form id="game-form" class="space-y-4">
+                    <input type="datetime-local" id="game-date" class="form-input" required>
+                    <select id="game-team" class="form-input" required>
+                        <option value="">Equipa...</option>
+                        <option value="Traquinas">Traquinas</option>
+                        <option value="Benjamins">Benjamins</option>
+                        <option value="Infantis">Infantis</option>
+                        <option value="Juvenis">Juvenis</option>
+                        <option value="Séniores Futsal">Séniores Futsal</option>
+                        <option value="Séniores Futebol">Séniores Futebol</option>
+                        <option value="Veteranos">Veteranos</option>
+                    </select>
+                    <input type="text" id="game-home" placeholder="Equipa Casa" class="form-input" required>
+                    <input type="text" id="game-away" placeholder="Equipa Fora" class="form-input" required>
+                    <input type="text" id="game-location" placeholder="Local" class="form-input" required>
+                    <button type="submit" class="w-full bg-black text-white py-4 rounded-xl font-black uppercase mt-4">Guardar Jogo</button>
+                </form>
+            </div>
+            <div class="card p-8">
+                <h2 class="text-2xl font-black mb-6 uppercase">Lista de Jogos</h2>
+                <div id="games-list" class="space-y-4 max-h-[600px] overflow-y-auto pr-2"></div>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div id="section-results" class="tab-section hidden grid lg:grid-cols-2 gap-10">
+            <div class="card p-8">
+                <h2 class="text-2xl font-black mb-6 uppercase">Adicionar Resultado</h2>
+                <form id="result-form" class="space-y-4">
+                    <input type="date" id="result-date" class="form-input" required>
+                    <select id="result-team" class="form-input" required>
+                        <option value="">Equipa...</option>
+                        <option value="Traquinas">Traquinas</option>
+                        <option value="Benjamins">Benjamins</option>
+                        <option value="Infantis">Infantis</option>
+                        <option value="Juvenis">Juvenis</option>
+                        <option value="Séniores Futsal">Séniores Futsal</option>
+                        <option value="Séniores Futebol">Séniores Futebol</option>
+                        <option value="Veteranos">Veteranos</option>
+                    </select>
+                    <div class="grid grid-cols-2 gap-4">
+                        <input type="text" id="res-home-team" placeholder="Casa" class="form-input" required>
+                        <input type="number" id="res-home-score" placeholder="Golos" class="form-input" required>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <input type="text" id="res-away-team" placeholder="Fora" class="form-input" required>
+                        <input type="number" id="res-away-score" placeholder="Golos" class="form-input" required>
+                    </div>
+                    <button type="submit" class="w-full bg-black text-white py-4 rounded-xl font-black uppercase mt-4">Guardar Resultado</button>
+                </form>
+            </div>
+            <div class="card p-8">
+                <h2 class="text-2xl font-black mb-6 uppercase">Resultados</h2>
+                <div id="results-list" class="space-y-4 max-h-[600px] overflow-y-auto pr-2"></div>
+            </div>
+        </div>
+
+        <!-- Activities Section -->
+        <div id="section-activities" class="tab-section hidden grid lg:grid-cols-2 gap-10">
+            <div class="card p-8">
+                <h2 class="text-2xl font-black mb-6 uppercase">Nova Atividade</h2>
+                <form id="activity-form" class="space-y-4">
+                    <input type="text" id="act-title" placeholder="Título" class="form-input" required>
+                    <textarea id="act-desc" placeholder="Descrição" class="form-input" rows="4" required></textarea>
+                    <input type="url" id="act-photo" placeholder="URL da Foto" class="form-input" required>
+                    <button type="submit" class="w-full bg-black text-white py-4 rounded-xl font-black uppercase mt-4">Criar Atividade</button>
+                </form>
+            </div>
+            <div class="card p-8">
+                <h2 class="text-2xl font-black mb-6 uppercase">Atividades</h2>
+                <div id="activities-list" class="space-y-4 max-h-[600px] overflow-y-auto pr-2"></div>
+            </div>
+        </div>
+
+        <!-- Players Section -->
+        <div id="section-players" class="tab-section hidden grid lg:grid-cols-2 gap-10">
+           <div class="card p-8">
+                <h2 class="text-2xl font-black mb-6 uppercase">Novo Jogador</h2>
+                <form id="player-form" class="space-y-4">
+                    <input type="text" id="p-name" placeholder="Nome Completo" class="form-input" required>
+                    <input type="number" id="p-number" placeholder="Número" class="form-input" required>
+                    <input type="text" id="p-position" placeholder="Posição" class="form-input" required>
+                    <select id="p-team" class="form-input" required>
+                        <option value="">Equipa...</option>
+                        <option value="Traquinas">Traquinas</option>
+                        <option value="Benjamins">Benjamins</option>
+                        <option value="Infantis">Infantis</option>
+                        <option value="Juvenis">Juvenis</option>
+                        <option value="Séniores Futsal">Séniores Futsal</option>
+                        <option value="Séniores Futebol">Séniores Futebol</option>
+                        <option value="Veteranos">Veteranos</option>
+                    </select>
+                    <input type="url" id="p-photo" placeholder="URL da Foto" class="form-input">
+                    <button type="submit" class="w-full bg-black text-white py-4 rounded-xl font-black uppercase mt-4">Registar Jogador</button>
+                </form>
+            </div>
+            <div class="card p-8">
+                <h2 class="text-2xl font-black mb-6 uppercase">Jogadores</h2>
+                <div id="players-list" class="space-y-4 max-h-[600px] overflow-y-auto pr-2"></div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        firebase.initializeApp(window.firebaseConfig);
+        const db = firebase.firestore();
+        const auth = firebase.auth();
+
+        // Auth Protection
+        auth.onAuthStateChanged(user => {
+            if (!user) window.location.href = 'admin-login.html';
+        });
+
+        document.getElementById('logout-btn').onclick = () => {
+            auth.signOut().then(() => window.location.href = 'index.html');
+        };
+
+        // Tab Switching
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-section').forEach(s => s.classList.add('hidden'));
+            document.getElementById('section-' + tab).classList.remove('hidden');
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('btn-' + tab).classList.add('active');
+        }
+
+        // --- DATABASE OPERATIONS ---
+
+        // Games
+        document.getElementById('game-form').onsubmit = async (e) => {
+            e.preventDefault();
+            const data = {
+                date: document.getElementById('game-date').value,
+                team: document.getElementById('game-team').value,
+                homeTeam: document.getElementById('game-home').value,
+                awayTeam: document.getElementById('game-away').value,
+                location: document.getElementById('game-location').value
+            };
+            await db.collection('games').add(data);
+            e.target.reset();
+        };
+
+        db.collection('games').orderBy('date', 'desc').onSnapshot(snap => {
+            const list = document.getElementById('games-list');
+            list.innerHTML = snap.docs.map(doc => {
+                const g = doc.data();
+                return `<div class="p-4 bg-gray-50 rounded-xl flex justify-between items-center">
+                    <div><p class="font-bold">${g.homeTeam} vs ${g.awayTeam}</p><p class="text-xs text-gray-500">${g.team} | ${new Date(g.date).toLocaleString()}</p></div>
+                    <button onclick="deleteDoc('games','${doc.id}')" class="text-red-500 font-bold hover:scale-110 transition-all px-2">X</button>
+                </div>`;
+            }).join('');
+        });
+
+        // Results
+        document.getElementById('result-form').onsubmit = async (e) => {
+            e.preventDefault();
+            const data = {
+                date: document.getElementById('result-date').value,
+                team: document.getElementById('result-team').value,
+                homeTeam: document.getElementById('res-home-team').value,
+                homeScore: document.getElementById('res-home-score').value,
+                awayTeam: document.getElementById('res-away-team').value,
+                awayScore: document.getElementById('res-away-score').value
+            };
+            await db.collection('results').add(data);
+            e.target.reset();
+        };
+
+        db.collection('results').orderBy('date', 'desc').onSnapshot(snap => {
+            const list = document.getElementById('results-list');
+            list.innerHTML = snap.docs.map(doc => {
+                const r = doc.data();
+                return `<div class="p-4 bg-gray-50 rounded-xl flex justify-between items-center">
+                    <div><p class="font-bold">${r.homeTeam} ${r.homeScore} - ${r.awayScore} ${r.awayTeam}</p><p class="text-xs text-gray-500">${r.team} | ${new Date(r.date).toLocaleDateString()}</p></div>
+                    <button onclick="deleteDoc('results','${doc.id}')" class="text-red-500 font-bold hover:scale-110 transition-all px-2">X</button>
+                </div>`;
+            }).join('');
+        });
+
+        // Activities
+        document.getElementById('activity-form').onsubmit = async (e) => {
+            e.preventDefault();
+            const data = {
+                title: document.getElementById('act-title').value,
+                description: document.getElementById('act-desc').value,
+                photo: document.getElementById('act-photo').value,
+                order: Date.now()
+            };
+            await db.collection('activities').add(data);
+            e.target.reset();
+        };
+
+        db.collection('activities').orderBy('order', 'desc').onSnapshot(snap => {
+            const list = document.getElementById('activities-list');
+            list.innerHTML = snap.docs.map(doc => {
+                const a = doc.data();
+                return `<div class="p-4 bg-gray-50 rounded-xl flex justify-between items-center">
+                    <p class="font-bold">${a.title}</p>
+                    <button onclick="deleteDoc('activities','${doc.id}')" class="text-red-500 font-bold hover:scale-110 transition-all px-2">X</button>
+                </div>`;
+            }).join('');
+        });
+
+        // Players
+        document.getElementById('player-form').onsubmit = async (e) => {
+            e.preventDefault();
+            const data = {
+                name: document.getElementById('p-name').value,
+                number: document.getElementById('p-number').value,
+                position: document.getElementById('p-position').value,
+                team: document.getElementById('p-team').value,
+                photo: document.getElementById('p-photo').value || 'img/simboloarmil.png'
+            };
+            await db.collection('players').add(data);
+            e.target.reset();
+        };
+
+        db.collection('players').orderBy('name').onSnapshot(snap => {
+            const list = document.getElementById('players-list');
+            list.innerHTML = snap.docs.map(doc => {
+                const p = doc.data();
+                return `<div class="p-4 bg-gray-50 rounded-xl flex justify-between items-center">
+                    <div class="flex items-center"><img src="${p.photo}" class="w-8 h-8 rounded-full object-cover mr-3"><div><p class="font-bold text-sm">${p.name} (${p.number})</p><p class="text-[10px] text-gray-400">${p.team} | ${p.position}</p></div></div>
+                    <button onclick="deleteDoc('players','${doc.id}')" class="text-red-500 font-bold hover:scale-110 transition-all px-2">X</button>
+                </div>`;
+            }).join('');
+        });
+
+        async function deleteDoc(col, id) {
+            if(confirm('Tem a certeza que deseja eliminar?')) {
+                await db.collection(col).doc(id).delete();
+            }
+        }
+    </script>
+</body>
+</html>
