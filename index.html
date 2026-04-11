@@ -1337,11 +1337,19 @@
 
         function showView(viewId) {
             console.log('Showing view:', viewId);
-            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            // Hide all views explicitly
+            document.querySelectorAll('.view').forEach(v => {
+                v.classList.remove('active');
+                v.style.display = 'none';
+            });
+            // Show target view
             const target = document.getElementById(viewId);
             if (target) {
                 target.classList.add('active');
+                target.style.display = 'block';
                 window.scrollTo(0, 0);
+                document.body.style.overflow = 'auto'; // Ensure scroll is available
+                console.log('View', viewId, 'is now visible');
             } else {
                 console.error('View not found:', viewId);
             }
@@ -1349,6 +1357,7 @@
 
         function showHome() { showView('home-view'); }
         function showAdminLogin() { 
+            console.log('Button clicked: showAdminLogin');
             showView('admin-login-view'); 
             const pwInput = document.getElementById('admin-password');
             if (pwInput) pwInput.value = '';
