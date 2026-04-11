@@ -37,7 +37,7 @@
         </div>
     </nav>
 
-    <main class="max-w-7xl mx-auto p-6 lg:p-10">
+    <main id="admin-main-content" class="max-w-7xl mx-auto p-6 lg:p-10 invisible">
         <!-- Tabs Menu -->
         <div class="flex flex-wrap gap-2 mb-10 overflow-x-auto pb-2 scrollbar-hide">
             <button onclick="switchTab('games')" id="btn-games" class="tab-btn active">Jogos</button>
@@ -180,7 +180,13 @@
         const db = firebase.firestore();
         const auth = firebase.auth();
 
-        auth.onAuthStateChanged(user => { if (!user) window.location.href = 'admin-login.html'; });
+        auth.onAuthStateChanged(user => { 
+            if (!user || user.email !== 'gcdarmil78@gmail.com') { 
+                window.location.href = 'admin-login.html'; 
+            } else {
+                document.getElementById('admin-main-content').classList.remove('invisible');
+            }
+        });
         document.getElementById('logout-btn').onclick = () => auth.signOut().then(() => window.location.href = 'index.html');
 
         function switchTab(tab) {
