@@ -213,6 +213,12 @@
         }
 
         /* Enhanced Animations */
+        @keyframes zoom-in {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .animate-zoom-in { animation: zoom-in 0.3s ease-out; }
+
         /* Animations */
         @keyframes bounce-slow {
 
@@ -715,7 +721,7 @@
                     <!-- Team Card Template -->
                     <div class="premium-card overflow-hidden group">
                         <div class="relative h-56 overflow-hidden">
-                            <img src="img/traquinas.jpg" alt="Equipa Traquinas"
+                            <img src="img/traquinas.jpg" alt="Equipa Traquinas" onclick="openTeamModal('img/traquinas.jpg', 'Traquinas')" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 cursor-pointer"
                                 class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                                 onerror="this.src='https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=800&q=80'">
                             <div
@@ -728,7 +734,7 @@
 
                     <div class="premium-card overflow-hidden group">
                         <div class="relative h-56 overflow-hidden">
-                            <img src="img/infantis.jpg" alt="Equipa Infantis"
+                            <img src="img/infantis.jpg" alt="Equipa Infantis" onclick="openTeamModal('img/infantis.jpg', 'Infantis')" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 cursor-pointer"
                                 class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                                 onerror="this.src='https://images.unsplash.com/photo-1517466787929-bc942639189b?auto=format&fit=crop&w=800&q=80'">
                             <div
@@ -741,7 +747,7 @@
 
                     <div class="premium-card overflow-hidden group">
                         <div class="relative h-56 overflow-hidden">
-                            <img src="img/juvenis.jpg" alt="Equipa Juvenis"
+                            <img src="img/juvenis.jpg" alt="Equipa Juvenis" onclick="openTeamModal('img/juvenis.jpg', 'Juvenis')" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 cursor-pointer"
                                 class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                                 onerror="this.src='https://images.unsplash.com/photo-1517466787929-bc942639189b?auto=format&fit=crop&w=800&q=80'">
                             <div
@@ -754,7 +760,7 @@
 
                     <div class="premium-card overflow-hidden group">
                         <div class="relative h-56 overflow-hidden">
-                            <img src="img/seniores_futsal.jpg" alt="Equipa Séniores Futsal"
+                            <img src="img/seniores_futsal.jpg" alt="Equipa Séniores Futsal" onclick="openTeamModal('img/seniores_futsal.jpg', 'Séniores Futsal')" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 cursor-pointer"
                                 class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                                 onerror="this.src='https://images.unsplash.com/photo-1575361204480-aadea25e6e68?auto=format&fit=crop&w=800&q=80'">
                             <div
@@ -767,7 +773,7 @@
 
                     <div class="premium-card overflow-hidden group">
                         <div class="relative h-56 overflow-hidden">
-                            <img src="img/sen_futebol.jpg" alt="Equipa Séniores Futebol"
+                            <img src="img/sen_futebol.jpg" alt="Equipa Séniores Futebol" onclick="openTeamModal('img/sen_futebol.jpg', 'Séniores Futebol')" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 cursor-pointer"
                                 class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                                 onerror="this.src='https://images.unsplash.com/photo-1431324155629-1a6eda1eed2d?auto=format&fit=crop&w=800&q=80'">
                             <div
@@ -780,7 +786,7 @@
 
                     <div class="premium-card overflow-hidden group">
                         <div class="relative h-56 overflow-hidden">
-                            <img src="img/veteranos.jpg" alt="Equipa Veteranos"
+                            <img src="img/veteranos.jpg" alt="Equipa Veteranos" onclick="openTeamModal('img/veteranos.jpg', 'Veteranos')" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 cursor-pointer"
                                 class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                                 onerror="this.src='https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=800&q=80'">
                             <div
@@ -1624,6 +1630,28 @@
                     document.getElementById('activity-modal').classList.remove('hidden');
                     document.getElementById('activity-modal').classList.add('flex');
                 }
+                
+                function openTeamModal(imgSrc, teamName) {
+                    const modal = document.getElementById('team-modal');
+                    const modalImg = document.getElementById('team-modal-img');
+                    const modalTitle = document.getElementById('team-modal-title');
+                    if (modal && modalImg && modalTitle) {
+                        modalImg.src = imgSrc;
+                        modalTitle.textContent = teamName;
+                        modal.classList.remove('hidden');
+                        modal.classList.add('flex');
+                        document.body.style.overflow = 'hidden';
+                    }
+                }
+                function closeTeamModal() {
+                    const modal = document.getElementById('team-modal');
+                    if (modal) {
+                        modal.classList.add('hidden');
+                        modal.classList.remove('flex');
+                        document.body.style.overflow = '';
+                    }
+                }
+
                 function closeActivityModal() {
                     document.getElementById('activity-modal').classList.add('hidden');
                     document.getElementById('activity-modal').classList.remove('flex');
@@ -1639,6 +1667,20 @@
                     </path>
                 </svg>
             </button>
+
+                <!-- Team Photo Modal -->
+                <div id="team-modal" class="fixed inset-0 bg-black/90 backdrop-blur-xl z-[100] hidden items-center justify-center p-4 transition-all duration-300">
+                    <button onclick="closeTeamModal()" class="absolute top-8 right-8 text-white/50 hover:text-white transition-all transform hover:scale-110">
+                        <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                    <div class="max-w-5xl w-full animate-zoom-in">
+                        <img id="team-modal-img" src="" class="w-full h-auto rounded-2xl shadow-2xl border border-white/10">
+                        <h3 id="team-modal-title" class="font-montserrat font-black text-3xl text-white mt-6 text-center uppercase tracking-tighter"></h3>
+                    </div>
+                </div>
+
 </body>
 
 </html>
