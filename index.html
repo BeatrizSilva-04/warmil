@@ -214,10 +214,20 @@
 
         /* Enhanced Animations */
         @keyframes zoom-in {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
-        .animate-zoom-in { animation: zoom-in 0.3s ease-out; }
+
+        .animate-zoom-in {
+            animation: zoom-in 0.3s ease-out;
+        }
 
         /* Animations */
         @keyframes bounce-slow {
@@ -719,9 +729,11 @@
                 <h2 class="section-title center-title block w-full text-center mb-16">As Nossas Equipas</h2>
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
                     <!-- Team Card Template -->
-                    <div class="premium-card overflow-hidden group cursor-pointer" onclick="openTeamModal('img/traquinas.jpg', 'Traquinas')">
+                    <div class="premium-card overflow-hidden group cursor-pointer"
+                        onclick="openTeamModal('img/traquinas.jpg', 'Traquinas')">
                         <div class="relative h-56 overflow-hidden">
-                            <img src="img/traquinas.jpg" alt="Equipa Traquinas" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                            <img src="img/traquinas.jpg" alt="Equipa Traquinas"
+                                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                                 onerror="this.src='https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=800&q=80'">
                             <div
                                 class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-6">
@@ -731,9 +743,11 @@
 
                     </div>
 
-                    <div class="premium-card overflow-hidden group cursor-pointer" onclick="openTeamModal('img/infantis.jpg', 'Infantis')">
+                    <div class="premium-card overflow-hidden group cursor-pointer"
+                        onclick="openTeamModal('img/infantis.jpg', 'Infantis')">
                         <div class="relative h-56 overflow-hidden">
-                            <img src="img/infantis.jpg" alt="Equipa Infantis" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                            <img src="img/infantis.jpg" alt="Equipa Infantis"
+                                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                                 onerror="this.src='https://images.unsplash.com/photo-1517466787929-bc942639189b?auto=format&fit=crop&w=800&q=80'">
                             <div
                                 class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-6">
@@ -743,9 +757,11 @@
 
                     </div>
 
-                    <div class="premium-card overflow-hidden group cursor-pointer" onclick="openTeamModal('img/juvenis.jpg', 'Juvenis')">
+                    <div class="premium-card overflow-hidden group cursor-pointer"
+                        onclick="openTeamModal('img/juvenis.jpg', 'Juvenis')">
                         <div class="relative h-56 overflow-hidden">
-                            <img src="img/juvenis.jpg" alt="Equipa Juvenis" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                            <img src="img/juvenis.jpg" alt="Equipa Juvenis"
+                                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                                 onerror="this.src='https://images.unsplash.com/photo-1517466787929-bc942639189b?auto=format&fit=crop&w=800&q=80'">
                             <div
                                 class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-6">
@@ -755,9 +771,11 @@
 
                     </div>
 
-                    <div class="premium-card overflow-hidden group cursor-pointer" onclick="openTeamModal('img/seniores_futsal.jpg', 'Séniores Futsal')">
+                    <div class="premium-card overflow-hidden group cursor-pointer"
+                        onclick="openTeamModal('img/seniores_futsal.jpg', 'Séniores Futsal')">
                         <div class="relative h-56 overflow-hidden">
-                            <img src="img/seniores_futsal.jpg" alt="Equipa Séniores Futsal" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                            <img src="img/seniores_futsal.jpg" alt="Equipa Séniores Futsal"
+                                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                                 onerror="this.src='https://images.unsplash.com/photo-1575361204480-aadea25e6e68?auto=format&fit=crop&w=800&q=80'">
                             <div
                                 class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-6">
@@ -767,9 +785,11 @@
 
                     </div>
 
-                    <div class="premium-card overflow-hidden group cursor-pointer" onclick="openTeamModal('img/sen_futebol.jpg', 'Séniores Futebol')">
+                    <div class="premium-card overflow-hidden group cursor-pointer"
+                        onclick="openTeamModal('img/sen_futebol.jpg', 'Séniores Futebol')">
                         <div class="relative h-56 overflow-hidden">
-                            <img src="img/sen_futebol.jpg" alt="Equipa Séniores Futebol" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                            <img src="img/sen_futebol.jpg" alt="Equipa Séniores Futebol"
+                                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                                 onerror="this.src='https://images.unsplash.com/photo-1431324155629-1a6eda1eed2d?auto=format&fit=crop&w=800&q=80'">
                             <div
                                 class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-6">
@@ -779,9 +799,11 @@
 
                     </div>
 
-                    <div class="premium-card overflow-hidden group cursor-pointer" onclick="openTeamModal('img/veteranos.jpg', 'Veteranos')">
+                    <div class="premium-card overflow-hidden group cursor-pointer"
+                        onclick="openTeamModal('img/veteranos.jpg', 'Veteranos')">
                         <div class="relative h-56 overflow-hidden">
-                            <img src="img/veteranos.jpg" alt="Equipa Veteranos" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                            <img src="img/veteranos.jpg" alt="Equipa Veteranos"
+                                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                                 onerror="this.src='https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=800&q=80'">
                             <div
                                 class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-6">
@@ -1624,7 +1646,7 @@
                     document.getElementById('activity-modal').classList.remove('hidden');
                     document.getElementById('activity-modal').classList.add('flex');
                 }
-                
+
                 function openTeamModal(imgSrc, teamName) {
                     const modal = document.getElementById('team-modal');
                     const modalImg = document.getElementById('team-modal-img');
@@ -1662,18 +1684,23 @@
                 </svg>
             </button>
 
-                <!-- Team Photo Modal -->
-                <div id="team-modal" class="fixed inset-0 bg-black/90 backdrop-blur-xl z-[100] hidden items-center justify-center p-4 transition-all duration-300">
-                    <button onclick="closeTeamModal()" class="absolute top-8 right-8 text-white/50 hover:text-white transition-all transform hover:scale-110">
-                        <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                        </svg>
-                    </button>
-                    <div class="max-w-5xl w-full animate-zoom-in">
-                        <img id="team-modal-img" src="" class="w-full h-auto rounded-2xl shadow-2xl border border-white/10">
-                        <h3 id="team-modal-title" class="font-montserrat font-black text-3xl text-white mt-6 text-center uppercase tracking-tighter"></h3>
-                    </div>
+            <!-- Team Photo Modal -->
+            <div id="team-modal"
+                class="fixed inset-0 bg-black/90 backdrop-blur-xl z-[100] hidden items-center justify-center p-4 transition-all duration-300">
+                <button onclick="closeTeamModal()"
+                    class="absolute top-8 right-8 text-white/50 hover:text-white transition-all transform hover:scale-110">
+                    <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                        </path>
+                    </svg>
+                </button>
+                <div class="max-w-5xl w-full animate-zoom-in">
+                    <img id="team-modal-img" src="" class="w-full h-auto rounded-2xl shadow-2xl border border-white/10">
+                    <h3 id="team-modal-title"
+                        class="font-montserrat font-black text-3xl text-white mt-6 text-center uppercase tracking-tighter">
+                    </h3>
                 </div>
+            </div>
 
 </body>
 
