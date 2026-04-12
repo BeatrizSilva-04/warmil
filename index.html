@@ -544,7 +544,7 @@
         <header class="glass shadow-sm sticky top-0 z-50">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between items-center h-20">
-                    <div class="flex items-center group cursor-pointer" onclick="showHome()">
+                    <div class="flex items-center group" onclick="showHome()">
                         <div class="w-12 h-12 flex items-center justify-center">
                             <img src="img/simboloarmil.png" alt="Símbolo G.C.D. Armil"
                                 class="w-full h-full object-contain filter brightness-0">
@@ -719,9 +719,9 @@
                 <h2 class="section-title center-title block w-full text-center mb-16">As Nossas Equipas</h2>
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
                     <!-- Team Card Template -->
-                    <div class="premium-card overflow-hidden group">
+                    <div class="premium-card overflow-hidden group cursor-pointer" onclick="openTeamModal('img/traquinas.jpg', 'Traquinas')">
                         <div class="relative h-56 overflow-hidden">
-                            <img src="img/traquinas.jpg" alt="Equipa Traquinas" onclick="openTeamModal('img/traquinas.jpg', 'Traquinas')" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 cursor-pointer"
+                            <img src="img/traquinas.jpg" alt="Equipa Traquinas" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                                 onerror="this.src='https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=800&q=80'">
                             <div
                                 class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-6">
@@ -731,9 +731,9 @@
 
                     </div>
 
-                    <div class="premium-card overflow-hidden group">
+                    <div class="premium-card overflow-hidden group cursor-pointer" onclick="openTeamModal('img/infantis.jpg', 'Infantis')">
                         <div class="relative h-56 overflow-hidden">
-                            <img src="img/infantis.jpg" alt="Equipa Infantis" onclick="openTeamModal('img/infantis.jpg', 'Infantis')" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 cursor-pointer"
+                            <img src="img/infantis.jpg" alt="Equipa Infantis" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                                 onerror="this.src='https://images.unsplash.com/photo-1517466787929-bc942639189b?auto=format&fit=crop&w=800&q=80'">
                             <div
                                 class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-6">
@@ -743,9 +743,9 @@
 
                     </div>
 
-                    <div class="premium-card overflow-hidden group">
+                    <div class="premium-card overflow-hidden group cursor-pointer" onclick="openTeamModal('img/juvenis.jpg', 'Juvenis')">
                         <div class="relative h-56 overflow-hidden">
-                            <img src="img/juvenis.jpg" alt="Equipa Juvenis" onclick="openTeamModal('img/juvenis.jpg', 'Juvenis')" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 cursor-pointer"
+                            <img src="img/juvenis.jpg" alt="Equipa Juvenis" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                                 onerror="this.src='https://images.unsplash.com/photo-1517466787929-bc942639189b?auto=format&fit=crop&w=800&q=80'">
                             <div
                                 class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-6">
@@ -755,9 +755,9 @@
 
                     </div>
 
-                    <div class="premium-card overflow-hidden group">
+                    <div class="premium-card overflow-hidden group cursor-pointer" onclick="openTeamModal('img/seniores_futsal.jpg', 'Séniores Futsal')">
                         <div class="relative h-56 overflow-hidden">
-                            <img src="img/seniores_futsal.jpg" alt="Equipa Séniores Futsal" onclick="openTeamModal('img/seniores_futsal.jpg', 'Séniores Futsal')" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 cursor-pointer"
+                            <img src="img/seniores_futsal.jpg" alt="Equipa Séniores Futsal" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                                 onerror="this.src='https://images.unsplash.com/photo-1575361204480-aadea25e6e68?auto=format&fit=crop&w=800&q=80'">
                             <div
                                 class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-6">
@@ -767,9 +767,9 @@
 
                     </div>
 
-                    <div class="premium-card overflow-hidden group">
+                    <div class="premium-card overflow-hidden group cursor-pointer" onclick="openTeamModal('img/sen_futebol.jpg', 'Séniores Futebol')">
                         <div class="relative h-56 overflow-hidden">
-                            <img src="img/sen_futebol.jpg" alt="Equipa Séniores Futebol" onclick="openTeamModal('img/sen_futebol.jpg', 'Séniores Futebol')" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 cursor-pointer"
+                            <img src="img/sen_futebol.jpg" alt="Equipa Séniores Futebol" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                                 onerror="this.src='https://images.unsplash.com/photo-1431324155629-1a6eda1eed2d?auto=format&fit=crop&w=800&q=80'">
                             <div
                                 class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-6">
@@ -779,9 +779,9 @@
 
                     </div>
 
-                    <div class="premium-card overflow-hidden group">
+                    <div class="premium-card overflow-hidden group cursor-pointer" onclick="openTeamModal('img/veteranos.jpg', 'Veteranos')">
                         <div class="relative h-56 overflow-hidden">
-                            <img src="img/veteranos.jpg" alt="Equipa Veteranos" onclick="openTeamModal('img/veteranos.jpg', 'Veteranos')" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 cursor-pointer"
+                            <img src="img/veteranos.jpg" alt="Equipa Veteranos" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                                 onerror="this.src='https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=800&q=80'">
                             <div
                                 class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-6">
@@ -1545,7 +1545,7 @@
                         return;
                     }
                     container.innerHTML = list.map(act => `
-                <div class="premium-card group cursor-pointer" onclick="openActivityModal('${act.id}')">
+                <div class="premium-card group" onclick="openActivityModal('${act.id}')">
                     <div class="relative h-64">
                         <img src="${act.photo}" class="w-full h-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=800&q=80'">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/80 flex items-end p-6">
