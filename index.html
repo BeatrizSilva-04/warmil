@@ -213,6 +213,23 @@
         }
 
         /* Enhanced Animations */
+        /* Animations */
+        @keyframes bounce-slow {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .animate-bounce-slow {
+            animation: bounce-slow 2s infinite ease-in-out;
+        }
+
         @keyframes fadeInUp {
             from {
                 opacity: 0;
@@ -481,6 +498,7 @@
             background: #f3f4f6;
             color: #4b5563;
         }
+
         .admin-tab-btn.active {
             background: #000;
             color: #fff;
@@ -510,7 +528,7 @@
 
 <body>
     <div id="loading-screen">
-        <img src="img/simboloarmil.png" alt="GCD Armil" class="loading-logo filter brightness-0 invert">
+        <img src="img/simboloarmil.png" alt="G.C.D. Armil" class="loading-logo filter brightness-0 invert">
     </div>
 
     <!-- Scroll Progress Bar -->
@@ -522,10 +540,10 @@
                 <div class="flex justify-between items-center h-20">
                     <div class="flex items-center group cursor-pointer" onclick="showHome()">
                         <div class="w-12 h-12 flex items-center justify-center">
-                            <img src="img/simboloarmil.png" alt="Símbolo GCD Armil"
+                            <img src="img/simboloarmil.png" alt="Símbolo G.C.D. Armil"
                                 class="w-full h-full object-contain filter brightness-0">
                         </div>
-                        <span class="ml-3 font-montserrat font-black text-2xl tracking-tighter text-foreground">GCD
+                        <span class="ml-3 font-montserrat font-black text-2xl tracking-tighter text-foreground">G.C.D.
                             ARMIL</span>
                     </div>
 
@@ -645,19 +663,15 @@
                             </p>
                         </div>
                     </div>
-                    <div class="flex flex-col sm:flex-row items-center justify-center gap-6">
-                        <button class="btn-primary-premium w-full sm:w-auto text-lg px-12 group">
-                            Junta-te a Nós
-                            <svg class="w-5 h-5 inline-block ml-2 transition-transform group-hover:translate-x-1"
-                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
-                            </svg>
-                        </button>
-                        <a href="#about"
-                            class="btn-premium bg-white/10 backdrop-blur-md text-white border border-white/20 hover:bg-white/20 w-full sm:w-auto text-lg px-12">
-                            Saiba Mais
-                        </a>
+                    <div class="flex flex-col items-center justify-center">
+                        <div class="animate-bounce-slow mt-8">
+                            <a href="#teams" class="text-white/40 hover:text-white transition-colors">
+                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+                                </svg>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -709,7 +723,7 @@
                                 <h3 class="font-montserrat font-black text-2xl text-white">Traquinas</h3>
                             </div>
                         </div>
-                        
+
                     </div>
 
                     <div class="premium-card overflow-hidden group">
@@ -722,7 +736,7 @@
                                 <h3 class="font-montserrat font-black text-2xl text-white">Infantis</h3>
                             </div>
                         </div>
-                        
+
                     </div>
 
                     <div class="premium-card overflow-hidden group">
@@ -735,7 +749,7 @@
                                 <h3 class="font-montserrat font-black text-2xl text-white">Juvenis</h3>
                             </div>
                         </div>
-                        
+
                     </div>
 
                     <div class="premium-card overflow-hidden group">
@@ -748,7 +762,7 @@
                                 <h3 class="font-montserrat font-black text-2xl text-white">Séniores Futsal</h3>
                             </div>
                         </div>
-                        
+
                     </div>
 
                     <div class="premium-card overflow-hidden group">
@@ -761,7 +775,7 @@
                                 <h3 class="font-montserrat font-black text-2xl text-white">Séniores Futebol</h3>
                             </div>
                         </div>
-                        
+
                     </div>
 
                     <div class="premium-card overflow-hidden group">
@@ -774,536 +788,581 @@
                                 <h3 class="font-montserrat font-black text-2xl text-white">Veteranos</h3>
                             </div>
                         </div>
-                        
+
                     </div>
                 </div>
 
 
                 <section id="activities" class="py-24 bg-card/10 relative overflow-hidden">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <h2 class="section-title center-title block w-full text-center mb-16">Atividades do Clube</h2>
-                <div id="activities-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <!-- Atividades serão carregadas via JS -->
-                </div>
-            </div>
-        </section>
-
-        <!-- Activity Detail Modal -->
-        <div id="activity-modal"
-            class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden items-center justify-center p-4">
-            <div class="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl">
-                <div class="sticky top-0 bg-white border-b border-border p-6 flex justify-between items-center z-10">
-                    <h3 id="modal-title" class="font-montserrat font-black text-3xl text-foreground"></h3>
-                    <button onclick="closeActivityModal()"
-                        class="text-muted-foreground hover:text-foreground transition-colors">
-                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M6 18L18 6M6 6l12 12"></path>
-                        </svg>
-                    </button>
-                </div>
-
-                <div class="p-6">
-                    <!-- Main Photo with Navigation -->
-                    <div id="modal-main-photo" class="w-full h-96 rounded-xl overflow-hidden mb-6 relative group">
-                        <img id="modal-main-img" src="" alt=""
-                            class="w-full h-full object-cover transition-all duration-300">
-
-                        <!-- Carousel Controls -->
-                        <button id="modal-prev"
-                            class="absolute left-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 backdrop-blur-md text-white p-4 rounded-full opacity-0 group-hover:opacity-100 transition-all transform hover:scale-110 active:scale-95 hidden">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M15 19l-7-7 7-7"></path>
-                            </svg>
-                        </button>
-                        <button id="modal-next"
-                            class="absolute right-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 backdrop-blur-md text-white p-4 rounded-full opacity-0 group-hover:opacity-100 transition-all transform hover:scale-110 active:scale-95 hidden">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
-                                </path>
-                            </svg>
-                        </button>
-
-                        <!-- Counter Pill -->
-                        <div id="modal-counter"
-                            class="absolute bottom-4 right-4 bg-black/60 backdrop-blur-md text-white px-3 py-1 rounded-full text-xs font-bold hidden">
-                            1 / 1
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <h2 class="section-title center-title block w-full text-center mb-16">Atividades do Clube</h2>
+                        <div id="activities-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            <!-- Atividades serão carregadas via JS -->
                         </div>
                     </div>
+                </section>
 
-                    <!-- Description -->
-                    <div class="mb-8">
-                        <h4 class="font-montserrat font-bold text-xl mb-4 text-foreground">Descrição</h4>
-                        <p id="modal-description" class="font-open-sans text-muted-foreground text-lg leading-relaxed">
-                        </p>
-                    </div>
+                <!-- Activity Detail Modal -->
+                <div id="activity-modal"
+                    class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden items-center justify-center p-4">
+                    <div class="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl">
+                        <div
+                            class="sticky top-0 bg-white border-b border-border p-6 flex justify-between items-center z-10">
+                            <h3 id="modal-title" class="font-montserrat font-black text-3xl text-foreground"></h3>
+                            <button onclick="closeActivityModal()"
+                                class="text-muted-foreground hover:text-foreground transition-colors">
+                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                            </button>
+                        </div>
 
-                    <!-- Photo Gallery -->
-                    <div id="modal-gallery" class="hidden">
-                        <h4 class="font-montserrat font-bold text-xl mb-4 text-foreground">Galeria de Fotos</h4>
-                        <div id="modal-gallery-grid" class="grid grid-cols-2 md:grid-cols-3 gap-4">
-                            <!-- Gallery photos will be loaded here -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+                        <div class="p-6">
+                            <!-- Main Photo with Navigation -->
+                            <div id="modal-main-photo"
+                                class="w-full h-96 rounded-xl overflow-hidden mb-6 relative group">
+                                <img id="modal-main-img" src="" alt=""
+                                    class="w-full h-full object-cover transition-all duration-300">
 
-        <section id="about" class="py-24 bg-background relative">
-            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex flex-col lg:flex-row items-center gap-16">
-                    <div class="lg:w-1/2">
-                        <h2 class="section-title mb-8">A Nossa História</h2>
-                        <div class="space-y-6 font-open-sans text-muted-foreground text-lg leading-relaxed">
-                            <p>
-                                O <span class="text-primary font-bold">Grupo Cultural e Desportivo de Armil</span> foi
-                                fundado a 6 de junho de 1978, fruto da paixão de um grupo de amigos que acreditavam no
-                                desporto como motor de união.
-                            </p>
-                            <p>
-                                Ao longo das décadas, o clube consolidou-se como uma referência no futsal e futebol
-                                distrital, formando não apenas atletas, mas cidadãos com valores de disciplina e
-                                respeito.
-                            </p>
-                            <p>
-                                Mais do que troféus, o nosso maior orgulho é a nossa comunidade. Somos uma família que
-                                preserva tradições enquanto olha para o futuro com ambição.
-                            </p>
-                        </div>
-                    </div>
-                    <div class="lg:w-1/2 grid grid-cols-2 gap-4">
-                        <div class="premium-card p-8 text-center bg-primary text-white">
-                            <span class="block text-4xl font-black mb-2">45+</span>
-                            <span class="text-sm uppercase font-bold tracking-tighter">Anos de História</span>
-                        </div>
-                        <div class="premium-card p-8 text-center border-2 border-primary/20">
-                            <span class="block text-4xl font-black text-primary mb-2">100+</span>
-                            <span
-                                class="text-sm uppercase font-bold text-muted-foreground tracking-tighter">Atletas</span>
-                        </div>
-                        <div class="premium-card p-8 text-center border-2 border-primary/20">
-                            <span class="block text-4xl font-black text-primary mb-2">7</span>
-                            <span
-                                class="text-sm uppercase font-bold text-muted-foreground tracking-tighter">Escalões</span>
-                        </div>
-                        <div class="premium-card p-8 text-center bg-foreground text-white">
-                            <span class="block text-4xl font-black mb-2">1978</span>
-                            <span class="text-sm uppercase font-bold tracking-tighter">Fundação</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+                                <!-- Carousel Controls -->
+                                <button id="modal-prev"
+                                    class="absolute left-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 backdrop-blur-md text-white p-4 rounded-full opacity-0 group-hover:opacity-100 transition-all transform hover:scale-110 active:scale-95 hidden">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M15 19l-7-7 7-7"></path>
+                                    </svg>
+                                </button>
+                                <button id="modal-next"
+                                    class="absolute right-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 backdrop-blur-md text-white p-4 rounded-full opacity-0 group-hover:opacity-100 transition-all transform hover:scale-110 active:scale-95 hidden">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M9 5l7 7-7 7">
+                                        </path>
+                                    </svg>
+                                </button>
 
-        <footer class="bg-foreground text-white py-24 relative overflow-hidden">
-            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary/50 via-primary to-primary/50">
-            </div>
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                <div class="grid md:grid-cols-4 gap-12 text-center md:text-left">
-                    <div class="col-span-1 md:col-span-1">
-                        <div class="flex items-center mb-8 justify-center md:justify-start">
-                            <div class="w-12 h-12 bg-white rounded-full p-1 mr-3">
-                                <img src="img/simboloarmil.png" alt="GCD Armil"
-                                    class="w-full h-full object-contain filter brightness-0">
+                                <!-- Counter Pill -->
+                                <div id="modal-counter"
+                                    class="absolute bottom-4 right-4 bg-black/60 backdrop-blur-md text-white px-3 py-1 rounded-full text-xs font-bold hidden">
+                                    1 / 1
+                                </div>
                             </div>
-                            <span class="font-montserrat font-black text-2xl tracking-tighter text-white">GCD
-                                ARMIL</span>
-                        </div>
-                        <p class="font-open-sans text-gray-300 leading-relaxed mb-6">
-                            Paixão, força e tradição desde 1978. Mais que um clube, somos uma família unida pelo amor ao
-                            desporto.
-                        </p>
-                    </div>
 
-                    <div>
-                        <h4 class="font-montserrat font-bold text-lg mb-8 uppercase tracking-widest text-white">
-                            Navegação</h4>
-                        <ul class="space-y-4 font-open-sans text-gray-300">
-                            <li><a href="#home" class="hover:text-white transition-colors">Início</a></li>
-                            <li><a href="#teams" class="hover:text-white transition-colors">Equipas</a></li>
-                            <li><a href="#activities" class="hover:text-white transition-colors">Atividades</a></li>
-                            <li><a href="#matches" class="hover:text-white transition-colors">Calendário</a></li>
-                            <li><a href="#about" class="hover:text-white transition-colors">Sobre Nós</a></li>
-                        </ul>
-                    </div>
+                            <!-- Description -->
+                            <div class="mb-8">
+                                <h4 class="font-montserrat font-bold text-xl mb-4 text-foreground">Descrição</h4>
+                                <p id="modal-description"
+                                    class="font-open-sans text-muted-foreground text-lg leading-relaxed">
+                                </p>
+                            </div>
 
-                    <div>
-                        <h4 class="font-montserrat font-bold text-lg mb-8 uppercase tracking-widest text-white">
-                            Contacto</h4>
-                        <div class="space-y-4 font-open-sans text-gray-300">
-                            <p class="flex items-center justify-center md:justify-start">
-                                <span class="text-white mr-3">📍</span> Rua Campo de Futebol, 4820-010
-                            </p>
-                            <p class="flex items-center justify-center md:justify-start">
-                                <span class="text-white mr-3">📞</span> 966 368 977
-                            </p>
-                            <p class="flex items-center justify-center md:justify-start">
-                                <span class="text-white mr-3">✉️</span> gcdarmil78@gmail.com
-                            </p>
-                        </div>
-                    </div>
-
-                    <div>
-                        <button onclick="window.location.href='admin-login.html'"
-                            class="bg-foreground/0 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-white/10 transition-all backdrop-blur-sm border border-white/20 w-full mt-12">
-                            Área de Administrador
-                        </button>
-                    </div>
-                </div>
-
-                <div
-                    class="border-t border-white/20 mt-16 pt-8 flex flex-col md:flex-row justify-between items-center text-gray-300 text-sm">
-                    <p>© 2024 Grupo Cultural e Desportivo de Armil. Todos os direitos reservados.</p>
-                    <div class="flex space-x-6 mt-6 md:mt-0">
-                        <a href="https://www.facebook.com/profile.php?id=100054213772626" target="_blank"
-                            class="hover:text-white transition-colors">Facebook</a>
-                        <a href="https://www.instagram.com/gcdarmil/" target="_blank"
-                            class="hover:text-white transition-colors">Instagram</a>
-                    </div>
-                </div>
-            </div>
-        </footer>
-    </div>
-
-    <div id="admin-login-view" class="view">
-        <div class="min-h-screen flex items-center justify-center bg-gray-100 px-4">
-            <div class="max-w-md w-full bg-white rounded-lg shadow-lg p-8">
-                <div class="text-center mb-8">
-                    <img src="img/simboloarmil.png" alt="GCD Armil" class="w-24 h-24 mx-auto mb-4 filter invert">
-                    <h2 class="font-montserrat font-bold text-2xl text-foreground">Área de Administrador</h2>
-                    <p class="text-muted-foreground mt-2">Faça login para gerir jogos e resultados</p>
-                </div>
-
-                <form id="login-form" onsubmit="handleLogin(event)">
-                    <div class="form-group">
-                        <label class="form-label">Email</label>
-                        <input type="email" id="admin-email" class="form-input" required
-                            placeholder="exemplo@gmail.com">
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Palavra-passe</label>
-                        <input type="password" id="admin-password" class="form-input" required
-                            placeholder="Digite a palavra-passe">
-                    </div>
-
-                    <div id="login-error" class="text-red-600 text-sm mb-4 hidden">Email ou palavra-passe incorretos!
-                    </div>
-
-                    <button type="submit" class="btn btn-primary w-full mb-4">Entrar</button>
-                    <button type="button" onclick="showHome()" class="btn btn-secondary w-full">Voltar ao Site</button>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- Search Overlay -->
-    <div id="search-overlay"
-        class="fixed inset-0 bg-white/95 backdrop-blur-xl z-[100] hidden flex-col items-center justify-center p-6 transition-all duration-300 opacity-0">
-        <button onclick="toggleSearch()" class="absolute top-6 right-6 p-2 text-foreground/50 hover:text-foreground">
-            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-            </svg>
-        </button>
-
-        <div class="w-full max-w-3xl space-y-8 animate-fade-in-up">
-            <div class="relative group">
-                <input type="text" id="search-input" placeholder="O que procuras?"
-                    class="w-full text-4xl md:text-6xl font-montserrat font-black bg-transparent border-b-4 border-gray-200 focus:border-primary outline-none py-6 text-foreground placeholder-gray-300 transition-colors text-center"
-                    onkeyup="handleSearch(event)">
-                <svg class="w-12 h-12 text-gray-300 absolute right-4 top-1/2 -translate-y-1/2 group-focus-within:text-primary transition-colors"
-                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                </svg>
-            </div>
-
-            <div id="search-results" class="grid gap-4 max-h-[60vh] overflow-y-auto p-4">
-                <!-- Results will appear here -->
-            </div>
-        </div>
-    </div>
-
-    
-    <div id="admin-panel-view" class="view">
-        <div class="min-h-screen bg-gray-50">
-            <header class="bg-black text-white shadow-xl sticky top-0 z-50">
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-                    <div class="flex items-center">
-                        <img src="img/simboloarmil.png" class="w-10 h-10 object-contain brightness-0 invert">
-                        <h1 class="ml-3 font-montserrat font-bold text-xl uppercase tracking-tighter">Painel de Administração</h1>
-                    </div>
-                    <button onclick="handleLogout()" class="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-full font-bold transition-all shadow-lg">Sair</button>
-                </div>
-            </header>
-
-            <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-                <!-- Admin Tabs -->
-                <div class="flex flex-wrap gap-2 mb-10 border-b border-gray-200 pb-4">
-                    <button onclick="showAdminTab('games')" id="tab-games" class="admin-tab-btn active px-6 py-2 rounded-full font-bold transition-all">Jogos</button>
-                    <button onclick="showAdminTab('results')" id="tab-results" class="admin-tab-btn px-6 py-2 rounded-full font-bold transition-all">Resultados</button>
-                    <button onclick="showAdminTab('activities')" id="tab-activities" class="admin-tab-btn px-6 py-2 rounded-full font-bold transition-all">Atividades</button>
-                    <button onclick="showAdminTab('players')" id="tab-players" class="admin-tab-btn px-6 py-2 rounded-full font-bold transition-all">Jogadores</button>
-                </div>
-
-                <!-- Games Tab -->
-                <div id="admin-tab-games" class="admin-tab">
-                    <div class="grid lg:grid-cols-2 gap-8">
-                        <div class="admin-card bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
-                            <h2 class="font-montserrat font-bold text-2xl mb-6">Adicionar Jogo</h2>
-                            <form onsubmit="handleAddGame(event)" class="space-y-4">
-                                <input type="datetime-local" id="game-date" class="form-input" required>
-                                <select id="game-team" class="form-select" required>
-                                    <option value="">Escalão...</option>
-                                    <option value="Traquinas">Traquinas</option>
-                                    <option value="Benjamins">Benjamins</option>
-                                    <option value="Infantis">Infantis</option>
-                                    <option value="Juvenis">Juvenis</option>
-                                    <option value="Séniores Futsal">Séniores Futsal</option>
-                                    <option value="Séniores Futebol">Séniores Futebol</option>
-                                    <option value="Veteranos">Veteranos</option>
-                                </select>
-                                <input type="text" id="game-home-team" placeholder="Equipa Casa" class="form-input" required>
-                                <input type="text" id="game-away-team" placeholder="Equipa Fora" class="form-input" required>
-                                <input type="text" id="game-location" placeholder="Local (Campo do Armil)" class="form-input" required>
-                                <button type="submit" class="w-full bg-black text-white py-3 rounded-xl font-bold hover:shadow-xl transition-all">Adicionar Jogo</button>
-                            </form>
-                        </div>
-                        <div class="admin-card bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
-                            <h2 class="font-montserrat font-bold text-2xl mb-6">Jogos Agendados</h2>
-                            <div id="games-list" class="space-y-4"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Results Tab -->
-                <div id="admin-tab-results" class="admin-tab hidden">
-                    <div class="grid lg:grid-cols-2 gap-8">
-                        <div class="admin-card bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
-                            <h2 class="font-montserrat font-bold text-2xl mb-6">Adicionar Resultado</h2>
-                            <form onsubmit="handleAddResult(event)" class="space-y-4">
-                                <input type="date" id="result-date" class="form-input" required>
-                                <select id="result-team-select" class="form-select" required>
-                                    <option value="">Escalão...</option>
-                                    <option value="Traquinas">Traquinas</option>
-                                    <option value="Benjamins">Benjamins</option>
-                                    <option value="Infantis">Infantis</option>
-                                    <option value="Juvenis">Juvenis</option>
-                                    <option value="Séniores Futsal">Séniores Futsal</option>
-                                    <option value="Séniores Futebol">Séniores Futebol</option>
-                                    <option value="Veteranos">Veteranos</option>
-                                </select>
-                                <div class="grid grid-cols-2 gap-4">
-                                    <input type="text" id="result-home-team" placeholder="Equipa Casa" class="form-input" required>
-                                    <input type="number" id="result-home-score" placeholder="Golos" class="form-input" required>
+                            <!-- Photo Gallery -->
+                            <div id="modal-gallery" class="hidden">
+                                <h4 class="font-montserrat font-bold text-xl mb-4 text-foreground">Galeria de Fotos</h4>
+                                <div id="modal-gallery-grid" class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                                    <!-- Gallery photos will be loaded here -->
                                 </div>
-                                <div class="grid grid-cols-2 gap-4">
-                                    <input type="text" id="result-away-team" placeholder="Equipa Fora" class="form-input" required>
-                                    <input type="number" id="result-away-score" placeholder="Golos" class="form-input" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <section id="about" class="py-24 bg-background relative">
+                    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div class="flex flex-col lg:flex-row items-center gap-16">
+                            <div class="lg:w-1/2">
+                                <h2 class="section-title mb-8">A Nossa História</h2>
+                                <div class="space-y-6 font-open-sans text-muted-foreground text-lg leading-relaxed">
+                                    <p>
+                                        O <span class="text-primary font-bold">Grupo Cultural e Desportivo de
+                                            Armil</span> foi
+                                        fundado a 6 de junho de 1978, fruto da paixão de um grupo de amigos que
+                                        acreditavam no
+                                        desporto como motor de união.
+                                    </p>
+                                    <p>
+                                        Ao longo das décadas, o clube consolidou-se como uma referência no futsal e
+                                        futebol
+                                        distrital, formando não apenas atletas, mas cidadãos com valores de disciplina e
+                                        respeito.
+                                    </p>
+                                    <p>
+                                        Mais do que troféus, o nosso maior orgulho é a nossa comunidade. Somos uma
+                                        família que
+                                        preserva tradições enquanto olha para o futuro com ambição.
+                                    </p>
                                 </div>
-                                <button type="submit" class="w-full bg-black text-white py-3 rounded-xl font-bold hover:shadow-xl transition-all">Adicionar Resultado</button>
-                            </form>
-                        </div>
-                        <div class="admin-card bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
-                            <h2 class="font-montserrat font-bold text-2xl mb-6">Resultados Recentes</h2>
-                            <div id="results-list" class="space-y-4"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Activities Tab -->
-                <div id="admin-tab-activities" class="admin-tab hidden">
-                   <div class="grid lg:grid-cols-2 gap-8">
-                        <div class="admin-card bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
-                            <h2 class="font-montserrat font-bold text-2xl mb-6">Adicionar Atividade</h2>
-                            <form onsubmit="handleAddActivity(event)" class="space-y-4">
-                                <input type="text" id="activity-title-admin" placeholder="Título da Atividade" class="form-input" required>
-                                <textarea id="activity-desc-admin" placeholder="Descrição..." class="form-input" rows="3" required></textarea>
-                                <input type="url" id="activity-photo-url-admin" placeholder="URL da Foto Principal" class="form-input" required>
-                                <button type="submit" class="w-full bg-black text-white py-3 rounded-xl font-bold hover:shadow-xl transition-all">Criar Atividade</button>
-                            </form>
-                        </div>
-                        <div class="admin-card bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
-                            <h2 class="font-montserrat font-bold text-2xl mb-6">Atividades Listadas</h2>
-                            <div id="admin-activities-list-inner" class="space-y-4"></div>
+                            </div>
+                            <div class="lg:w-1/2 grid grid-cols-2 gap-4">
+                                <div class="premium-card p-8 text-center bg-primary text-white">
+                                    <span class="block text-4xl font-black mb-2">45+</span>
+                                    <span class="text-sm uppercase font-bold tracking-tighter">Anos de História</span>
+                                </div>
+                                <div class="premium-card p-8 text-center border-2 border-primary/20">
+                                    <span class="block text-4xl font-black text-primary mb-2">100+</span>
+                                    <span
+                                        class="text-sm uppercase font-bold text-muted-foreground tracking-tighter">Atletas</span>
+                                </div>
+                                <div class="premium-card p-8 text-center border-2 border-primary/20">
+                                    <span class="block text-4xl font-black text-primary mb-2">7</span>
+                                    <span
+                                        class="text-sm uppercase font-bold text-muted-foreground tracking-tighter">Escalões</span>
+                                </div>
+                                <div class="premium-card p-8 text-center bg-foreground text-white">
+                                    <span class="block text-4xl font-black mb-2">1978</span>
+                                    <span class="text-sm uppercase font-bold tracking-tighter">Fundação</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </section>
 
-                <!-- Players Tab -->
-                <div id="admin-tab-players" class="admin-tab hidden">
-                    <div class="grid lg:grid-cols-2 gap-8">
-                        <div class="admin-card bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
-                            <h2 class="font-montserrat font-bold text-2xl mb-6">Adicionar Jogador</h2>
-                            <form onsubmit="handleAddPlayer(event)" class="space-y-4">
-                                <input type="text" id="player-name" placeholder="Nome do Jogador" class="form-input" required>
-                                <input type="number" id="player-number" placeholder="Número da Camisola" class="form-input" required>
-                                <input type="text" id="player-position" placeholder="Posição (ex: Guarda-redes)" class="form-input" required>
-                                <select id="player-team" class="form-select" required>
-                                    <option value="">Escalão...</option>
-                                    <option value="Traquinas">Traquinas</option>
-                                    <option value="Benjamins">Benjamins</option>
-                                    <option value="Infantis">Infantis</option>
-                                    <option value="Juvenis">Juvenis</option>
-                                    <option value="Séniores Futsal">Séniores Futsal</option>
-                                    <option value="Séniores Futebol">Séniores Futebol</option>
-                                    <option value="Veteranos">Veteranos</option>
-                                </select>
-                                <input type="url" id="player-photo" placeholder="URL da Foto" class="form-input">
-                                <button type="submit" class="w-full bg-black text-white py-3 rounded-xl font-bold hover:shadow-xl transition-all">Registar Jogador</button>
-                            </form>
+                <footer class="bg-foreground text-white py-24 relative overflow-hidden">
+                    <div
+                        class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary/50 via-primary to-primary/50">
+                    </div>
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                        <div class="grid md:grid-cols-4 gap-12 text-center md:text-left">
+                            <div class="col-span-1 md:col-span-1">
+                                <div class="flex items-center mb-8 justify-center md:justify-start">
+                                    <div class="w-12 h-12 bg-white rounded-full p-1 mr-3">
+                                        <img src="img/simboloarmil.png" alt="GCD Armil"
+                                            class="w-full h-full object-contain filter brightness-0">
+                                    </div>
+                                    <span class="font-montserrat font-black text-2xl tracking-tighter text-white">GCD
+                                        ARMIL</span>
+                                </div>
+                                <p class="font-open-sans text-gray-300 leading-relaxed mb-6">
+                                    Paixão, força e tradição desde 1978. Mais que um clube, somos uma família unida pelo
+                                    amor ao
+                                    desporto.
+                                </p>
+                            </div>
+
+                            <div>
+                                <h4 class="font-montserrat font-bold text-lg mb-8 uppercase tracking-widest text-white">
+                                    Navegação</h4>
+                                <ul class="space-y-4 font-open-sans text-gray-300">
+                                    <li><a href="#home" class="hover:text-white transition-colors">Início</a></li>
+                                    <li><a href="#teams" class="hover:text-white transition-colors">Equipas</a></li>
+                                    <li><a href="#activities" class="hover:text-white transition-colors">Atividades</a>
+                                    </li>
+                                    <li><a href="#matches" class="hover:text-white transition-colors">Calendário</a>
+                                    </li>
+                                    <li><a href="#about" class="hover:text-white transition-colors">Sobre Nós</a></li>
+                                </ul>
+                            </div>
+
+                            <div>
+                                <h4 class="font-montserrat font-bold text-lg mb-8 uppercase tracking-widest text-white">
+                                    Contacto</h4>
+                                <div class="space-y-4 font-open-sans text-gray-300">
+                                    <p class="flex items-center justify-center md:justify-start">
+                                        <span class="text-white mr-3">📍</span> Rua Campo de Futebol, 4820-010
+                                    </p>
+                                    <p class="flex items-center justify-center md:justify-start">
+                                        <span class="text-white mr-3">📞</span> 966 368 977
+                                    </p>
+                                    <p class="flex items-center justify-center md:justify-start">
+                                        <span class="text-white mr-3">✉️</span> gcdarmil78@gmail.com
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div>
+                                <button onclick="window.location.href='admin-login.html'"
+                                    class="bg-foreground/0 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-white/10 transition-all backdrop-blur-sm border border-white/20 w-full mt-12">
+                                    Área de Administrador
+                                </button>
+                            </div>
                         </div>
-                        <div class="admin-card bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
-                            <h2 class="font-montserrat font-bold text-2xl mb-6">Lista de Jogadores</h2>
-                            <div id="players-list" class="space-y-4 max-h-[500px] overflow-y-auto pr-2"></div>
+
+                        <div
+                            class="border-t border-white/20 mt-16 pt-8 flex flex-col md:flex-row justify-between items-center text-gray-300 text-sm">
+                            <p>© 2024 Grupo Cultural e Desportivo de Armil. Todos os direitos reservados.</p>
+                            <div class="flex space-x-6 mt-6 md:mt-0">
+                                <a href="https://www.facebook.com/profile.php?id=100054213772626" target="_blank"
+                                    class="hover:text-white transition-colors">Facebook</a>
+                                <a href="https://www.instagram.com/gcdarmil/" target="_blank"
+                                    class="hover:text-white transition-colors">Instagram</a>
+                            </div>
                         </div>
                     </div>
+                </footer>
+            </div>
+
+            <div id="admin-login-view" class="view">
+                <div class="min-h-screen flex items-center justify-center bg-gray-100 px-4">
+                    <div class="max-w-md w-full bg-white rounded-lg shadow-lg p-8">
+                        <div class="text-center mb-8">
+                            <img src="img/simboloarmil.png" alt="GCD Armil"
+                                class="w-24 h-24 mx-auto mb-4 filter invert">
+                            <h2 class="font-montserrat font-bold text-2xl text-foreground">Área de Administrador</h2>
+                            <p class="text-muted-foreground mt-2">Faça login para gerir jogos e resultados</p>
+                        </div>
+
+                        <form id="login-form" onsubmit="handleLogin(event)">
+                            <div class="form-group">
+                                <label class="form-label">Email</label>
+                                <input type="email" id="admin-email" class="form-input" required
+                                    placeholder="exemplo@gmail.com">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Palavra-passe</label>
+                                <input type="password" id="admin-password" class="form-input" required
+                                    placeholder="Digite a palavra-passe">
+                            </div>
+
+                            <div id="login-error" class="text-red-600 text-sm mb-4 hidden">Email ou palavra-passe
+                                incorretos!
+                            </div>
+
+                            <button type="submit" class="btn btn-primary w-full mb-4">Entrar</button>
+                            <button type="button" onclick="showHome()" class="btn btn-secondary w-full">Voltar ao
+                                Site</button>
+                        </form>
+                    </div>
                 </div>
-            </main>
-        </div>
-    </div>
-<script>
-        // Admin credentials
-        const ADMIN_EMAIL = 'gcdarmil78@gmail.com';
-        const ADMIN_PASSWORD = 'armil2024';
+            </div>
 
-        // App State
-        window.publicActivities = [];
+            <!-- Search Overlay -->
+            <div id="search-overlay"
+                class="fixed inset-0 bg-white/95 backdrop-blur-xl z-[100] hidden flex-col items-center justify-center p-6 transition-all duration-300 opacity-0">
+                <button onclick="toggleSearch()"
+                    class="absolute top-6 right-6 p-2 text-foreground/50 hover:text-foreground">
+                    <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                        </path>
+                    </svg>
+                </button>
 
-        // Global initialization
-        document.addEventListener('DOMContentLoaded', () => {
-            console.log('DOM fully loaded and parsed');
-            
-            // Failsafe to hide loading screen
-            setTimeout(hideLoadingScreen, 2000);
-            
-            // Initial data loads
-            checkAuth();
-            loadGames();
-            loadResults();
-            loadPublicActivities();
+                <div class="w-full max-w-3xl space-y-8 animate-fade-in-up">
+                    <div class="relative group">
+                        <input type="text" id="search-input" placeholder="O que procuras?"
+                            class="w-full text-4xl md:text-6xl font-montserrat font-black bg-transparent border-b-4 border-gray-200 focus:border-primary outline-none py-6 text-foreground placeholder-gray-300 transition-colors text-center"
+                            onkeyup="handleSearch(event)">
+                        <svg class="w-12 h-12 text-gray-300 absolute right-4 top-1/2 -translate-y-1/2 group-focus-within:text-primary transition-colors"
+                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                    </div>
 
-            // Set up UI interactions
-            setupUI();
-        });
+                    <div id="search-results" class="grid gap-4 max-h-[60vh] overflow-y-auto p-4">
+                        <!-- Results will appear here -->
+                    </div>
+                </div>
+            </div>
 
-        function setupUI() {
-            // Mobile menu
-            const menuBtn = document.getElementById('mobile-menu-button');
-            const closeBtn = document.getElementById('close-mobile-menu');
-            const mobileMenu = document.getElementById('mobile-menu');
-            
-            if (menuBtn && mobileMenu) {
-                menuBtn.onclick = () => {
-                    mobileMenu.classList.add('open');
-                    document.body.style.overflow = 'hidden';
-                };
-            }
-            if (closeBtn && mobileMenu) {
-                closeBtn.onclick = () => {
-                    mobileMenu.classList.remove('open');
-                    document.body.style.overflow = '';
-                };
-            }
 
-            // Close mobile menu on link click
-            document.querySelectorAll('#mobile-menu a').forEach(link => {
-                link.onclick = () => {
-                    mobileMenu.classList.remove('open');
-                    document.body.style.overflow = '';
-                };
-            });
+            <div id="admin-panel-view" class="view">
+                <div class="min-h-screen bg-gray-50">
+                    <header class="bg-black text-white shadow-xl sticky top-0 z-50">
+                        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+                            <div class="flex items-center">
+                                <img src="img/simboloarmil.png" class="w-10 h-10 object-contain brightness-0 invert">
+                                <h1 class="ml-3 font-montserrat font-bold text-xl uppercase tracking-tighter">Painel de
+                                    Administração</h1>
+                            </div>
+                            <button onclick="handleLogout()"
+                                class="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-full font-bold transition-all shadow-lg">Sair</button>
+                        </div>
+                    </header>
 
-            // Smooth scrolling for anchors
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.onclick = function(e) {
-                    const targetId = this.getAttribute('href');
-                    if (targetId === '#') return;
-                    e.preventDefault();
-                    const target = document.querySelector(targetId);
-                    if (target) {
-                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+                        <!-- Admin Tabs -->
+                        <div class="flex flex-wrap gap-2 mb-10 border-b border-gray-200 pb-4">
+                            <button onclick="showAdminTab('games')" id="tab-games"
+                                class="admin-tab-btn active px-6 py-2 rounded-full font-bold transition-all">Jogos</button>
+                            <button onclick="showAdminTab('results')" id="tab-results"
+                                class="admin-tab-btn px-6 py-2 rounded-full font-bold transition-all">Resultados</button>
+                            <button onclick="showAdminTab('activities')" id="tab-activities"
+                                class="admin-tab-btn px-6 py-2 rounded-full font-bold transition-all">Atividades</button>
+                            <button onclick="showAdminTab('players')" id="tab-players"
+                                class="admin-tab-btn px-6 py-2 rounded-full font-bold transition-all">Jogadores</button>
+                        </div>
+
+                        <!-- Games Tab -->
+                        <div id="admin-tab-games" class="admin-tab">
+                            <div class="grid lg:grid-cols-2 gap-8">
+                                <div class="admin-card bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
+                                    <h2 class="font-montserrat font-bold text-2xl mb-6">Adicionar Jogo</h2>
+                                    <form onsubmit="handleAddGame(event)" class="space-y-4">
+                                        <input type="datetime-local" id="game-date" class="form-input" required>
+                                        <select id="game-team" class="form-select" required>
+                                            <option value="">Escalão...</option>
+                                            <option value="Traquinas">Traquinas</option>
+                                            <option value="Benjamins">Benjamins</option>
+                                            <option value="Infantis">Infantis</option>
+                                            <option value="Juvenis">Juvenis</option>
+                                            <option value="Séniores Futsal">Séniores Futsal</option>
+                                            <option value="Séniores Futebol">Séniores Futebol</option>
+                                            <option value="Veteranos">Veteranos</option>
+                                        </select>
+                                        <input type="text" id="game-home-team" placeholder="Equipa Casa"
+                                            class="form-input" required>
+                                        <input type="text" id="game-away-team" placeholder="Equipa Fora"
+                                            class="form-input" required>
+                                        <input type="text" id="game-location" placeholder="Local (Campo do Armil)"
+                                            class="form-input" required>
+                                        <button type="submit"
+                                            class="w-full bg-black text-white py-3 rounded-xl font-bold hover:shadow-xl transition-all">Adicionar
+                                            Jogo</button>
+                                    </form>
+                                </div>
+                                <div class="admin-card bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
+                                    <h2 class="font-montserrat font-bold text-2xl mb-6">Jogos Agendados</h2>
+                                    <div id="games-list" class="space-y-4"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Results Tab -->
+                        <div id="admin-tab-results" class="admin-tab hidden">
+                            <div class="grid lg:grid-cols-2 gap-8">
+                                <div class="admin-card bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
+                                    <h2 class="font-montserrat font-bold text-2xl mb-6">Adicionar Resultado</h2>
+                                    <form onsubmit="handleAddResult(event)" class="space-y-4">
+                                        <input type="date" id="result-date" class="form-input" required>
+                                        <select id="result-team-select" class="form-select" required>
+                                            <option value="">Escalão...</option>
+                                            <option value="Traquinas">Traquinas</option>
+                                            <option value="Benjamins">Benjamins</option>
+                                            <option value="Infantis">Infantis</option>
+                                            <option value="Juvenis">Juvenis</option>
+                                            <option value="Séniores Futsal">Séniores Futsal</option>
+                                            <option value="Séniores Futebol">Séniores Futebol</option>
+                                            <option value="Veteranos">Veteranos</option>
+                                        </select>
+                                        <div class="grid grid-cols-2 gap-4">
+                                            <input type="text" id="result-home-team" placeholder="Equipa Casa"
+                                                class="form-input" required>
+                                            <input type="number" id="result-home-score" placeholder="Golos"
+                                                class="form-input" required>
+                                        </div>
+                                        <div class="grid grid-cols-2 gap-4">
+                                            <input type="text" id="result-away-team" placeholder="Equipa Fora"
+                                                class="form-input" required>
+                                            <input type="number" id="result-away-score" placeholder="Golos"
+                                                class="form-input" required>
+                                        </div>
+                                        <button type="submit"
+                                            class="w-full bg-black text-white py-3 rounded-xl font-bold hover:shadow-xl transition-all">Adicionar
+                                            Resultado</button>
+                                    </form>
+                                </div>
+                                <div class="admin-card bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
+                                    <h2 class="font-montserrat font-bold text-2xl mb-6">Resultados Recentes</h2>
+                                    <div id="results-list" class="space-y-4"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Activities Tab -->
+                        <div id="admin-tab-activities" class="admin-tab hidden">
+                            <div class="grid lg:grid-cols-2 gap-8">
+                                <div class="admin-card bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
+                                    <h2 class="font-montserrat font-bold text-2xl mb-6">Adicionar Atividade</h2>
+                                    <form onsubmit="handleAddActivity(event)" class="space-y-4">
+                                        <input type="text" id="activity-title-admin" placeholder="Título da Atividade"
+                                            class="form-input" required>
+                                        <textarea id="activity-desc-admin" placeholder="Descrição..." class="form-input"
+                                            rows="3" required></textarea>
+                                        <input type="url" id="activity-photo-url-admin"
+                                            placeholder="URL da Foto Principal" class="form-input" required>
+                                        <button type="submit"
+                                            class="w-full bg-black text-white py-3 rounded-xl font-bold hover:shadow-xl transition-all">Criar
+                                            Atividade</button>
+                                    </form>
+                                </div>
+                                <div class="admin-card bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
+                                    <h2 class="font-montserrat font-bold text-2xl mb-6">Atividades Listadas</h2>
+                                    <div id="admin-activities-list-inner" class="space-y-4"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Players Tab -->
+                        <div id="admin-tab-players" class="admin-tab hidden">
+                            <div class="grid lg:grid-cols-2 gap-8">
+                                <div class="admin-card bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
+                                    <h2 class="font-montserrat font-bold text-2xl mb-6">Adicionar Jogador</h2>
+                                    <form onsubmit="handleAddPlayer(event)" class="space-y-4">
+                                        <input type="text" id="player-name" placeholder="Nome do Jogador"
+                                            class="form-input" required>
+                                        <input type="number" id="player-number" placeholder="Número da Camisola"
+                                            class="form-input" required>
+                                        <input type="text" id="player-position" placeholder="Posição (ex: Guarda-redes)"
+                                            class="form-input" required>
+                                        <select id="player-team" class="form-select" required>
+                                            <option value="">Escalão...</option>
+                                            <option value="Traquinas">Traquinas</option>
+                                            <option value="Benjamins">Benjamins</option>
+                                            <option value="Infantis">Infantis</option>
+                                            <option value="Juvenis">Juvenis</option>
+                                            <option value="Séniores Futsal">Séniores Futsal</option>
+                                            <option value="Séniores Futebol">Séniores Futebol</option>
+                                            <option value="Veteranos">Veteranos</option>
+                                        </select>
+                                        <input type="url" id="player-photo" placeholder="URL da Foto"
+                                            class="form-input">
+                                        <button type="submit"
+                                            class="w-full bg-black text-white py-3 rounded-xl font-bold hover:shadow-xl transition-all">Registar
+                                            Jogador</button>
+                                    </form>
+                                </div>
+                                <div class="admin-card bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
+                                    <h2 class="font-montserrat font-bold text-2xl mb-6">Lista de Jogadores</h2>
+                                    <div id="players-list" class="space-y-4 max-h-[500px] overflow-y-auto pr-2"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </main>
+                </div>
+            </div>
+            <script>
+                // Admin credentials
+                const ADMIN_EMAIL = 'gcdarmil78@gmail.com';
+                const ADMIN_PASSWORD = 'armil2024';
+
+                // App State
+                window.publicActivities = [];
+
+                // Global initialization
+                document.addEventListener('DOMContentLoaded', () => {
+                    console.log('DOM fully loaded and parsed');
+
+                    // Failsafe to hide loading screen
+                    setTimeout(hideLoadingScreen, 2000);
+
+                    // Initial data loads
+                    checkAuth();
+                    loadGames();
+                    loadResults();
+                    loadPublicActivities();
+
+                    // Set up UI interactions
+                    setupUI();
+                });
+
+                function setupUI() {
+                    // Mobile menu
+                    const menuBtn = document.getElementById('mobile-menu-button');
+                    const closeBtn = document.getElementById('close-mobile-menu');
+                    const mobileMenu = document.getElementById('mobile-menu');
+
+                    if (menuBtn && mobileMenu) {
+                        menuBtn.onclick = () => {
+                            mobileMenu.classList.add('open');
+                            document.body.style.overflow = 'hidden';
+                        };
                     }
-                };
-            });
-        }
+                    if (closeBtn && mobileMenu) {
+                        closeBtn.onclick = () => {
+                            mobileMenu.classList.remove('open');
+                            document.body.style.overflow = '';
+                        };
+                    }
 
-        function hideLoadingScreen() {
-            const ls = document.getElementById('loading-screen');
-            if (ls && !ls.classList.contains('fade-out')) {
-                ls.classList.add('fade-out');
-                setTimeout(() => { if(ls) ls.style.display = 'none'; }, 500);
-            }
-        }
+                    // Close mobile menu on link click
+                    document.querySelectorAll('#mobile-menu a').forEach(link => {
+                        link.onclick = () => {
+                            mobileMenu.classList.remove('open');
+                            document.body.style.overflow = '';
+                        };
+                    });
 
-        function showView(viewId) {
-            console.log('Showing view:', viewId);
-            // Hide all views explicitly
-            document.querySelectorAll('.view').forEach(v => {
-                v.classList.remove('active');
-                v.style.display = 'none';
-            });
-            // Show target view
-            const target = document.getElementById(viewId);
-            if (target) {
-                target.classList.add('active');
-                target.style.display = 'block';
-                window.scrollTo(0, 0);
-                document.body.style.overflow = 'auto'; // Ensure scroll is available
-                console.log('View', viewId, 'is now visible');
-            } else {
-                console.error('View not found:', viewId);
-            }
-        }
+                    // Smooth scrolling for anchors
+                    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                        anchor.onclick = function (e) {
+                            const targetId = this.getAttribute('href');
+                            if (targetId === '#') return;
+                            e.preventDefault();
+                            const target = document.querySelector(targetId);
+                            if (target) {
+                                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            }
+                        };
+                    });
+                }
 
-        function showHome() { showView('home-view'); }
-        function showAdminLogin() { 
-            console.log('Button clicked: showAdminLogin');
-            showView('admin-login-view'); 
-            const pwInput = document.getElementById('admin-password');
-            if (pwInput) pwInput.value = '';
-            const errDiv = document.getElementById('login-error');
-            if (errDiv) errDiv.classList.add('hidden');
-        }
-        
-        function showAdminPanel() { 
-            showView('admin-panel-view'); 
-            loadAdminGames();
-            loadAdminResults();
-            loadAdminActivities();
-            loadAdminPlayers();
-        }
+                function hideLoadingScreen() {
+                    const ls = document.getElementById('loading-screen');
+                    if (ls && !ls.classList.contains('fade-out')) {
+                        ls.classList.add('fade-out');
+                        setTimeout(() => { if (ls) ls.style.display = 'none'; }, 500);
+                    }
+                }
 
-        function showAdminTab(tab) {
-            document.querySelectorAll('.admin-tab').forEach(t => t.classList.add('hidden'));
-            document.getElementById('admin-tab-' + tab).classList.remove('hidden');
+                function showView(viewId) {
+                    console.log('Showing view:', viewId);
+                    // Hide all views explicitly
+                    document.querySelectorAll('.view').forEach(v => {
+                        v.classList.remove('active');
+                        v.style.display = 'none';
+                    });
+                    // Show target view
+                    const target = document.getElementById(viewId);
+                    if (target) {
+                        target.classList.add('active');
+                        target.style.display = 'block';
+                        window.scrollTo(0, 0);
+                        document.body.style.overflow = 'auto'; // Ensure scroll is available
+                        console.log('View', viewId, 'is now visible');
+                    } else {
+                        console.error('View not found:', viewId);
+                    }
+                }
 
-            document.querySelectorAll('.admin-tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.getElementById('tab-' + tab).classList.add('active');
-        }
+                function showHome() { showView('home-view'); }
+                function showAdminLogin() {
+                    console.log('Button clicked: showAdminLogin');
+                    showView('admin-login-view');
+                    const pwInput = document.getElementById('admin-password');
+                    if (pwInput) pwInput.value = '';
+                    const errDiv = document.getElementById('login-error');
+                    if (errDiv) errDiv.classList.add('hidden');
+                }
 
-        async function handleAddPlayer(e) {
-            e.preventDefault();
-            const player = {
-                name: document.getElementById('player-name').value,
-                number: document.getElementById('player-number').value,
-                position: document.getElementById('player-position').value,
-                team: document.getElementById('player-team').value,
-                photo: document.getElementById('player-photo').value || 'img/simboloarmil.png'
-            };
-            await db.collection('players').add(player);
-            e.target.reset();
-            alert('Jogador adicionado!');
-        }
+                function showAdminPanel() {
+                    showView('admin-panel-view');
+                    loadAdminGames();
+                    loadAdminResults();
+                    loadAdminActivities();
+                    loadAdminPlayers();
+                }
 
-        function loadAdminPlayers() {
-            db.collection('players').orderBy('name').onSnapshot(snap => {
-                const list = document.getElementById('players-list');
-                if (!list) return;
-                list.innerHTML = snap.docs.map(doc => {
-                    const p = doc.data();
-                    return `
+                function showAdminTab(tab) {
+                    document.querySelectorAll('.admin-tab').forEach(t => t.classList.add('hidden'));
+                    document.getElementById('admin-tab-' + tab).classList.remove('hidden');
+
+                    document.querySelectorAll('.admin-tab-btn').forEach(btn => btn.classList.remove('active'));
+                    document.getElementById('tab-' + tab).classList.add('active');
+                }
+
+                async function handleAddPlayer(e) {
+                    e.preventDefault();
+                    const player = {
+                        name: document.getElementById('player-name').value,
+                        number: document.getElementById('player-number').value,
+                        position: document.getElementById('player-position').value,
+                        team: document.getElementById('player-team').value,
+                        photo: document.getElementById('player-photo').value || 'img/simboloarmil.png'
+                    };
+                    await db.collection('players').add(player);
+                    e.target.reset();
+                    alert('Jogador adicionado!');
+                }
+
+                function loadAdminPlayers() {
+                    db.collection('players').orderBy('name').onSnapshot(snap => {
+                        const list = document.getElementById('players-list');
+                        if (!list) return;
+                        list.innerHTML = snap.docs.map(doc => {
+                            const p = doc.data();
+                            return `
                         <div class="match-item flex justify-between items-center">
                             <div class="flex items-center">
                                 <img src="${p.photo}" class="w-10 h-10 rounded-full object-cover mr-3">
@@ -1315,130 +1374,130 @@
                             <button onclick="deletePlayer('${doc.id}')" class="bg-red-600 text-white px-2 py-1 rounded text-xs">Remover</button>
                         </div>
                     `;
-                }).join('');
-            });
-        }
-
-        async function deletePlayer(id) {
-            if(confirm('Remover este jogador?')) await db.collection('players').doc(id).delete();
-        }
-
-        async function handleAddGame(e) {
-            e.preventDefault();
-            const game = {
-                date: document.getElementById('game-date').value,
-                team: document.getElementById('game-team').value,
-                homeTeam: document.getElementById('game-home-team').value,
-                awayTeam: document.getElementById('game-away-team').value,
-                location: document.getElementById('game-location').value
-            };
-            await db.collection('games').add(game);
-            e.target.reset();
-        }
-
-        async function handleAddResult(e) {
-            e.preventDefault();
-            const result = {
-                date: document.getElementById('result-date').value,
-                team: document.getElementById('result-team-select').value,
-                homeTeam: document.getElementById('result-home-team').value,
-                homeScore: document.getElementById('result-home-score').value,
-                awayTeam: document.getElementById('result-away-team').value,
-                awayScore: document.getElementById('result-away-score').value
-            };
-            await db.collection('results').add(result);
-            e.target.reset();
-        }
-
-        async function handleAddActivity(e) {
-            e.preventDefault();
-            const activity = {
-                title: document.getElementById('activity-title-admin').value,
-                description: document.getElementById('activity-desc-admin').value,
-                photo: document.getElementById('activity-photo-url-admin').value,
-                order: Date.now()
-            };
-            await db.collection('activities').add(activity);
-            e.target.reset();
-        }
-async function handleLogin(e) {
-            e.preventDefault();
-            const emailInput = document.getElementById('admin-email');
-            const passwordInput = document.getElementById('admin-password');
-            if (!emailInput || !passwordInput) return;
-            
-            const email = emailInput.value;
-            const password = passwordInput.value;
-            const errorDiv = document.getElementById('login-error');
-            try {
-                await auth.signInWithEmailAndPassword(email, password);
-                showAdminPanel();
-            } catch (error) {
-                console.error('Login error:', error);
-                if (errorDiv) {
-                    errorDiv.textContent = 'Email ou palavra-passe incorretos!';
-                    errorDiv.classList.remove('hidden');
+                        }).join('');
+                    });
                 }
-            }
-        }
 
-        async function handleLogout() {
-            await auth.signOut();
-            showHome();
-        }
+                async function deletePlayer(id) {
+                    if (confirm('Remover este jogador?')) await db.collection('players').doc(id).delete();
+                }
 
-        function showAdminTab(tab) {
-            document.querySelectorAll('.admin-tab').forEach(t => t.classList.add('hidden'));
-            const targetTab = document.getElementById('admin-tab-' + tab);
-            if (targetTab) targetTab.classList.remove('hidden');
+                async function handleAddGame(e) {
+                    e.preventDefault();
+                    const game = {
+                        date: document.getElementById('game-date').value,
+                        team: document.getElementById('game-team').value,
+                        homeTeam: document.getElementById('game-home-team').value,
+                        awayTeam: document.getElementById('game-away-team').value,
+                        location: document.getElementById('game-location').value
+                    };
+                    await db.collection('games').add(game);
+                    e.target.reset();
+                }
 
-            document.querySelectorAll('[id^="tab-"]').forEach(btn => {
-                btn.classList.remove('border-primary', 'text-primary');
-                btn.classList.add('border-transparent', 'text-gray-600');
-            });
-            const activeBtn = document.getElementById('tab-' + tab);
-            if (activeBtn) {
-                activeBtn.classList.add('border-primary', 'text-primary');
-                activeBtn.classList.remove('border-transparent', 'text-gray-600');
-            }
-        }
+                async function handleAddResult(e) {
+                    e.preventDefault();
+                    const result = {
+                        date: document.getElementById('result-date').value,
+                        team: document.getElementById('result-team-select').value,
+                        homeTeam: document.getElementById('result-home-team').value,
+                        homeScore: document.getElementById('result-home-score').value,
+                        awayTeam: document.getElementById('result-away-team').value,
+                        awayScore: document.getElementById('result-away-score').value
+                    };
+                    await db.collection('results').add(result);
+                    e.target.reset();
+                }
 
-        // Data Loading
-        function loadGames() {
-            db.collection('games').orderBy('date', 'asc').onSnapshot(snap => {
-                const games = snap.docs.map(doc => ({id: doc.id, ...doc.data()}));
-                updatePublicMatches(games);
-            });
-        }
-        function loadResults() {
-            db.collection('results').orderBy('date', 'desc').onSnapshot(snap => {
-                const results = snap.docs.map(doc => ({id: doc.id, ...doc.data()}));
-                updatePublicResults(results);
-            });
-        }
-        function loadPublicActivities() {
-            db.collection('activities').orderBy('order', 'asc').onSnapshot(snap => {
-                const activities = snap.docs.map(doc => ({id: doc.id, ...doc.data()}));
-                window.publicActivities = activities;
-                updatePublicActivitiesView(activities);
-            });
-        }
+                async function handleAddActivity(e) {
+                    e.preventDefault();
+                    const activity = {
+                        title: document.getElementById('activity-title-admin').value,
+                        description: document.getElementById('activity-desc-admin').value,
+                        photo: document.getElementById('activity-photo-url-admin').value,
+                        order: Date.now()
+                    };
+                    await db.collection('activities').add(activity);
+                    e.target.reset();
+                }
+                async function handleLogin(e) {
+                    e.preventDefault();
+                    const emailInput = document.getElementById('admin-email');
+                    const passwordInput = document.getElementById('admin-password');
+                    if (!emailInput || !passwordInput) return;
 
-        function updatePublicMatches(games) {
-            const container = document.getElementById('upcoming-matches-list');
-            if (!container) return;
-            const now = new Date();
-            now.setHours(0,0,0,0);
-            const filtered = games.filter(g => new Date(g.date) >= now).slice(0, 6);
-            if (filtered.length === 0) {
-                container.innerHTML = '<p class="text-muted-foreground text-center py-12">Nenhum jogo agendado.</p>';
-                return;
-            }
-            container.innerHTML = filtered.map(game => {
-                const d = new Date(game.date);
-                const day = d.toLocaleDateString('pt-PT', {day: '2-digit', month: '2-digit'});
-                const time = d.toLocaleTimeString('pt-PT', {hour: '2-digit', minute: '2-digit'});
-                return `
+                    const email = emailInput.value;
+                    const password = passwordInput.value;
+                    const errorDiv = document.getElementById('login-error');
+                    try {
+                        await auth.signInWithEmailAndPassword(email, password);
+                        showAdminPanel();
+                    } catch (error) {
+                        console.error('Login error:', error);
+                        if (errorDiv) {
+                            errorDiv.textContent = 'Email ou palavra-passe incorretos!';
+                            errorDiv.classList.remove('hidden');
+                        }
+                    }
+                }
+
+                async function handleLogout() {
+                    await auth.signOut();
+                    showHome();
+                }
+
+                function showAdminTab(tab) {
+                    document.querySelectorAll('.admin-tab').forEach(t => t.classList.add('hidden'));
+                    const targetTab = document.getElementById('admin-tab-' + tab);
+                    if (targetTab) targetTab.classList.remove('hidden');
+
+                    document.querySelectorAll('[id^="tab-"]').forEach(btn => {
+                        btn.classList.remove('border-primary', 'text-primary');
+                        btn.classList.add('border-transparent', 'text-gray-600');
+                    });
+                    const activeBtn = document.getElementById('tab-' + tab);
+                    if (activeBtn) {
+                        activeBtn.classList.add('border-primary', 'text-primary');
+                        activeBtn.classList.remove('border-transparent', 'text-gray-600');
+                    }
+                }
+
+                // Data Loading
+                function loadGames() {
+                    db.collection('games').orderBy('date', 'asc').onSnapshot(snap => {
+                        const games = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                        updatePublicMatches(games);
+                    });
+                }
+                function loadResults() {
+                    db.collection('results').orderBy('date', 'desc').onSnapshot(snap => {
+                        const results = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                        updatePublicResults(results);
+                    });
+                }
+                function loadPublicActivities() {
+                    db.collection('activities').orderBy('order', 'asc').onSnapshot(snap => {
+                        const activities = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                        window.publicActivities = activities;
+                        updatePublicActivitiesView(activities);
+                    });
+                }
+
+                function updatePublicMatches(games) {
+                    const container = document.getElementById('upcoming-matches-list');
+                    if (!container) return;
+                    const now = new Date();
+                    now.setHours(0, 0, 0, 0);
+                    const filtered = games.filter(g => new Date(g.date) >= now).slice(0, 6);
+                    if (filtered.length === 0) {
+                        container.innerHTML = '<p class="text-muted-foreground text-center py-12">Nenhum jogo agendado.</p>';
+                        return;
+                    }
+                    container.innerHTML = filtered.map(game => {
+                        const d = new Date(game.date);
+                        const day = d.toLocaleDateString('pt-PT', { day: '2-digit', month: '2-digit' });
+                        const time = d.toLocaleTimeString('pt-PT', { hour: '2-digit', minute: '2-digit' });
+                        return `
                     <div class="match-card-premium group !p-0 overflow-hidden flex flex-col border-none shadow-md">
                         <div class="bg-gray-50/80 px-4 py-2 flex justify-between items-center">
                             <span class="bg-primary/10 text-primary px-2 py-0.5 rounded text-[8px] font-black uppercase">${game.team}</span>
@@ -1457,13 +1516,13 @@ async function handleLogin(e) {
                         </div>
                     </div>
                 `;
-            }).join('');
-        }
+                    }).join('');
+                }
 
-        function updatePublicResults(results) {
-            const container = document.getElementById('recent-results-list');
-            if (!container) return;
-            container.innerHTML = results.slice(0, 6).map(res => `
+                function updatePublicResults(results) {
+                    const container = document.getElementById('recent-results-list');
+                    if (!container) return;
+                    container.innerHTML = results.slice(0, 6).map(res => `
                 <div class="match-card-premium !p-0 overflow-hidden shadow-md flex flex-col">
                     <div class="bg-gray-50 px-4 py-2 flex justify-between">
                         <span class="text-[8px] font-black uppercase">${res.team}</span>
@@ -1476,16 +1535,16 @@ async function handleLogin(e) {
                     </div>
                 </div>
             `).join('');
-        }
+                }
 
-        function updatePublicActivitiesView(list) {
-            const container = document.getElementById('activities-container');
-            if (!container) return;
-            if (list.length === 0) {
-                container.innerHTML = '<p class="text-center py-12">Brevemente.</p>';
-                return;
-            }
-            container.innerHTML = list.map(act => `
+                function updatePublicActivitiesView(list) {
+                    const container = document.getElementById('activities-container');
+                    if (!container) return;
+                    if (list.length === 0) {
+                        container.innerHTML = '<p class="text-center py-12">Brevemente.</p>';
+                        return;
+                    }
+                    container.innerHTML = list.map(act => `
                 <div class="premium-card group cursor-pointer" onclick="openActivityModal('${act.id}')">
                     <div class="relative h-64">
                         <img src="${act.photo}" class="w-full h-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=800&q=80'">
@@ -1498,15 +1557,15 @@ async function handleLogin(e) {
                     </div>
                 </div>
             `).join('');
-        }
+                }
 
-        // Admin Loading
-        function loadAdminGames() {
-            db.collection('games').orderBy('date', 'desc').onSnapshot(snap => {
-                const list = document.getElementById('games-list');
-                if (!list) return;
-                const games = snap.docs.map(doc => ({id: doc.id, ...doc.data()}));
-                list.innerHTML = games.map(g => `
+                // Admin Loading
+                function loadAdminGames() {
+                    db.collection('games').orderBy('date', 'desc').onSnapshot(snap => {
+                        const list = document.getElementById('games-list');
+                        if (!list) return;
+                        const games = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                        list.innerHTML = games.map(g => `
                     <div class="match-item flex justify-between">
                         <div>
                             <p class="font-bold">${g.team} - ${new Date(g.date).toLocaleString()}</p>
@@ -1515,14 +1574,14 @@ async function handleLogin(e) {
                         <button onclick="deleteGame('${g.id}')" class="bg-red-600 text-white px-2 py-1 rounded">X</button>
                     </div>
                 `).join('');
-            });
-        }
-        function loadAdminResults() {
-            db.collection('results').orderBy('date', 'desc').onSnapshot(snap => {
-                const list = document.getElementById('results-list');
-                if (!list) return;
-                const results = snap.docs.map(doc => ({id: doc.id, ...doc.data()}));
-                list.innerHTML = results.map(r => `
+                    });
+                }
+                function loadAdminResults() {
+                    db.collection('results').orderBy('date', 'desc').onSnapshot(snap => {
+                        const list = document.getElementById('results-list');
+                        if (!list) return;
+                        const results = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                        list.innerHTML = results.map(r => `
                     <div class="match-item flex justify-between">
                         <div>
                             <p class="font-bold">${r.team} - ${r.homeTeam} ${r.homeScore}-${r.awayScore} ${r.awayTeam}</p>
@@ -1530,55 +1589,56 @@ async function handleLogin(e) {
                         <button onclick="deleteResult('${r.id}')" class="bg-red-600 text-white px-2 py-1 rounded">X</button>
                     </div>
                 `).join('');
-            });
-        }
-        function loadAdminActivities() {
-            db.collection('activities').orderBy('order', 'desc').onSnapshot(snap => {
-                const list = document.getElementById('admin-activities-list-inner');
-                if (!list) return;
-                const activities = snap.docs.map(doc => ({id: doc.id, ...doc.data()}));
-                list.innerHTML = activities.map(a => `
+                    });
+                }
+                function loadAdminActivities() {
+                    db.collection('activities').orderBy('order', 'desc').onSnapshot(snap => {
+                        const list = document.getElementById('admin-activities-list-inner');
+                        if (!list) return;
+                        const activities = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                        list.innerHTML = activities.map(a => `
                     <div class="match-item flex justify-between">
                         <span>${a.title}</span>
                         <button onclick="deleteActivity('${a.id}')" class="bg-red-600 text-white px-2 py-1 rounded">X</button>
                     </div>
                 `).join('');
-            });
-        }
+                    });
+                }
 
-        // Deletion
-        async function deleteGame(id) { if(confirm('Eliminar jogo?')) await db.collection('games').doc(id).delete(); }
-        async function deleteResult(id) { if(confirm('Eliminar resultado?')) await db.collection('results').doc(id).delete(); }
-        async function deleteActivity(id) { if(confirm('Eliminar atividade?')) await db.collection('activities').doc(id).delete(); }
+                // Deletion
+                async function deleteGame(id) { if (confirm('Eliminar jogo?')) await db.collection('games').doc(id).delete(); }
+                async function deleteResult(id) { if (confirm('Eliminar resultado?')) await db.collection('results').doc(id).delete(); }
+                async function deleteActivity(id) { if (confirm('Eliminar atividade?')) await db.collection('activities').doc(id).delete(); }
 
-        // Modal etc
-        let currentActivityImages = [];
-        let currentImageIndex = 0;
-        function openActivityModal(id) {
-            const act = window.publicActivities.find(a => a.id === id);
-            if (!act) return;
-            currentActivityImages = [act.photo, ...(act.gallery || [])].filter(u => !!u);
-            currentImageIndex = 0;
-            document.getElementById('modal-title').textContent = act.title;
-            document.getElementById('modal-main-img').src = act.photo;
-            document.getElementById('modal-description').textContent = act.description;
-            document.getElementById('activity-modal').classList.remove('hidden');
-            document.getElementById('activity-modal').classList.add('flex');
-        }
-        function closeActivityModal() {
-            document.getElementById('activity-modal').classList.add('hidden');
-            document.getElementById('activity-modal').classList.remove('flex');
-        }
-    </script>
-    <!-- Back to Top Button -->
-    <button id="back-to-top"
-        class="fixed bottom-8 right-8 p-4 bg-primary text-white rounded-full shadow-2xl opacity-0 translate-y-10 transition-all duration-300 z-40 hover:scale-110 active:scale-95 group pointer-events-none"
-        onclick="window.scrollTo({top: 0, behavior: 'smooth'})" aria-label="Voltar ao topo">
-        <svg class="w-6 h-6 transition-transform group-hover:-translate-y-1" fill="none" stroke="currentColor"
-            viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
-        </svg>
-    </button>
+                // Modal etc
+                let currentActivityImages = [];
+                let currentImageIndex = 0;
+                function openActivityModal(id) {
+                    const act = window.publicActivities.find(a => a.id === id);
+                    if (!act) return;
+                    currentActivityImages = [act.photo, ...(act.gallery || [])].filter(u => !!u);
+                    currentImageIndex = 0;
+                    document.getElementById('modal-title').textContent = act.title;
+                    document.getElementById('modal-main-img').src = act.photo;
+                    document.getElementById('modal-description').textContent = act.description;
+                    document.getElementById('activity-modal').classList.remove('hidden');
+                    document.getElementById('activity-modal').classList.add('flex');
+                }
+                function closeActivityModal() {
+                    document.getElementById('activity-modal').classList.add('hidden');
+                    document.getElementById('activity-modal').classList.remove('flex');
+                }
+            </script>
+            <!-- Back to Top Button -->
+            <button id="back-to-top"
+                class="fixed bottom-8 right-8 p-4 bg-primary text-white rounded-full shadow-2xl opacity-0 translate-y-10 transition-all duration-300 z-40 hover:scale-110 active:scale-95 group pointer-events-none"
+                onclick="window.scrollTo({top: 0, behavior: 'smooth'})" aria-label="Voltar ao topo">
+                <svg class="w-6 h-6 transition-transform group-hover:-translate-y-1" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18">
+                    </path>
+                </svg>
+            </button>
 </body>
 
 </html>
