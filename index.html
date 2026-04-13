@@ -1035,7 +1035,10 @@
 
                 // Global initialization
                 document.addEventListener('DOMContentLoaded', () => {
-                    console.log('DOM fully loaded and parsed');
+                    console.log('DOM fully loaded - Security Check');
+
+                    // Force clear any persistent session on fresh load if needed
+                    // auth.signOut(); // Uncomment if you want to logout EVERYONE on refresh
 
                     // Failsafe to hide loading screen
                     setTimeout(hideLoadingScreen, 2000);
@@ -1151,18 +1154,23 @@
 
                 function showHome() { showView('home-view'); }
                 async function showAdminLogin() {
-                    console.log('Button clicked: showAdminLogin');
+                    console.log('Show Admin Login - Forcing Fresh Credentials');
                     try {
+                        sessionStorage.clear();
+                        localStorage.removeItem('firebase:authUser:' + firebase.app().options.apiKey + ':[DEFAULT]');
                         await auth.signOut();
-                        console.log('User signed out for mandatory login');
+                        console.log('Session and Auth cleared');
                     } catch (e) {
-                        console.error('Error signing out:', e);
+                        console.error('Sign out error:', e);
                     }
+
                     showView('admin-login-view');
+
                     const emailInput = document.getElementById('admin-email');
                     const pwInput = document.getElementById('admin-password');
                     if (emailInput) emailInput.value = '';
                     if (pwInput) pwInput.value = '';
+
                     const errDiv = document.getElementById('login-error');
                     if (errDiv) errDiv.classList.add('hidden');
                 }
