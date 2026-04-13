@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,19 +12,88 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
     <script src="firebase-config.js"></script>
     <style>
-        body { font-family: 'Montserrat', sans-serif; background: #f4f7f6; color: #1a1a1a; }
-        .card { background: white; border-radius: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); border: 1px solid #eef2f3; transition: all 0.3s ease; }
-        .card:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.1); }
-        .tab-btn { padding: 10px 24px; border-radius: 99px; font-weight: 700; font-size: 0.875rem; transition: all 0.3s; color: #666; }
-        .tab-btn.active { background: #000; color: #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
-        .form-input { width: 100%; padding: 12px 16px; border-radius: 12px; border: 1px solid #ddd; outline: none; transition: all 0.3s; }
-        .form-input:focus { border-color: #000; box-shadow: 0 0 0 4px rgba(0,0,0,0.05); }
-        .upload-area { border: 2px dashed #ddd; border-radius: 12px; padding: 20px; text-align: center; cursor: pointer; transition: all 0.3s; }
-        .upload-area:hover { border-color: #000; background: #fafafa; }
-        .preview-img { max-height: 100px; border-radius: 8px; margin-top: 10px; display: none; }
-        body { display: none; }
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: #f4f7f6;
+            color: #1a1a1a;
+        }
+
+        .card {
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            border: 1px solid #eef2f3;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .tab-btn {
+            padding: 10px 24px;
+            border-radius: 99px;
+            font-weight: 700;
+            font-size: 0.875rem;
+            transition: all 0.3s;
+            color: #666;
+        }
+
+        .tab-btn.active {
+            background: #000;
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 12px;
+            border: 1px solid #ddd;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .form-input:focus {
+            border-color: #000;
+            box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .upload-area {
+            border: 2px dashed #ddd;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .upload-area:hover {
+            border-color: #000;
+            background: #fafafa;
+        }
+
+        .preview-img {
+            max-height: 100px;
+            border-radius: 8px;
+            margin-top: 10px;
+            display: none;
+        }
+
+        #auth-loading {
+            position: fixed;
+            inset: 0;
+            background: white;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
     </style>
 </head>
+
 <body class="min-h-screen pb-20">
     <nav class="bg-black text-white p-6 sticky top-0 z-50">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
@@ -32,13 +102,20 @@
                 <span class="ml-3 font-black text-xl uppercase tracking-tighter">Admin Panel</span>
             </div>
             <div class="flex items-center gap-4">
-                <a href="index.html" class="text-sm font-bold opacity-70 hover:opacity-100 transition-opacity">Ver Site</a>
-                <button id="logout-btn" class="bg-red-600 px-6 py-2 rounded-full font-black text-xs uppercase tracking-widest hover:bg-red-700 transition-all">Sair</button>
+                <a href="index.html" class="text-sm font-bold opacity-70 hover:opacity-100 transition-opacity">Ver
+                    Site</a>
+                <button id="logout-btn"
+                    class="bg-red-600 px-6 py-2 rounded-full font-black text-xs uppercase tracking-widest hover:bg-red-700 transition-all">Sair</button>
             </div>
         </div>
     </nav>
 
-    <main id="admin-main-content" class="max-w-7xl mx-auto p-6 lg:p-10 invisible">
+    <div id="auth-loading" class="flex flex-col items-center justify-center">
+        <img src="img/simboloarmil.png" class="w-20 mb-4 animate-pulse">
+        <p class="font-bold text-sm uppercase tracking-widest">A carregar painel...</p>
+    </div>
+
+    <main id="admin-main-content" class="max-w-7xl mx-auto p-6 lg:p-10" style="display: none;">
         <!-- Tabs Menu -->
         <div class="flex flex-wrap gap-2 mb-10 overflow-x-auto pb-2 scrollbar-hide">
             <button onclick="switchTab('games')" id="btn-games" class="tab-btn active">Jogos</button>
@@ -69,12 +146,15 @@
                     </div>
                     <div class="space-y-2">
                         <label class="text-xs font-black uppercase text-gray-400">Logo Equipa Fora (Opcional)</label>
-                        <input type="file" accept="image/*" onchange="processFile(this, 'game-logo-data')" class="form-input text-xs">
+                        <input type="file" accept="image/*" onchange="processFile(this, 'game-logo-data')"
+                            class="form-input text-xs">
                         <input type="hidden" id="game-logo-data">
                         <img id="preview-game" class="preview-img">
                     </div>
                     <input type="text" id="game-location" placeholder="Local" class="form-input" required>
-                    <button type="submit" class="w-full bg-black text-white py-4 rounded-xl font-black uppercase tracking-widest mt-4 hover:shadow-lg transition-all">Guardar Jogo</button>
+                    <button type="submit"
+                        class="w-full bg-black text-white py-4 rounded-xl font-black uppercase tracking-widest mt-4 hover:shadow-lg transition-all">Guardar
+                        Jogo</button>
                 </form>
             </div>
             <div class="card p-8">
@@ -101,7 +181,8 @@
                     </select>
                     <div class="grid grid-cols-2 gap-4">
                         <div class="space-y-2">
-                            <input type="text" id="res-home-name" placeholder="GCD Armil" class="form-input font-bold" value="GCD Armil">
+                            <input type="text" id="res-home-name" placeholder="GCD Armil" class="form-input font-bold"
+                                value="GCD Armil">
                             <input type="number" id="res-home-score" placeholder="Golos" class="form-input" required>
                         </div>
                         <div class="space-y-2">
@@ -109,7 +190,9 @@
                             <input type="number" id="res-away-score" placeholder="Golos" class="form-input" required>
                         </div>
                     </div>
-                    <button type="submit" class="w-full bg-black text-white py-4 rounded-xl font-black uppercase tracking-widest mt-4">Registar Resultado</button>
+                    <button type="submit"
+                        class="w-full bg-black text-white py-4 rounded-xl font-black uppercase tracking-widest mt-4">Registar
+                        Resultado</button>
                 </form>
             </div>
             <div class="card p-8">
@@ -124,14 +207,18 @@
                 <h2 class="text-2xl font-black mb-6">📸 NOVA ATIVIDADE</h2>
                 <form id="activity-form" class="space-y-4">
                     <input type="text" id="act-title" placeholder="Título da Atividade" class="form-input" required>
-                    <textarea id="act-desc" placeholder="Descrição curta..." class="form-input" rows="4" required></textarea>
+                    <textarea id="act-desc" placeholder="Descrição curta..." class="form-input" rows="4"
+                        required></textarea>
                     <div class="space-y-2">
                         <label class="text-xs font-black uppercase text-gray-400">Foto de Capa</label>
-                        <input type="file" accept="image/*" onchange="processFile(this, 'act-photo-data')" class="form-input text-xs" required>
+                        <input type="file" accept="image/*" onchange="processFile(this, 'act-photo-data')"
+                            class="form-input text-xs" required>
                         <input type="hidden" id="act-photo-data">
                         <img id="preview-act" class="preview-img">
                     </div>
-                    <button type="submit" class="w-full bg-black text-white py-4 rounded-xl font-black uppercase tracking-widest mt-4">Publicar Atividade</button>
+                    <button type="submit"
+                        class="w-full bg-black text-white py-4 rounded-xl font-black uppercase tracking-widest mt-4">Publicar
+                        Atividade</button>
                 </form>
             </div>
             <div class="card p-8">
@@ -162,11 +249,14 @@
                     </select>
                     <div class="space-y-2">
                         <label class="text-xs font-black uppercase text-gray-400">Foto do Jogador (Opcional)</label>
-                        <input type="file" accept="image/*" onchange="processFile(this, 'p-photo-data')" class="form-input text-xs">
+                        <input type="file" accept="image/*" onchange="processFile(this, 'p-photo-data')"
+                            class="form-input text-xs">
                         <input type="hidden" id="p-photo-data">
                         <img id="preview-p" class="preview-img">
                     </div>
-                    <button type="submit" class="w-full bg-black text-white py-4 rounded-xl font-black uppercase tracking-widest mt-4">Registar Jogador</button>
+                    <button type="submit"
+                        class="w-full bg-black text-white py-4 rounded-xl font-black uppercase tracking-widest mt-4">Registar
+                        Jogador</button>
                 </form>
             </div>
             <div class="card p-8">
@@ -181,11 +271,14 @@
         const db = firebase.firestore();
         const auth = firebase.auth();
 
-        auth.onAuthStateChanged(user => { 
-            if (user && user.email === 'gcdarmil78@gmail.com') { 
-                document.body.style.display = 'block';
+        auth.onAuthStateChanged(user => {
+            console.log("Auth Status:", user ? "Logged in as " + user.email : "Not logged in");
+            if (user && user.email === 'gcdarmil78@gmail.com') {
+                document.getElementById('auth-loading').style.display = 'none';
+                document.getElementById('admin-main-content').style.display = 'block';
             } else {
-                window.location.href = 'admin-login.html'; 
+                if (user) console.warn("Unauthorized email:", user.email);
+                window.location.href = 'admin-login.html';
             }
         });
         document.getElementById('logout-btn').onclick = () => auth.signOut().then(() => window.location.href = 'index.html');
@@ -216,7 +309,7 @@
                     const dataUrl = canvas.toDataURL('image/jpeg', 0.7);
                     document.getElementById(targetId).value = dataUrl;
                     const preview = input.nextElementSibling.nextElementSibling;
-                    if(preview && preview.tagName === 'IMG') { preview.src = dataUrl; preview.style.display = 'block'; }
+                    if (preview && preview.tagName === 'IMG') { preview.src = dataUrl; preview.style.display = 'block'; }
                 };
                 img.src = e.target.result;
             };
@@ -238,7 +331,7 @@
                     awayLogo: document.getElementById('game-logo-data').value || '',
                     location: document.getElementById('game-location').value
                 });
-                e.target.reset(); document.getElementById('preview-game').style.display='none';
+                e.target.reset(); document.getElementById('preview-game').style.display = 'none';
             } catch (err) { alert(err.message); }
             btn.disabled = false; btn.innerText = 'Guardar Jogo';
         };
@@ -292,7 +385,7 @@
                 photo: document.getElementById('act-photo-data').value,
                 order: Date.now()
             });
-            e.target.reset(); document.getElementById('preview-act').style.display='none';
+            e.target.reset(); document.getElementById('preview-act').style.display = 'none';
             btn.disabled = false;
         };
 
@@ -318,7 +411,7 @@
                 team: document.getElementById('p-team').value,
                 photo: document.getElementById('p-photo-data').value || 'img/simboloarmil.png'
             });
-            e.target.reset(); document.getElementById('preview-p').style.display='none';
+            e.target.reset(); document.getElementById('preview-p').style.display = 'none';
             btn.disabled = false;
         };
 
@@ -333,7 +426,8 @@
             }).join('');
         });
 
-        async function deleteDoc(col, id) { if(confirm('Eliminar permanentemente?')) await db.collection(col).doc(id).delete(); }
+        async function deleteDoc(col, id) { if (confirm('Eliminar permanentemente?')) await db.collection(col).doc(id).delete(); }
     </script>
 </body>
+
 </html>
