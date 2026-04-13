@@ -1321,14 +1321,13 @@
 
                 function showHome() { showView('home-view'); }
                 async function showAdminLogin() {
-                    console.log('Show Admin Login - Forcing Fresh Credentials');
+                    console.log('Opening Admin Login...');
                     try {
-                        sessionStorage.clear();
-                        localStorage.removeItem('firebase:authUser:' + firebase.app().options.apiKey + ':[DEFAULT]');
-                        await auth.signOut();
-                        console.log('Session and Auth cleared');
+                        if (typeof auth !== 'undefined') {
+                            await auth.signOut();
+                        }
                     } catch (e) {
-                        console.error('Sign out error:', e);
+                        console.warn('Sign out non-critical error:', e);
                     }
 
                     showView('admin-login-view');
