@@ -1150,10 +1150,18 @@
                 }
 
                 function showHome() { showView('home-view'); }
-                function showAdminLogin() {
+                async function showAdminLogin() {
                     console.log('Button clicked: showAdminLogin');
+                    try {
+                        await auth.signOut();
+                        console.log('User signed out for mandatory login');
+                    } catch (e) {
+                        console.error('Error signing out:', e);
+                    }
                     showView('admin-login-view');
+                    const emailInput = document.getElementById('admin-email');
                     const pwInput = document.getElementById('admin-password');
+                    if (emailInput) emailInput.value = '';
                     if (pwInput) pwInput.value = '';
                     const errDiv = document.getElementById('login-error');
                     if (errDiv) errDiv.classList.add('hidden');
