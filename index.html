@@ -471,12 +471,12 @@
 
         #admin-login-view.active,
         #admin-panel-view.active {
-            z-index: 10001;
-            /* Higher than loading screen (9999) */
-            position: fixed;
-            inset: 0;
-            background: #000000 !important;
-            /* TEST: Should turn the screen black */
+            z-index: 10001 !important;
+            position: fixed !important;
+            inset: 0 !important;
+            background: #ff0000 !important;
+            display: block !important;
+            visibility: visible !important;
         }
 
         /* Added admin panel styles */
@@ -1375,28 +1375,30 @@
                 }
 
                 function showView(viewId) {
-                    console.log('Showing view:', viewId);
-                    // Hide all views explicitly
+                    console.log('Switching to view:', viewId);
+                    // alert('A mudar para: ' + viewId);
                     document.querySelectorAll('.view').forEach(v => {
                         v.classList.remove('active');
                         v.style.display = 'none';
                     });
-                    // Show target view
                     const target = document.getElementById(viewId);
                     if (target) {
                         target.classList.add('active');
                         target.style.display = 'block';
+                        target.style.visibility = 'visible';
+                        target.style.opacity = '1';
                         window.scrollTo(0, 0);
-                        document.body.style.overflow = 'auto'; // Ensure scroll is available
-                        console.log('View', viewId, 'is now visible');
+                        if (typeof closeMobileMenu === 'function') closeMobileMenu();
                     } else {
                         console.error('View not found:', viewId);
+                        alert('ERRO: Vista ' + viewId + ' não encontrada!');
                     }
                 }
 
                 function showHome() { showView('home-view'); }
                 async function showAdminLogin() {
                     console.log('--- showAdminLogin started ---');
+                    // alert('Botão Admin clicado!');
                     showView('admin-login-view');
 
                     // Temporary visibility test: force a color to see if it renders
