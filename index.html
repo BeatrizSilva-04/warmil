@@ -469,14 +469,38 @@
             z-index: 10;
         }
 
+        /* Loading Screen */
+        #loading-screen {
+            position: fixed;
+            inset: 0;
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease-out;
+        }
+
+        .loading-logo {
+            width: 120px;
+            animation: bounce 2s infinite ease-in-out;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0) scale(1.1);
+            }
+
+            50% {
+                transform: translateY(-30px) scale(0.9);
+            }
+        }
+
         #admin-login-view.active,
         #admin-panel-view.active {
-            z-index: 10001 !important;
-            position: fixed !important;
-            inset: 0 !important;
-            background: #ff0000 !important;
-            display: block !important;
-            visibility: visible !important;
+            display: none !important;
         }
 
         /* Added admin panel styles */
@@ -1396,38 +1420,8 @@
                 }
 
                 function showHome() { showView('home-view'); }
-                async function showAdminLogin() {
-                    console.log('--- showAdminLogin started ---');
-                    // alert('Botão Admin clicado!');
-                    showView('admin-login-view');
-
-                    // Temporary visibility test: force a color to see if it renders
-                    const loginView = document.getElementById('admin-login-view');
-                    if (loginView) {
-                        loginView.style.background = '#f0f0f0';
-                        console.log('Admin login view background set');
-                    }
-
-                    try {
-                        if (typeof auth !== 'undefined' && auth !== null) {
-                            console.log('Attempting signout...');
-                            await auth.signOut();
-                        }
-                    } catch (e) {
-                        console.warn('Sign out non-critical error:', e);
-                    }
-
-                    const emailInput = document.getElementById('admin-email');
-                    const pwInput = document.getElementById('admin-password');
-                    if (emailInput) {
-                        emailInput.value = '';
-                        console.log('Email input found');
-                    }
-                    if (pwInput) pwInput.value = '';
-
-                    const errDiv = document.getElementById('login-error');
-                    if (errDiv) errDiv.classList.add('hidden');
-                    console.log('--- showAdminLogin finished ---');
+                function showAdminLogin() {
+                    window.location.href = 'admin-login.html';
                 }
 
                 function showAdminPanel() {
