@@ -144,12 +144,21 @@
                         <input type="text" id="game-home" placeholder="Equipa Casa" class="form-input" required>
                         <input type="text" id="game-away" placeholder="Equipa Fora" class="form-input" required>
                     </div>
-                    <div class="space-y-2">
-                        <label class="text-xs font-black uppercase text-gray-400">Logo Equipa Fora (Opcional)</label>
-                        <input type="file" accept="image/*" onchange="processFile(this, 'game-logo-data')"
-                            class="form-input text-xs">
-                        <input type="hidden" id="game-logo-data">
-                        <img id="preview-game" class="preview-img">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="space-y-2">
+                            <label class="text-xs font-black uppercase text-gray-400">Logo Casa (Opcional)</label>
+                            <input type="file" accept="image/*" onchange="processFile(this, 'game-home-logo-data')"
+                                class="form-input text-xs">
+                            <input type="hidden" id="game-home-logo-data">
+                            <img id="preview-game-home" class="preview-img">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-xs font-black uppercase text-gray-400">Logo Fora (Opcional)</label>
+                            <input type="file" accept="image/*" onchange="processFile(this, 'game-away-logo-data')"
+                                class="form-input text-xs">
+                            <input type="hidden" id="game-away-logo-data">
+                            <img id="preview-game-away" class="preview-img">
+                        </div>
                     </div>
                     <input type="text" id="game-location" placeholder="Local" class="form-input" required>
                     <button type="submit"
@@ -188,6 +197,22 @@
                         <div class="space-y-2">
                             <input type="text" id="res-away-name" placeholder="Adversário" class="form-input" required>
                             <input type="number" id="res-away-score" placeholder="Golos" class="form-input" required>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4 mt-4">
+                        <div class="space-y-2">
+                            <label class="text-xs font-black uppercase text-gray-400">Logo Casa (Opcional)</label>
+                            <input type="file" accept="image/*" onchange="processFile(this, 'res-home-logo-data')"
+                                class="form-input text-xs">
+                            <input type="hidden" id="res-home-logo-data">
+                            <img id="preview-res-home" class="preview-img">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-xs font-black uppercase text-gray-400">Logo Fora (Opcional)</label>
+                            <input type="file" accept="image/*" onchange="processFile(this, 'res-away-logo-data')"
+                                class="form-input text-xs">
+                            <input type="hidden" id="res-away-logo-data">
+                            <img id="preview-res-away" class="preview-img">
                         </div>
                     </div>
                     <button type="submit"
@@ -328,10 +353,11 @@
                     team: document.getElementById('game-team').value,
                     homeTeam: document.getElementById('game-home').value,
                     awayTeam: document.getElementById('game-away').value,
-                    awayLogo: document.getElementById('game-logo-data').value || '',
+                    homeLogo: document.getElementById('game-home-logo-data').value || '',
+                    awayLogo: document.getElementById('game-away-logo-data').value || '',
                     location: document.getElementById('game-location').value
                 });
-                e.target.reset(); document.getElementById('preview-game').style.display = 'none';
+                e.target.reset(); document.getElementById('preview-game-home').style.display = 'none'; document.getElementById('preview-game-away').style.display = 'none';
             } catch (err) { alert(err.message); }
             btn.disabled = false; btn.innerText = 'Guardar Jogo';
         };
@@ -342,7 +368,10 @@
                 const g = doc.data();
                 return `<div class="p-4 bg-gray-50 rounded-2xl flex justify-between items-center group">
                     <div class="flex items-center">
-                        <img src="${g.awayLogo || 'img/simboloarmil.png'}" class="w-8 h-8 rounded-full object-contain mr-3 bg-white p-1">
+                        <div class="flex mr-3">
+                            <img src="${g.homeLogo || 'img/simboloarmil.png'}" class="w-8 h-8 rounded-full object-contain bg-white p-1 z-10 border border-gray-200">
+                            <img src="${g.awayLogo || 'img/simboloarmil.png'}" class="w-8 h-8 rounded-full object-contain bg-white p-1 -ml-3 border border-gray-200">
+                        </div>
                         <div><p class="font-black text-sm uppercase">${g.homeTeam} vs ${g.awayTeam}</p><p class="text-[10px] text-gray-400 font-bold uppercase">${g.team} | ${new Date(g.date).toLocaleString()}</p></div>
                     </div>
                     <button onclick="deleteDoc('games','${doc.id}')" class="text-red-500 opacity-0 group-hover:opacity-100 transition-opacity font-black px-2">X</button>
@@ -353,15 +382,21 @@
         // Results
         document.getElementById('result-form').onsubmit = async (e) => {
             e.preventDefault();
-            await db.collection('results').add({
-                date: document.getElementById('result-date').value,
-                team: document.getElementById('result-team').value,
-                homeTeam: document.getElementById('res-home-name').value,
-                homeScore: document.getElementById('res-home-score').value,
-                awayTeam: document.getElementById('res-away-name').value,
-                awayScore: document.getElementById('res-away-score').value
-            });
-            e.target.reset();
+            const btn = e.target.querySelector('button'); btn.disabled = true; btn.innerText = 'A guardar...';
+            try {
+                await db.collection('results').add({
+                    date: document.getElementById('result-date').value,
+                    team: document.getElementById('result-team').value,
+                    homeTeam: document.getElementById('res-home-name').value,
+                    homeScore: document.getElementById('res-home-score').value,
+                    awayTeam: document.getElementById('res-away-name').value,
+                    awayScore: document.getElementById('res-away-score').value,
+                    homeLogo: document.getElementById('res-home-logo-data').value || '',
+                    awayLogo: document.getElementById('res-away-logo-data').value || ''
+                });
+                e.target.reset(); document.getElementById('preview-res-home').style.display = 'none'; document.getElementById('preview-res-away').style.display = 'none';
+            } catch (err) { alert(err.message); }
+            btn.disabled = false; btn.innerText = 'Registar Resultado';
         };
 
         db.collection('results').orderBy('date', 'desc').onSnapshot(snap => {
@@ -369,7 +404,13 @@
             list.innerHTML = snap.docs.map(doc => {
                 const r = doc.data();
                 return `<div class="p-4 bg-gray-50 rounded-2xl flex justify-between items-center group">
-                    <div><p class="font-black text-sm tracking-tighter uppercase">${r.homeTeam} ${r.homeScore} - ${r.awayScore} ${r.awayTeam}</p><p class="text-[10px] text-gray-400 font-bold uppercase">${r.team} | ${new Date(r.date).toLocaleDateString()}</p></div>
+                    <div class="flex items-center">
+                        <div class="flex mr-3">
+                            <img src="${r.homeLogo || 'img/simboloarmil.png'}" class="w-8 h-8 rounded-full object-contain bg-white p-1 z-10 border border-gray-200">
+                            <img src="${r.awayLogo || 'img/simboloarmil.png'}" class="w-8 h-8 rounded-full object-contain bg-white p-1 -ml-3 border border-gray-200">
+                        </div>
+                        <div><p class="font-black text-sm tracking-tighter uppercase">${r.homeTeam} ${r.homeScore} - ${r.awayScore} ${r.awayTeam}</p><p class="text-[10px] text-gray-400 font-bold uppercase">${r.team} | ${new Date(r.date).toLocaleDateString()}</p></div>
+                    </div>
                     <button onclick="deleteDoc('results','${doc.id}')" class="text-red-500 opacity-0 group-hover:opacity-100 transition-opacity font-black px-2">X</button>
                 </div>`;
             }).join('');
