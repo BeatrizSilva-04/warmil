@@ -1292,10 +1292,6 @@
                 };
             </script>
             <script>
-                // Admin credentials
-                const ADMIN_EMAIL = 'gcdarmil78@gmail.com';
-                const ADMIN_PASSWORD = 'armil2024';
-
                 // App State
                 window.publicActivities = [];
 
@@ -1540,15 +1536,6 @@
                     const email = emailInput.value;
                     const password = passwordInput.value;
                     const errorDiv = document.getElementById('login-error');
-
-                    // Strict check for admin credentials
-                    if (email !== ADMIN_EMAIL || password !== ADMIN_PASSWORD) {
-                        if (errorDiv) {
-                            errorDiv.textContent = 'Credenciais de administrador inválidas!';
-                            errorDiv.classList.remove('hidden');
-                        }
-                        return;
-                    }
 
                     try {
                         await auth.signInWithEmailAndPassword(email, password);
