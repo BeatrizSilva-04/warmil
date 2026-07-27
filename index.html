@@ -1891,7 +1891,7 @@
 
                     } catch (error) {
                         console.error('Erro ao registar sócio:', error);
-                        msgDiv.textContent = 'Erro ao enviar a inscrição. Tenta novamente.';
+                        msgDiv.textContent = 'Erro: ' + (error.message || error.text || 'Ocorreu um problema desconhecido.');
                         msgDiv.className = 'text-sm font-bold rounded p-3 text-center bg-red-100 text-red-800';
                         msgDiv.classList.remove('hidden');
                         
