@@ -1838,6 +1838,11 @@
                         document.body.style.overflow = '';
                         document.getElementById('socio-form').reset();
                         document.getElementById('socio-message').classList.add('hidden');
+                        const btn = document.getElementById('socio-submit-btn');
+                        if (btn) {
+                            btn.disabled = false;
+                            btn.innerHTML = '<span>Enviar Inscrição</span>';
+                        }
                     }, 300); // Wait for transition
                 }
 
